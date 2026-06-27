@@ -66,20 +66,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (profile) {
         cachedStudentProfile = profile // 快取資料
 
-        // 更新導覽列為詳細學校與姓名
-        if (navbarNav) {
-          navbarNav.innerHTML = `
-            <li style="display:flex; align-items:center; gap:8px; margin-right:12px;">
-              <span style="font-size:0.85rem; color:var(--clr-text-muted); background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.08)">
-                🏫 ${profile.school || ''} · <strong>${profile.name || user.email.split('@')[0]}</strong>
-              </span>
-            </li>
-            <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
-            <li><a href="app.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">進入挑戰</a></li>
-            <li><button onclick="window.SupabaseConfig.signOut()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; border:1px solid rgba(255,107,107,0.3); color:#ff6b6b; margin-left:8px; border-radius:8px; cursor:pointer;">登出</button></li>
-          `
-        }
-
         let miningCount = 0
         let masteredCount = 0
         if (profile.mastery) {
@@ -103,26 +89,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const currentTier = gemTiers[currentTierIndex]
         const nextTier = gemTiers[currentTierIndex + 1]
 
-        const gemSec = document.getElementById('index-gem-section')
-        const gemBadge = document.getElementById('index-gem-badge')
-        if (gemSec && gemBadge) {
-          gemBadge.textContent = `${currentTier.emoji} ${currentTier.name}`
-          gemSec.style.display = 'block'
-        }
-
-        // 更新開採手冊按鈕文字並顯示按鈕
-        const summaryText = document.getElementById('handbook-summary-text')
-        if (summaryText) {
-          summaryText.textContent = `已探勘 ${totalExplored} 字 · ⛏️ 開採中 ${miningCount} · 💎 已開採 ${masteredCount}`
-        }
-        const btnHandbook = document.getElementById('btn-open-handbook')
-        if (btnHandbook) {
-          btnHandbook.style.display = 'block'
+        // 更新導覽列為詳細學校、姓名與寶石稱號
+        if (navbarNav) {
+          navbarNav.innerHTML = `
+            <li style="display:flex; align-items:center; gap:8px; margin-right:12px;">
+              <span onclick="window.showIndexLevelModal()" style="font-size:0.82rem; color:var(--clr-text-muted); background:rgba(255,255,255,0.06); padding:6px 12px; border-radius:12px; border:1px solid rgba(245,200,66,0.25); cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+                🏫 ${profile.school || ''} · <strong>${profile.name || user.email.split('@')[0]}</strong> (${currentTier.emoji} ${currentTier.name})
+              </span>
+            </li>
+            <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
+            <li><button onclick="openGemHandbook()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; color:var(--clr-gold-1); font-weight:bold; background:rgba(245,200,66,0.08); border:1px solid rgba(245,200,66,0.2); border-radius:8px; margin-right:8px; cursor:pointer;">💎 英語寶石手冊</button></li>
+            <li><a href="app.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">進入挑戰</a></li>
+            <li><button onclick="window.SupabaseConfig.signOut()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; border:1px solid rgba(255,107,107,0.3); color:#ff6b6b; margin-left:8px; border-radius:8px; cursor:pointer;">登出</button></li>
+          `
         }
 
         const voiceHelperEntry = document.getElementById('voice-helper-entry')
         if (voiceHelperEntry) {
-          voiceHelperEntry.style.marginTop = '0.75rem'
+          voiceHelperEntry.style.marginTop = '1.5rem'
         }
 
         // 綁定大廳點擊 Modal 的資料

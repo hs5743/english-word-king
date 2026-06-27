@@ -47,6 +47,9 @@
   let currentIndex = 0
   let isDoneToday = false          // 今天是否已挑戰過計分模式
   let currentSessionId = null      // 當前加入的課堂場次 UUID
+  let speechBonusPoints = 0        // 口說額外加分
+  let hasBonusAwarded = new Array(12).fill(false) // 避免重複加分
+  let isSpellingRecording = false  // spelling 錄音狀態
 
   // 挑戰統計數據
   let correctCount = 0
@@ -390,8 +393,14 @@
     document.getElementById('micBtn').classList.remove('listening')
     document.getElementById('sentenceMicBtn').classList.remove('listening')
     document.getElementById('sentenceFollowMic').classList.remove('listening')
+    const spellingMicBtn = document.getElementById('spellingMicBtn')
+    if (spellingMicBtn) spellingMicBtn.classList.remove('listening')
+
     document.getElementById('micStatus').textContent = '按麥克風開始朗讀'
     document.getElementById('followMicStatus').textContent = '按麥克風開始'
+    const spellingMicStatus = document.getElementById('spellingMicStatus')
+    if (spellingMicStatus) spellingMicStatus.textContent = '點擊按鈕，開始朗讀單字'
+    isSpellingRecording = false
   }
 
   function updateTypeTabsUI(type) {
@@ -443,16 +452,18 @@
     document.getElementById('spellingPhonetic').textContent = q.phonetic
 
     // 依題數分流 Spelling 的子題型
-    // 0 -> Tile, 1 -> Type, 2 -> MCQ, 3 -> Tile
+    // 0 -> Tile, 1 -> Type, 2 -> MCQ, 3 -> Matching
     let spellingSubMode = 'tile'
     const subIdx = index % 4
     if (subIdx === 1) spellingSubMode = 'type'
     else if (subIdx === 2) spellingSubMode = 'mcq'
+    else if (subIdx === 3) spellingSubMode = 'matching'
 
     // 顯示對應模式
     document.getElementById('tileMode').style.display = 'none'
     document.getElementById('typeMode').style.display = 'none'
     document.getElementById('mcqMode').style.display = 'none'
+    document.getElementById('matchingMode').style.display = 'none'
 
     const badge = document.getElementById('subModeBadge')
     badge.className = 'sub-mode-badge'
@@ -472,6 +483,11 @@
       badge.textContent = '🔘 選擇模式'
       badge.classList.add('sub-mode-badge--mcq')
       setupMcqMode(q)
+    } else if (spellingSubMode === 'matching') {
+      document.getElementById('matchingMode').style.display = 'block'
+      badge.textContent = '🎴 配對模式'
+      badge.classList.add('sub-mode-badge--mcq')
+      setupMatchingMode(q)
     }
   }
 
@@ -702,11 +718,259 @@
     document.getElementById('revealMeaning').textContent = `${q.sentenceZh} (${q.zh})`
     document.getElementById('spellingReveal').style.display = 'block'
 
+    // 初始化/更新 spelling 朗讀麥克風狀態
+    const spellingMicBtn = document.getElementById('spellingMicBtn')
+    const spellingMicStatus = document.getElementById('spellingMicStatus')
+    if (spellingMicBtn) spellingMicBtn.classList.remove('listening')
+    if (spellingMicStatus) {
+      if (hasBonusAwarded[currentIndex]) {
+        spellingMicStatus.textContent = '🌟 已成功取得口說加分！'
+      } else {
+        spellingMicStatus.textContent = '點擊按鈕，開始朗讀單字'
+      }
+    }
+
     // 解鎖下一題
     document.getElementById('nextBtn').removeAttribute('disabled')
     questionAnswered[currentIndex] = true
 
     updateMasteryItem(word, isCorrect, isCorrect ? 100 : 0)
+  }
+
+  // 🎴 MATCHING GAME 配對連連看
+  let selectedMatchingCard = null
+
+  function setupMatchingMode(q) {
+    const grid = document.getElementById('matchingGrid')
+    grid.innerHTML = ''
+    selectedMatchingCard = null
+
+    // 取得 3 組單字 (正確字 + 前 2 個干擾字)
+    const word1 = q.word
+    const zh1 = q.zh
+    
+    // 兜底防禦
+    const distractors = q.distractors || []
+    const distractorZhs = q.distractorZhs || {}
+    
+    const word2 = distractors[0] || 'apple'
+    const zh2 = distractorZhs[word2] || '蘋果'
+    const word3 = distractors[1] || 'book'
+    const zh3 = distractorZhs[word3] || '書'
+
+    const pairs = [
+      { id: 1, type: 'en', val: word1, matchId: 1 },
+      { id: 2, type: 'zh', val: zh1, matchId: 1 },
+      { id: 3, type: 'en', val: word2, matchId: 2 },
+      { id: 4, type: 'zh', val: zh2, matchId: 2 },
+      { id: 5, type: 'en', val: word3, matchId: 3 },
+      { id: 6, type: 'zh', val: zh3, matchId: 3 }
+    ]
+
+    // 打亂所有卡片
+    const shuffledPairs = [...pairs].sort(() => Math.random() - 0.5)
+
+    let matchedCount = 0
+
+    shuffledPairs.forEach(cardData => {
+      const card = document.createElement('div')
+      card.className = 'matching-card'
+      
+      // 設定樣式與文字
+      card.style.cssText = 'background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:18px 8px; text-align:center; cursor:pointer; font-weight:600; font-size:0.95rem; transition:all 0.2s; min-height:58px; display:flex; align-items:center; justify-content:center; word-break:break-all;'
+      card.textContent = cardData.val
+      card.dataset.matchId = cardData.matchId
+      card.dataset.type = cardData.type
+
+      if (cardData.type === 'zh') {
+        card.style.fontFamily = 'var(--font-zh)'
+      } else {
+        card.style.fontFamily = 'var(--font-en)'
+      }
+
+      card.addEventListener('click', () => {
+        if (card.classList.contains('matched') || card.classList.contains('wrong-temp')) return
+
+        if (!selectedMatchingCard) {
+          // 選擇第一張
+          selectedMatchingCard = card
+          card.classList.add('selected')
+          card.style.background = 'rgba(245,200,66,0.15)'
+          card.style.borderColor = 'var(--clr-gold-1)'
+          card.style.boxShadow = '0 0 10px rgba(245,200,66,0.2)'
+        } else {
+          // 選擇第二張
+          if (selectedMatchingCard === card) {
+            // 重複點選，取消選擇
+            card.style.background = 'rgba(255,255,255,0.04)'
+            card.style.borderColor = 'rgba(255,255,255,0.1)'
+            card.style.boxShadow = 'none'
+            card.classList.remove('selected')
+            selectedMatchingCard = null
+            return
+          }
+
+          const card1 = selectedMatchingCard
+          const card2 = card
+
+          // 必須是一中一英配對
+          if (card1.dataset.type === card2.dataset.type) {
+            // 同類型，更換選取目標
+            card1.style.background = 'rgba(255,255,255,0.04)'
+            card1.style.borderColor = 'rgba(255,255,255,0.1)'
+            card1.style.boxShadow = 'none'
+            card1.classList.remove('selected')
+
+            selectedMatchingCard = card2
+            card2.classList.add('selected')
+            card2.style.background = 'rgba(245,200,66,0.15)'
+            card2.style.borderColor = 'var(--clr-gold-1)'
+            card2.style.boxShadow = '0 0 10px rgba(245,200,66,0.2)'
+            return
+          }
+
+          // 檢查是否配對成功
+          if (card1.dataset.matchId === card2.dataset.matchId) {
+            // 配對成功！
+            card1.classList.remove('selected')
+            card1.classList.add('matched')
+            card2.classList.add('matched')
+            
+            const successStyle = 'background:rgba(105,240,174,0.12); border-color:var(--clr-green-1); color:var(--clr-green-1); opacity:0.65; cursor:default; pointer-events:none;'
+            card1.style.cssText += successStyle
+            card2.style.cssText += successStyle
+            
+            // 播放答對音效
+            if (window.AudioContext || window.webkitAudioContext) {
+              try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)()
+                const osc = ctx.createOscillator()
+                const gain = ctx.createGain()
+                osc.connect(gain)
+                gain.connect(ctx.destination)
+                osc.frequency.setValueAtTime(523.25, ctx.currentTime) // C5
+                gain.gain.setValueAtTime(0.05, ctx.currentTime)
+                osc.start()
+                osc.stop(ctx.currentTime + 0.1)
+              } catch(e){}
+            }
+
+            matchedCount++
+            selectedMatchingCard = null
+
+            if (matchedCount === 3) {
+              // 全部配對完成！
+              setTimeout(() => {
+                handleCorrectSpelling(word1)
+              }, 400)
+            }
+          } else {
+            // 配對失敗！
+            card1.classList.remove('selected')
+            card1.classList.add('wrong-temp')
+            card2.classList.add('wrong-temp')
+
+            card1.style.background = 'rgba(255,107,107,0.18)'
+            card1.style.borderColor = 'var(--clr-red-1)'
+            card1.style.boxShadow = '0 0 10px rgba(255,107,107,0.2)'
+            card2.style.background = 'rgba(255,107,107,0.18)'
+            card2.style.borderColor = 'var(--clr-red-1)'
+            card2.style.boxShadow = '0 0 10px rgba(255,107,107,0.2)'
+
+            card1.style.animation = 'wrongShake 0.4s ease'
+            card2.style.animation = 'wrongShake 0.4s ease'
+
+            // 播放錯誤音效
+            if (window.AudioContext || window.webkitAudioContext) {
+              try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)()
+                const osc = ctx.createOscillator()
+                const gain = ctx.createGain()
+                osc.connect(gain)
+                gain.connect(ctx.destination)
+                osc.frequency.setValueAtTime(150, ctx.currentTime)
+                gain.gain.setValueAtTime(0.05, ctx.currentTime)
+                osc.start()
+                osc.stop(ctx.currentTime + 0.15)
+              } catch(e){}
+            }
+
+            setTimeout(() => {
+              card1.classList.remove('wrong-temp')
+              card2.classList.remove('wrong-temp')
+              card1.style.animation = ''
+              card2.style.animation = ''
+              card1.style.background = 'rgba(255,255,255,0.04)'
+              card1.style.borderColor = 'rgba(255,255,255,0.1)'
+              card1.style.boxShadow = 'none'
+              card2.style.background = 'rgba(255,255,255,0.04)'
+              card2.style.borderColor = 'rgba(255,255,255,0.1)'
+              card2.style.boxShadow = 'none'
+            }, 600)
+
+            selectedMatchingCard = null
+          }
+        }
+      })
+
+      grid.appendChild(card)
+    })
+  }
+
+  // 🎤 Spelling 答對揭曉後的口說朗讀單字挑戰
+  window.toggleSpellingRecording = function () {
+    const btn = document.getElementById('spellingMicBtn')
+    const statusLabel = document.getElementById('spellingMicStatus')
+    const expectedWord = currentChallenge[currentIndex].word
+
+    if (!window.SpeechEngine) return
+
+    if (isSpellingRecording) {
+      window.SpeechEngine.stopListening()
+      btn.classList.remove('listening')
+      statusLabel.textContent = '按麥克風開始'
+      isSpellingRecording = false
+    } else {
+      isSpellingRecording = true
+      btn.classList.add('listening')
+      statusLabel.textContent = '語音辨識中，請朗讀單字...'
+
+      window.SpeechEngine.startListening(
+        expectedWord,
+        (interim, isFinal) => {
+          statusLabel.textContent = isFinal ? `辨識結果: ${interim}` : `聽到了: ${interim}`
+        },
+        (err) => {
+          statusLabel.textContent = `錯誤: ${err.message || err}`
+          btn.classList.remove('listening')
+          isSpellingRecording = false
+        }
+      ).then(transcript => {
+        btn.classList.remove('listening')
+        isSpellingRecording = false
+        if (transcript) {
+          const res = window.SpeechEngine.scoreTranscript(expectedWord, transcript)
+          statusLabel.textContent = `朗讀分數: ${res.score}分!`
+          if (res.score >= 80) {
+            triggerConfetti()
+            if (!hasBonusAwarded[currentIndex]) {
+              hasBonusAwarded[currentIndex] = true
+              speechBonusPoints += 2
+              showToast('🎉 口說挑戰成功，獲得額外加 2 分！', 'success')
+              statusLabel.textContent = `🌟 口說分數: ${res.score}分! 挑戰成功！`
+            }
+          } else {
+            statusLabel.textContent = `口說分數: ${res.score}分! (未達80分，請再試一次)`
+          }
+        } else {
+          statusLabel.textContent = '未偵測到聲音，請再試一次。'
+        }
+      }).catch(err => {
+        console.error(err)
+        btn.classList.remove('listening')
+        isSpellingRecording = false
+      })
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════
@@ -851,7 +1115,14 @@
         if (transcript) {
           const res = window.SpeechEngine.scoreTranscript(sentence, transcript)
           showToast(`句子分數: ${res.score}分!`, res.score >= 80 ? 'success' : 'info')
-          if (res.score >= 80) triggerConfetti()
+          if (res.score >= 80) {
+            triggerConfetti()
+            if (!hasBonusAwarded[currentIndex]) {
+              hasBonusAwarded[currentIndex] = true
+              speechBonusPoints += 2
+              showToast('🎉 口說挑戰成功，獲得額外加 2 分！', 'success')
+            }
+          }
         }
       }).catch(err => {
         console.error(err)
@@ -974,7 +1245,14 @@
         if (transcript) {
           const res = window.SpeechEngine.scoreTranscript(sentence, transcript)
           statusLabel.textContent = `朗讀分數: ${res.score}分!`
-          if (res.score >= 80) triggerConfetti()
+          if (res.score >= 80) {
+            triggerConfetti()
+            if (!hasBonusAwarded[currentIndex]) {
+              hasBonusAwarded[currentIndex] = true
+              speechBonusPoints += 2
+              showToast('🎉 口說挑戰成功，獲得額外加 2 分！', 'success')
+            }
+          }
         } else {
           statusLabel.textContent = '未偵測到聲音，請再試一次。'
         }
@@ -1303,7 +1581,8 @@
       ? validSpeechScores.reduce((a, b) => a + b, 0) / validSpeechScores.length
       : 0
 
-    const finalScoreVal = Math.round((correctCount / 12) * 80 + (avgSpeech / 100) * 20)
+    const standardScore = Math.round((correctCount / 12) * 80 + (avgSpeech / 100) * 20)
+    const finalScoreVal = Math.min(100, standardScore + speechBonusPoints)
     const accuracyVal = Math.round((correctCount / 12) * 100)
 
     try {
@@ -1417,7 +1696,11 @@
 
     // 填寫數據
     document.getElementById('finalAccuracy').textContent = accuracy + '%'
-    document.getElementById('finalScore').textContent = score
+    if (speechBonusPoints > 0) {
+      document.getElementById('finalScore').innerHTML = `${score} <span style="font-size:0.75rem;color:#52e5a4;display:block;margin-top:4px;">(口說加分 +${speechBonusPoints})</span>`
+    } else {
+      document.getElementById('finalScore').textContent = score
+    }
     document.getElementById('finalStreak').textContent = studentProfile.streak || 1
 
     // 填充錯題複習晶片

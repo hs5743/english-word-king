@@ -52,6 +52,7 @@ type ChallengeItem = {
   sentenceZh: string
   fillBlank: string
   distractors: string[]
+  distractorZhs: Record<string, string>
 }
 
 const contexts = ['校園生活', '家庭晚餐', '下課時間', '運動會', '生日派對', '圖書館', '超市購物', '週末出遊']
@@ -107,26 +108,33 @@ function selectCandidatePool(
 
   const selected: FallbackWord[] = []
   
-  const targetWeak = Math.min(8, shuffledWeak.length)
-  const targetNew = Math.min(12, shuffledNew.length)
-  const targetLearning = Math.min(8, shuffledLearning.length)
-  const targetMastered = Math.min(2, shuffledMastered.length)
+  // 優先將弱項錯題、學習中單字加入
+  selected.push(...shuffledWeak)
+  selected.push(...shuffledLearning)
+  selected.push(...shuffledNew)
+  selected.push(...shuffledMastered)
 
-  selected.push(...shuffledWeak.slice(0, targetWeak))
-  selected.push(...shuffledNew.slice(0, targetNew))
-  selected.push(...shuffledLearning.slice(0, targetLearning))
-  selected.push(...shuffledMastered.slice(0, targetMastered))
+  // 去除重複單字
+  const uniqueSelected = selected.filter((item, index, self) =>
+    self.findIndex(t => t.word === item.word) === index
+  )
 
-  const selectedWords = new Set(selected.map(w => w.word))
-  const remaining = available.filter(w => !selectedWords.has(w.word))
-  const shuffledRemaining = shuffle(remaining)
-  
-  const needed = Math.min(30, available.length) - selected.length
-  if (needed > 0) {
-    selected.push(...shuffledRemaining.slice(0, needed))
+  // 裁切至 exactly 10 個單字
+  let finalSelected = uniqueSelected.slice(0, 10)
+
+  // 兜底：如果不足 10 個，從 available 中隨機補齊
+  if (finalSelected.length < 10) {
+    const selectedWords = new Set(finalSelected.map(w => w.word))
+    const remaining = available.filter(w => !selectedWords.has(w.word))
+    const shuffledRemaining = shuffle(remaining)
+    
+    const needed = Math.min(10, available.length) - finalSelected.length
+    if (needed > 0) {
+      finalSelected.push(...shuffledRemaining.slice(0, needed))
+    }
   }
 
-  return selected
+  return finalSelected
 }
 
 // ─── 主服務入口 ───────────────────────────────────────────────
@@ -270,8 +278,11 @@ serve(async (req) => {
     const prompt = `你是一位專業的台灣小學英語老師。請為${gradeLabel}學生出 12 題英語單字挑戰題，融入生活/校園情境「${randomContext}」。
 
 【第一約束 — 只能從候選清單選字】：
-你只能從以下【候選單字清單】中，挑選其中 12 個單字來出題。絕對不能使用清單之外的單字！
-對於每一題，"word"、"zh"、"topic"、"chunks" 必須完全與候選清單中的數值一致。
+你只能從以下【候選單字清單】（共 10 個單字）中，挑選單字來出 12 題。絕對不能使用清單之外的單字！
+出題要求：
+  1. 這 12 題中，前 10 題必須完全覆蓋這 10 個候選單字（即每個單字剛好出一題，不得遺漏）。
+  2. 第 11 和 12 題，請從這 10 個單字中，再選 2 個單字重複考驗，但必須為這 2 題創作完全不同的新英文例句與新句型結構，以加強學生對單字的應用與熟練度！
+  3. 對於每一題，"word"、"zh"、"topic"、"chunks" 必須完全與候選清單中的數值一致。
 
 【第二約束 — 自由造句（最重要！）】：
 "exampleSentence" 請發揮你的英語教學創意，為每個單字創作一個自然、貼近生活的英文句子。
@@ -896,7 +907,7 @@ function buildFallbackChallenge(
   bank: FallbackWord[] = fallbackWords
 ): ChallengeItem[] {
   const available = bank.filter(w => w.grade <= Math.max(3, grade))
-  const pool = candidatePool.length >= 12 ? candidatePool : [...candidatePool, ...available]
+  const pool = candidatePool.length >= 10 ? candidatePool : [...candidatePool, ...available]
   const shuffledPool = shuffle(pool).filter((item, index, arr) =>
     arr.findIndex(other => other.word === item.word) === index
   )
@@ -949,6 +960,13 @@ function normalizeChallenge(
           console.warn(`[P3 ❌ AI句不符，使用標準句] word=${wordClean} | reason=${validation.reason} | ai="${aiSentence}" | fallback="${finalSentence}"`)
         }
 
+        const distractors = buildDistractors(wordClean, available, item.distractors)
+        const distractorZhs: Record<string, string> = {}
+        distractors.forEach(d => {
+          const found = available.find(w => w.word.toLowerCase().trim() === d.toLowerCase().trim())
+          distractorZhs[d] = found ? found.zh : d
+        })
+
         validItems.push({
           word: wordClean,
           zh: candidate.zh,         // 強制使用題庫標準中文
@@ -959,7 +977,8 @@ function normalizeChallenge(
           exampleSentence: finalSentence,
           sentenceZh: finalSentenceZh,
           fillBlank: makeFillBlank(finalSentence, wordClean),
-          distractors: buildDistractors(wordClean, available, item.distractors),
+          distractors,
+          distractorZhs,
         })
       }
     }
@@ -1000,6 +1019,13 @@ function normalizeChallenge(
 }
 
 function toChallengeItem(item: FallbackWord, available: FallbackWord[]): ChallengeItem {
+  const distractors = buildDistractors(item.word, available)
+  const distractorZhs: Record<string, string> = {}
+  distractors.forEach(d => {
+    const found = available.find(w => w.word.toLowerCase().trim() === d.toLowerCase().trim())
+    distractorZhs[d] = found ? found.zh : d
+  })
+
   return {
     word: item.word,
     zh: item.zh,
@@ -1010,7 +1036,8 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     exampleSentence: item.sentence,
     sentenceZh: item.sentenceZh,
     fillBlank: makeFillBlank(item.sentence, item.word),
-    distractors: buildDistractors(item.word, available),
+    distractors,
+    distractorZhs,
   }
 }
 
