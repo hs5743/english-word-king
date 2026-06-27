@@ -242,7 +242,7 @@
     "id": "elementary-doctor",
     "word": "doctor",
     "zh": "醫生",
-    "topic": "Jobs",
+    "topic": "Occupations",
     "gradeBand": "G5",
     "source": "elementary-basic",
     "chunks": [
@@ -259,7 +259,7 @@
     "id": "elementary-nurse",
     "word": "nurse",
     "zh": "護理師",
-    "topic": "Jobs",
+    "topic": "Occupations",
     "gradeBand": "G5",
     "source": "elementary-basic",
     "chunks": [
@@ -862,7 +862,7 @@
   {
     "id": "passport-cow",
     "word": "cow",
-    "zh": "乳⽜",
+    "zh": "乳牛",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -926,7 +926,7 @@
   {
     "id": "passport-duck",
     "word": "duck",
-    "zh": "鴨⼦",
+    "zh": "鴨子",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -958,7 +958,7 @@
   {
     "id": "elementary-lion",
     "word": "lion",
-    "zh": "獅⼦",
+    "zh": "獅子",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -975,7 +975,7 @@
   {
     "id": "passport-mice",
     "word": "mice",
-    "zh": "⽼⿏(複數)",
+    "zh": "老鼠(複數)",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -991,7 +991,7 @@
   {
     "id": "passport-hippo",
     "word": "hippo",
-    "zh": "河⾺",
+    "zh": "河馬",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1008,7 +1008,7 @@
   {
     "id": "passport-horse",
     "word": "horse",
-    "zh": "⾺",
+    "zh": "馬",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1040,7 +1040,7 @@
   {
     "id": "passport-mouse",
     "word": "mouse",
-    "zh": "⽼⿏",
+    "zh": "老鼠",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1073,7 +1073,7 @@
   {
     "id": "passport-sheep",
     "word": "sheep",
-    "zh": "綿⽺",
+    "zh": "綿羊",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1105,7 +1105,7 @@
   {
     "id": "passport-whale",
     "word": "whale",
-    "zh": "鯨⿂",
+    "zh": "鯨魚",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1121,7 +1121,7 @@
   {
     "id": "passport-zebra",
     "word": "zebra",
-    "zh": "斑⾺",
+    "zh": "斑馬",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1156,7 +1156,7 @@
   {
     "id": "junior-monkey",
     "word": "monkey",
-    "zh": "猴⼦",
+    "zh": "猴子",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1190,7 +1190,7 @@
   {
     "id": "passport-turtle",
     "word": "turtle",
-    "zh": "烏⿔",
+    "zh": "烏龜",
     "topic": "Animals",
     "gradeBand": "G3",
     "source": "passport",
@@ -1259,7 +1259,7 @@
   {
     "id": "elementary-bag",
     "word": "bag",
-    "zh": "袋⼦",
+    "zh": "袋子",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -1291,7 +1291,7 @@
   {
     "id": "junior-hat",
     "word": "hat",
-    "zh": "帽⼦",
+    "zh": "帽子",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1404,7 +1404,7 @@
   {
     "id": "elementary-skirt",
     "word": "skirt",
-    "zh": "裙⼦",
+    "zh": "裙子",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -1420,7 +1420,7 @@
   {
     "id": "junior-socks",
     "word": "socks",
-    "zh": "襪⼦",
+    "zh": "襪子",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1453,7 +1453,7 @@
   {
     "id": "passport-pocket",
     "word": "pocket",
-    "zh": "⼝袋",
+    "zh": "口袋",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "passport",
@@ -1486,7 +1486,7 @@
   {
     "id": "elementary-shoes",
     "word": "shoes",
-    "zh": "鞋⼦",
+    "zh": "鞋子",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -1502,7 +1502,7 @@
   {
     "id": "passport-clothes",
     "word": "clothes",
-    "zh": "⾐服",
+    "zh": "衣服",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "passport",
@@ -1535,7 +1535,7 @@
   {
     "id": "junior-sweater",
     "word": "sweater",
-    "zh": "⽑⾐",
+    "zh": "毛衣",
     "topic": "Clothing",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1569,8 +1569,8 @@
   {
     "id": "elementary-color",
     "word": "color",
-    "zh": "顏⾊",
-    "topic": "Choose",
+    "zh": "顏色",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -1586,8 +1586,8 @@
   {
     "id": "passport-gray",
     "word": "gray",
-    "zh": "灰⾊的",
-    "topic": "Choose",
+    "zh": "灰色的",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -1602,8 +1602,8 @@
   {
     "id": "junior-pink",
     "word": "pink",
-    "zh": "粉紅⾊的",
-    "topic": "Choose",
+    "zh": "粉紅色的",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -1618,8 +1618,8 @@
   {
     "id": "elementary-black",
     "word": "black",
-    "zh": "⿊⾊的",
-    "topic": "Choose",
+    "zh": "黑色的",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -1634,8 +1634,8 @@
   {
     "id": "passport-brown",
     "word": "brown",
-    "zh": "咖啡⾊的",
-    "topic": "Choose",
+    "zh": "咖啡色的",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -1650,8 +1650,8 @@
   {
     "id": "elementary-white",
     "word": "white",
-    "zh": "⽩⾊的",
-    "topic": "Choose",
+    "zh": "白色的",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -1666,8 +1666,8 @@
   {
     "id": "junior-orange",
     "word": "orange",
-    "zh": "橘⾊的",
-    "topic": "Choose",
+    "zh": "橘子",
+    "topic": "Food",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -1683,8 +1683,8 @@
   {
     "id": "passport-purple",
     "word": "purple",
-    "zh": "紫⾊的",
-    "topic": "Choose",
+    "zh": "紫色的",
+    "topic": "Colors",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -1783,7 +1783,7 @@
   {
     "id": "junior-son",
     "word": "son",
-    "zh": "兒⼦",
+    "zh": "兒子",
     "topic": "Family",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1816,7 +1816,7 @@
   {
     "id": "junior-family",
     "word": "family",
-    "zh": "家庭;家⼈",
+    "zh": "家庭;家人",
     "topic": "Family",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1937,7 +1937,7 @@
   {
     "id": "junior-grow",
     "word": "grow",
-    "zh": "成⻑;⻑大",
+    "zh": "成長;長大",
     "topic": "Family",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -1953,7 +1953,7 @@
   {
     "id": "passport-cousin",
     "word": "cousin",
-    "zh": "堂兄（弟、姊、妹）",
+    "zh": "堂兄(弟、姊、妹)",
     "topic": "Family",
     "gradeBand": "G3",
     "source": "passport",
@@ -1985,7 +1985,7 @@
   {
     "id": "junior-fruit",
     "word": "fruit",
-    "zh": "⽔果",
+    "zh": "水果",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -2001,7 +2001,7 @@
   {
     "id": "passport-peach",
     "word": "peach",
-    "zh": "桃⼦",
+    "zh": "桃子",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "passport",
@@ -2067,7 +2067,7 @@
   {
     "id": "passport-watermelon",
     "word": "watermelon",
-    "zh": "⻄瓜",
+    "zh": "西瓜",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "passport",
@@ -2264,7 +2264,7 @@
   {
     "id": "junior-food",
     "word": "food",
-    "zh": "⾷物",
+    "zh": "食物",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -2280,7 +2280,7 @@
   {
     "id": "junior-beef",
     "word": "beef",
-    "zh": "⽜肉",
+    "zh": "牛肉",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -2443,7 +2443,7 @@
   {
     "id": "passport-dumpling",
     "word": "dumpling",
-    "zh": "⽔餃",
+    "zh": "水餃",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "passport",
@@ -2592,7 +2592,7 @@
   {
     "id": "passport-chocolate",
     "word": "chocolate",
-    "zh": "巧克⼒",
+    "zh": "巧克力",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "passport",
@@ -2643,7 +2643,7 @@
   {
     "id": "passport-fries",
     "word": "fries",
-    "zh": "你最喜歡的⾷物是？",
+    "zh": "你最喜歡的食物是？",
     "topic": "Food",
     "gradeBand": "G3",
     "source": "passport",
@@ -2660,7 +2660,7 @@
     "id": "elementary-name",
     "word": "name",
     "zh": "名字",
-    "topic": "General",
+    "topic": "Forms",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -2675,7 +2675,7 @@
   {
     "id": "passport-miss-ms",
     "word": "Miss/Ms",
-    "zh": "⼩姐",
+    "zh": "小姐",
     "topic": "Forms",
     "gradeBand": "G3",
     "source": "passport",
@@ -2692,7 +2692,7 @@
   {
     "id": "passport-mr",
     "word": "Mr",
-    "zh": "先⽣",
+    "zh": "先生",
     "topic": "Forms",
     "gradeBand": "G3",
     "source": "passport",
@@ -2789,7 +2789,7 @@
   {
     "id": "passport-mountain",
     "word": "mountain",
-    "zh": "⼭",
+    "zh": "山",
     "topic": "Geographical",
     "gradeBand": "G3",
     "source": "passport",
@@ -2823,7 +2823,7 @@
   {
     "id": "passport-volcano",
     "word": "volcano",
-    "zh": "⽕⼭",
+    "zh": "火山",
     "topic": "Geographical",
     "gradeBand": "G3",
     "source": "passport",
@@ -2924,8 +2924,8 @@
   {
     "id": "passport-moon",
     "word": "Moon",
-    "zh": "中秋節",
-    "topic": "Holidays",
+    "zh": "月亮",
+    "topic": "Weather & nature",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -2974,7 +2974,7 @@
   {
     "id": "junior-sick",
     "word": "sick",
-    "zh": "⽣病的",
+    "zh": "生病的",
     "topic": "Health",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -3150,7 +3150,7 @@
   {
     "id": "passport-mop",
     "word": "mop",
-    "zh": "⽤拖把拖地",
+    "zh": "用拖把拖地",
     "topic": "House",
     "gradeBand": "G3",
     "source": "passport",
@@ -3166,7 +3166,7 @@
   {
     "id": "junior-door",
     "word": "door",
-    "zh": "⾨",
+    "zh": "門",
     "topic": "House",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -3246,7 +3246,7 @@
   {
     "id": "junior-table",
     "word": "table",
-    "zh": "桌⼦",
+    "zh": "桌子",
     "topic": "House",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -3263,7 +3263,7 @@
   {
     "id": "passport-towel",
     "word": "towel",
-    "zh": "⽑⼱",
+    "zh": "毛巾",
     "topic": "House",
     "gradeBand": "G3",
     "source": "passport",
@@ -3296,7 +3296,7 @@
   {
     "id": "passport-shelf",
     "word": "shelf",
-    "zh": "架⼦",
+    "zh": "架子",
     "topic": "House",
     "gradeBand": "G3",
     "source": "passport",
@@ -3312,7 +3312,7 @@
   {
     "id": "passport-garden",
     "word": "garden",
-    "zh": "院⼦、花園",
+    "zh": "院子、花園",
     "topic": "House",
     "gradeBand": "G3",
     "source": "passport",
@@ -3347,7 +3347,7 @@
     "id": "elementary-tv",
     "word": "TV",
     "zh": "電視",
-    "topic": "Houses",
+    "topic": "House",
     "gradeBand": "G5",
     "source": "elementary-basic",
     "chunks": [
@@ -3380,7 +3380,7 @@
   {
     "id": "passport-refrigerator",
     "word": "refrigerator",
-    "zh": "沙發",
+    "zh": "電冰箱",
     "topic": "House",
     "gradeBand": "G3",
     "source": "passport",
@@ -3645,7 +3645,7 @@
   {
     "id": "junior-some",
     "word": "some",
-    "zh": "⼀些",
+    "zh": "一些",
     "topic": "Numbers",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -3661,7 +3661,7 @@
   {
     "id": "passport-first",
     "word": "first",
-    "zh": "第⼀",
+    "zh": "第一",
     "topic": "Numbers",
     "gradeBand": "G3",
     "source": "passport",
@@ -3677,7 +3677,7 @@
   {
     "id": "passport-second",
     "word": "second",
-    "zh": "第⼆",
+    "zh": "第二",
     "topic": "Numbers",
     "gradeBand": "G3",
     "source": "passport",
@@ -3809,7 +3809,7 @@
   {
     "id": "junior-singer",
     "word": "singer",
-    "zh": "歌⼿",
+    "zh": "歌手",
     "topic": "Occupations",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -3875,7 +3875,7 @@
   {
     "id": "passport-waiter",
     "word": "waiter",
-    "zh": "男服務⽣",
+    "zh": "男服務生",
     "topic": "Occupations",
     "gradeBand": "G3",
     "source": "passport",
@@ -3892,7 +3892,7 @@
   {
     "id": "passport-waitress",
     "word": "waitress",
-    "zh": "女服務⽣",
+    "zh": "女服務生",
     "topic": "Occupations",
     "gradeBand": "G3",
     "source": "passport",
@@ -3909,7 +3909,7 @@
   {
     "id": "passport-soldier",
     "word": "soldier",
-    "zh": "軍⼈",
+    "zh": "軍人",
     "topic": "Occupations",
     "gradeBand": "G3",
     "source": "passport",
@@ -3947,7 +3947,7 @@
     "id": "junior-hair",
     "word": "hair",
     "zh": "頭髮",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -3963,7 +3963,7 @@
     "id": "junior-face",
     "word": "face",
     "zh": "臉",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -3979,7 +3979,7 @@
     "id": "elementary-nose",
     "word": "nose",
     "zh": "鼻",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -3994,8 +3994,8 @@
   {
     "id": "elementary-ear",
     "word": "ear",
-    "zh": "⽿朵",
-    "topic": "Parts",
+    "zh": "耳朵",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -4011,7 +4011,7 @@
     "id": "elementary-mouth",
     "word": "mouth",
     "zh": "嘴巴",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -4026,8 +4026,8 @@
   {
     "id": "passport-tooth",
     "word": "tooth",
-    "zh": "牙⿒",
-    "topic": "Parts",
+    "zh": "牙齒",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -4043,7 +4043,7 @@
     "id": "junior-leg",
     "word": "leg",
     "zh": "腿",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -4058,8 +4058,8 @@
   {
     "id": "passport-teeth",
     "word": "teeth",
-    "zh": "牙⿒(複數)",
-    "topic": "Parts",
+    "zh": "牙齒(複數)",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -4075,7 +4075,7 @@
     "id": "passport-feet",
     "word": "feet",
     "zh": "腳(複數)",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -4091,7 +4091,7 @@
     "id": "passport-back",
     "word": "back",
     "zh": "背",
-    "topic": "Parts",
+    "topic": "Body",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -4106,7 +4106,7 @@
   {
     "id": "passport-person",
     "word": "person",
-    "zh": "⼈(單數)",
+    "zh": "人(單數)",
     "topic": "People",
     "gradeBand": "G3",
     "source": "passport",
@@ -4123,7 +4123,7 @@
   {
     "id": "junior-people",
     "word": "people",
-    "zh": "⼈(複數)",
+    "zh": "人(複數)",
     "topic": "People",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -4157,7 +4157,7 @@
   {
     "id": "passport-kid",
     "word": "kid",
-    "zh": "⼩孩",
+    "zh": "小孩",
     "topic": "People",
     "gradeBand": "G3",
     "source": "passport",
@@ -4189,7 +4189,7 @@
   {
     "id": "elementary-girl",
     "word": "girl",
-    "zh": "男⼈",
+    "zh": "女孩",
     "topic": "People",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -4205,7 +4205,7 @@
   {
     "id": "junior-woman",
     "word": "woman",
-    "zh": "女⼈",
+    "zh": "女人",
     "topic": "People",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -4222,7 +4222,7 @@
   {
     "id": "passport-women",
     "word": "women",
-    "zh": "女⼈(複數)",
+    "zh": "女人(複數)",
     "topic": "People",
     "gradeBand": "G3",
     "source": "passport",
@@ -4271,7 +4271,7 @@
   {
     "id": "passport-nice",
     "word": "nice",
-    "zh": "宜⼈的",
+    "zh": "宜人的",
     "topic": "Personal",
     "gradeBand": "G3",
     "source": "passport",
@@ -4335,7 +4335,7 @@
   {
     "id": "junior-old",
     "word": "old",
-    "zh": "⽼的",
+    "zh": "老的",
     "topic": "Personal",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -4351,7 +4351,7 @@
   {
     "id": "elementary-tall",
     "word": "tall",
-    "zh": "年輕的",
+    "zh": "高的",
     "topic": "Personal",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -4367,8 +4367,8 @@
   {
     "id": "elementary-short",
     "word": "short",
-    "zh": "忙碌的",
-    "topic": "Personal",
+    "zh": "短的",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -4432,7 +4432,7 @@
   {
     "id": "passport-angry",
     "word": "angry",
-    "zh": "⽣氣的",
+    "zh": "生氣的",
     "topic": "Personal",
     "gradeBand": "G3",
     "source": "passport",
@@ -4563,7 +4563,7 @@
   {
     "id": "passport-bank",
     "word": "bank",
-    "zh": "銀⾏",
+    "zh": "銀行",
     "topic": "Place",
     "gradeBand": "G3",
     "source": "passport",
@@ -4940,7 +4940,7 @@
   {
     "id": "passport-japan",
     "word": "Japan",
-    "zh": "⽇本",
+    "zh": "日本",
     "topic": "Place",
     "gradeBand": "G3",
     "source": "passport",
@@ -5042,7 +5042,7 @@
   {
     "id": "passport-uganda",
     "word": "Uganda",
-    "zh": "烏⼲達",
+    "zh": "烏干達",
     "topic": "Place",
     "gradeBand": "G3",
     "source": "passport",
@@ -5205,7 +5205,7 @@
   {
     "id": "elementary-music",
     "word": "music",
-    "zh": "⾳樂",
+    "zh": "音樂",
     "topic": "School",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -5222,7 +5222,7 @@
   {
     "id": "elementary-english",
     "word": "English",
-    "zh": "英⽂",
+    "zh": "英文",
     "topic": "School",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -5239,7 +5239,7 @@
   {
     "id": "elementary-chinese",
     "word": "Chinese",
-    "zh": "中⽂",
+    "zh": "中文",
     "topic": "School",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -5419,7 +5419,7 @@
   {
     "id": "passport-glue",
     "word": "glue",
-    "zh": "膠⽔",
+    "zh": "膠水",
     "topic": "School",
     "gradeBand": "G3",
     "source": "passport",
@@ -5451,7 +5451,7 @@
   {
     "id": "elementary-marker",
     "word": "marker",
-    "zh": "⿆克筆",
+    "zh": "麥克筆",
     "topic": "School",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -5468,7 +5468,7 @@
   {
     "id": "junior-eraser",
     "word": "eraser",
-    "zh": "橡⽪擦",
+    "zh": "橡皮擦",
     "topic": "School",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -5551,7 +5551,7 @@
   {
     "id": "junior-picture",
     "word": "picture",
-    "zh": "圖⽚、照⽚",
+    "zh": "圖片、照片",
     "topic": "School",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -5568,7 +5568,7 @@
   {
     "id": "passport-blackboard",
     "word": "blackboard",
-    "zh": "⿊板",
+    "zh": "黑板",
     "topic": "School",
     "gradeBand": "G3",
     "source": "passport",
@@ -5620,7 +5620,7 @@
   {
     "id": "passport-holiday",
     "word": "holiday",
-    "zh": "節⽇、假⽇",
+    "zh": "節日、假日",
     "topic": "School",
     "gradeBand": "G3",
     "source": "passport",
@@ -5639,7 +5639,7 @@
     "id": "elementary-big",
     "word": "big",
     "zh": "大的",
-    "topic": "Size",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5654,8 +5654,8 @@
   {
     "id": "elementary-small",
     "word": "small",
-    "zh": "⼩的",
-    "topic": "Size",
+    "zh": "小的",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5670,8 +5670,8 @@
   {
     "id": "elementary-long",
     "word": "long",
-    "zh": "⻑的",
-    "topic": "Size",
+    "zh": "長的",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5687,7 +5687,7 @@
     "id": "passport-light",
     "word": "light",
     "zh": "輕的",
-    "topic": "Size",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5702,8 +5702,8 @@
   {
     "id": "passport-high",
     "word": "high",
-    "zh": "⾼的",
-    "topic": "Size",
+    "zh": "高的",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5718,8 +5718,8 @@
   {
     "id": "passport-pair",
     "word": "pair",
-    "zh": "⼀雙、⼀對",
-    "topic": "Size",
+    "zh": "一雙、一對",
+    "topic": "Sizes & measurements",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5735,7 +5735,7 @@
     "id": "elementary-play",
     "word": "play",
     "zh": "玩",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5751,7 +5751,7 @@
     "id": "elementary-sing",
     "word": "sing",
     "zh": "唱",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5767,7 +5767,7 @@
     "id": "elementary-dance",
     "word": "dance",
     "zh": "跳舞",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5782,8 +5782,8 @@
   {
     "id": "passport-paint",
     "word": "paint",
-    "zh": "⽤顏料畫、油漆刷",
-    "topic": "Sport,",
+    "zh": "用顏料畫、油漆刷",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5798,8 +5798,8 @@
   {
     "id": "junior-hike",
     "word": "hike",
-    "zh": "健⾏",
-    "topic": "Sport,",
+    "zh": "健行",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5815,7 +5815,7 @@
     "id": "elementary-swim",
     "word": "swim",
     "zh": "游泳",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5831,7 +5831,7 @@
     "id": "passport-climb",
     "word": "climb",
     "zh": "爬、攀爬",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5847,7 +5847,7 @@
     "id": "junior-ball",
     "word": "ball",
     "zh": "球",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5863,7 +5863,7 @@
     "id": "junior-baseball",
     "word": "baseball",
     "zh": "棒球",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5880,7 +5880,7 @@
     "id": "junior-basketball",
     "word": "basketball",
     "zh": "籃球",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5897,8 +5897,8 @@
   {
     "id": "passport-football",
     "word": "football",
-    "zh": "⾜球(英式)",
-    "topic": "Sport,",
+    "zh": "足球(英式)",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5914,8 +5914,8 @@
   {
     "id": "passport-soccer",
     "word": "soccer",
-    "zh": "⾜球(美式)",
-    "topic": "Sport,",
+    "zh": "足球(美式)",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5932,7 +5932,7 @@
     "id": "junior-sport",
     "word": "sport",
     "zh": "運動",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5964,7 +5964,7 @@
     "id": "passport-doll",
     "word": "doll",
     "zh": "玩偶",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5980,7 +5980,7 @@
     "id": "passport-yo-yo",
     "word": "yo-yo",
     "zh": "溜溜球",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5997,7 +5997,7 @@
     "id": "passport-win",
     "word": "win",
     "zh": "贏",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -6012,8 +6012,8 @@
   {
     "id": "passport-trip",
     "word": "trip",
-    "zh": "旅⾏(短程的)",
-    "topic": "Sport,",
+    "zh": "旅行(短程的)",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -6028,8 +6028,8 @@
   {
     "id": "junior-card",
     "word": "card",
-    "zh": "卡⽚",
-    "topic": "Sport,",
+    "zh": "卡片",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -6044,8 +6044,8 @@
   {
     "id": "passport-drum",
     "word": "drum",
-    "zh": "⿎",
-    "topic": "Sport,",
+    "zh": "鼓",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -6061,7 +6061,7 @@
     "id": "junior-game",
     "word": "game",
     "zh": "遊戲",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -6076,8 +6076,8 @@
   {
     "id": "passport-kite",
     "word": "kite",
-    "zh": "⾵箏",
-    "topic": "Sport,",
+    "zh": "風箏",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -6093,7 +6093,7 @@
     "id": "junior-song",
     "word": "song",
     "zh": "歌曲",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -6109,7 +6109,7 @@
     "id": "passport-movie",
     "word": "movie",
     "zh": "電影",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -6125,7 +6125,7 @@
     "id": "passport-piano",
     "word": "piano",
     "zh": "鋼琴",
-    "topic": "Sport,",
+    "topic": "Sports",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -6141,7 +6141,7 @@
   {
     "id": "passport-cup",
     "word": "cup",
-    "zh": "杯⼦",
+    "zh": "杯子",
     "topic": "Tableware",
     "gradeBand": "G3",
     "source": "passport",
@@ -6157,7 +6157,7 @@
   {
     "id": "junior-dish",
     "word": "dish",
-    "zh": "碟⼦、盤⼦",
+    "zh": "碟子、盤子",
     "topic": "Tableware",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6189,7 +6189,7 @@
   {
     "id": "passport-fork",
     "word": "fork",
-    "zh": "叉⼦",
+    "zh": "叉子",
     "topic": "Tableware",
     "gradeBand": "G3",
     "source": "passport",
@@ -6221,7 +6221,7 @@
   {
     "id": "passport-knife",
     "word": "knife",
-    "zh": "⼑⼦",
+    "zh": "刀子",
     "topic": "Tableware",
     "gradeBand": "G3",
     "source": "passport",
@@ -6237,7 +6237,7 @@
   {
     "id": "passport-chopsticks",
     "word": "chopsticks",
-    "zh": "筷⼦",
+    "zh": "筷子",
     "topic": "Tableware",
     "gradeBand": "G3",
     "source": "passport",
@@ -6254,7 +6254,7 @@
   {
     "id": "passport-mug",
     "word": "mug",
-    "zh": "⾺克杯",
+    "zh": "馬克杯",
     "topic": "Tableware",
     "gradeBand": "G3",
     "source": "passport",
@@ -6370,7 +6370,7 @@
   {
     "id": "junior-early",
     "word": "early",
-    "zh": "早到（的）",
+    "zh": "早到(的)",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6387,7 +6387,7 @@
   {
     "id": "junior-late",
     "word": "late",
-    "zh": "晚到（的）",
+    "zh": "晚到(的)",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6419,7 +6419,7 @@
   {
     "id": "elementary-watch",
     "word": "watch",
-    "zh": "⼿錶",
+    "zh": "手錶",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -6567,7 +6567,7 @@
   {
     "id": "junior-monday",
     "word": "Monday",
-    "zh": "星期⼀",
+    "zh": "星期一",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6584,7 +6584,7 @@
   {
     "id": "junior-tuesday",
     "word": "Tuesday",
-    "zh": "星期⼆",
+    "zh": "星期二",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6670,7 +6670,7 @@
   {
     "id": "junior-sunday",
     "word": "Sunday",
-    "zh": "星期⽇",
+    "zh": "星期日",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6703,7 +6703,7 @@
   {
     "id": "passport-january",
     "word": "January",
-    "zh": "⼀月",
+    "zh": "一月",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "passport",
@@ -6721,7 +6721,7 @@
   {
     "id": "passport-february",
     "word": "February",
-    "zh": "⼆月",
+    "zh": "二月",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "passport",
@@ -6820,7 +6820,7 @@
   {
     "id": "passport-august",
     "word": "August",
-    "zh": "⼋月",
+    "zh": "八月",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "passport",
@@ -6855,7 +6855,7 @@
   {
     "id": "passport-october",
     "word": "October",
-    "zh": "⼗月",
+    "zh": "十月",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "passport",
@@ -6873,7 +6873,7 @@
   {
     "id": "passport-november",
     "word": "November",
-    "zh": "⼗⼀月",
+    "zh": "十一月",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "passport",
@@ -6891,7 +6891,7 @@
   {
     "id": "passport-december",
     "word": "December",
-    "zh": "⼗⼆月",
+    "zh": "十二月",
     "topic": "Time",
     "gradeBand": "G3",
     "source": "passport",
@@ -6909,7 +6909,7 @@
   {
     "id": "elementary-ride",
     "word": "ride",
-    "zh": "騎(機⾞、腳踏⾞)",
+    "zh": "騎(機車、腳踏車)",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -6925,7 +6925,7 @@
   {
     "id": "elementary-fly",
     "word": "fly",
-    "zh": "⾶、⾶⾏",
+    "zh": "飛、飛行",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -6941,7 +6941,7 @@
   {
     "id": "junior-drive",
     "word": "drive",
-    "zh": "開⾞",
+    "zh": "開車",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -6973,7 +6973,7 @@
   {
     "id": "elementary-car",
     "word": "car",
-    "zh": "⾞⼦",
+    "zh": "車子",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -7038,7 +7038,7 @@
   {
     "id": "passport-airport",
     "word": "airport",
-    "zh": "⾶機",
+    "zh": "機場",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "passport",
@@ -7087,7 +7087,7 @@
   {
     "id": "junior-station",
     "word": "station",
-    "zh": "⾞站",
+    "zh": "車站",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -7104,7 +7104,7 @@
   {
     "id": "passport-motorcycle",
     "word": "motorcycle",
-    "zh": "摩托⾞",
+    "zh": "摩托車",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "passport",
@@ -7139,7 +7139,7 @@
   {
     "id": "junior-scooter",
     "word": "scooter",
-    "zh": "輕型機⾞",
+    "zh": "輕型機車",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -7188,7 +7188,7 @@
   {
     "id": "passport-truck",
     "word": "truck",
-    "zh": "卡⾞",
+    "zh": "卡車",
     "topic": "Transportation",
     "gradeBand": "G3",
     "source": "passport",
@@ -7269,7 +7269,7 @@
   {
     "id": "passport-wind",
     "word": "wind",
-    "zh": "⾵",
+    "zh": "風",
     "topic": "Weather",
     "gradeBand": "G3",
     "source": "passport",
@@ -7285,7 +7285,7 @@
   {
     "id": "junior-windy",
     "word": "windy",
-    "zh": "⾵大的",
+    "zh": "風大的",
     "topic": "Weather",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -7301,7 +7301,7 @@
   {
     "id": "passport-typhoon",
     "word": "typhoon",
-    "zh": "颱⾵",
+    "zh": "颱風",
     "topic": "Weather",
     "gradeBand": "G3",
     "source": "passport",
@@ -7318,7 +7318,7 @@
   {
     "id": "junior-rain",
     "word": "rain",
-    "zh": "⾬⽔，下⾬",
+    "zh": "雨水,下雨",
     "topic": "Weather",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -7351,7 +7351,7 @@
   {
     "id": "passport-snow",
     "word": "snow",
-    "zh": "雪，下雪",
+    "zh": "雪,下雪",
     "topic": "Weather",
     "gradeBand": "G3",
     "source": "passport",
@@ -7495,7 +7495,7 @@
   {
     "id": "junior-every",
     "word": "every",
-    "zh": "每⼀個",
+    "zh": "每一個",
     "topic": "Articles",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -7802,7 +7802,7 @@
     "id": "junior-be",
     "word": "be",
     "zh": "是",
-    "topic": "Be",
+    "topic": "Be & Auxiliaries",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -7818,7 +7818,7 @@
     "id": "elementary-do",
     "word": "do",
     "zh": "助動詞",
-    "topic": "Be",
+    "topic": "Be & Auxiliaries",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -7834,7 +7834,7 @@
     "id": "elementary-can",
     "word": "can",
     "zh": "可以",
-    "topic": "Be",
+    "topic": "Be & Auxiliaries",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -7850,7 +7850,7 @@
     "id": "junior-will",
     "word": "will",
     "zh": "將會",
-    "topic": "Be",
+    "topic": "Be & Auxiliaries",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -7997,7 +7997,7 @@
   {
     "id": "elementary-in",
     "word": "in",
-    "zh": "在...裡⾯",
+    "zh": "在...裡面",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -8045,7 +8045,7 @@
   {
     "id": "junior-for",
     "word": "for",
-    "zh": "給、為了(某⼈)",
+    "zh": "給、為了(某人)",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -8093,7 +8093,7 @@
   {
     "id": "elementary-on",
     "word": "on",
-    "zh": "在....上⾯",
+    "zh": "在....上面",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -8109,7 +8109,7 @@
   {
     "id": "passport-behind",
     "word": "behind",
-    "zh": "在...後⾯",
+    "zh": "在...後面",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "passport",
@@ -8126,7 +8126,7 @@
   {
     "id": "junior-from",
     "word": "from",
-    "zh": "從(某處、某時刻、某⼈)",
+    "zh": "從(某處、某時刻、某人)",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -8190,7 +8190,7 @@
   {
     "id": "passport-over",
     "word": "over",
-    "zh": "在...上⽅",
+    "zh": "在...上方",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "passport",
@@ -8206,7 +8206,7 @@
   {
     "id": "junior-than",
     "word": "than",
-    "zh": "⽐",
+    "zh": "比",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -8222,7 +8222,7 @@
   {
     "id": "junior-with",
     "word": "with",
-    "zh": "和...⼀起",
+    "zh": "和...一起",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -8288,7 +8288,7 @@
   {
     "id": "passport-inside",
     "word": "inside",
-    "zh": "在..裡⾯",
+    "zh": "在..裡面",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "passport",
@@ -8305,7 +8305,7 @@
   {
     "id": "passport-outside",
     "word": "outside",
-    "zh": "在...外⾯",
+    "zh": "在...外面",
     "topic": "Prepositions",
     "gradeBand": "G3",
     "source": "passport",
@@ -8355,7 +8355,7 @@
   {
     "id": "elementary-box",
     "word": "box",
-    "zh": "箱⼦",
+    "zh": "箱子",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "elementary-basic",
@@ -8371,7 +8371,7 @@
   {
     "id": "passport-bottle",
     "word": "bottle",
-    "zh": "瓶⼦",
+    "zh": "瓶子",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -8420,7 +8420,7 @@
   {
     "id": "passport-email",
     "word": "email",
-    "zh": "電⼦郵件",
+    "zh": "電子郵件",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -8452,7 +8452,7 @@
   {
     "id": "passport-way",
     "word": "way",
-    "zh": "路、⽅向",
+    "zh": "路、方向",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -8516,7 +8516,7 @@
   {
     "id": "passport-thing",
     "word": "thing",
-    "zh": "東⻄、物",
+    "zh": "東西、物",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -8582,7 +8582,7 @@
   {
     "id": "passport-photo",
     "word": "photo",
-    "zh": "照⽚",
+    "zh": "照片",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -8599,7 +8599,7 @@
   {
     "id": "passport-robot",
     "word": "robot",
-    "zh": "機器⼈",
+    "zh": "機器人",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -8633,7 +8633,7 @@
   {
     "id": "junior-cellphone",
     "word": "cellphone",
-    "zh": "⼿機",
+    "zh": "手機",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -8650,7 +8650,7 @@
   {
     "id": "junior-birthday",
     "word": "birthday",
-    "zh": "⽣⽇",
+    "zh": "生日",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -8987,7 +8987,7 @@
   {
     "id": "passport-meet",
     "word": "meet",
-    "zh": "遇⾒、會⾯",
+    "zh": "遇見、會面",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -9163,7 +9163,7 @@
   {
     "id": "passport-brush",
     "word": "brush",
-    "zh": "⽤刷⼦刷",
+    "zh": "用刷子刷",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -9228,7 +9228,7 @@
   {
     "id": "passport-show",
     "word": "show",
-    "zh": "給..看、展⽰",
+    "zh": "給..看、展示",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -9276,7 +9276,7 @@
   {
     "id": "junior-stand",
     "word": "stand",
-    "zh": "站、站⽴",
+    "zh": "站、站立",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -9324,7 +9324,7 @@
   {
     "id": "passport-thank",
     "word": "thank",
-    "zh": "感謝(某⼈)",
+    "zh": "感謝(某人)",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -9372,7 +9372,7 @@
   {
     "id": "passport-worry",
     "word": "worry",
-    "zh": "擔⼼",
+    "zh": "擔心",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "passport",
@@ -9424,7 +9424,7 @@
     "id": "passport-pick-up",
     "word": "pick up",
     "zh": "撿起、接(人)、接(電話)",
-    "topic": "Verbs",
+    "topic": "Other verbs",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9718,7 +9718,7 @@
   {
     "id": "junior-very",
     "word": "very",
-    "zh": "⾮常",
+    "zh": "非常",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -9832,7 +9832,7 @@
   {
     "id": "junior-together",
     "word": "together",
-    "zh": "⼀起",
+    "zh": "一起",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -9850,7 +9850,7 @@
   {
     "id": "junior-again",
     "word": "again",
-    "zh": "再⼀次",
+    "zh": "再一次",
     "topic": "Other",
     "gradeBand": "G3",
     "source": "junior-basic",
@@ -10031,7 +10031,7 @@
   {
     "id": "passport-which",
     "word": "which",
-    "zh": "哪⼀個...",
+    "zh": "哪一個...",
     "topic": "Wh-words",
     "gradeBand": "G3",
     "source": "passport",
@@ -10063,7 +10063,7 @@
   {
     "id": "passport-o",
     "word": "o",
-    "zh": "⾃",
+    "zh": "自",
     "topic": "Wh-words",
     "gradeBand": "G3",
     "source": "passport",
@@ -10095,7 +10095,7 @@
   {
     "id": "passport-phonics",
     "word": "phonics",
-    "zh": "均⼀教育平台",
+    "zh": "均一教育平台",
     "topic": "Wh-words",
     "gradeBand": "G3",
     "source": "passport",
@@ -10112,7 +10112,7 @@
   {
     "id": "passport-expansion",
     "word": "Expansion",
-    "zh": "新⽵縣鳳岡區",
+    "zh": "新竹縣鳳岡區",
     "topic": "Wh-words",
     "gradeBand": "G3",
     "source": "passport",
@@ -10130,7 +10130,7 @@
   {
     "id": "passport-page",
     "word": "Page",
-    "zh": "國⼩英語護照",
+    "zh": "國小英語護照",
     "topic": "Wh-words",
     "gradeBand": "G3",
     "source": "passport",
@@ -10356,7 +10356,7 @@
     "id": "elementary-living-room",
     "word": "living room",
     "zh": "客廳",
-    "topic": "Houses",
+    "topic": "House",
     "gradeBand": "G5",
     "source": "elementary-basic",
     "chunks": [
@@ -10717,7 +10717,7 @@
     "id": "junior-sofa",
     "word": "sofa",
     "zh": "沙發",
-    "topic": "Houses",
+    "topic": "House",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -10767,7 +10767,7 @@
     "id": "junior-window",
     "word": "window",
     "zh": "窗戶",
-    "topic": "Houses",
+    "topic": "House",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -11228,7 +11228,7 @@
     "id": "junior-large",
     "word": "large",
     "zh": "大的",
-    "topic": "Size",
+    "topic": "Sizes & measurements",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
