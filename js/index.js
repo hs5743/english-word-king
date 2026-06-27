@@ -35,15 +35,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (btnStart) { btnStart.textContent = '🚀 繼續今日挑戰'; btnStart.href = 'app.html' }
     if (btnCta)   { btnCta.textContent   = '繼續挑戰'; btnCta.href = 'app.html' }
 
-    // 獲取已登入學生的個人資料 (用於顯示首頁寶石)
+    // 立即顯示基本登入狀態
+    const navbarNav = document.getElementById('navbar-nav')
+    if (navbarNav) {
+      navbarNav.innerHTML = `
+        <li style="display:flex; align-items:center; gap:8px; margin-right:12px;">
+          <span style="font-size:0.85rem; color:var(--clr-text-muted); background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.08)">
+            🧑‍🎓 <strong>${user.email.split('@')[0]}</strong>
+          </span>
+        </li>
+        <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
+        <li><a href="app.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">進入挑戰</a></li>
+        <li><button onclick="window.SupabaseConfig.signOut()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; border:1px solid rgba(255,107,107,0.3); color:#ff6b6b; margin-left:8px; border-radius:8px; cursor:pointer;">登出</button></li>
+      `
+    }
+
+    // 獲取已登入學生的個人資料 (用於顯示首頁寶石與導覽列詳細資訊)
     try {
       const { data: profile } = await sb
         .from('students')
-        .select('mastery, total_score')
+        .select('name, school, mastery, total_score')
         .eq('uid', user.id)
         .single()
       
       if (profile) {
+        // 更新導覽列為詳細學校與姓名
+        if (navbarNav) {
+          navbarNav.innerHTML = `
+            <li style="display:flex; align-items:center; gap:8px; margin-right:12px;">
+              <span style="font-size:0.85rem; color:var(--clr-text-muted); background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.08)">
+                🏫 ${profile.school || ''} · <strong>${profile.name || user.email.split('@')[0]}</strong>
+              </span>
+            </li>
+            <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
+            <li><a href="app.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">進入挑戰</a></li>
+            <li><button onclick="window.SupabaseConfig.signOut()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; border:1px solid rgba(255,107,107,0.3); color:#ff6b6b; margin-left:8px; border-radius:8px; cursor:pointer;">登出</button></li>
+          `
+        }
+
         let masteredCount = 0
         if (profile.mastery) {
           for (const word in profile.mastery) {
