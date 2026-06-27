@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-const htmlFiles = ['index.html', 'join.html', 'app.html', 'teacher.html', 'admin.html']
+const htmlFiles = ['index.html', 'join.html', 'class.html', 'app.html', 'teacher.html', 'admin.html']
 let hasError = false
 
 for (const file of htmlFiles) {

@@ -894,7 +894,10 @@
       showState('loadingState')
 
       try {
-        var redirectUrl = 'app.html'
+        var pendingClassCode = sessionStorage.getItem('pendingClassCode')
+        var redirectUrl = /^\d{6}$/.test(pendingClassCode || '')
+          ? 'app.html?mode=class&code=' + encodeURIComponent(pendingClassCode)
+          : 'app.html'
         var roster = await window.SupabaseConfig.ensureStudentProfile(user)
         var selectedSchool = schoolSelect.value
         sessionStorage.setItem('selectedSchool', roster.school || selectedSchool)

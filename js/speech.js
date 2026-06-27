@@ -50,7 +50,21 @@
    * @param {Function} onError       — 回呼：(errorMessage: string) => void
    * @returns {Promise<string>}      — resolves with final transcript
    */
-  function startListening(expectedText = '', onResult = null, onError = null) {
+  async function startListening(expectedText = '', onResult = null, onError = null) {
+    if (!isSupported) {
+      const msg = '此瀏覽器不支援語音辨識。請改用 Chrome 或 Edge，或先略過口說題。'
+      if (onError) onError(msg)
+      throw new Error(msg)
+    }
+
+    try {
+      await requestMicrophoneAccess()
+    } catch (err) {
+      const msg = getMicrophoneHelpMessage(err)
+      if (onError) onError(msg)
+      throw new Error(msg)
+    }
+
     return new Promise((resolve, reject) => {
       if (!isSupported) {
         const msg = '您的瀏覽器不支援語音辨識，請使用 Chrome 瀏覽器'
@@ -170,6 +184,28 @@
   /* ═══════════════════════════════════════════════════════════
    * 2. CANVAS WAVEFORM VISUALIZER (Siri-style)
    * ═══════════════════════════════════════════════════════════ */
+
+  async function requestMicrophoneAccess() {
+    if (!window.isSecureContext && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      throw new Error('insecure-context')
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error('media-devices-unavailable')
+    }
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    stream.getTracks().forEach(track => track.stop())
+    return true
+  }
+
+  function getMicrophoneHelpMessage(err) {
+    const name = err && (err.name || err.message) || ''
+    if (name === 'insecure-context') return '麥克風需要 HTTPS 網址才能使用。請用正式 GitHub Pages 網址開啟。'
+    if (name === 'media-devices-unavailable') return '這個瀏覽器無法存取麥克風。請改用 Chrome 或 Edge。'
+    if (name === 'NotAllowedError' || name === 'PermissionDeniedError') return '瀏覽器封鎖了麥克風。請點網址列左側的鎖頭圖示，將麥克風改成允許，然後重新整理。'
+    if (name === 'NotFoundError' || name === 'DevicesNotFoundError') return '找不到麥克風。請確認耳機或電腦麥克風已連接，並在系統設定選好輸入裝置。'
+    if (name === 'NotReadableError' || name === 'TrackStartError') return '麥克風目前被其他程式占用。請關閉會議軟體或錄音程式後再試。'
+    return '麥克風啟動失敗。請確認瀏覽器與系統都已允許麥克風，或先按「略過」繼續。'
+  }
 
   let _audioCtx       = null
   let _analyser       = null
@@ -588,6 +624,8 @@
     startListening,
     stopListening,
     get isListening() { return _isListening },
+    requestMicrophoneAccess,
+    getMicrophoneHelpMessage,
 
     /** 音波視覺化 */
     initWaveform,

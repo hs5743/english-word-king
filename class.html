@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>課堂挑戰入口 | 英語單字王</title>
+  <meta name="description" content="學生輸入教師提供的 6 位數課堂碼，登入後直接加入課堂挑戰。" />
+  <meta name="theme-color" content="#07090f" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/config.js" defer></script>
+  <style>
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: var(--sp-lg);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(79,195,247,0.14), transparent 30%),
+        radial-gradient(circle at 85% 25%, rgba(245,200,66,0.12), transparent 28%),
+        var(--clr-bg-deep);
+    }
+
+    .class-entry {
+      width: min(100%, 520px);
+      padding: var(--sp-2xl) var(--sp-xl);
+      text-align: center;
+    }
+
+    .class-entry__icon {
+      font-size: 3rem;
+      margin-bottom: var(--sp-md);
+    }
+
+    .class-entry h1 {
+      font-size: 1.8rem;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .class-entry p {
+      color: var(--clr-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--sp-lg);
+    }
+
+    .class-code {
+      width: 100%;
+      height: 64px;
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+      font-family: var(--font-en);
+      margin-bottom: var(--sp-md);
+    }
+
+    .class-actions {
+      display: grid;
+      gap: var(--sp-sm);
+    }
+
+    .class-error {
+      display: none;
+      margin: var(--sp-md) 0;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,107,107,0.28);
+      border-radius: var(--r-md);
+      color: #ffb3b3;
+      background: rgba(255,107,107,0.08);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .class-meta {
+      margin-top: var(--sp-lg);
+      display: flex;
+      justify-content: center;
+      gap: var(--sp-md);
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: var(--clr-text-muted);
+    }
+  </style>
+</head>
+<body>
+  <main class="glass-card class-entry">
+    <div class="class-entry__icon">🏫</div>
+    <h1>課堂挑戰入口</h1>
+    <p>請輸入老師畫面上的 6 位數課堂碼。登入後會直接進入課堂挑戰，不會先產生今日挑戰題目。</p>
+
+    <input
+      id="classCodeInput"
+      class="type-input class-code"
+      inputmode="numeric"
+      maxlength="6"
+      autocomplete="one-time-code"
+      placeholder="000000"
+      aria-label="6 位數課堂碼"
+    />
+
+    <div id="classError" class="class-error"></div>
+
+    <div class="class-actions">
+      <button id="joinClassBtn" class="btn btn--primary btn--lg btn--full" type="button">加入課堂挑戰</button>
+      <a class="btn btn--ghost btn--full" href="join.html">改去每日挑戰</a>
+    </div>
+
+    <div class="class-meta">
+      <a href="teacher.html">教師看板</a>
+      <span>只限 @gapp.hcc.edu.tw 帳號</span>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script>
+    function showError(message) {
+      var el = document.getElementById('classError')
+      el.textContent = message
+      el.style.display = 'block'
+    }
+
+    function getClassCode() {
+      return document.getElementById('classCodeInput').value.replace(/\D/g, '').slice(0, 6)
+    }
+
+    function goToClassChallenge(code) {
+      sessionStorage.setItem('pendingClassCode', code)
+      window.location.href = 'app.html?mode=class&code=' + encodeURIComponent(code)
+    }
+
+    async function waitForConfig() {
+      var attempts = 0
+      while (!window.SupabaseConfig && attempts < 50) {
+        await new Promise(function (resolve) { setTimeout(resolve, 100) })
+        attempts++
+      }
+      if (!window.SupabaseConfig) throw new Error('系統設定尚未載入，請重新整理後再試。')
+    }
+
+    async function handleJoinClass() {
+      var code = getClassCode()
+      if (!/^\d{6}$/.test(code)) {
+        showError('請輸入老師提供的 6 位數課堂碼。')
+        return
+      }
+
+      try {
+        await waitForConfig()
+        var user = await window.SupabaseConfig.getCurrentUser()
+        if (user) {
+          goToClassChallenge(code)
+          return
+        }
+
+        sessionStorage.setItem('pendingClassCode', code)
+        var redirectTo = new URL('join.html', window.location.href).href
+        var sb = window.SupabaseConfig.getSupabase()
+        await sb.auth.signOut({ scope: 'local' }).catch(function () {})
+        await window.SupabaseConfig.signInWithGoogle(redirectTo)
+      } catch (err) {
+        showError((err && err.message) || '無法啟動登入，請重新整理後再試。')
+      }
+    }
+
+    document.getElementById('classCodeInput').addEventListener('input', function (event) {
+      event.target.value = getClassCode()
+      document.getElementById('classError').style.display = 'none'
+    })
+
+    document.getElementById('classCodeInput').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') handleJoinClass()
+    })
+
+    document.getElementById('joinClassBtn').addEventListener('click', handleJoinClass)
+
+    ;(async function init() {
+      var params = new URLSearchParams(window.location.search)
+      var code = String(sessionStorage.getItem('pendingClassCode') || params.get('classCode') || '').replace(/\D/g, '').slice(0, 6)
+      if (code) document.getElementById('classCodeInput').value = code
+
+      await waitForConfig().catch(function () {})
+      if (window.SupabaseConfig) {
+        var user = await window.SupabaseConfig.getCurrentUser()
+        var hasOAuthCode = window.location.search.indexOf('code=') !== -1
+        if (user && hasOAuthCode && /^\d{6}$/.test(code)) {
+          goToClassChallenge(code)
+        }
+      }
+    })()
+  </script>
+</body>
+</html>

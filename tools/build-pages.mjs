@@ -8,6 +8,7 @@ const outDir = path.join(root, 'dist')
 const files = [
   'index.html',
   'join.html',
+  'class.html',
   'app.html',
   'teacher.html',
   'admin.html',

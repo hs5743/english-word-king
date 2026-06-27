@@ -101,10 +101,15 @@
       updateTopbarInfo()
 
       // 4. 檢查今日是否已挑戰過
-      await checkTodayAttempt()
+      const initialClassCode = getInitialClassCode()
+      if (initialClassCode) {
+        await startClassFromCode(initialClassCode)
+      } else {
+        await checkTodayAttempt()
 
       // 5. 載入挑戰題目
-      await loadSessionChallenge()
+        await loadSessionChallenge()
+      }
 
     } catch (err) {
       console.error('[Challenge] Init error:', err)
@@ -163,6 +168,35 @@
   /* ═══════════════════════════════════════════════════════════
    * 2. LOAD CHALLENGE FROM EDGE FUNCTION
    * ═══════════════════════════════════════════════════════════ */
+
+  function getInitialClassCode() {
+    const params = new URLSearchParams(window.location.search)
+    const urlMode = params.get('mode')
+    const urlCode = params.get('code')
+    const storedCode = sessionStorage.getItem('pendingClassCode')
+    const rawCode = urlMode === 'class' ? (urlCode || storedCode) : storedCode
+    const code = String(rawCode || '').replace(/\D/g, '').slice(0, 6)
+    return /^\d{6}$/.test(code) ? code : ''
+  }
+
+  function activateModeTab(mode) {
+    document.querySelectorAll('.mode-tab').forEach(tab => {
+      if (tab.dataset.mode === mode) tab.classList.add('active')
+      else tab.classList.remove('active')
+    })
+  }
+
+  async function startClassFromCode(code) {
+    currentMode = 'class'
+    currentSessionId = null
+    activateModeTab('class')
+    document.getElementById('sessionJoinCard').style.display = 'block'
+    document.getElementById('challengeCard').style.display = 'none'
+    document.getElementById('sessionJoinError').style.display = 'none'
+    document.getElementById('sessionCodeInput').value = code
+    sessionStorage.removeItem('pendingClassCode')
+    await window.ChallengeApp.joinClassSession()
+  }
 
   async function loadSessionChallenge() {
     showLoading(true, '正在呼叫 AI 生成題目中...')

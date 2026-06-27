@@ -6,6 +6,8 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const PUBLIC_DATA_BASE = 'https://hs5743.github.io/english-word-king/data'
+
 type FallbackWord = {
   word: string
   zh: string
@@ -13,8 +15,30 @@ type FallbackWord = {
   grade: number
   chunks: string[]
   phonetic: string
+  pattern?: string
   sentence: string
   sentenceZh: string
+}
+
+type PublicVocabularyItem = {
+  id?: string
+  word?: string
+  zh?: string
+  topic?: string
+  gradeBand?: string
+  chunks?: string[]
+  patterns?: string[]
+  enabled?: boolean
+}
+
+type PublicPatternItem = {
+  id?: string
+  pattern?: string
+  zhHint?: string
+  gradeBand?: string
+  slots?: string[]
+  exampleAnswer?: string
+  enabled?: boolean
 }
 
 type ChallengeItem = {
@@ -184,8 +208,10 @@ ${patternsText}
 請直接輸出 JSON 陣列，不要有任何說明文字。`
 
     // 8. AI 出題（三段 Failover）
+    const fallbackBank = await loadPublicFallbackWords(grade)
     let challengeData: any[] | null = null
     let lastError: unknown = null
+    let challengeSource = 'ai'
 
     // 嘗試 1：主要 Gemini 金鑰
     if (keys.gemini_api_key && keys.gemini_api_key !== 'REPLACE_WITH_YOUR_GEMINI_KEY') {
@@ -222,17 +248,24 @@ ${patternsText}
 
     if (!challengeData) {
       console.warn(`AI 出題失敗，改用內建題庫 fallback：${lastError ? getErrorMessage(lastError) : '無可用金鑰'}`)
-      challengeData = buildFallbackChallenge(grade, wrongWords)
+      challengeSource = 'fallback'
+      challengeData = buildFallbackChallenge(grade, wrongWords, fallbackBank)
     }
 
     // 9. 驗證回傳資料格式
     if (!Array.isArray(challengeData) || challengeData.length === 0) {
       console.warn('AI 回傳格式異常，改用內建題庫 fallback。')
-      challengeData = buildFallbackChallenge(grade, wrongWords)
+      challengeSource = 'fallback'
+      challengeData = buildFallbackChallenge(grade, wrongWords, fallbackBank)
     }
 
     return new Response(
-      JSON.stringify({ success: true, challengeData: normalizeChallenge(challengeData, grade) }),
+      JSON.stringify({
+        success: true,
+        source: challengeSource,
+        fallbackSize: fallbackBank.length,
+        challengeData: normalizeChallenge(challengeData, grade, fallbackBank)
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
 
@@ -255,8 +288,75 @@ function getErrorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err || '')
 }
 
-function buildFallbackChallenge(grade: number, wrongWords: string[] = []): ChallengeItem[] {
-  const available = fallbackWords.filter(w => w.grade <= Math.max(3, grade))
+async function loadPublicFallbackWords(grade: number): Promise<FallbackWord[]> {
+  try {
+    const [vocabularyRes, patternsRes] = await Promise.all([
+      fetch(`${PUBLIC_DATA_BASE}/vocabulary.json`),
+      fetch(`${PUBLIC_DATA_BASE}/sentence-patterns.json`),
+    ])
+
+    if (!vocabularyRes.ok || !patternsRes.ok) {
+      throw new Error(`public data fetch failed: ${vocabularyRes.status}/${patternsRes.status}`)
+    }
+
+    const vocabulary = await vocabularyRes.json() as PublicVocabularyItem[]
+    const patterns = await patternsRes.json() as PublicPatternItem[]
+    const patternById = new Map(
+      patterns
+        .filter(item => item.enabled !== false && item.id)
+        .map(item => [item.id as string, item])
+    )
+    const maxGrade = Math.max(3, grade)
+    const mapped = vocabulary
+      .filter(item => item.enabled !== false && item.word)
+      .map(item => toFallbackWord(item, patternById))
+      .filter(item => item.grade <= maxGrade)
+
+    if (mapped.length >= 12) return mapped
+    throw new Error(`public fallback has only ${mapped.length} usable words`)
+  } catch (err) {
+    console.warn('Public fallback data unavailable; using embedded fallback:', getErrorMessage(err))
+    return fallbackWords.filter(w => w.grade <= Math.max(3, grade))
+  }
+}
+
+function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, PublicPatternItem>): FallbackWord {
+  const patternId = Array.isArray(item.patterns) ? item.patterns[0] : ''
+  const pattern = patternId ? patternById.get(patternId) : undefined
+  const word = String(item.word || '').toLowerCase().trim()
+  const exampleAnswer = pattern?.exampleAnswer || `I can see ${word}.`
+  const patternText = pattern?.pattern || 'Practice sentence'
+  const sentence = exampleAnswer.toLowerCase().includes(word)
+    ? exampleAnswer
+    : `${patternText} ${exampleAnswer}`
+
+  return {
+    word,
+    zh: item.zh || word,
+    topic: item.topic || 'Daily',
+    grade: parseGradeBand(item.gradeBand || pattern?.gradeBand),
+    chunks: Array.isArray(item.chunks) && item.chunks.length ? item.chunks : chunkWord(word),
+    phonetic: '',
+    pattern: patternText,
+    sentence,
+    sentenceZh: pattern?.zhHint || '',
+  }
+}
+
+function parseGradeBand(gradeBand?: string): number {
+  const match = String(gradeBand || '').match(/\d+/)
+  return match ? Number(match[0]) : 3
+}
+
+function chunkWord(word: string): string[] {
+  if (word.length <= 4) return [word]
+  const chunks: string[] = []
+  for (let i = 0; i < word.length; i += 3) chunks.push(word.slice(i, i + 3))
+  return chunks
+}
+
+function buildFallbackChallenge(grade: number, wrongWords: string[] = [], bank: FallbackWord[] = fallbackWords): ChallengeItem[] {
+  const available = bank.filter(w => w.grade <= Math.max(3, grade))
   const preferred = wrongWords
     .map(word => available.find(w => w.word === word))
     .filter((item): item is FallbackWord => Boolean(item))
@@ -270,9 +370,9 @@ function buildFallbackChallenge(grade: number, wrongWords: string[] = []): Chall
   return expanded.slice(0, 12).map(item => toChallengeItem(item, available))
 }
 
-function normalizeChallenge(items: any[], grade: number): ChallengeItem[] {
-  const available = fallbackWords.filter(w => w.grade <= Math.max(3, grade))
-  const source = items.length >= 12 ? items : [...items, ...buildFallbackChallenge(grade)]
+function normalizeChallenge(items: any[], grade: number, bank: FallbackWord[] = fallbackWords): ChallengeItem[] {
+  const available = bank.filter(w => w.grade <= Math.max(3, grade))
+  const source = items.length >= 12 ? items : [...items, ...buildFallbackChallenge(grade, [], bank)]
   return source.slice(0, 12).map((item, index) => {
     const fallback = available[index % available.length]
     const word = String(item.word || fallback.word).toLowerCase().trim()
@@ -283,7 +383,7 @@ function normalizeChallenge(items: any[], grade: number): ChallengeItem[] {
       topic: item.topic || fallback.topic,
       chunks: Array.isArray(item.chunks) && item.chunks.length ? item.chunks : fallback.chunks,
       phonetic: item.phonetic || fallback.phonetic,
-      pattern: item.pattern || '課綱基本句型',
+      pattern: item.pattern || fallback.pattern || 'Practice sentence',
       exampleSentence: sentence,
       sentenceZh: item.sentenceZh || fallback.sentenceZh,
       fillBlank: item.fillBlank || makeFillBlank(sentence, word),
@@ -299,7 +399,7 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     topic: item.topic,
     chunks: item.chunks,
     phonetic: item.phonetic,
-    pattern: '內建課綱句型',
+    pattern: item.pattern || 'Practice sentence',
     exampleSentence: item.sentence,
     sentenceZh: item.sentenceZh,
     fillBlank: makeFillBlank(item.sentence, item.word),
