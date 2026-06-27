@@ -55,7 +55,30 @@ type ChallengeItem = {
   distractorZhs: Record<string, string>
 }
 
+type SpiralBucket = 'weak' | 'weak-topic' | 'learning' | 'new' | 'mastered' | 'fill'
+
 const contexts = ['校園生活', '家庭晚餐', '下課時間', '運動會', '生日派對', '圖書館', '超市購物', '週末出遊']
+
+const adjectiveWords = new Set([
+  'short', 'tall', 'old', 'new', 'young', 'happy', 'sad', 'big', 'small', 'cold', 'hot',
+  'warm', 'cool', 'good', 'bad', 'high', 'low', 'long', 'wide', 'narrow', 'wet', 'dry',
+  'fast', 'quick', 'slow', 'strong', 'weak', 'dirty', 'clean', 'rich', 'poor',
+  'difficult', 'easy', 'hard', 'soft', 'correct', 'wrong', 'heavy', 'light',
+  'beautiful', 'ugly', 'sweet', 'sour', 'bitter', 'salty', 'busy', 'free', 'sick',
+  'healthy', 'hungry', 'full', 'tired', 'smart', 'excited', 'quiet',
+])
+
+const monthWords = new Set([
+  'january', 'february', 'march', 'april', 'may', 'june',
+  'july', 'august', 'september', 'october', 'november', 'december',
+])
+
+const actionWords = new Set([
+  'ask', 'talk', 'play', 'run', 'jump', 'dance', 'study', 'take', 'want', 'go',
+  'put', 'wake', 'live', 'turn', 'ride', 'fly', 'drive', 'swim', 'sing', 'read',
+  'write', 'listen', 'speak', 'look', 'open', 'close', 'eat', 'drink', 'grow', 'wash',
+  'meet', 'give', 'say', 'feel', 'hope',
+])
 
 const fallbackWords: FallbackWord[] = [
   { word: 'apple', zh: '蘋果', topic: 'Food', grade: 3, chunks: ['ap', 'ple'], phonetic: '/ˈæpəl/', sentence: 'What is this? It is an apple.', sentenceZh: '這是什麼？它是一顆蘋果。' },
@@ -92,49 +115,170 @@ const gemTiers: { name: string, min: number, maxGrade: number, hardness: number,
 ]
 
 function selectCandidatePool(
-  available: FallbackWord[], 
-  mastery: Record<string, number>, 
+  available: FallbackWord[],
+  mastery: Record<string, number>,
   wrongWords: string[]
 ): FallbackWord[] {
-  const weakPool = available.filter(w => wrongWords.includes(w.word) || mastery[w.word] === 0)
-  const learningPool = available.filter(w => mastery[w.word] === 1 || mastery[w.word] === 2)
-  const masteredPool = available.filter(w => mastery[w.word] === 3)
-  const newPool = available.filter(w => mastery[w.word] === undefined)
-
-  const shuffledWeak = shuffle(weakPool)
-  const shuffledNew = shuffle(newPool)
-  const shuffledLearning = shuffle(learningPool)
-  const shuffledMastered = shuffle(masteredPool)
-
+  const normalizedWrongWords = normalizeWordList(wrongWords)
+  const wrongSet = new Set(normalizedWrongWords)
+  const weakTopics = getWeakTopics(available, mastery, normalizedWrongWords)
   const selected: FallbackWord[] = []
-  
-  // 優先將弱項錯題、學習中單字加入
-  selected.push(...shuffledWeak)
-  selected.push(...shuffledLearning)
-  selected.push(...shuffledNew)
-  selected.push(...shuffledMastered)
+  const selectedWords = new Set<string>()
+  const bucketCounts: Record<SpiralBucket, number> = {
+    weak: 0,
+    'weak-topic': 0,
+    learning: 0,
+    new: 0,
+    mastered: 0,
+    fill: 0,
+  }
 
-  // 去除重複單字
-  const uniqueSelected = selected.filter((item, index, self) =>
-    self.findIndex(t => t.word === item.word) === index
-  )
-
-  // 裁切至 exactly 10 個單字
-  let finalSelected = uniqueSelected.slice(0, 10)
-
-  // 兜底：如果不足 10 個，從 available 中隨機補齊
-  if (finalSelected.length < 10) {
-    const selectedWords = new Set(finalSelected.map(w => w.word))
-    const remaining = available.filter(w => !selectedWords.has(w.word))
-    const shuffledRemaining = shuffle(remaining)
-    
-    const needed = Math.min(10, available.length) - finalSelected.length
-    if (needed > 0) {
-      finalSelected.push(...shuffledRemaining.slice(0, needed))
+  const addFrom = (pool: FallbackWord[], quota: number, bucket: SpiralBucket) => {
+    const shuffled = shuffle(pool)
+    for (const item of shuffled) {
+      if (selected.length >= 10 || bucketCounts[bucket] >= quota) break
+      const key = normalizeWord(item.word)
+      if (!key || selectedWords.has(key)) continue
+      selectedWords.add(key)
+      selected.push(item)
+      bucketCounts[bucket]++
     }
   }
 
-  return finalSelected
+  const weakPool = available.filter(w => wrongSet.has(normalizeWord(w.word)) || mastery[normalizeWord(w.word)] === 0)
+  const weakTopicPool = available.filter(w => {
+    const key = normalizeWord(w.word)
+    return weakTopics.includes(normalizeTopicName(w.topic)) && !wrongSet.has(key) && mastery[key] !== 3
+  })
+  const learningPool = available.filter(w => {
+    const score = mastery[normalizeWord(w.word)]
+    return score === 1 || score === 2
+  })
+  const newPool = available.filter(w => mastery[normalizeWord(w.word)] === undefined)
+  const masteredPool = available.filter(w => mastery[normalizeWord(w.word)] === 3)
+
+  // P5 Spiral 配額：錯題/低熟練優先，其次補弱項主題、新字、學習中字與舊字複習。
+  addFrom(weakPool, 3, 'weak')
+  addFrom(weakTopicPool, 1, 'weak-topic')
+  addFrom(newPool, 3, 'new')
+  addFrom(learningPool, 2, 'learning')
+  addFrom(masteredPool, 1, 'mastered')
+
+  const fillPriority = [
+    weakPool,
+    weakTopicPool,
+    learningPool,
+    newPool,
+    masteredPool,
+    available,
+  ]
+
+  for (const pool of fillPriority) {
+    if (selected.length >= Math.min(10, available.length)) break
+    addFrom(pool, 10, 'fill')
+  }
+
+  console.log(`[P5 Spiral] selected=${selected.length}; weak=${bucketCounts.weak}; weakTopic=${bucketCounts['weak-topic']}; new=${bucketCounts.new}; learning=${bucketCounts.learning}; mastered=${bucketCounts.mastered}; fill=${bucketCounts.fill}; weakTopics=${weakTopics.join(',') || 'none'}; words=${selected.map(w => w.word).join(',')}`)
+
+  return selected
+}
+
+function normalizeWord(value: unknown): string {
+  return String(value || '').toLowerCase().trim()
+}
+
+function normalizeWordList(values: unknown): string[] {
+  if (!Array.isArray(values)) return []
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const value of values) {
+    const word = normalizeWord(value)
+    if (!word || seen.has(word)) continue
+    seen.add(word)
+    result.push(word)
+  }
+  return result
+}
+
+function mergeWordLists(...lists: string[][]): string[] {
+  const seen = new Set<string>()
+  const merged: string[] = []
+  for (const list of lists) {
+    for (const word of normalizeWordList(list)) {
+      if (seen.has(word)) continue
+      seen.add(word)
+      merged.push(word)
+    }
+  }
+  return merged
+}
+
+function extractWrongWords(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return normalizeWordList(value.map(item => {
+    if (typeof item === 'string') return item
+    if (item && typeof item === 'object' && 'word' in item) return (item as { word?: unknown }).word
+    return ''
+  }))
+}
+
+function normalizeTopicName(topic: string): string {
+  const clean = String(topic || '').trim().replace(/,+$/, '')
+  const lower = clean.toLowerCase()
+  const aliases: Record<string, string> = {
+    'sport': 'Sports',
+    'sports': 'Sports',
+    'place': 'Places',
+    'places': 'Places',
+    'geographical': 'Places',
+    'weather & nature': 'Weather',
+    'other verbs': 'Actions',
+    'verbs': 'Actions',
+    'other adjectives': 'Adjectives',
+    'personal characteristics': 'Adjectives',
+    'sizes & measurements': 'Adjectives',
+    'other nouns': 'Other',
+  }
+  return aliases[lower] || clean || 'Other'
+}
+
+function isAdjectiveWord(word: string, topic = ''): boolean {
+  const normalizedTopic = normalizeTopicName(topic)
+  return normalizedTopic === 'Adjectives' || normalizedTopic === 'Personal' || adjectiveWords.has(normalizeWord(word))
+}
+
+function isMonthWord(word: string): boolean {
+  return monthWords.has(normalizeWord(word))
+}
+
+function isActionWord(word: string, topic = ''): boolean {
+  const normalizedTopic = normalizeTopicName(topic)
+  return normalizedTopic === 'Actions' || normalizedTopic === 'Verbs' || actionWords.has(normalizeWord(word))
+}
+
+function getWeakTopics(
+  available: FallbackWord[],
+  mastery: Record<string, number>,
+  wrongWords: string[]
+): string[] {
+  const wordToTopic = new Map(available.map(w => [normalizeWord(w.word), normalizeTopicName(w.topic)]))
+  const topicScores = new Map<string, number>()
+  const addScore = (word: string, points: number) => {
+    const topic = wordToTopic.get(normalizeWord(word))
+    if (!topic) return
+    topicScores.set(topic, (topicScores.get(topic) || 0) + points)
+  }
+
+  wrongWords.forEach(word => addScore(word, 3))
+  for (const [word, score] of Object.entries(mastery || {})) {
+    if (score === 0) addScore(word, 2)
+    if (score === 1) addScore(word, 1)
+  }
+
+  return [...topicScores.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([topic]) => topic)
 }
 
 // ─── 主服務入口 ───────────────────────────────────────────────
@@ -231,6 +375,33 @@ serve(async (req) => {
 
     console.log(`[Adaptive Learning] Student UID: ${user.id}, Mastered: ${masteredCount}, Tier: ${currentTier.name}, Max Grade: ${adaptiveMaxGrade}`)
 
+    const requestWrongWords = normalizeWordList(wrongWords)
+    let spiralWrongWords = [...requestWrongWords]
+
+    try {
+      if (devSecret === 'super-secret-test-token-2026' && body.testRecentWrongWords) {
+        spiralWrongWords = mergeWordLists(spiralWrongWords, extractWrongWords(body.testRecentWrongWords))
+      } else {
+        const { data: recentAttempts, error: recentError } = await supabase
+          .from('daily_attempts')
+          .select('wrong_words')
+          .eq('student_uid', user.id)
+          .order('created_at', { ascending: false })
+          .limit(8)
+
+        if (recentError) {
+          console.warn('讀取近期錯題失敗，僅使用本次前端錯題:', recentError.message)
+        } else {
+          const recentWrongWords = (recentAttempts || []).flatMap(row => extractWrongWords(row.wrong_words))
+          spiralWrongWords = mergeWordLists(spiralWrongWords, recentWrongWords)
+        }
+      }
+    } catch (err) {
+      console.warn('合併 Spiral 錯題失敗，僅使用本次前端錯題:', getErrorMessage(err))
+    }
+
+    console.log(`[P5 Spiral] wrongWords merged=${spiralWrongWords.length}; request=${requestWrongWords.length}`)
+
     // 5. 每日計分挑戰次數限制（練習模式不限制）
     if (!isPractice) {
       const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Taipei' }) // yyyy-mm-dd
@@ -262,7 +433,7 @@ serve(async (req) => {
 
     // 7. 載入題庫與過濾符合適性上限的單字
     const fallbackBank = await loadPublicFallbackWords(adaptiveMaxGrade)
-    const candidatePool = selectCandidatePool(fallbackBank, studentMastery, wrongWords)
+    const candidatePool = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
     const candidatesJson = candidatePool.map(c => ({
       word: c.word,
       zh: c.zh,
@@ -512,7 +683,7 @@ async function loadPublicFallbackWords(grade: number): Promise<FallbackWord[]> {
     )
     const maxGrade = Math.max(3, grade)
     const mapped = vocabulary
-      .filter(item => item.enabled !== false && item.word)
+      .filter(isUsablePublicVocabularyItem)
       .map(item => toFallbackWord(item, patternById))
       .filter(item => item.grade <= maxGrade)
 
@@ -522,6 +693,18 @@ async function loadPublicFallbackWords(grade: number): Promise<FallbackWord[]> {
     console.warn('Public fallback data unavailable; using embedded fallback:', getErrorMessage(err))
     return fallbackWords.filter(w => w.grade <= Math.max(3, grade))
   }
+}
+
+function isUsablePublicVocabularyItem(item: PublicVocabularyItem): boolean {
+  const word = normalizeWord(item.word)
+  const zh = String(item.zh || '').trim()
+  if (item.enabled === false || !word) return false
+
+  // 避免 PDF/地名抽取污染進入學生題庫。
+  if (word === 'expansion' && /新竹縣|鳳岡|新港|豐田/.test(zh)) return false
+  if (/新竹縣|鳳岡區/.test(zh)) return false
+
+  return true
 }
 
 function repairGrammar(
@@ -534,6 +717,17 @@ function repairGrammar(
 ): { sentence: string; pattern: string; sentenceZh: string } {
   const wordClean = word.toLowerCase().trim()
   const topicClean = (topic || '').trim()
+
+  if (isMonthWord(wordClean)) {
+    return buildSmartDefaultSentence(wordClean, zh, 'Time')
+  }
+
+  if (isActionWord(wordClean, topicClean)) {
+    const lower = defaultSentence.toLowerCase()
+    if (lower.includes('i see a') || lower.includes('i see an') || lower.includes('there is a') || lower.includes('there is an')) {
+      return buildSmartDefaultSentence(wordClean, zh, 'Actions')
+    }
+  }
 
   // 1. 如果單字是 Adjectives (形容詞) 且為自動生成句，進行優雅替換
   if (topicClean === 'Adjectives' || topicClean === 'Personal' || ['short', 'tall', 'old', 'new', 'young', 'happy', 'sad', 'big', 'small', 'cold', 'hot', 'warm', 'cool', 'good', 'bad', 'high', 'low', 'long', 'wide', 'narrow', 'wet', 'dry', 'fast', 'quick', 'slow', 'strong', 'weak', 'dirty', 'clean', 'rich', 'poor', 'difficult', 'easy', 'hard', 'soft', 'correct', 'wrong', 'heavy', 'light', 'beautiful', 'ugly', 'sweet', 'sour', 'bitter', 'salty', 'busy', 'free', 'sick', 'healthy', 'hungry', 'full', 'tired', 'smart'].includes(wordClean)) {
@@ -827,6 +1021,49 @@ function buildSmartDefaultSentence(word: string, zh: string, topic: string): { s
   const startsWithVowel = /^[aeiou]/i.test(word)
   const article = startsWithVowel ? 'an' : 'a'
 
+  if (isMonthWord(word)) {
+    const month = word.charAt(0).toUpperCase() + word.slice(1)
+    return {
+      sentence: `${month} is a month of the year.`,
+      pattern: '[month] is a month of the year.',
+      sentenceZh: `${zh}是一年中的一個月份。`
+    }
+  }
+
+  if (isAdjectiveWord(word, topic)) {
+    return {
+      sentence: `The cat is ${word}.`,
+      pattern: 'The [noun] is [adjective].',
+      sentenceZh: `這隻貓很${zh}。`
+    }
+  }
+
+  if (isActionWord(word, topic)) {
+    const actionPatterns: Record<string, { sentence: string; pattern: string; sentenceZh: string }> = {
+      take: { sentence: 'Please take this book.', pattern: 'Please [verb] this [noun].', sentenceZh: `請${zh}這本書。` },
+      want: { sentence: 'I want some water.', pattern: 'I [verb] some [noun].', sentenceZh: `我${zh}一些水。` },
+      go: { sentence: 'I go to school every day.', pattern: 'I [verb] to [place] every day.', sentenceZh: `我每天去學校。` },
+      put: { sentence: 'Put the pencil on the desk.', pattern: '[verb] the [noun] on the [place].', sentenceZh: `把鉛筆放在桌上。` },
+      wake: { sentence: 'I wake up at seven.', pattern: 'I [verb] up at [time].', sentenceZh: `我七點起床。` },
+      live: { sentence: 'I live in Taiwan.', pattern: 'I [verb] in [place].', sentenceZh: `我住在台灣。` },
+      drink: { sentence: 'I drink water every day.', pattern: 'I [verb] [noun] every day.', sentenceZh: `我每天喝水。` },
+      grow: { sentence: 'Plants grow in spring.', pattern: '[noun] [verb] in [season].', sentenceZh: `植物在春天成長。` },
+      wash: { sentence: 'I wash my hands before lunch.', pattern: 'I [verb] my [body part] before [time].', sentenceZh: `我午餐前洗手。` },
+      meet: { sentence: 'I meet my friend at school.', pattern: 'I [verb] my [person] at [place].', sentenceZh: `我在學校遇見朋友。` },
+      give: { sentence: 'Please give me a pencil.', pattern: 'Please [verb] me a [noun].', sentenceZh: `請給我一枝鉛筆。` },
+      say: { sentence: 'Please say it again.', pattern: 'Please [verb] it again.', sentenceZh: `請再說一次。` },
+      feel: { sentence: 'I feel happy today.', pattern: 'I [verb] [adjective] today.', sentenceZh: `我今天覺得很開心。` },
+      hope: { sentence: 'I hope you feel better soon.', pattern: 'I [verb] you feel better soon.', sentenceZh: `我希望你很快好起來。` },
+    }
+    const special = actionPatterns[normalizeWord(word)]
+    if (special) return special
+    return {
+      sentence: `I can ${word}.`,
+      pattern: 'I can [verb].',
+      sentenceZh: `我會${zh}。`
+    }
+  }
+
   const topicMap: Record<string, () => { sentence: string; pattern: string; sentenceZh: string }> = {
     'Food': ()    => ({ sentence: `I like ${word}.`, pattern: 'I like [noun].', sentenceZh: `我喜歡${zh}。` }),
     'Animals': () => ({ sentence: `Look! There is ${article} ${word}.`, pattern: `There is ${article} [animal].`, sentenceZh: `看！有一隻${zh}。` }),
@@ -842,9 +1079,6 @@ function buildSmartDefaultSentence(word: string, zh: string, topic: string): { s
     'Place': () => { const cap = word.charAt(0).toUpperCase() + word.slice(1); return { sentence: `I want to visit ${cap} someday.`, pattern: 'I want to visit [place].', sentenceZh: `我希望有一天能去${zh}。` } },
     'Places': () => { const cap = word.charAt(0).toUpperCase() + word.slice(1); return { sentence: `I want to visit ${cap} someday.`, pattern: 'I want to visit [place].', sentenceZh: `我希望有一天能去${zh}。` } },
     'Prepositions': () => ({ sentence: `Come and play ${word} me!`, pattern: 'Come and play [preposition] me!', sentenceZh: `來和我一起玩吧！` }),
-    'Actions': () => ({ sentence: `I can ${word}.`, pattern: 'I can [verb].', sentenceZh: `我會${zh}。` }),
-    'Verbs': () => ({ sentence: `I can ${word}.`, pattern: 'I can [verb].', sentenceZh: `我會${zh}。` }),
-    'Adjectives': () => ({ sentence: `The cat is ${word}.`, pattern: 'The [noun] is [adjective].', sentenceZh: `這隻貓很${zh}。` }),
     'Health': () => ({ sentence: `Exercise keeps you ${word}.`, pattern: 'Exercise keeps you [adjective].', sentenceZh: `運動讓你保持${zh}。` }),
   }
 
@@ -944,7 +1178,7 @@ function normalizeChallenge(
         const aiSentenceZh = String(item.sentenceZh || '').trim()
 
         // P3 語法自我檢查：AI 句子通過驗證則保留，否則 fallback 回標準句
-        const validation = validateAISentence(aiSentence, wordClean)
+        const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
         let finalSentence: string
         let finalSentenceZh: string
 
@@ -960,7 +1194,7 @@ function normalizeChallenge(
           console.warn(`[P3 ❌ AI句不符，使用標準句] word=${wordClean} | reason=${validation.reason} | ai="${aiSentence}" | fallback="${finalSentence}"`)
         }
 
-        const distractors = buildDistractors(wordClean, available, item.distractors)
+        const distractors = buildDistractors(wordClean, available, item.distractors, candidate.topic)
         const distractorZhs: Record<string, string> = {}
         distractors.forEach(d => {
           const found = available.find(w => w.word.toLowerCase().trim() === d.toLowerCase().trim())
@@ -1019,7 +1253,7 @@ function normalizeChallenge(
 }
 
 function toChallengeItem(item: FallbackWord, available: FallbackWord[]): ChallengeItem {
-  const distractors = buildDistractors(item.word, available)
+  const distractors = buildDistractors(item.word, available, [], item.topic)
   const distractorZhs: Record<string, string> = {}
   distractors.forEach(d => {
     const found = available.find(w => w.word.toLowerCase().trim() === d.toLowerCase().trim())
@@ -1042,7 +1276,7 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
 }
 
 // P3 後端語法自我檢查：驗證 AI 生成的句子是否符合品質標準
-function validateAISentence(sentence: string, word: string): { ok: boolean; reason: string } {
+function validateAISentence(sentence: string, word: string, topic = ''): { ok: boolean; reason: string } {
   if (!sentence || sentence.trim().length === 0) {
     return { ok: false, reason: 'empty' }
   }
@@ -1070,6 +1304,44 @@ function validateAISentence(sentence: string, word: string): { ok: boolean; reas
     if (pat.test(s)) return { ok: false, reason: 'banned_pattern:I_see_a' }
   }
 
+  // 關卡 4: 形容詞不可被當作名詞受詞硬塞進 I like / I want / I have。
+  if (isAdjectiveWord(word, topic)) {
+    const adjectiveAsObjectPatterns = [
+      new RegExp(`\\bI like ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bI want ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bI have ${escapedWord}\\b`, 'i'),
+    ]
+    for (const pat of adjectiveAsObjectPatterns) {
+      if (pat.test(s)) return { ok: false, reason: 'adjective_used_as_object' }
+    }
+  }
+
+  // 關卡 5: 月份不可被當作可數物品，例如 "There is a May"。
+  if (isMonthWord(word)) {
+    const monthAsObjectPatterns = [
+      new RegExp(`\\b(a|an) ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bI see ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bThere is ${escapedWord}\\b`, 'i'),
+    ]
+    for (const pat of monthAsObjectPatterns) {
+      if (pat.test(s)) return { ok: false, reason: 'month_used_as_object' }
+    }
+  }
+
+  // 關卡 6: 動作詞不可被當作可數名詞，例如 "There is a take"。
+  if (isActionWord(word, topic)) {
+    const actionAsNounPatterns = [
+      new RegExp(`\\bThere is (a|an) ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bI see (a|an) ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bI like ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bHe is my ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bShe is my ${escapedWord}\\b`, 'i'),
+    ]
+    for (const pat of actionAsNounPatterns) {
+      if (pat.test(s)) return { ok: false, reason: 'verb_used_as_noun' }
+    }
+  }
+
   return { ok: true, reason: '' }
 }
 
@@ -1078,10 +1350,24 @@ function makeFillBlank(sentence: string, word: string): string {
   return sentence.replace(new RegExp(`\\b${escaped}\\b`, 'i'), '____')
 }
 
-function buildDistractors(word: string, available: FallbackWord[], provided: string[] = []): string[] {
-  const clean = provided.filter(d => d && d !== word).slice(0, 3)
-  const fill = shuffle(available.map(item => item.word).filter(candidate => candidate !== word && !clean.includes(candidate)))
-  return [...clean, ...fill].slice(0, 3)
+function buildDistractors(word: string, available: FallbackWord[], provided: string[] = [], topic = ''): string[] {
+  const targetTopic = normalizeTopicName(topic)
+  const wordByKey = new Map(available.map(item => [normalizeWord(item.word), item]))
+  const clean = normalizeWordList(provided)
+    .filter(d => {
+      const item = wordByKey.get(d)
+      return d !== word && item && normalizeTopicName(item.topic) === targetTopic
+    })
+    .slice(0, 3)
+  const sameTopicFill = shuffle(available
+    .filter(item => normalizeTopicName(item.topic) === targetTopic)
+    .map(item => item.word)
+    .filter(candidate => candidate !== word && !clean.includes(candidate)))
+  const generalFill = shuffle(available
+    .map(item => item.word)
+    .filter(candidate => candidate !== word && !clean.includes(candidate) && !sameTopicFill.includes(candidate)))
+
+  return [...clean, ...sameTopicFill, ...generalFill].slice(0, 3)
 }
 
 function shuffle<T>(items: T[]): T[] {

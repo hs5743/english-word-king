@@ -1938,7 +1938,7 @@
     "id": "junior-grow",
     "word": "grow",
     "zh": "成長;長大",
-    "topic": "Family",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -1970,7 +1970,7 @@
     "id": "junior-live",
     "word": "live",
     "zh": "居住",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -2137,7 +2137,7 @@
     "id": "passport-drink",
     "word": "drink",
     "zh": "喝",
-    "topic": "Food",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -2460,7 +2460,7 @@
     "id": "junior-hungry",
     "word": "hungry",
     "zh": "餓的",
-    "topic": "Food",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -3215,7 +3215,7 @@
     "id": "junior-wash",
     "word": "wash",
     "zh": "洗",
-    "topic": "House",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5257,7 +5257,7 @@
     "id": "junior-ask",
     "word": "ask",
     "zh": "問",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5290,7 +5290,7 @@
     "id": "junior-say",
     "word": "say",
     "zh": "說",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5322,7 +5322,7 @@
     "id": "junior-talk",
     "word": "talk",
     "zh": "說話、談話",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -7157,7 +7157,7 @@
     "id": "junior-fast",
     "word": "fast",
     "zh": "快的",
-    "topic": "Transportation",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -7173,7 +7173,7 @@
     "id": "passport-slow",
     "word": "slow",
     "zh": "慢的",
-    "topic": "Transportation",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -8668,7 +8668,7 @@
     "id": "elementary-go",
     "word": "go",
     "zh": "走",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -8732,7 +8732,7 @@
     "id": "junior-put",
     "word": "put",
     "zh": "放",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8844,7 +8844,7 @@
     "id": "junior-feel",
     "word": "feel",
     "zh": "感覺",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8892,7 +8892,7 @@
     "id": "passport-hope",
     "word": "hope",
     "zh": "希望",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -8988,7 +8988,7 @@
     "id": "passport-meet",
     "word": "meet",
     "zh": "遇見、會面",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9116,7 +9116,7 @@
     "id": "elementary-want",
     "word": "want",
     "zh": "想要",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -9132,7 +9132,7 @@
     "id": "junior-give",
     "word": "give",
     "zh": "給",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9309,7 +9309,7 @@
     "id": "junior-take",
     "word": "take",
     "zh": "攜帶、拿取",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9357,7 +9357,7 @@
     "id": "passport-wake",
     "word": "wake",
     "zh": "醒來、喚醒",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -10124,7 +10124,7 @@
     "patterns": [
       "pat-auto-expansion"
     ],
-    "enabled": true,
+    "enabled": false,
     "needsReview": true
   },
   {
