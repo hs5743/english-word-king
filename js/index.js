@@ -141,19 +141,47 @@ async function loadSchoolScores(sb) {
 }
 
 /* ── 個人排行榜 ────────────────────────────────────────── */
+let _leaderboardCache = []   // 快取全部資料，供頁籤切換使用
+let _currentTab = 'all'      // 目前頁籤
+
 async function loadLeaderboard(sb) {
   const list = document.getElementById('leaderboardList')
   if (!list) return
 
-  const { data, error } = await sb.from('student_leaderboard').select('*').limit(10)
+  // 一次撈取足夠多筆（讓每個學校都能顯示 Top 10）
+  const { data, error } = await sb.from('student_leaderboard').select('*').limit(100)
   if (error || !data || data.length === 0) {
     list.innerHTML = '<li style="text-align:center;padding:var(--sp-xl);color:var(--clr-text-muted);">尚無紀錄，成為第一位挑戰者吧！</li>'
     return
   }
 
+  _leaderboardCache = data
+  renderLeaderboard(_currentTab)
+}
+
+function renderLeaderboard(school) {
+  const list = document.getElementById('leaderboardList')
+  if (!list) return
+
   const rankIcons = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
-  list.innerHTML = data.map(s => {
+  // 根據頁籤過濾，再重新排名
+  let filtered = school === 'all'
+    ? [..._leaderboardCache]
+    : _leaderboardCache.filter(s => s.school === school)
+
+  // 校內榜：依 total_score 重新排序並給予校內名次
+  filtered = filtered
+    .sort((a, b) => Number(b.total_score) - Number(a.total_score))
+    .slice(0, 10)
+    .map((s, idx) => ({ ...s, displayRank: idx + 1 }))
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<li style="text-align:center;padding:var(--sp-xl);color:var(--clr-text-muted);">此學校目前尚無排名紀錄。</li>'
+    return
+  }
+
+  list.innerHTML = filtered.map(s => {
     let gemTag = ''
     if (s.mastered_words !== undefined) {
       let currentTier = gemTiers[0]
@@ -166,10 +194,11 @@ async function loadLeaderboard(sb) {
       gemTag = ` <span style="font-size:0.75rem; padding: 2px 6px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; color: var(--clr-gold-1); margin-left: 6px; font-weight: bold; white-space: nowrap;">${currentTier.emoji} ${currentTier.name.split(' ')[0]}</span>`
     }
 
+    const rank = s.displayRank
     return `
       <li class="leaderboard__item">
-        <span class="leaderboard__rank leaderboard__rank--${s.rank}">
-          ${rankIcons[s.rank] || `#${s.rank}`}
+        <span class="leaderboard__rank leaderboard__rank--${rank}">
+          ${rankIcons[rank] || `#${rank}`}
         </span>
         <div style="flex:1;">
           <div class="leaderboard__name">${escHtml(s.name)}${gemTag}</div>
@@ -179,6 +208,28 @@ async function loadLeaderboard(sb) {
       </li>
     `
   }).join('')
+}
+
+function switchLeaderboardTab(school, el) {
+  _currentTab = school
+
+  // 重設所有按鈕樣式
+  document.querySelectorAll('.lb-tab').forEach(btn => {
+    btn.style.background = 'rgba(255,255,255,0.04)'
+    btn.style.border = '1px solid rgba(255,255,255,0.1)'
+    btn.style.color = 'var(--clr-text-muted)'
+    btn.style.fontWeight = 'normal'
+  })
+
+  // 設定選中按鈕樣式
+  if (el) {
+    el.style.background = 'linear-gradient(135deg,rgba(245,200,66,0.2),rgba(79,195,247,0.1))'
+    el.style.border = '1px solid rgba(245,200,66,0.5)'
+    el.style.color = 'var(--clr-gold-1)'
+    el.style.fontWeight = 'bold'
+  }
+
+  renderLeaderboard(school)
 }
 
 /* ── 跑馬燈動態 ────────────────────────────────────────── */

@@ -153,8 +153,28 @@
       <section class="animate-in animate-in--delay-3" id="leaderboard" style="margin-bottom:var(--sp-xl);">
         <div class="section-header">
           <div class="section-header__line"></div>
-          <span class="section-title">👑 個人總積分榜 Top 10</span>
+          <span class="section-title">👑 個人積分排行榜 Top 10</span>
           <div class="section-header__line"></div>
+        </div>
+
+        <!-- 學校頁籤 -->
+        <div id="leaderboardTabs" style="display:flex; gap:8px; justify-content:center; margin-bottom:1rem; flex-wrap:wrap;">
+          <button onclick="switchLeaderboardTab('all', this)" class="lb-tab lb-tab--active" id="lbTab-all"
+            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(245,200,66,0.5); background: linear-gradient(135deg,rgba(245,200,66,0.2),rgba(79,195,247,0.1)); color:var(--clr-gold-1); font-weight:bold; font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
+            🌏 跨校聯合榜
+          </button>
+          <button onclick="switchLeaderboardTab('新港國小', this)" class="lb-tab" id="lbTab-xingang"
+            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--clr-text-muted); font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
+            🏫 新港國小
+          </button>
+          <button onclick="switchLeaderboardTab('鳳岡國小', this)" class="lb-tab" id="lbTab-fenggang"
+            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--clr-text-muted); font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
+            🏫 鳳岡國小
+          </button>
+          <button onclick="switchLeaderboardTab('豐田國小', this)" class="lb-tab" id="lbTab-fengtian"
+            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--clr-text-muted); font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
+            🏫 豐田國小
+          </button>
         </div>
 
         <div class="glass-card" style="padding:var(--sp-lg);">
