@@ -894,36 +894,12 @@
       showState('loadingState')
 
       try {
-        // Check role first
-        var role = 'student'
-        if (user.email === 'hs5743@gapp.hcc.edu.tw') {
-          role = 'super_admin'
-        } else {
-          var sb = window.SupabaseConfig.getSupabase()
-          var { data: roleData } = await sb
-            .from('user_roles')
-            .select('role')
-            .eq('email', user.email)
-            .single()
-          if (roleData && roleData.role) {
-            role = roleData.role
-          }
-        }
-
         var redirectUrl = 'app.html'
-        if (role === 'super_admin' || role === 'admin') {
-          redirectUrl = 'admin.html'
-        } else if (role === 'teacher') {
-          redirectUrl = 'teacher.html'
-        } else {
-          // Student - ensure roster profile exists
-          var roster = await window.SupabaseConfig.ensureStudentProfile(user)
-          // Persist school & student info
-          var selectedSchool = schoolSelect.value
-          sessionStorage.setItem('selectedSchool', roster.school || selectedSchool)
-          sessionStorage.setItem('studentName',    roster.name  || (user.user_metadata && user.user_metadata.full_name) || '')
-          sessionStorage.setItem('studentEmail',   user.email   || '')
-        }
+        var roster = await window.SupabaseConfig.ensureStudentProfile(user)
+        var selectedSchool = schoolSelect.value
+        sessionStorage.setItem('selectedSchool', roster.school || selectedSchool)
+        sessionStorage.setItem('studentName',    roster.name  || (user.user_metadata && user.user_metadata.full_name) || '')
+        sessionStorage.setItem('studentEmail',   user.email   || '')
 
         // Populate success card
         var displayName  = (user.user_metadata && user.user_metadata.full_name) || user.email
@@ -1026,28 +1002,7 @@
           await handleAuthCallback(user)
         } else {
           // Already authenticated — redirect based on role
-          var role = 'student'
-          if (user.email === 'hs5743@gapp.hcc.edu.tw') {
-            role = 'super_admin'
-          } else {
-            var sb = window.SupabaseConfig.getSupabase()
-            var { data: roleData } = await sb
-              .from('user_roles')
-              .select('role')
-              .eq('email', user.email)
-              .single()
-            if (roleData && roleData.role) {
-              role = roleData.role
-            }
-          }
-
-          if (role === 'super_admin' || role === 'admin') {
-            window.location.href = 'admin.html'
-          } else if (role === 'teacher') {
-            window.location.href = 'teacher.html'
-          } else {
-            window.location.href = 'app.html'
-          }
+          await handleAuthCallback(user)
         }
         return
       }

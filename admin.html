@@ -150,6 +150,17 @@
   </div>
 
   <!-- ── Access Denied Screen ── -->
+  <div class="container" id="loginScreen" style="display:none;">
+    <div class="glass-card denied-card animate-in">
+      <div style="font-size:3rem;margin-bottom:var(--sp-md);">⚙️</div>
+      <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:var(--sp-sm);">管理員登入</h2>
+      <p style="font-size:0.9rem;color:var(--clr-text-muted);margin-bottom:var(--sp-lg);">
+        請使用已授權的學校 Google 帳號登入後台。
+      </p>
+      <button class="btn btn--primary" onclick="handlePageLogin()">以 Google 登入管理員後台</button>
+    </div>
+  </div>
+
   <div class="container" id="accessDeniedScreen" style="display:none;">
     <div class="glass-card denied-card animate-in">
       <div style="font-size: 3.5rem; margin-bottom: var(--sp-md);">🔒</div>
@@ -410,7 +421,7 @@
       currentUser = await window.SupabaseConfig.getCurrentUser();
 
       if (!currentUser) {
-        window.location.href = 'join.html';
+        document.getElementById('loginScreen').style.display = 'block';
         return;
       }
 
@@ -463,8 +474,20 @@
     }
 
     function showAccessDenied() {
+      document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('accessDeniedScreen').style.display = 'block';
       document.getElementById('dashboardScreen').style.display = 'none';
+    }
+
+    async function handlePageLogin() {
+      showLoading(true, '正在開啟 Google 登入...');
+      try {
+        await window.SupabaseConfig.signInWithGoogle(window.location.href);
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('無法開啟 Google 登入：' + err.message);
+      }
     }
 
     function handleLogout() {

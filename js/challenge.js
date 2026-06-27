@@ -67,14 +67,29 @@
 
     try {
       // 2. 獲取學生檔案
-      const { data: profile, error: profileError } = await supabase
+      let { data: profile, error: profileError } = await supabase
         .from('students')
         .select('*')
         .eq('uid', currentUser.id)
-        .single()
+        .maybeSingle()
 
       if (profileError || !profile) {
-        showToast('無法取得您的學生資料，請重新登入。', 'error')
+        try {
+          await window.SupabaseConfig.ensureStudentProfile(currentUser)
+          const retry = await supabase
+            .from('students')
+            .select('*')
+            .eq('uid', currentUser.id)
+            .maybeSingle()
+          profile = retry.data
+          profileError = retry.error
+        } catch (bootstrapError) {
+          console.error('[Challenge] profile bootstrap error:', bootstrapError)
+        }
+      }
+
+      if (profileError || !profile) {
+        showToast('無法取得您的學生資料，請確認已在學生名冊並重新登入。', 'error')
         await new Promise(r => setTimeout(r, 2000))
         window.location.href = 'join.html'
         return
