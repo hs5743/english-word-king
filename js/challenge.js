@@ -15,6 +15,26 @@
 ;(function () {
   'use strict'
 
+  // 16階礦物寶石等級科普定義
+  const gemTiers = [
+    { name: "滑石 (Talc)", emoji: "🌱", min: 0, hardness: 1, desc: "世界上最柔軟的礦物，硬度只有 1，常用來製作爽身粉，摸起來滑滑的！" },
+    { name: "石膏 (Gypsum)", emoji: "🐚", min: 5, hardness: 2, desc: "硬度 2，非常容易被指甲刮傷，常被用來製作雕塑和粉筆喔！" },
+    { name: "方解石 (Calcite)", emoji: "💎", min: 12, hardness: 3, desc: "硬度 3，具有很有趣的雙折射現象，光線穿過它會變兩條！" },
+    { name: "螢石 (Fluorite)", emoji: "🌟", min: 20, hardness: 4, desc: "硬度 4，因為在紫外線照射下會發出美麗螢光而得名，顏色非常豐富。" },
+    { name: "磷灰石 (Apatite)", emoji: "🦕", min: 30, hardness: 5, desc: "硬度 5，它是我們牙齒和骨骼裡重要的礦物成分喔！" },
+    { name: "正長石 (Orthoclase)", emoji: "🪵", min: 42, hardness: 6, desc: "硬度 6，常出現在花崗岩中，是地殼中非常豐富的長石類礦物。" },
+    { name: "石英 / 水晶 (Quartz)", emoji: "🔮", min: 55, hardness: 7, desc: "硬度 7，成分是二氧化矽，純淨時透明如冰，常被做成漂亮的裝飾品。" },
+    { name: "黃玉 / 托帕石 (Topaz)", emoji: "💛", min: 70, hardness: 8, desc: "硬度 8，通常呈現金黃色或天藍色，在古代被視為友誼與希望的象徵。" },
+    { name: "石榴石 (Garnet)", emoji: "🍇", min: 82, hardness: 7.5, desc: "硬度 7.5，形狀和顏色很像紅石榴的種子，古代常當作護身符。" },
+    { name: "翡翠 / 硬玉 (Jadeite)", emoji: "💚", min: 95, hardness: 7, desc: "硬度 7，質地細膩堅韌，在東方文化中象徵著吉祥與好運。" },
+    { name: "電氣石 / 碧璽 (Tourmaline)", emoji: "🎨", min: 110, hardness: 7.5, desc: "硬度 7.5，具有熱電性，加熱時會產生微量電荷，能呈現彩虹般的色彩。" },
+    { name: "剛玉 / 紅藍寶石 (Corundum)", emoji: "❤️", min: 125, hardness: 9, desc: "硬度 9，僅次於鑽石。紅色品種是紅寶石，其他顏色都叫藍寶石。" },
+    { name: "蛋白石 (Opal)", emoji: "🌈", min: 140, hardness: 6, desc: "硬度 6，擁有獨特的「遊彩現象」，在光線下會折射出彩虹般的斑斕光芒。" },
+    { name: "祖母綠 (Emerald)", emoji: "🌲", min: 155, hardness: 8, desc: "硬度 8，擁有極具代表性的翠綠色，被譽為綠色寶石之王。" },
+    { name: "貓眼石 (Chrysoberyl)", emoji: "🐱", min: 175, hardness: 8.5, desc: "硬度 8.5，具有神奇的貓眼效應，在光照下會出現一條明亮的光帶。" },
+    { name: "鑽石 (Diamond)", emoji: "👑", min: 200, hardness: 10, desc: "硬度 10，自然界中硬度最高的終極王者，火彩璀璨，象徵永恆的榮耀。" }
+  ]
+
   // 全域狀態變數
   let supabase = null
   let currentUser = null
@@ -140,6 +160,28 @@
     // 天數與分數
     document.getElementById('streakCount').textContent = studentProfile.streak || 0
     document.getElementById('todayScore').textContent = studentProfile.total_score || 0
+
+    // 寶石等級徽章
+    let masteredCount = 0
+    if (studentProfile.mastery) {
+      for (const word in studentProfile.mastery) {
+        if (studentProfile.mastery[word] >= 2) {
+          masteredCount++
+        }
+      }
+    }
+    let currentTier = gemTiers[0]
+    for (let i = gemTiers.length - 1; i >= 0; i--) {
+      if (masteredCount >= gemTiers[i].min) {
+        currentTier = gemTiers[i]
+        break
+      }
+    }
+    const levelBadge = document.getElementById('levelBadge')
+    if (levelBadge) {
+      levelBadge.textContent = `${currentTier.emoji} ${currentTier.name}`
+      levelBadge.style.display = 'inline-flex'
+    }
   }
 
   // 檢查今日是否有完成計分挑戰
@@ -934,6 +976,7 @@
     sessionWrongWords,
     sessionSpeechScores,
     questionAnswered,
+    openLevelModal,
 
     // 切換模式（每日 / 練習 / 課堂）
     setMode: async function (mode) {
@@ -1070,8 +1113,8 @@
         // 檢查學校/班級限制（若欄位有填寫）
         if (sessionData.school && sessionData.school !== studentProfile.school) {
           showLoading(false)
-          errorDiv.textContent = `此場次僅限 ${sessionData.school} 學生加入。`
-          errorDiv.style.display = 'block'
+          alert(`此場次僅限 ${sessionData.school} 學生加入，即將退回大廳。`)
+          window.location.href = 'index.html'
           return
         }
 
@@ -1168,6 +1211,53 @@
 
     itemD.innerHTML = itemHtml
     itemM.innerHTML = itemHtml
+  }
+
+  // 彈出寶石等級與礦物科普 Modal
+  function openLevelModal() {
+    if (!studentProfile) return
+
+    // 1. 計算熟練字數 (熟練度 >= 2 的字數)
+    let masteredCount = 0
+    if (studentProfile.mastery) {
+      for (const word in studentProfile.mastery) {
+        if (studentProfile.mastery[word] >= 2) {
+          masteredCount++
+        }
+      }
+    }
+
+    // 2. 找出目前等級與下一等級
+    let currentTierIndex = 0
+    for (let i = gemTiers.length - 1; i >= 0; i--) {
+      if (masteredCount >= gemTiers[i].min) {
+        currentTierIndex = i
+        break
+      }
+    }
+    const currentTier = gemTiers[currentTierIndex]
+    const nextTier = gemTiers[currentTierIndex + 1]
+
+    // 3. 填入 Modal 資料
+    document.getElementById('modalGemEmoji').textContent = currentTier.emoji
+    document.getElementById('modalGemName').textContent = currentTier.name
+    document.getElementById('modalGemHardness').textContent = `莫氏硬度: ${currentTier.hardness}`
+    document.getElementById('modalGemDesc').textContent = currentTier.desc
+    document.getElementById('modalStudentScore').textContent = (studentProfile.total_score || 0).toLocaleString()
+    document.getElementById('modalMasteredCount').textContent = `${masteredCount} 字`
+
+    // 4. 計算距離下一級差幾顆字
+    const nextTextEl = document.getElementById('modalNextLevelText')
+    if (nextTier) {
+      const diff = nextTier.min - masteredCount
+      nextTextEl.textContent = `距離升級到【${nextTier.name}】還差 ${diff} 顆熟練字 🚀`
+    } else {
+      nextTextEl.textContent = `恭喜！您已達到了寶石硬度的終極殿堂！🎉`
+    }
+
+    // 5. 顯示 Modal
+    document.getElementById('levelModal').style.display = 'block'
+    document.getElementById('levelModalOverlay').style.display = 'block'
   }
 
   /* ═══════════════════════════════════════════════════════════

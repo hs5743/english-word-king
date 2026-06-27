@@ -64,6 +64,21 @@
     .school-badge--fenggong { background: rgba(79,195,247,0.15);  color: var(--clr-blue-1);  border: 1px solid rgba(79,195,247,0.3); }
     .school-badge--fengtian { background: rgba(105,240,174,0.15); color: var(--clr-green-1); border: 1px solid rgba(105,240,174,0.3); }
 
+    /* Level Badge style */
+    .level-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 12px; border-radius: var(--r-full);
+      font-size: 0.78rem; font-weight: 700; white-space: nowrap;
+      cursor: pointer; border: 1px solid rgba(245,200,66,0.3);
+      background: rgba(245,200,66,0.1); color: var(--clr-gold-1);
+      transition: all 0.2s ease-in-out;
+      outline: none;
+    }
+    .level-badge:hover {
+      background: rgba(245,200,66,0.25);
+      transform: scale(1.03);
+    }
+
     /* Streak & score pills */
     .stat-pill {
       display: flex; align-items: center; gap: 6px;
@@ -713,6 +728,7 @@
       </div>
     </div>
     <span class="school-badge school-badge--xingang" id="schoolBadge"></span>
+    <button class="level-badge" id="levelBadge" onclick="showLevelModal()" style="display: none; margin-left: 8px;">載入中…</button>
   </div>
 
   <div class="topbar__right">
@@ -1011,6 +1027,37 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="js/config.js" defer></script>
 <script src="js/speech.js" defer></script>
+<!-- Mineral Level Modal -->
+<div class="drawer-overlay" id="levelModalOverlay" style="z-index: 1000;"></div>
+<div class="level-modal" id="levelModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: #141923; border: 2px solid var(--clr-gold-1); border-radius: 16px; padding: 24px; z-index: 1001; box-shadow: 0 20px 40px rgba(0,0,0,0.5); color: #fff; font-family: system-ui, -apple-system, sans-serif;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+    <h3 style="margin: 0; color: var(--clr-gold-1); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">💎 寶石等級與礦物科普</h3>
+    <button onclick="closeLevelModal()" style="background: none; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+  </div>
+  <div style="text-align: center; margin: 20px 0;">
+    <div id="modalGemEmoji" style="font-size: 4rem; margin-bottom: 12px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.3));">🌱</div>
+    <div id="modalGemName" style="font-size: 1.4rem; font-weight: bold; color: #fff; margin-bottom: 8px;">滑石 (Talc)</div>
+    <div id="modalGemHardness" style="display: inline-block; background: rgba(245,200,66,0.15); color: var(--clr-gold-1); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px;">莫氏硬度: 1</div>
+  </div>
+  <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+    <h4 style="margin: 0 0 8px 0; font-size: 0.9rem; color: #8892b0;">💡 礦物科普介紹</h4>
+    <p id="modalGemDesc" style="margin: 0; font-size: 0.85rem; line-height: 1.6; color: #ccd6f6; text-align: justify;"></p>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px; text-align: center;">
+    <div>
+      <div style="font-size: 0.75rem; color: #8892b0;">累計總積分</div>
+      <div id="modalStudentScore" style="font-size: 1.15rem; font-weight: bold; color: var(--clr-gold-1); margin-top: 4px;">0</div>
+    </div>
+    <div>
+      <div style="font-size: 0.75rem; color: #8892b0;">已熟練單字</div>
+      <div id="modalMasteredCount" style="font-size: 1.15rem; font-weight: bold; color: #52e5a4; margin-top: 4px;">0 字</div>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #8892b0;" id="modalNextLevelText">
+    距離下一等級還差 5 顆熟練字
+  </div>
+</div>
+
 <script src="js/challenge.js" defer></script>
 
 <script>
@@ -1021,6 +1068,15 @@ function switchMode(mode, el) {
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   if (window.ChallengeApp) window.ChallengeApp.setMode(mode);
+}
+
+// Level Modal controls
+function showLevelModal() {
+  if (window.ChallengeApp) window.ChallengeApp.openLevelModal();
+}
+function closeLevelModal() {
+  document.getElementById('levelModal').style.display = 'none';
+  document.getElementById('levelModalOverlay').style.display = 'none';
 }
 
 function switchType(type, el) {
@@ -1042,6 +1098,7 @@ function toggleMasteryDrawer() {
   o.classList.toggle('open');
 }
 document.getElementById('drawerOverlay').addEventListener('click', toggleMasteryDrawer);
+document.getElementById('levelModalOverlay').addEventListener('click', closeLevelModal);
 
 // Pass-through functions connected to ChallengeApp
 function goToPrev()    { window.ChallengeApp?.prev(); }
