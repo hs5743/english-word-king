@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>英語單字王 — 挑戰中心</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+
+  <!-- App-specific styles -->
+  <style>
+    /* ── App Shell ─────────────────────────────────────── */
+    body { overflow-x: hidden; }
+
+    /* Top Bar */
+    .app-topbar {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(7,9,15,0.92);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 var(--sp-lg);
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--sp-md);
+    }
+    .topbar__left  { display: flex; align-items: center; gap: var(--sp-md); }
+    .topbar__right { display: flex; align-items: center; gap: var(--sp-md); }
+
+    .topbar__logo {
+      font-family: var(--font-en); font-weight: 900; font-size: 1.1rem;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-blue-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-decoration: none; white-space: nowrap;
+    }
+
+    /* Student avatar pill */
+    .student-pill {
+      display: flex; align-items: center; gap: var(--sp-sm);
+      padding: 6px 14px 6px 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-full);
+    }
+    .student-pill__avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-gold-2));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.85rem; color: #1a0f00; flex-shrink: 0;
+    }
+    .student-pill__name { font-size: 0.875rem; font-weight: 600; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .student-pill__school { font-size: 0.7rem; color: var(--clr-text-muted); }
+
+    /* School badge */
+    .school-badge {
+      padding: 4px 12px; border-radius: var(--r-full);
+      font-size: 0.78rem; font-weight: 700; white-space: nowrap;
+    }
+    .school-badge--xingang  { background: rgba(245,200,66,0.15); color: var(--clr-gold-1);   border: 1px solid rgba(245,200,66,0.3); }
+    .school-badge--fenggong { background: rgba(79,195,247,0.15);  color: var(--clr-blue-1);  border: 1px solid rgba(79,195,247,0.3); }
+    .school-badge--fengtian { background: rgba(105,240,174,0.15); color: var(--clr-green-1); border: 1px solid rgba(105,240,174,0.3); }
+
+    /* Streak & score pills */
+    .stat-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: var(--r-full);
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+    }
+    .stat-pill--streak { color: #ff9944; }
+    .stat-pill--score  { color: var(--clr-gold-1); font-family: var(--font-en); }
+
+    .btn--logout {
+      padding: 7px 14px; border-radius: var(--r-full); font-size: 0.8rem;
+      background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.25);
+      color: var(--clr-red-1); font-weight: 600; transition: all var(--dur-fast);
+    }
+    .btn--logout:hover { background: rgba(255,107,107,0.2); border-color: var(--clr-red-1); }
+
+    /* ── Main Layout ────────────────────────────────────── */
+    .app-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: var(--sp-lg);
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--sp-lg);
+      min-height: calc(100vh - 64px);
+      align-items: start;
+    }
+    @media (max-width: 1024px) { .app-layout { grid-template-columns: 1fr; } }
+
+    /* ── Mode Selector ──────────────────────────────────── */
+    .mode-tabs {
+      display: flex; gap: var(--sp-sm); margin-bottom: var(--sp-lg);
+    }
+    .mode-tab {
+      flex: 1; padding: 12px var(--sp-md); border-radius: var(--r-md);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--clr-text-secondary);
+      font-size: 0.9rem; font-weight: 600; font-family: var(--font-zh);
+      cursor: pointer; transition: all var(--dur-fast);
+      display: flex; align-items: center; justify-content: center; gap: var(--sp-xs);
+    }
+    .mode-tab:hover { background: rgba(255,255,255,0.08); color: var(--clr-text-primary); }
+    .mode-tab.active {
+      background: rgba(245,200,66,0.12); border-color: rgba(245,200,66,0.4);
+      color: var(--clr-gold-1);
+    }
+    .mode-tab__badge {
+      padding: 2px 7px; border-radius: var(--r-full);
+      font-size: 0.65rem; font-weight: 700; background: var(--clr-green-1);
+      color: #001a0f; letter-spacing: 0.04em;
+    }
+
+    /* ── Challenge Type Tabs ────────────────────────────── */
+    .type-tabs {
+      display: flex; gap: var(--sp-xs); margin-bottom: var(--sp-lg);
+      background: rgba(255,255,255,0.03); padding: 5px;
+      border-radius: var(--r-md); border: 1px solid rgba(255,255,255,0.07);
+    }
+    .type-tab {
+      flex: 1; padding: 10px var(--sp-sm); border-radius: 10px;
+      border: none; background: transparent;
+      color: var(--clr-text-muted); font-size: 0.875rem; font-weight: 600;
+      font-family: var(--font-zh); cursor: pointer; transition: all var(--dur-fast);
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .type-tab:hover { color: var(--clr-text-primary); background: rgba(255,255,255,0.05); }
+    .type-tab.active {
+      background: rgba(255,255,255,0.1);
+      color: var(--clr-text-primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* ── Challenge Card ─────────────────────────────────── */
+    .challenge-main {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--r-lg);
+      backdrop-filter: blur(20px);
+      overflow: hidden; position: relative;
+    }
+
+    /* Progress strip */
+    .challenge-progress {
+      padding: var(--sp-md) var(--sp-lg) 0;
+    }
+    .challenge-progress__header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: var(--sp-sm);
+    }
+    .challenge-progress__label { font-size: 0.8rem; color: var(--clr-text-muted); font-weight: 600; }
+    .challenge-progress__count { font-size: 0.8rem; color: var(--clr-gold-1); font-family: var(--font-en); font-weight: 700; }
+
+    /* Challenge panels */
+    .challenge-panel {
+      display: none; padding: var(--sp-lg);
+      animation: panelSlideIn 0.35s cubic-bezier(.4,0,.2,1) both;
+    }
+    .challenge-panel.active { display: block; }
+    @keyframes panelSlideIn { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+
+    /* Word display */
+    .word-display {
+      text-align: center; margin-bottom: var(--sp-lg);
+    }
+    .word-topic-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 14px; border-radius: var(--r-full);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+      background: rgba(79,195,247,0.12); color: var(--clr-blue-1);
+      border: 1px solid rgba(79,195,247,0.25); margin-bottom: var(--sp-md);
+    }
+    .word-meaning-zh {
+      font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 700;
+      color: var(--clr-text-primary); margin-bottom: var(--sp-sm); line-height: 1.2;
+    }
+    .word-phonetic {
+      font-family: var(--font-en); font-size: 1rem;
+      color: var(--clr-text-muted); letter-spacing: 0.05em;
+    }
+
+    /* ══ TILE MODE ══════════════════════════════════════ */
+    .tile-answer-zone {
+      min-height: 64px; display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; align-items: center;
+      border: 2px dashed rgba(255,255,255,0.12); border-radius: var(--r-md);
+      padding: var(--sp-md); margin-bottom: var(--sp-md);
+      transition: border-color var(--dur-fast), background var(--dur-fast);
+    }
+    .tile-answer-zone.drag-over {
+      border-color: rgba(245,200,66,0.5); background: rgba(245,200,66,0.05);
+    }
+    .tile-bank {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; padding: var(--sp-md) 0;
+    }
+    .letter-tile {
+      width: 48px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 10px; cursor: grab;
+      font-family: var(--font-en); font-size: 1.4rem; font-weight: 800;
+      color: var(--clr-text-primary); user-select: none;
+      transition: all var(--dur-fast);
+      animation: tileAppear 0.4s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .letter-tile:hover  { background: rgba(255,255,255,0.15); transform: translateY(-3px) scale(1.05); border-color: rgba(245,200,66,0.4); }
+    .letter-tile:active { cursor: grabbing; transform: scale(0.95); }
+    .letter-tile.placed { background: rgba(245,200,66,0.12); border-color: rgba(245,200,66,0.4); color: var(--clr-gold-1); }
+    .letter-tile.correct-tile { background: rgba(105,240,174,0.2); border-color: var(--clr-green-1); color: var(--clr-green-1); animation: tileCorrect 0.5s ease both; }
+    .letter-tile.wrong-tile   { animation: wrongShake 0.4s ease both; background: rgba(255,107,107,0.2); border-color: var(--clr-red-1); color: var(--clr-red-1); }
+    @keyframes tileAppear  { from { opacity:0; transform:scale(0.5) rotate(-10deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+    @keyframes tileCorrect { 0% { transform:scale(1); } 50% { transform:scale(1.15); } 100% { transform:scale(1); } }
+
+    /* ══ TYPE MODE ══════════════════════════════════════ */
+    .type-input-row {
+      display: flex; gap: var(--sp-sm); margin-bottom: var(--sp-md);
+    }
+    .type-input-wrapper { flex: 1; position: relative; }
+    .type-input {
+      width: 100%; padding: 16px 56px 16px 20px;
+      background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.12);
+      border-radius: var(--r-md); color: var(--clr-text-primary);
+      font-family: var(--font-en); font-size: 1.6rem; font-weight: 700;
+      letter-spacing: 0.12em; text-align: center; outline: none;
+      transition: border-color var(--dur-fast);
+    }
+    .type-input:focus { border-color: rgba(245,200,66,0.5); }
+    .type-submit-btn {
+      padding: 0 var(--sp-lg); border-radius: var(--r-md);
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-gold-2));
+      color: #1a0f00; font-weight: 700; font-size: 0.9rem;
+      transition: all var(--dur-fast); white-space: nowrap;
+    }
+    .type-submit-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,200,66,0.4); }
+
+    /* Wordle letter coloring row */
+    .wordle-feedback {
+      display: flex; gap: 6px; justify-content: center; margin-bottom: var(--sp-md);
+      min-height: 52px; align-items: center; flex-wrap: wrap;
+    }
+    .wordle-cell {
+      width: 48px; height: 52px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-en); font-size: 1.4rem; font-weight: 800;
+      border: 2px solid transparent; animation: wordlePop 0.3s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .wordle-cell--correct  { background: rgba(105,240,174,0.25); border-color: var(--clr-green-1); color: var(--clr-green-1); }
+    .wordle-cell--partial  { background: rgba(255,193,7,0.2);    border-color: #ffc107;           color: #ffc107; }
+    .wordle-cell--wrong    { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); color: var(--clr-text-muted); }
+    @keyframes wordlePop { from { opacity:0; transform:scale(0.6); } to { opacity:1; transform:scale(1); } }
+
+    /* ══ MCQ MODE ══════════════════════════════════════ */
+    .mcq-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--sp-sm); margin-bottom: var(--sp-md);
+    }
+    @media (max-width: 480px) { .mcq-grid { grid-template-columns: 1fr; } }
+    .mcq-option {
+      padding: var(--sp-lg) var(--sp-md);
+      background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-md); cursor: pointer; text-align: center;
+      font-family: var(--font-en); font-size: 1.1rem; font-weight: 700;
+      color: var(--clr-text-primary); transition: all var(--dur-fast);
+      position: relative; overflow: hidden;
+    }
+    .mcq-option::before {
+      content: attr(data-label);
+      position: absolute; top: 8px; left: 10px;
+      font-size: 0.65rem; color: var(--clr-text-muted); font-weight: 600; letter-spacing: 0.08em;
+    }
+    .mcq-option:hover:not(:disabled) {
+      background: rgba(255,255,255,0.1); border-color: rgba(245,200,66,0.4);
+      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .mcq-option:disabled { cursor: not-allowed; }
+    .mcq-option.correct {
+      background: rgba(105,240,174,0.2); border-color: var(--clr-green-1);
+      color: var(--clr-green-1); animation: correctFlash 0.5s ease;
+      box-shadow: 0 0 24px rgba(105,240,174,0.3);
+    }
+    .mcq-option.wrong {
+      background: rgba(255,107,107,0.2); border-color: var(--clr-red-1);
+      color: var(--clr-red-1); animation: wrongShake 0.4s ease;
+    }
+    .mcq-option.dimmed { opacity: 0.35; }
+
+    /* Sub-mode indicator */
+    .sub-mode-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: var(--r-full); font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.06em; margin-bottom: var(--sp-md);
+    }
+    .sub-mode-badge--tile   { background: rgba(206,147,216,0.15); color: var(--clr-purple-1); border: 1px solid rgba(206,147,216,0.3); }
+    .sub-mode-badge--type   { background: rgba(79,195,247,0.12);  color: var(--clr-blue-1);  border: 1px solid rgba(79,195,247,0.3); }
+    .sub-mode-badge--mcq    { background: rgba(105,240,174,0.12); color: var(--clr-green-1); border: 1px solid rgba(105,240,174,0.3); }
+
+    /* ── After-answer reveal ─────────────────────────── */
+    .answer-reveal {
+      display: none; margin-top: var(--sp-lg);
+      padding: var(--sp-md); border-radius: var(--r-md);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      animation: fadeInUp 0.4s ease both;
+    }
+    .answer-reveal.show { display: block; }
+    .answer-reveal__word {
+      font-family: var(--font-en); font-size: 1.8rem; font-weight: 900;
+      color: var(--clr-gold-1); margin-bottom: var(--sp-xs);
+    }
+    .answer-reveal__sentence {
+      font-size: 0.9rem; color: var(--clr-text-secondary);
+      font-family: var(--font-en); margin-bottom: var(--sp-xs); line-height: 1.6;
+    }
+    .answer-reveal__meaning { font-size: 0.85rem; color: var(--clr-text-muted); }
+    .answer-reveal__actions { display: flex; gap: var(--sp-sm); margin-top: var(--sp-md); justify-content: center; }
+    .speak-btn {
+      padding: 8px 16px; border-radius: var(--r-full); border: 1.5px solid rgba(79,195,247,0.3);
+      background: rgba(79,195,247,0.1); color: var(--clr-blue-1);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all var(--dur-fast);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .speak-btn:hover { background: rgba(79,195,247,0.2); border-color: var(--clr-blue-1); }
+
+    /* ── Navigation buttons ─────────────────────────── */
+    .challenge-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: var(--sp-md) var(--sp-lg) var(--sp-lg);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      gap: var(--sp-sm);
+    }
+    .nav-btn {
+      padding: 10px 20px; border-radius: var(--r-full); font-size: 0.875rem;
+      font-weight: 600; font-family: var(--font-zh);
+      transition: all var(--dur-fast); display: flex; align-items: center; gap: 6px;
+    }
+    .nav-btn--prev {
+      background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1);
+      color: var(--clr-text-secondary);
+    }
+    .nav-btn--prev:hover { background: rgba(255,255,255,0.1); color: var(--clr-text-primary); }
+    .nav-btn--next {
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-gold-2));
+      color: #1a0f00; border: none; box-shadow: 0 4px 16px rgba(245,200,66,0.3);
+    }
+    .nav-btn--next:hover { box-shadow: 0 6px 24px rgba(245,200,66,0.5); transform: translateY(-1px); }
+    .nav-btn--skip {
+      background: transparent; border: none;
+      color: var(--clr-text-muted); font-size: 0.8rem; text-decoration: underline;
+      padding: 10px 8px;
+    }
+    .nav-btn--skip:hover { color: var(--clr-text-secondary); }
+    .nav-btn:disabled { opacity: 0.35; pointer-events: none; }
+
+    /* ══ SPEECH PANEL ════════════════════════════════ */
+    .speech-word-display {
+      font-family: var(--font-en); font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 900; text-align: center; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--clr-text-primary), var(--clr-blue-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: var(--sp-sm); line-height: 1.1;
+    }
+    .speech-phonetic {
+      text-align: center; font-family: var(--font-en);
+      color: var(--clr-text-muted); font-size: 1rem; letter-spacing: 0.04em;
+      margin-bottom: var(--sp-sm);
+    }
+    .speech-example {
+      text-align: center; font-family: var(--font-en); font-size: 1rem;
+      color: var(--clr-text-secondary); margin-bottom: var(--sp-lg);
+      padding: var(--sp-md); background: rgba(255,255,255,0.04);
+      border-radius: var(--r-md); border-left: 3px solid rgba(79,195,247,0.4);
+      font-style: italic; line-height: 1.6;
+    }
+
+    /* Waveform */
+    .waveform-container {
+      position: relative; width: 100%; height: 100px;
+      margin: var(--sp-md) 0; border-radius: var(--r-md);
+      background: rgba(0,0,0,0.35); overflow: hidden;
+    }
+    #speechCanvas { width: 100%; height: 100%; display: block; }
+
+    /* Mic button */
+    .mic-btn-wrapper { display: flex; justify-content: center; margin: var(--sp-md) 0; }
+    .mic-btn {
+      width: 88px; height: 88px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-gold-2));
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 8px 32px rgba(245,200,66,0.4), 0 0 0 0 rgba(245,200,66,0.3);
+      transition: all var(--dur-fast);
+    }
+    .mic-btn:hover { transform: scale(1.06); box-shadow: 0 12px 40px rgba(245,200,66,0.6), 0 0 0 8px rgba(245,200,66,0.1); }
+    .mic-btn.listening {
+      background: linear-gradient(135deg, var(--clr-red-1), var(--clr-red-2));
+      box-shadow: 0 8px 32px rgba(255,107,107,0.5), 0 0 0 0 rgba(255,107,107,0.4);
+      animation: micPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes micPulse {
+      0%   { box-shadow: 0 8px 32px rgba(255,107,107,0.5), 0 0 0 0 rgba(255,107,107,0.4); }
+      70%  { box-shadow: 0 8px 32px rgba(255,107,107,0.5), 0 0 0 20px rgba(255,107,107,0); }
+      100% { box-shadow: 0 8px 32px rgba(255,107,107,0.5), 0 0 0 0 rgba(255,107,107,0); }
+    }
+    .mic-status-label {
+      text-align: center; font-size: 0.8rem; color: var(--clr-text-muted);
+      margin-top: var(--sp-sm); font-weight: 600; letter-spacing: 0.06em;
+    }
+
+    /* Speech result */
+    .speech-result {
+      margin-top: var(--sp-md); padding: var(--sp-md); border-radius: var(--r-md);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      display: none; animation: fadeInUp 0.4s ease both; text-align: center;
+    }
+    .speech-result.show { display: block; }
+    .speech-score-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--sp-md);
+      font-family: var(--font-en); font-size: 1.6rem; font-weight: 900;
+      position: relative;
+    }
+    .speech-score-ring svg {
+      position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px);
+      transform: rotate(-90deg);
+    }
+    .speech-score-ring svg circle { fill: none; stroke-width: 4; stroke-linecap: round; }
+    .speech-score-ring__bg { stroke: rgba(255,255,255,0.08); }
+    .speech-score-ring__fill { stroke: var(--clr-gold-1); transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1); }
+    .speech-score-value { position: relative; z-index: 1; }
+
+    /* Word-by-word chips */
+    .speech-word-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: var(--sp-md); }
+    .speech-chip {
+      padding: 6px 14px; border-radius: var(--r-full);
+      font-family: var(--font-en); font-size: 0.95rem; font-weight: 700;
+      border: 1.5px solid transparent; animation: fadeInUp 0.3s ease both;
+    }
+    .speech-chip--correct { background: rgba(105,240,174,0.15); color: var(--clr-green-1); border-color: var(--clr-green-1); }
+    .speech-chip--close   { background: rgba(255,193,7,0.15);   color: #ffc107;           border-color: #ffc107; }
+    .speech-chip--wrong   { background: rgba(255,107,107,0.15); color: var(--clr-red-1);  border-color: var(--clr-red-1); }
+
+    /* ══ SENTENCE PANEL ══════════════════════════════ */
+    .scene-icon {
+      font-size: 3.5rem; text-align: center; margin-bottom: var(--sp-md);
+      filter: drop-shadow(0 4px 16px rgba(245,200,66,0.3));
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+    @keyframes iconFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+
+    .sentence-display {
+      text-align: center; margin-bottom: var(--sp-lg);
+    }
+    .sentence-text {
+      font-family: var(--font-en); font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-weight: 600; color: var(--clr-text-primary);
+      line-height: 1.8; margin-bottom: var(--sp-sm);
+    }
+    .sentence-blank {
+      display: inline-block; min-width: 80px;
+      border-bottom: 3px solid var(--clr-gold-1);
+      padding: 0 var(--sp-sm); color: var(--clr-gold-1);
+      font-weight: 900; vertical-align: middle;
+    }
+    .sentence-translate {
+      font-size: 0.85rem; color: var(--clr-text-muted);
+    }
+
+    .sentence-options { display: flex; flex-direction: column; gap: var(--sp-sm); }
+    .sentence-option {
+      padding: var(--sp-md) var(--sp-lg); border-radius: var(--r-md);
+      background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1);
+      cursor: pointer; text-align: left; font-family: var(--font-en);
+      font-size: 1rem; font-weight: 600; color: var(--clr-text-primary);
+      transition: all var(--dur-fast); display: flex; align-items: center; gap: var(--sp-md);
+    }
+    .sentence-option:hover:not(:disabled) {
+      background: rgba(255,255,255,0.1); border-color: rgba(245,200,66,0.4);
+      transform: translateX(4px);
+    }
+    .sentence-option:disabled { cursor: not-allowed; }
+    .sentence-option.correct  { background: rgba(105,240,174,0.15); border-color: var(--clr-green-1); color: var(--clr-green-1); animation: correctFlash 0.5s ease; }
+    .sentence-option.wrong    { background: rgba(255,107,107,0.15); border-color: var(--clr-red-1); color: var(--clr-red-1); animation: wrongShake 0.4s ease; }
+    .sentence-option__label {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; font-family: var(--font-en);
+      background: rgba(255,255,255,0.08); color: var(--clr-text-muted);
+    }
+
+    /* Sentence read-aloud mini panel */
+    .sentence-speech-prompt {
+      margin-top: var(--sp-md); padding: var(--sp-md); border-radius: var(--r-md);
+      background: rgba(79,195,247,0.06); border: 1px solid rgba(79,195,247,0.2);
+      display: none; animation: fadeInUp 0.4s ease both; text-align: center;
+    }
+    .sentence-speech-prompt.show { display: block; }
+    .sentence-speech-prompt p { font-size: 0.85rem; color: var(--clr-text-secondary); margin-bottom: var(--sp-sm); }
+
+    /* ── Completion Screen ────────────────────────── */
+    #completionScreen {
+      display: none; padding: var(--sp-xl) var(--sp-lg);
+      text-align: center; animation: fadeInUp 0.5s ease both;
+    }
+    #completionScreen.show { display: block; }
+
+    .completion-trophy {
+      font-size: 5rem; margin-bottom: var(--sp-md);
+      filter: drop-shadow(0 8px 24px rgba(245,200,66,0.5));
+      animation: trophyBounce 0.8s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes trophyBounce { from { opacity:0; transform:scale(0.3) translateY(30px); } to { opacity:1; transform:scale(1) translateY(0); } }
+
+    .completion-title {
+      font-family: var(--font-en); font-size: 2rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-blue-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: var(--sp-sm);
+    }
+    .completion-stars {
+      display: flex; justify-content: center; gap: var(--sp-sm);
+      margin: var(--sp-md) 0; font-size: 2rem;
+    }
+    .completion-stars span { animation: starPop 0.4s cubic-bezier(.34,1.56,.64,1) both; }
+    .completion-stars span:nth-child(1) { animation-delay: 0.1s; }
+    .completion-stars span:nth-child(2) { animation-delay: 0.25s; }
+    .completion-stars span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes starPop { from { opacity:0; transform:scale(0) rotate(-30deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+
+    .completion-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md);
+      margin: var(--sp-lg) 0;
+    }
+    .completion-stat {
+      padding: var(--sp-md); background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-md);
+    }
+    .completion-stat__icon { font-size: 1.5rem; margin-bottom: 6px; }
+    .completion-stat__val {
+      font-family: var(--font-en); font-size: 1.6rem; font-weight: 900;
+      color: var(--clr-gold-1);
+    }
+    .completion-stat__lbl { font-size: 0.75rem; color: var(--clr-text-muted); margin-top: 2px; }
+
+    .review-words {
+      margin: var(--sp-lg) 0; padding: var(--sp-md);
+      background: rgba(255,255,255,0.03); border-radius: var(--r-md);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .review-words__title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--clr-text-muted); text-transform: uppercase; margin-bottom: var(--sp-sm); }
+    .review-word-chips { display: flex; flex-wrap: wrap; gap: var(--sp-xs); justify-content: center; }
+    .review-chip {
+      padding: 6px 14px; border-radius: var(--r-full);
+      background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3);
+      color: var(--clr-red-1); font-family: var(--font-en); font-size: 0.9rem; font-weight: 700;
+    }
+    .completion-actions {
+      display: flex; flex-wrap: wrap; gap: var(--sp-sm); justify-content: center; margin-top: var(--sp-lg);
+    }
+
+    /* ── Right Sidebar / Mastery Drawer ─────────────── */
+    .mastery-sidebar {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--r-lg); backdrop-filter: blur(20px); padding: var(--sp-md);
+      position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;
+    }
+    .mastery-sidebar::-webkit-scrollbar { width: 4px; }
+    .mastery-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+    .mastery-header {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--clr-text-muted);
+      margin-bottom: var(--sp-md); padding-bottom: var(--sp-sm);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .mastery-item {
+      display: flex; align-items: center; gap: var(--sp-sm);
+      padding: var(--sp-sm) 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .mastery-item:last-child { border-bottom: none; }
+    .mastery-item__word {
+      font-family: var(--font-en); font-weight: 700; font-size: 0.9rem;
+      flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .mastery-item__stars { display: flex; gap: 2px; }
+    .mastery-star { font-size: 0.7rem; opacity: 0.3; }
+    .mastery-star.lit { opacity: 1; }
+    .mastery-item__result {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .mastery-item__result--correct { background: rgba(105,240,174,0.2); color: var(--clr-green-1); }
+    .mastery-item__result--wrong   { background: rgba(255,107,107,0.2); color: var(--clr-red-1); }
+    .mastery-placeholder {
+      text-align: center; padding: var(--sp-xl) var(--sp-md);
+      color: var(--clr-text-muted); font-size: 0.85rem;
+    }
+
+    /* Mobile bottom drawer */
+    .mastery-drawer-toggle {
+      display: none; position: fixed; bottom: var(--sp-md); right: var(--sp-md);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--clr-purple-1), var(--clr-purple-2));
+      box-shadow: 0 4px 20px rgba(206,147,216,0.4); z-index: 300;
+      align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer;
+    }
+    @media (max-width: 1024px) { .mastery-drawer-toggle { display: flex; } .mastery-sidebar { display: none; } }
+    .mastery-drawer {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+      max-height: 60vh; overflow-y: auto;
+      background: rgba(13,18,32,0.97); backdrop-filter: blur(28px);
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding: var(--sp-lg); animation: drawerUp 0.35s cubic-bezier(.4,0,.2,1) both;
+    }
+    .mastery-drawer.open { display: block; }
+    @keyframes drawerUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+    .mastery-drawer__handle {
+      width: 40px; height: 4px; background: rgba(255,255,255,0.2);
+      border-radius: 2px; margin: 0 auto var(--sp-md);
+    }
+    .drawer-overlay {
+      display: none; position: fixed; inset: 0; z-index: 390;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+    }
+    .drawer-overlay.open { display: block; }
+
+    /* ── Loading State ─────────────────────────────── */
+    #loadingScreen {
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--clr-bg-deep); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: var(--sp-lg);
+      transition: opacity 0.5s ease;
+    }
+    #loadingScreen.fade-out { opacity: 0; pointer-events: none; }
+    .loading-logo {
+      font-family: var(--font-en); font-size: 1.5rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-blue-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .loading-msg { font-size: 0.9rem; color: var(--clr-text-muted); }
+
+    /* ── Confetti canvas ─────────────────────────── */
+    #confettiCanvas {
+      position: fixed; inset: 0; z-index: 500;
+      pointer-events: none; width: 100%; height: 100%;
+    }
+
+    /* ── Toast ─────────────────────────────────────── */
+    .toast-container {
+      position: fixed; bottom: var(--sp-xl); left: 50%;
+      transform: translateX(-50%); z-index: 600;
+      display: flex; flex-direction: column; gap: var(--sp-sm);
+      pointer-events: none; align-items: center;
+    }
+
+    /* ── Misc ─────────────────────────────────────── */
+    .divider { height: 1px; background: rgba(255,255,255,0.06); margin: var(--sp-md) 0; }
+    .question-transition-exit  { animation: slideExit  0.25s ease forwards; }
+    .question-transition-enter { animation: slideEnter 0.3s cubic-bezier(.4,0,.2,1) both; }
+    @keyframes slideExit  { to { opacity:0; transform:translateX(-30px); } }
+    @keyframes slideEnter { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+
+    .no-speech-banner {
+      padding: var(--sp-md); border-radius: var(--r-md);
+      background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.3);
+      color: #ffc107; font-size: 0.85rem; text-align: center; margin-bottom: var(--sp-md);
+    }
+  </style>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- Loading Screen                                          -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="loadingScreen">
+  <div class="loading-spinner"></div>
+  <div class="loading-logo">Word King 單字王</div>
+  <div class="loading-msg" id="loadingMsg">正在載入題目…</div>
+</div>
+<!-- Confetti Canvas -->
+<canvas id="confettiCanvas"></canvas>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Drawer overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- Top Bar                                                 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<header class="app-topbar">
+  <div class="topbar__left">
+    <a href="index.html" class="topbar__logo">🏆 單字王</a>
+    <div class="divider" style="width:1px;height:28px;margin:0 4px;background:rgba(255,255,255,0.08)"></div>
+    <div class="student-pill" id="studentPill">
+      <div class="student-pill__avatar" id="studentAvatar">?</div>
+      <div>
+        <div class="student-pill__name" id="studentName">載入中…</div>
+        <div class="student-pill__school" id="studentSchool"></div>
+      </div>
+    </div>
+    <span class="school-badge school-badge--xingang" id="schoolBadge"></span>
+  </div>
+
+  <div class="topbar__right">
+    <div class="stat-pill stat-pill--streak" id="streakPill">
+      🔥 <span id="streakCount">0</span> 天
+    </div>
+    <div class="stat-pill stat-pill--score" id="scorePill">
+      ✦ <span id="todayScore">0</span> pts
+    </div>
+    <button class="btn--logout" id="logoutBtn" onclick="handleLogout()">登出</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- Main Layout                                             -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="app-layout">
+
+  <!-- Left / Main Column -->
+  <main>
+
+    <!-- Mode Selector -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="daily" onclick="switchMode('daily', this)">
+        📅 每日挑戰
+        <span class="mode-tab__badge" id="dailyBadge" style="display:none">NEW</span>
+      </button>
+      <button class="mode-tab" data-mode="free" onclick="switchMode('free', this)">
+        ♾️ 自由練習
+      </button>
+      <button class="mode-tab" data-mode="class" onclick="switchMode('class', this)">
+        🏫 課堂挑戰
+      </button>
+    </div>
+
+    <!-- Session Join Card -->
+    <div class="challenge-main" id="sessionJoinCard" style="display:none; padding: var(--sp-xl) var(--sp-lg); text-align: center; margin-bottom: var(--sp-lg);">
+      <div style="font-size: 3rem; margin-bottom: var(--sp-md);">🏫</div>
+      <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: var(--sp-sm);">加入課堂挑戰</h2>
+      <p style="font-size: 0.9rem; color: var(--clr-text-muted); margin-bottom: var(--sp-lg);">請輸入老師大螢幕上顯示的 6 位數課堂場次碼</p>
+      
+      <div style="display: flex; gap: var(--sp-sm); justify-content: center; max-width: 360px; margin: 0 auto var(--sp-md);">
+        <input type="text" id="sessionCodeInput" class="type-input" placeholder="000000" maxlength="6" style="font-size: 1.8rem; letter-spacing: 0.15em; padding: 10px; height: auto;" onkeydown="if(event.key==='Enter') joinClassSession()" />
+        <button class="btn btn--primary" onclick="joinClassSession()" style="padding: 0 var(--sp-lg); font-weight: 700; white-space: nowrap; border-radius: var(--r-md);">確認加入</button>
+      </div>
+      <div id="sessionJoinError" style="color: var(--clr-red-1); font-size: 0.85rem; font-weight: 600; display: none; margin-top: var(--sp-sm);"></div>
+    </div>
+
+    <!-- Challenge Type Tabs -->
+    <div class="type-tabs">
+      <button class="type-tab active" data-type="spelling" onclick="switchType('spelling', this)">
+        🔤 單字拼寫
+      </button>
+      <button class="type-tab" data-type="speech" onclick="switchType('speech', this)">
+        🎤 口說發音
+      </button>
+      <button class="type-tab" data-type="sentence" onclick="switchType('sentence', this)">
+        📖 句型練習
+      </button>
+    </div>
+
+    <!-- Challenge Card -->
+    <div class="challenge-main" id="challengeCard">
+
+      <!-- Progress Bar -->
+      <div class="challenge-progress">
+        <div class="challenge-progress__header">
+          <span class="challenge-progress__label">題目進度</span>
+          <span class="challenge-progress__count"><span id="qCurrent">1</span> / <span id="qTotal">12</span></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-bar__fill" id="progressFill" style="width:8.33%"></div>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL 1: SPELLING ═══════════════════════════ -->
+      <div class="challenge-panel active" id="panelSpelling">
+
+        <!-- Word topic + meaning -->
+        <div class="word-display">
+          <div class="word-topic-tag" id="spellingTopic">📚 詞彙</div>
+          <div class="word-meaning-zh" id="spellingMeaning">載入中…</div>
+          <div class="word-phonetic" id="spellingPhonetic"></div>
+        </div>
+
+        <!-- Sub-mode badge -->
+        <div style="text-align:center;margin-bottom:var(--sp-md)">
+          <span class="sub-mode-badge sub-mode-badge--tile" id="subModeBadge">🧩 拼字模式</span>
+        </div>
+
+        <!-- TILE MODE -->
+        <div id="tileMode">
+          <div class="tile-answer-zone" id="tileAnswerZone"
+               data-drop="true"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="dropTile(event)">
+            <span style="color:var(--clr-text-muted);font-size:0.85rem" id="tileZonePlaceholder">將字母磁磚拖曳到這裡</span>
+          </div>
+          <div class="tile-bank" id="tileBank"></div>
+          <div style="text-align:center;margin-bottom:var(--sp-sm)">
+            <button class="speak-btn" onclick="speakCurrentWord()">🔊 聽發音</button>
+          </div>
+        </div>
+
+        <!-- TYPE MODE -->
+        <div id="typeMode" style="display:none">
+          <div class="wordle-feedback" id="wordleFeedback"></div>
+          <div class="type-input-row">
+            <div class="type-input-wrapper">
+              <input class="type-input" id="typeInput" type="text"
+                     placeholder="輸入英文單字…" autocomplete="off" autocorrect="off"
+                     spellcheck="false" maxlength="30"
+                     onkeydown="if(event.key==='Enter') submitTypeAnswer()" />
+            </div>
+            <button class="type-submit-btn" onclick="submitTypeAnswer()">確認 →</button>
+          </div>
+        </div>
+
+        <!-- MCQ MODE -->
+        <div id="mcqMode" style="display:none">
+          <div class="mcq-grid" id="mcqGrid"></div>
+        </div>
+
+        <!-- After-answer reveal -->
+        <div class="answer-reveal" id="spellingReveal">
+          <div class="answer-reveal__word" id="revealWord"></div>
+          <div class="answer-reveal__sentence" id="revealSentence"></div>
+          <div class="answer-reveal__meaning" id="revealMeaning"></div>
+          <div class="answer-reveal__actions">
+            <button class="speak-btn" onclick="speakCurrentWord()">🔊 聽發音</button>
+            <button class="speak-btn" onclick="speakCurrentSentence()" style="border-color:rgba(206,147,216,0.3);background:rgba(206,147,216,0.1);color:var(--clr-purple-1)">💬 聽例句</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL 2: SPEECH ═════════════════════════════ -->
+      <div class="challenge-panel" id="panelSpeech">
+
+        <div id="noSpeechWarning" class="no-speech-banner" style="display:none">
+          ⚠️ 您的瀏覽器不支援語音辨識，請使用 Chrome 或 Edge。
+        </div>
+
+        <div class="speech-word-display font-en" id="speechWord">apple</div>
+        <div class="speech-phonetic" id="speechPhonetic">/ˈæp.əl/</div>
+        <div class="speech-example" id="speechExample">Please pass me an apple.</div>
+
+        <div class="waveform-container">
+          <canvas id="speechCanvas"></canvas>
+        </div>
+
+        <div class="mic-btn-wrapper">
+          <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎤</button>
+        </div>
+        <div class="mic-status-label" id="micStatus">按麥克風開始朗讀</div>
+
+        <div class="speech-result" id="speechResult">
+          <div class="speech-score-ring" id="scoreRing">
+            <svg viewBox="0 0 80 80">
+              <circle class="speech-score-ring__bg" cx="40" cy="40" r="34"/>
+              <circle class="speech-score-ring__fill" id="scoreArc" cx="40" cy="40" r="34"
+                      stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            </svg>
+            <span class="speech-score-value" id="scoreValue">0</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm)" id="scoreLabel">發音分數</div>
+          <div class="speech-word-chips" id="speechWordChips"></div>
+          <div style="margin-top:var(--sp-md)">
+            <button class="speak-btn" onclick="speakCurrentWord()" style="margin:0 auto">🔊 聽正確發音</button>
+          </div>
+        </div>
+
+        <!-- Sentence read-aloud -->
+        <div class="sentence-speech-prompt" id="sentenceSpeechPrompt">
+          <p>太棒了！現在試著朗讀整個例句：</p>
+          <div style="font-family:var(--font-en);font-size:1rem;font-weight:600;color:var(--clr-text-primary);margin-bottom:var(--sp-sm)" id="sentenceReadAloud"></div>
+          <button class="mic-btn" style="width:52px;height:52px;font-size:1.4rem;margin:0 auto" id="sentenceMicBtn" onclick="toggleSentenceRecording()">🎤</button>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL 3: SENTENCE ════════════════════════════ -->
+      <div class="challenge-panel" id="panelSentence">
+
+        <div class="scene-icon" id="sceneIcon">🏫</div>
+        <div class="sentence-display">
+          <div class="sentence-text" id="sentenceText">
+            I <span class="sentence-blank" id="sentenceBlank">______</span> every day.
+          </div>
+          <div class="sentence-translate" id="sentenceTranslate"></div>
+        </div>
+
+        <div class="sentence-options" id="sentenceOptions"></div>
+
+        <!-- Post-answer reveal -->
+        <div class="answer-reveal" id="sentenceReveal" style="margin-top:var(--sp-md)">
+          <div style="font-family:var(--font-en);font-size:1.1rem;font-weight:700;color:var(--clr-green-1);margin-bottom:var(--sp-xs)" id="sentenceRevealFull"></div>
+          <div style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm)" id="sentenceRevealTranslation"></div>
+          <div class="divider"></div>
+          <div style="font-family:var(--font-en);font-weight:700;color:var(--clr-gold-1);margin-bottom:2px" id="sentenceRevealWord"></div>
+          <div style="font-size:0.85rem;color:var(--clr-text-muted)" id="sentenceRevealDef"></div>
+          <div class="answer-reveal__actions" style="margin-top:var(--sp-sm)">
+            <button class="speak-btn" onclick="speakText(currentSentenceFull)">💬 聽例句</button>
+          </div>
+        </div>
+
+        <!-- Read-aloud follow-up -->
+        <div class="sentence-speech-prompt" id="sentenceFollowUpSpeech" style="margin-top:var(--sp-md)">
+          <p>挑戰：把整個句子大聲朗讀出來！</p>
+          <div style="font-family:var(--font-en);font-size:0.95rem;font-weight:600;color:var(--clr-text-primary);margin-bottom:var(--sp-sm)" id="sentenceFollowUpText"></div>
+          <button class="mic-btn" style="width:52px;height:52px;font-size:1.4rem;margin:0 auto" id="sentenceFollowMic" onclick="toggleFollowUpRecording()">🎤</button>
+          <div class="mic-status-label" id="followMicStatus">按麥克風開始</div>
+        </div>
+      </div>
+
+      <!-- ═══ COMPLETION SCREEN ════════════════════════════ -->
+      <div id="completionScreen">
+        <div class="completion-trophy" id="completionTrophy">🏆</div>
+        <div class="completion-title">挑戰完成！</div>
+        <div class="completion-stars" id="completionStars">
+          <span>⭐</span><span>⭐</span><span>⭐</span>
+        </div>
+        <div style="font-size:1rem;color:var(--clr-text-secondary);margin-bottom:var(--sp-lg)">
+          你真的太厲害了！繼續保持！
+        </div>
+        <div class="completion-stats">
+          <div class="completion-stat">
+            <div class="completion-stat__icon">🎯</div>
+            <div class="completion-stat__val" id="finalAccuracy">--</div>
+            <div class="completion-stat__lbl">正確率</div>
+          </div>
+          <div class="completion-stat">
+            <div class="completion-stat__icon">✨</div>
+            <div class="completion-stat__val" id="finalScore">--</div>
+            <div class="completion-stat__lbl">得分</div>
+          </div>
+          <div class="completion-stat">
+            <div class="completion-stat__icon">🔥</div>
+            <div class="completion-stat__val" id="finalStreak">--</div>
+            <div class="completion-stat__lbl">連續天數</div>
+          </div>
+        </div>
+        <div class="review-words" id="reviewWordsSection">
+          <div class="review-words__title">需要複習的單字</div>
+          <div class="review-word-chips" id="reviewWordChips"></div>
+        </div>
+        <div class="completion-actions">
+          <button class="btn btn--ghost" onclick="restartChallenge()">🔄 再練習一次</button>
+          <button class="btn btn--ghost" onclick="window.location.href='index.html#leaderboard'">🏅 查看排行榜</button>
+          <button class="btn btn--primary" onclick="window.location.href='index.html'">🏠 回首頁</button>
+        </div>
+      </div>
+
+      <!-- Nav buttons -->
+      <div class="challenge-nav" id="challengeNav">
+        <button class="nav-btn nav-btn--prev" id="prevBtn" onclick="goToPrev()" disabled>
+          ← 上一題
+        </button>
+        <button class="nav-btn--skip nav-btn" onclick="skipQuestion()">跳過</button>
+        <button class="nav-btn nav-btn--next" id="nextBtn" onclick="goToNext()" disabled>
+          下一題 →
+        </button>
+      </div>
+    </div><!-- /.challenge-main -->
+
+  </main>
+
+  <!-- Right Sidebar: Mastery -->
+  <aside class="mastery-sidebar" id="masterySidebar">
+    <div class="mastery-header">本次練習紀錄</div>
+    <div id="masteryList">
+      <div class="mastery-placeholder">
+        🌟<br>完成題目後<br>這裡會顯示<br>單字學習進度
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Mobile Mastery Drawer -->
+<button class="mastery-drawer-toggle" id="masteryToggleBtn" onclick="toggleMasteryDrawer()">📊</button>
+<div class="mastery-drawer" id="masteryDrawer">
+  <div class="mastery-drawer__handle"></div>
+  <div class="mastery-header">本次練習紀錄</div>
+  <div id="masteryListMobile">
+    <div class="mastery-placeholder">完成題目後這裡會顯示學習進度 🌟</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer style="text-align:center;padding:var(--sp-lg);opacity:0.3;font-size:0.75rem;color:var(--clr-text-muted)">
+  設計開發：新竹縣新港國小教學團隊
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- Scripts                                                 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/speech.js" defer></script>
+<script src="js/challenge.js" defer></script>
+
+<script>
+/* ── Inline boot helpers (non-deferred, immediate UI) ── */
+
+// Mode / Type tab switching (delegated to challenge.js after load)
+function switchMode(mode, el) {
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  if (window.ChallengeApp) window.ChallengeApp.setMode(mode);
+}
+
+function switchType(type, el) {
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  if (window.ChallengeApp) window.ChallengeApp.setType(type);
+}
+
+function handleLogout() {
+  if (window.SupabaseConfig) window.SupabaseConfig.signOut();
+  else window.location.href = 'index.html';
+}
+
+// Mastery drawer
+function toggleMasteryDrawer() {
+  const d = document.getElementById('masteryDrawer');
+  const o = document.getElementById('drawerOverlay');
+  d.classList.toggle('open');
+  o.classList.toggle('open');
+}
+document.getElementById('drawerOverlay').addEventListener('click', toggleMasteryDrawer);
+
+// Pass-through functions connected to ChallengeApp
+function goToPrev()    { window.ChallengeApp?.prev(); }
+function goToNext()    { window.ChallengeApp?.next(); }
+function skipQuestion(){ window.ChallengeApp?.skip(); }
+function dropTile(e)   { window.ChallengeApp?.handleTileDrop(e); }
+function submitTypeAnswer(){ window.ChallengeApp?.submitType(); }
+function toggleRecording()  { window.SpeechEngine?.toggleRecording(); }
+function toggleSentenceRecording() { window.SpeechEngine?.toggleSentenceRecording(); }
+function toggleFollowUpRecording() { window.SpeechEngine?.toggleFollowUp(); }
+function speakCurrentWord()    { window.ChallengeApp?.speakWord(); }
+function speakCurrentSentence(){ window.ChallengeApp?.speakSentence(); }
+function speakText(t)          { window.SpeechEngine?.speak(t); }
+function restartChallenge()    { window.ChallengeApp?.restart(); }
+function joinClassSession()    { window.ChallengeApp?.joinClassSession(); }
+</script>
+
+</body>
+</html>

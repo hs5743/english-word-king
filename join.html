@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>加入挑戰・英語單字王 — 學生登入</title>
+  <meta name="description" content="以學校 Google 帳號登入，加入三校英語單字王挑戰！" />
+  <meta name="theme-color" content="#07090f" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="加入挑戰・英語單字王" />
+  <meta property="og:description" content="鳳岡・豐田・新港三校英語學習大對抗" />
+  <meta property="og:type" content="website" />
+
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/config.js" defer></script>
+
+  <style>
+    /* ── Join Page Exclusive Styles ─────────────────────────── */
+
+    /* Canvas starfield */
+    #starCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Layout: full-page centered */
+    .join-wrapper {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .join-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-xl) var(--sp-lg);
+      gap: var(--sp-xl);
+    }
+
+    /* ── Welcome tag ─────── */
+    .join-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 20px;
+      border-radius: var(--r-full);
+      background: rgba(245,200,66,0.1);
+      border: 1px solid rgba(245,200,66,0.25);
+      color: var(--clr-gold-1);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .join-badge__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--clr-gold-1);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ── Hero title ─────── */
+    .join-hero {
+      text-align: center;
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+
+    .join-hero__title {
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .join-hero__subtitle {
+      font-size: 1rem;
+      color: var(--clr-text-secondary);
+      max-width: 380px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Three schools badges ─────── */
+    .school-badges {
+      display: flex;
+      gap: var(--sp-sm);
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 0.6s ease 0.15s both;
+    }
+
+    .school-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: var(--r-full);
+      font-size: 0.875rem;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+      transition: transform var(--dur-fast), box-shadow var(--dur-fast);
+      cursor: default;
+    }
+
+    .school-badge:hover { transform: translateY(-2px); }
+
+    .school-badge--fenggong {
+      background: rgba(79,195,247,0.1);
+      border: 1.5px solid rgba(79,195,247,0.35);
+      color: var(--clr-school-fenggong);
+      box-shadow: 0 0 16px rgba(79,195,247,0.08);
+    }
+    .school-badge--fenggong:hover { box-shadow: 0 4px 24px rgba(79,195,247,0.25); }
+
+    .school-badge--fengtian {
+      background: rgba(105,240,174,0.1);
+      border: 1.5px solid rgba(105,240,174,0.35);
+      color: var(--clr-school-fengtiaan);
+      box-shadow: 0 0 16px rgba(105,240,174,0.08);
+    }
+    .school-badge--fengtian:hover { box-shadow: 0 4px 24px rgba(105,240,174,0.25); }
+
+    .school-badge--xingang {
+      background: rgba(245,200,66,0.1);
+      border: 1.5px solid rgba(245,200,66,0.35);
+      color: var(--clr-school-xingang);
+      box-shadow: 0 0 16px rgba(245,200,66,0.08);
+    }
+    .school-badge--xingang:hover { box-shadow: 0 4px 24px rgba(245,200,66,0.25); }
+
+    /* ── Main login card ─────── */
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      padding: var(--sp-2xl) var(--sp-xl);
+      animation: fadeInUp 0.7s ease 0.2s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle top accent glow line */
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,200,66,0.6), transparent);
+    }
+
+    .login-card__header {
+      text-align: center;
+      margin-bottom: var(--sp-xl);
+    }
+
+    .login-card__icon {
+      font-size: 3.5rem;
+      margin-bottom: var(--sp-md);
+      filter: drop-shadow(0 4px 16px rgba(245,200,66,0.4));
+      display: block;
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+
+    .login-card__title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: var(--sp-xs);
+      letter-spacing: -0.02em;
+    }
+
+    .login-card__desc {
+      font-size: 0.875rem;
+      color: var(--clr-text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── School selector ─────── */
+    .school-selector-wrap { margin-bottom: var(--sp-lg); }
+
+    .school-selector-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--clr-text-secondary);
+      margin-bottom: var(--sp-sm);
+      text-transform: uppercase;
+    }
+
+    .school-selector-label svg { opacity: 0.6; }
+
+    .school-select {
+      width: 100%;
+      padding: 14px 44px 14px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid var(--glass-border);
+      border-radius: var(--r-md);
+      color: var(--clr-text-primary);
+      font-family: var(--font-zh);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(240,244,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .school-select:focus {
+      border-color: rgba(245,200,66,0.5);
+      background-color: rgba(255,255,255,0.08);
+      box-shadow: 0 0 0 3px rgba(245,200,66,0.1);
+    }
+
+    /* Dynamic accent color per school */
+    .school-select[data-school="新港國小"] { border-color: rgba(245,200,66,0.35); box-shadow: 0 0 12px rgba(245,200,66,0.06); }
+    .school-select[data-school="鳳岡國小"] { border-color: rgba(79,195,247,0.35);  box-shadow: 0 0 12px rgba(79,195,247,0.06); }
+    .school-select[data-school="豐田國小"] { border-color: rgba(105,240,174,0.35); box-shadow: 0 0 12px rgba(105,240,174,0.06); }
+
+    /* ── Google login button ─────── */
+    .btn-google-custom {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 18px 28px;
+      border-radius: var(--r-md);
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      color: var(--clr-text-primary);
+      font-family: var(--font-zh);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      overflow: hidden;
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Shimmer sweep on hover */
+    .btn-google-custom::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255,255,255,0.12) 50%,
+        transparent 60%
+      );
+    }
+
+    .btn-google-custom:hover::before {
+      animation: shimmerSweep 0.6s ease forwards;
+    }
+
+    @keyframes shimmerSweep {
+      0%   { left: -100%; }
+      100% { left: 160%; }
+    }
+
+    .btn-google-custom:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    .btn-google-custom:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .btn-google-custom:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-google-custom__icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .btn-google-custom__text { flex: 1; text-align: center; }
+
+    /* ── Divider ─────── */
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-md);
+      margin: var(--sp-lg) 0;
+    }
+
+    .login-divider__line {
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
+
+    .login-divider__text {
+      font-size: 0.75rem;
+      color: var(--clr-text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Domain note ─────── */
+    .domain-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(79,195,247,0.07);
+      border: 1px solid rgba(79,195,247,0.2);
+      border-radius: var(--r-sm);
+      font-size: 0.78rem;
+      color: var(--clr-blue-1);
+      margin-top: var(--sp-md);
+    }
+
+    .domain-note svg { flex-shrink: 0; opacity: 0.8; }
+
+    /* ── Loading state ─────── */
+    #loadingState {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-lg);
+      padding: var(--sp-xl) 0;
+      text-align: center;
+    }
+
+    .loading-ring {
+      width: 52px;
+      height: 52px;
+      border: 3px solid rgba(245,200,66,0.15);
+      border-top-color: var(--clr-gold-1);
+      border-right-color: rgba(245,200,66,0.5);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    .loading-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--clr-text-primary);
+    }
+
+    .loading-sub {
+      font-size: 0.8rem;
+      color: var(--clr-text-muted);
+    }
+
+    .loading-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .loading-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--clr-gold-1);
+      animation: bounceDot 1.2s ease-in-out infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounceDot {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40%            { transform: translateY(-8px); opacity: 1; }
+    }
+
+    /* ── Success state ─────── */
+    #successState {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-md);
+      padding: var(--sp-xl) 0;
+      text-align: center;
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .user-avatar-ring {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-blue-1));
+      padding: 3px;
+      animation: avatarGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes avatarGlow {
+      0%, 100% { box-shadow: 0 0 16px rgba(245,200,66,0.4); }
+      50%       { box-shadow: 0 0 32px rgba(245,200,66,0.7), 0 0 60px rgba(79,195,247,0.3); }
+    }
+
+    .user-avatar-ring img,
+    .user-avatar-ring .avatar-fallback {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: var(--clr-bg-mid);
+    }
+
+    .avatar-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--clr-gold-1);
+      font-family: var(--font-en);
+    }
+
+    .success-checkmark {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--clr-green-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--clr-bg-deep);
+      font-size: 13px;
+      color: #000;
+    }
+
+    .success-name  { font-size: 1.2rem; font-weight: 800; }
+    .success-email { font-size: 0.8rem; color: var(--clr-text-muted); }
+
+    .success-redirecting {
+      font-size: 0.85rem;
+      color: var(--clr-green-1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Error state ─────── */
+    #errorState {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-md);
+      padding: var(--sp-lg) 0;
+      text-align: center;
+      animation: fadeInUp 0.4s ease both;
+    }
+
+    .error-icon  { font-size: 3rem; filter: drop-shadow(0 4px 12px rgba(255,107,107,0.4)); }
+    .error-title { font-size: 1rem; font-weight: 700; color: var(--clr-text-primary); }
+
+    .error-message {
+      font-size: 0.875rem;
+      max-width: 300px;
+      line-height: 1.7;
+      padding: var(--sp-md) var(--sp-lg);
+      background: rgba(255,107,107,0.08);
+      border: 1px solid rgba(255,107,107,0.25);
+      border-radius: var(--r-md);
+      color: rgba(255,150,150,0.9);
+    }
+
+    .error-retry { margin-top: var(--sp-sm); }
+
+    /* ── Features preview ─────── */
+    .features-preview {
+      width: 100%;
+      max-width: 520px;
+      animation: fadeInUp 0.7s ease 0.4s both;
+    }
+
+    .features-preview__label {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      margin-bottom: var(--sp-md);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-sm);
+    }
+
+    .feature-mini {
+      padding: var(--sp-md) var(--sp-sm);
+      border-radius: var(--r-md);
+      text-align: center;
+      cursor: default;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .feature-mini:hover { transform: translateY(-3px); background: rgba(255,255,255,0.07); }
+
+    .feature-mini__icon  { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+    .feature-mini__name  { font-size: 0.78rem; font-weight: 700; color: var(--clr-text-secondary); white-space: nowrap; }
+    .feature-mini__tag   { font-size: 0.65rem; color: var(--clr-text-muted); margin-top: 4px; }
+
+    .feature-mini--spell    { border-color: rgba(245,200,66,0.2); }
+    .feature-mini--speech   { border-color: rgba(79,195,247,0.2); }
+    .feature-mini--sentence { border-color: rgba(206,147,216,0.2); }
+
+    .feature-mini--spell:hover    { border-color: rgba(245,200,66,0.5); box-shadow: 0 4px 20px rgba(245,200,66,0.1); }
+    .feature-mini--speech:hover   { border-color: rgba(79,195,247,0.5); box-shadow: 0 4px 20px rgba(79,195,247,0.1); }
+    .feature-mini--sentence:hover { border-color: rgba(206,147,216,0.5); box-shadow: 0 4px 20px rgba(206,147,216,0.1); }
+
+    /* ── Responsive ─────── */
+    @media (max-width: 480px) {
+      .login-card { padding: var(--sp-xl) var(--sp-md); }
+      .feature-mini { padding: var(--sp-sm) 6px; }
+      .feature-mini__name { font-size: 0.7rem; }
+      .school-badges { gap: 6px; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Animated Starfield Canvas ── -->
+  <canvas id="starCanvas" aria-hidden="true"></canvas>
+
+  <!-- ── Glow Orbs (matching index.html) ── -->
+  <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;">
+    <div style="position:absolute;top:-20%;left:-10%;width:55vw;height:55vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(79,195,247,0.08),transparent 70%);
+      animation:glow 6s ease-in-out infinite;"></div>
+    <div style="position:absolute;bottom:-15%;right:-5%;width:45vw;height:45vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(206,147,216,0.07),transparent 70%);
+      animation:glow 8s ease-in-out infinite 2s;"></div>
+    <div style="position:absolute;top:40%;left:60%;width:30vw;height:30vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(245,200,66,0.04),transparent 70%);
+      animation:glow 10s ease-in-out infinite 4s;"></div>
+  </div>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" style="position:relative;z-index:10;">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo">&#11088; 英語單字王</a>
+        <ul class="navbar__nav">
+          <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main Join Wrapper ── -->
+  <div class="join-wrapper">
+    <div class="join-center">
+
+      <!-- Welcome Badge -->
+      <div class="join-badge">
+        <span class="join-badge__dot"></span>
+        加入今日挑戰
+      </div>
+
+      <!-- Hero Title -->
+      <div class="join-hero">
+        <h1 class="join-hero__title">
+          <span class="text-gradient-gold">英語</span><span style="color:var(--clr-text-primary);">單字王</span>
+        </h1>
+        <p class="join-hero__subtitle">
+          以學校 Google 帳號登入<br>立即開啟你的英語挑戰之旅 🚀
+        </p>
+      </div>
+
+      <!-- Three School Badges -->
+      <div class="school-badges" aria-label="參與學校">
+        <div class="school-badge school-badge--fenggong">
+          <span>🌊</span> 鳳岡國小
+        </div>
+        <div class="school-badge school-badge--fengtian">
+          <span>🌾</span> 豐田國小
+        </div>
+        <div class="school-badge school-badge--xingang">
+          <span>&#11088;</span> 新港國小
+        </div>
+      </div>
+
+      <!-- ── Login Card ── -->
+      <div class="glass-card login-card" id="loginCard">
+
+        <!-- Default Form State -->
+        <div id="formState">
+          <div class="login-card__header">
+            <span class="login-card__icon">🎯</span>
+            <h2 class="login-card__title">學生登入</h2>
+            <p class="login-card__desc">選擇你的學校，再用學校 Google 帳號登入</p>
+          </div>
+
+          <!-- School Selector -->
+          <div class="school-selector-wrap">
+            <label for="schoolSelect" class="school-selector-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              選擇學校
+            </label>
+            <select id="schoolSelect" class="school-select" data-school="新港國小">
+              <option value="新港國小">⭐ 新港國小</option>
+              <option value="鳳岡國小">🌊 鳳岡國小</option>
+              <option value="豐田國小">🌾 豐田國小</option>
+            </select>
+          </div>
+
+          <!-- Google Login Button -->
+          <button
+            id="btnGoogleLogin"
+            class="btn-google-custom"
+            type="button"
+            aria-label="以 Google 帳號登入"
+          >
+            <!-- Google G SVG (official colours) -->
+            <svg class="btn-google-custom__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <span class="btn-google-custom__text">以 Google 帳號登入</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+
+          <!-- Divider -->
+          <div class="login-divider">
+            <div class="login-divider__line"></div>
+            <span class="login-divider__text">帳號資訊</span>
+            <div class="login-divider__line"></div>
+          </div>
+
+          <!-- Domain Notice -->
+          <div class="domain-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>僅限 <strong>@gapp.hcc.edu.tw</strong> 新竹縣學校帳號登入</span>
+          </div>
+        </div>
+
+        <!-- ── Loading State ── -->
+        <div id="loadingState">
+          <div class="loading-ring"></div>
+          <div>
+            <div class="loading-title">正在驗證您的帳號…</div>
+            <div class="loading-sub" style="margin-top:6px;">請稍候，正在確認學生名冊</div>
+          </div>
+          <div class="loading-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <!-- ── Success State ── -->
+        <div id="successState">
+          <div class="user-avatar-ring" id="avatarRing">
+            <div class="avatar-fallback" id="avatarFallback">?</div>
+            <div class="success-checkmark" aria-hidden="true">✓</div>
+          </div>
+          <div>
+            <div class="success-name" id="successName">—</div>
+            <div class="success-email" id="successEmail">—</div>
+          </div>
+          <div class="success-redirecting" role="status">
+            <span aria-hidden="true">✅</span>
+            <span>驗證成功，即將進入挑戰！</span>
+          </div>
+          <div class="loading-dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <!-- ── Error State ── -->
+        <div id="errorState" role="alert">
+          <div class="error-icon" id="errorIcon" aria-hidden="true">🚫</div>
+          <div class="error-title" id="errorTitle">登入失敗</div>
+          <div class="error-message" id="errorMessage">
+            找不到您的帳號，請確認您是否已加入名冊，或聯絡您的老師。
+          </div>
+          <button
+            class="btn btn--ghost error-retry"
+            id="btnRetry"
+            type="button"
+            style="font-size:0.9rem;padding:12px 28px;"
+          >
+            ↩ 重新選擇帳號
+          </button>
+        </div>
+
+      </div><!-- /login-card -->
+
+      <!-- ── Features Preview ── -->
+      <div class="features-preview">
+        <div class="features-preview__label">三大挑戰模式</div>
+        <div class="features-grid">
+
+          <div class="feature-mini feature-mini--spell">
+            <span class="feature-mini__icon">🧩</span>
+            <div class="feature-mini__name">單字拼寫</div>
+            <div class="feature-mini__tag">拖拉・打字・選擇</div>
+          </div>
+
+          <div class="feature-mini feature-mini--speech">
+            <span class="feature-mini__icon">🎤</span>
+            <div class="feature-mini__name">口說發音</div>
+            <div class="feature-mini__tag">AI 即時評分</div>
+          </div>
+
+          <div class="feature-mini feature-mini--sentence">
+            <span class="feature-mini__icon">📝</span>
+            <div class="feature-mini__name">句型練習</div>
+            <div class="feature-mini__tag">AI 生成情境</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /join-center -->
+  </div><!-- /join-wrapper -->
+
+  <!-- ── Footer ── -->
+  <footer style="position:relative;z-index:1;border-top:1px solid var(--glass-border);padding:var(--sp-lg) 0;text-align:center;">
+    <div class="container">
+      <p class="text-muted text-sm">
+        © 2025 三校聯網・英語單字王 ｜
+        鳳岡國小・豐田國小・新港國小 ｜
+        <a href="teacher.html" style="opacity:0.4;font-size:0.75rem;">教師看板</a>
+        ｜
+        <a href="admin.html" style="opacity:0.4;font-size:0.75rem;">管理員</a>
+      </p>
+      <p style="opacity:0.3;font-size:0.7rem;margin-top:4px;font-family:var(--font-zh);">
+        設計開發：新竹縣新港國小教學團隊
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ─────────────────────────────────────────────────────────
+       Join Page Script
+       ───────────────────────────────────────────────────────── -->
+  <script>
+    /* ── Floating Bubbles Canvas ──────────────────────────── */
+    ;(function () {
+      var canvas = document.getElementById('starCanvas')
+      if (!canvas) return
+      var ctx    = canvas.getContext('2d')
+      var W, H, bubbles = []
+
+      function resize() {
+        W = canvas.width  = window.innerWidth
+        H = canvas.height = window.innerHeight
+      }
+
+      function initBubbles(n) {
+        bubbles = []
+        var colors = [
+          'rgba(78, 195, 228, 0.15)',  // blue
+          'rgba(255, 209, 102, 0.18)',  // gold
+          'rgba(6, 214, 160, 0.15)',   // green
+          'rgba(241, 91, 181, 0.12)',  // pink
+          'rgba(155, 93, 229, 0.12)'   // purple
+        ]
+        for (var i = 0; i < n; i++) {
+          bubbles.push({
+            x:      Math.random() * W,
+            y:      Math.random() * H + H, // start below screen
+            r:      Math.random() * 20 + 8, // radius: 8px to 28px
+            vy:     Math.random() * 0.4 + 0.2, // upward speed
+            color:  colors[Math.floor(Math.random() * colors.length)],
+            phase:  Math.random() * Math.PI * 2,
+            swing:  Math.random() * 2 + 0.5 // side swing scale
+          })
+        }
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, W, H)
+        bubbles.forEach(function (b) {
+          var dx = Math.sin(t * 0.001 + b.phase) * b.swing
+          ctx.beginPath()
+          ctx.arc(b.x + dx, b.y, b.r, 0, Math.PI * 2)
+          ctx.fillStyle = b.color
+          ctx.fill()
+
+          // Draw a glossy bubble highlight dot
+          ctx.beginPath()
+          ctx.arc(b.x + dx - b.r * 0.3, b.y - b.r * 0.3, b.r * 0.25, 0, Math.PI * 2)
+          ctx.fillStyle = 'rgba(255,255,255,0.45)'
+          ctx.fill()
+
+          b.y -= b.vy
+          if (b.y < -b.r * 2) {
+            b.y = H + b.r * 2
+            b.x = Math.random() * W
+          }
+        })
+        requestAnimationFrame(draw)
+      }
+
+      resize()
+      initBubbles(45)
+      window.addEventListener('resize', function () { resize(); initBubbles(45) })
+      requestAnimationFrame(draw)
+    })()
+
+
+    /* ── School selector accent color ────────────────────── */
+    var schoolSelect = document.getElementById('schoolSelect')
+    schoolSelect.addEventListener('change', function () {
+      schoolSelect.dataset.school = schoolSelect.value
+    })
+
+
+    /* ── UI state helpers ─────────────────────────────────── */
+    function showState(name) {
+      var states = {
+        formState:    'block',
+        loadingState: 'flex',
+        successState: 'flex',
+        errorState:   'flex',
+      }
+      Object.keys(states).forEach(function (id) {
+        var el = document.getElementById(id)
+        if (!el) return
+        el.style.display = (id === name) ? states[id] : 'none'
+      })
+    }
+
+    function showError(message, icon, title) {
+      document.getElementById('errorIcon').textContent    = icon  || '🚫'
+      document.getElementById('errorTitle').textContent   = title || '登入失敗'
+      document.getElementById('errorMessage').textContent = message
+      showState('errorState')
+    }
+
+    function showToast(message, type) {
+      var el = document.createElement('div')
+      el.className  = 'toast toast--' + (type || 'info')
+      el.textContent = message
+      document.getElementById('toastContainer').appendChild(el)
+      setTimeout(function () { el.remove() }, 3200)
+    }
+
+
+    /* ── Retry button ─────────────────────────────────────── */
+    document.getElementById('btnRetry').addEventListener('click', function () {
+      showState('formState')
+    })
+
+
+    /* ── Handle auth callback ─────────────────────────────── */
+    async function handleAuthCallback(user) {
+      showState('loadingState')
+
+      try {
+        // Check role first
+        var role = 'student'
+        if (user.email === 'hs5743@gapp.hcc.edu.tw') {
+          role = 'super_admin'
+        } else {
+          var sb = window.SupabaseConfig.getSupabase()
+          var { data: roleData } = await sb
+            .from('user_roles')
+            .select('role')
+            .eq('email', user.email)
+            .single()
+          if (roleData && roleData.role) {
+            role = roleData.role
+          }
+        }
+
+        var redirectUrl = 'app.html'
+        if (role === 'super_admin' || role === 'admin') {
+          redirectUrl = 'admin.html'
+        } else if (role === 'teacher') {
+          redirectUrl = 'teacher.html'
+        } else {
+          // Student - ensure roster profile exists
+          var roster = await window.SupabaseConfig.ensureStudentProfile(user)
+          // Persist school & student info
+          var selectedSchool = schoolSelect.value
+          sessionStorage.setItem('selectedSchool', roster.school || selectedSchool)
+          sessionStorage.setItem('studentName',    roster.name  || (user.user_metadata && user.user_metadata.full_name) || '')
+          sessionStorage.setItem('studentEmail',   user.email   || '')
+        }
+
+        // Populate success card
+        var displayName  = (user.user_metadata && user.user_metadata.full_name) || user.email
+        var avatarUrl    = (user.user_metadata && user.user_metadata.avatar_url) || ''
+        var firstInitial = (displayName || '?')[0].toUpperCase()
+
+        document.getElementById('successName').textContent  = displayName
+        document.getElementById('successEmail').textContent = user.email
+
+        // Avatar
+        var avatarRing = document.getElementById('avatarRing')
+        var fallback   = document.getElementById('avatarFallback')
+        if (avatarUrl) {
+          var img = document.createElement('img')
+          img.src = avatarUrl
+          img.alt = displayName
+          img.style.cssText = 'width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;'
+          img.onerror = function () { fallback.textContent = firstInitial }
+          avatarRing.insertBefore(img, fallback)
+          fallback.style.display = 'none'
+        } else {
+          fallback.textContent = firstInitial
+        }
+
+        showState('successState')
+
+        // Brief pause before redirect
+        await new Promise(function (resolve) { setTimeout(resolve, 1800) })
+        window.location.href = redirectUrl
+
+      } catch (err) {
+        var msg = (err && err.message) || ''
+
+        if (msg.includes('停用')) {
+          showError('您的帳號目前已停用，請聯絡老師。', '🔒', '帳號已停用')
+        } else if (msg.includes('查無') || msg.includes('名冊') || msg.includes('student')) {
+          showError('找不到您的帳號，請確認您是否已加入名冊，或聯絡您的老師。', '🚫', '找不到帳號')
+        } else {
+          showError(msg || '發生未知錯誤，請稍後再試。', '⚠️', '驗證失敗')
+        }
+
+        showToast('帳號驗證失敗', 'error')
+        console.error('[Join] Auth error:', err)
+      }
+    }
+
+
+    /* ── Google login button ──────────────────────────────── */
+    document.getElementById('btnGoogleLogin').addEventListener('click', async function () {
+      var btn = document.getElementById('btnGoogleLogin')
+      btn.disabled = true
+
+      // Save selected school before OAuth redirect (survives the redirect)
+      sessionStorage.setItem('selectedSchool', schoolSelect.value)
+
+      try {
+        // Build redirectTo pointing back to join.html
+        var base = window.location.origin
+        var path = window.location.pathname
+        var dir  = path.substring(0, path.lastIndexOf('/') + 1)
+        var redirectTo = base + dir + 'join.html'
+
+        await window.SupabaseConfig.signInWithGoogle(redirectTo)
+        // Browser redirects to Google — nothing more runs here
+      } catch (err) {
+        btn.disabled = false
+        showToast('無法開啟 Google 登入，請稍後再試。', 'error')
+        console.error('[Join] signInWithGoogle error:', err)
+      }
+    })
+
+
+    /* ── Page init ────────────────────────────────────────── */
+    async function init() {
+      // Wait for config.js deferred script to execute and expose SupabaseConfig
+      var attempts = 0
+      while (!window.SupabaseConfig && attempts < 50) {
+        await new Promise(function (r) { setTimeout(r, 100) })
+        attempts++
+      }
+
+      if (!window.SupabaseConfig) {
+        console.error('[Join] SupabaseConfig not available after waiting')
+        showToast('載入設定失敗，請重新整理頁面。', 'error')
+        return
+      }
+
+      var sb   = window.SupabaseConfig.getSupabase()
+      var user = await window.SupabaseConfig.getCurrentUser()
+
+      if (user) {
+        // Check if this is a fresh OAuth callback
+        var hash    = window.location.hash   || ''
+        var search  = window.location.search || ''
+        var isOAuth = hash.includes('access_token') || search.includes('code=')
+
+        if (isOAuth) {
+          await handleAuthCallback(user)
+        } else {
+          // Already authenticated — redirect based on role
+          var role = 'student'
+          if (user.email === 'hs5743@gapp.hcc.edu.tw') {
+            role = 'super_admin'
+          } else {
+            var sb = window.SupabaseConfig.getSupabase()
+            var { data: roleData } = await sb
+              .from('user_roles')
+              .select('role')
+              .eq('email', user.email)
+              .single()
+            if (roleData && roleData.role) {
+              role = roleData.role
+            }
+          }
+
+          if (role === 'super_admin' || role === 'admin') {
+            window.location.href = 'admin.html'
+          } else if (role === 'teacher') {
+            window.location.href = 'teacher.html'
+          } else {
+            window.location.href = 'app.html'
+          }
+        }
+        return
+      }
+
+      // Listen for Supabase auth state changes (handles the redirect callback)
+      sb.auth.onAuthStateChange(async function (event, session) {
+        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session && session.user) {
+          await handleAuthCallback(session.user)
+        }
+      })
+    }
+
+    // Bootstrap: run after DOM and deferred scripts
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init)
+    } else {
+      setTimeout(init, 0)
+    }
+  </script>
+
+</body>
+</html>

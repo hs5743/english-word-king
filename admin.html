@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>英語單字王 — 管理員後台</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+
+  <style>
+    body { overflow-x: hidden; }
+
+    /* Admin Container Layout */
+    .admin-container {
+      max-width: 1200px;
+      margin: var(--sp-lg) auto;
+      padding: 0 var(--sp-md);
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Tabs */
+    .admin-tabs {
+      display: flex; gap: var(--sp-xs);
+      background: rgba(255,255,255,0.03);
+      padding: 6px; border-radius: var(--r-md);
+      border: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: var(--sp-lg);
+    }
+    .admin-tab {
+      flex: 1; padding: 12px; border: none; background: transparent;
+      color: var(--clr-text-muted); font-size: 0.95rem; font-weight: 600;
+      font-family: var(--font-zh); cursor: pointer; border-radius: 8px;
+      transition: all var(--dur-fast); display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .admin-tab:hover { color: var(--clr-text-primary); background: rgba(255,255,255,0.04); }
+    .admin-tab.active {
+      background: rgba(255,255,255,0.08); color: var(--clr-gold-1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Panels */
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; animation: fadeInUp 0.4s ease both; }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: var(--sp-md);
+    }
+    .form-label {
+      display: block; font-size: 0.85rem; font-weight: 600;
+      color: var(--clr-text-secondary); margin-bottom: 6px;
+    }
+    .form-select {
+      width: 100%; padding: 10px 14px;
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: var(--clr-text-primary); outline: none;
+      font-family: var(--font-zh); transition: border-color var(--dur-fast);
+    }
+    .form-select:focus { border-color: rgba(245,200,66,0.5); }
+
+    /* Tables */
+    .table-container {
+      width: 100%; overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-md);
+      background: rgba(255,255,255,0.02); margin-top: var(--sp-md);
+    }
+    .admin-table {
+      width: 100%; border-collapse: collapse; text-align: left;
+      font-size: 0.875rem;
+    }
+    .admin-table th, .admin-table td {
+      padding: 14px var(--sp-md); border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .admin-table th {
+      background: rgba(255,255,255,0.04); font-weight: 700; color: var(--clr-text-muted);
+      font-family: var(--font-zh); text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.08em;
+    }
+    .admin-table td { color: var(--clr-text-secondary); font-family: var(--font-zh); }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* Badges */
+    .role-badge {
+      padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700;
+    }
+    .role-badge--admin   { background: rgba(255,107,107,0.15); color: var(--clr-red-1); border: 1px solid rgba(255,107,107,0.3); }
+    .role-badge--teacher { background: rgba(79,195,247,0.15); color: var(--clr-blue-1); border: 1px solid rgba(79,195,247,0.3); }
+
+    /* File upload */
+    .file-upload-btn {
+      position: relative; overflow: hidden; display: inline-block;
+    }
+    .file-upload-btn input[type=file] {
+      position: absolute; left: 0; top: 0; opacity: 0; font-size: 100px; cursor: pointer;
+    }
+
+    /* Access Denied */
+    .denied-card {
+      max-width: 480px; margin: 100px auto; text-align: center;
+      padding: var(--sp-xl) var(--sp-lg);
+    }
+
+    /* Switch toggle styling */
+    .switch {
+      position: relative; display: inline-block; width: 40px; height: 20px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background-color: rgba(255,255,255,0.15); transition: .3s; border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--clr-green-1); }
+    input:checked + .slider:before { transform: translateX(20px); }
+  </style>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <!-- ── 導覽列 ── -->
+  <nav class="navbar" style="position:relative;z-index:100;">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo">⚙️ 後台管理系統</a>
+        <ul class="navbar__nav" style="align-items: center;">
+          <li><span id="userEmailDisplay" style="font-size:0.8rem;color:var(--clr-text-muted);margin-right:12px;">載入中…</span></li>
+          <li><button class="btn btn--ghost" style="padding:6px 14px;font-size:0.8rem;" onclick="handleLogout()">登出</button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── 星空背景光暈 ── -->
+  <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;">
+    <div style="position:absolute;top:-20%;left:-10%;width:50vw;height:50vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,107,107,0.03),transparent 70%);"></div>
+    <div style="position:absolute;bottom:-10%;right:-5%;width:40vw;height:40vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(245,200,66,0.03),transparent 70%);"></div>
+  </div>
+
+  <!-- ── Access Denied Screen ── -->
+  <div class="container" id="accessDeniedScreen" style="display:none;">
+    <div class="glass-card denied-card animate-in">
+      <div style="font-size: 3.5rem; margin-bottom: var(--sp-md);">🔒</div>
+      <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: var(--sp-sm);">權限不足</h2>
+      <p style="font-size: 0.9rem; color: var(--clr-text-muted); margin-bottom: var(--sp-lg);" id="deniedMessage">
+        您的帳號未獲得授權，僅限管理員或系統管理者登入。
+      </p>
+      <button class="btn btn--primary" onclick="handleLogout()">回首頁登出</button>
+    </div>
+  </div>
+
+  <!-- ── Main Dashboard ── -->
+  <div class="admin-container" id="dashboardScreen" style="display:none;">
+    
+    <!-- Tab Controls -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="config" onclick="switchTab('config')">🤖 系統設定</button>
+      <button class="admin-tab" data-tab="roster" onclick="switchTab('roster')">🌾 學生名冊管理</button>
+      <button class="admin-tab" data-tab="roles" id="rolesTabBtn" onclick="switchTab('roles')" style="display:none;">🔑 帳號授權管理</button>
+    </div>
+
+    <!-- ══ PANEL 1: SYSTEM CONFIG ══ -->
+    <div class="admin-panel active" id="panelConfig">
+      <div class="glass-card" style="padding:var(--sp-lg);">
+        <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-gold-1);">AI 金鑰與系統參數</h2>
+        <p style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-lg);">
+          金鑰由 Supabase 後端與 Edge Function 安全隔離，前端網頁無法取得真實明文值。
+        </p>
+
+        <form id="configForm" onsubmit="saveSystemConfig(event)">
+          <div class="form-group">
+            <label class="form-label" for="geminiKey">Gemini 3.5 Flash 主要 API 金鑰</label>
+            <input class="form-input" id="geminiKey" type="password" placeholder="輸入 API 金鑰 (若不修改請留空)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="geminiKeyBackup">Gemini 3.5 Flash 備用 API 金鑰</label>
+            <input class="form-input" id="geminiKeyBackup" type="password" placeholder="輸入備用 API 金鑰 (若不修改請留空)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="groqKey">Groq Llama 3 備援 API 金鑰</label>
+            <input class="form-input" id="groqKey" type="password" placeholder="輸入 Groq API 金鑰 (若不修改請留空)" />
+          </div>
+
+          <div class="form-group" style="margin-top:var(--sp-lg);">
+            <button class="btn btn--primary" type="submit">💾 儲存設定</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ PANEL 2: STUDENT ROSTER ══ -->
+    <div class="admin-panel" id="panelRoster">
+      
+      <!-- Import / Add tools -->
+      <div style="display:flex;flex-wrap:wrap;gap:var(--sp-sm);justify-content:space-between;align-items:center;margin-bottom:var(--sp-md);">
+        
+        <!-- Search filter -->
+        <div style="display:flex;gap:var(--sp-xs);max-width:320px;flex:1;">
+          <input class="form-input" id="rosterSearch" type="text" placeholder="搜尋學生姓名或信箱..." oninput="filterRoster()" style="padding:10px 14px;" />
+        </div>
+
+        <div style="display:flex;gap:var(--sp-xs);">
+          <!-- CSV Import -->
+          <div class="file-upload-btn btn btn--ghost" style="padding:10px 18px;">
+            📥 匯入學生名冊 CSV
+            <input type="file" id="csvFileInput" accept=".csv" onchange="importRosterCsv(event)" />
+          </div>
+          <!-- Manual Add -->
+          <button class="btn btn--primary" onclick="showAddRosterModal()">➕ 新增學生</button>
+        </div>
+      </div>
+
+      <!-- CSV Format Tip -->
+      <div class="glass-card" style="padding:12px;font-size:0.75rem;color:var(--clr-text-muted);border-color:rgba(79,195,247,0.15);background:rgba(79,195,247,0.02);margin-bottom:var(--sp-md);">
+        💡 <strong>CSV 格式提示：</strong> 欄位首行必須包含 <code>email,name,school,class,grade</code> 逗號分隔。學校欄位預設新港國小，或填寫：新港國小、鳳岡國小、豐田國小。年級請填數字 3~6。
+      </div>
+
+      <!-- Roster table -->
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>學生姓名</th>
+              <th>學校</th>
+              <th>班級</th>
+              <th>年級</th>
+              <th>帳號信箱 (Google)</th>
+              <th style="text-align:center;">帳號啟用</th>
+              <th style="text-align:center;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTableBody">
+            <tr>
+              <td colspan="7" style="text-align:center;color:var(--clr-text-muted);">載入中…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ PANEL 3: USER ROLES ══ -->
+    <div class="admin-panel" id="panelRoles">
+      <div class="glass-card" style="padding:var(--sp-lg);margin-bottom:var(--sp-lg);">
+        <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-red-1);">新增教職員授權</h2>
+        
+        <form id="roleForm" onsubmit="addUserRole(event)" style="display:flex;flex-wrap:wrap;gap:var(--sp-md);align-items:flex-end;">
+          <div class="form-group" style="flex:2;min-width:240px;margin-bottom:0;">
+            <label class="form-label" for="roleEmail">教職員 Email (限定 @gapp.hcc.edu.tw)</label>
+            <input class="form-input" id="roleEmail" type="email" placeholder="example@gapp.hcc.edu.tw" required />
+          </div>
+
+          <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;">
+            <label class="form-label" for="roleSelect">角色層級</label>
+            <select class="form-select" id="roleSelect">
+              <option value="teacher">教師 (可開課、看看板)</option>
+              <option value="admin">管理者 (可新增名冊、改設定)</option>
+            </select>
+          </div>
+
+          <button class="btn btn--primary" type="submit" style="padding:11px 24px;">➕ 新增授權</button>
+        </form>
+      </div>
+
+      <!-- Roles list table -->
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:var(--sp-sm);">已授權人員名單</h3>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>人員信箱</th>
+              <th>角色等級</th>
+              <th style="text-align:center;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="rolesTableBody">
+            <tr>
+              <td colspan="3" style="text-align:center;color:var(--clr-text-muted);">載入中…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Manual Add Student Modal (HTML overlay) ── -->
+  <div id="addStudentModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+    <div class="glass-card animate-in" style="width:100%;max-width:480px;padding:var(--sp-lg);">
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-gold-1);" id="modalTitle">新增學生</h3>
+      
+      <form id="studentAddForm" onsubmit="submitStudentForm(event)">
+        <div class="form-group">
+          <label class="form-label" for="stdName">姓名</label>
+          <input class="form-input" id="stdName" type="text" placeholder="例如：張小明" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stdEmail">學生 Google 信箱</label>
+          <input class="form-input" id="stdEmail" type="email" placeholder="example@gapp.hcc.edu.tw" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stdSchool">學校</label>
+          <select class="form-select" id="stdSchool">
+            <option value="新港國小" selected>⭐ 新港國小</option>
+            <option value="鳳岡國小">🌊 鳳岡國小</option>
+            <option value="豐田國小">🌾 豐田國小</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stdClass">班級</label>
+          <input class="form-input" id="stdClass" type="text" placeholder="例如：五年一班" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stdGrade">年級</label>
+          <select class="form-select" id="stdGrade">
+            <option value="3">三年級</option>
+            <option value="4">四年級</option>
+            <option value="5" selected>五年級</option>
+            <option value="6">六年級</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:var(--sp-sm);justify-content:flex-end;margin-top:var(--sp-lg);">
+          <button class="btn btn--ghost" type="button" onclick="hideAddRosterModal()">取消</button>
+          <button class="btn btn--primary" type="submit">確認提交</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" style="display:none;position:fixed;inset:0;background:rgba(7,9,15,0.7);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+    <div class="loading-spinner"></div>
+    <div style="font-size:0.9rem;color:var(--clr-text-secondary);" id="loadingMsg">處理中，請稍候...</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- Scripts                                                 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <script>
+    let supabaseClient = null;
+    let currentUser = null;
+    let userRole = null;             // null | 'admin' | 'super_admin'
+    let fullRoster = [];             // 暫存完整名冊以進行前端過濾
+
+    async function invokeAdminApi(action, payload = {}) {
+      const session = (await supabaseClient.auth.getSession()).data.session;
+      if (!session) throw new Error('登入狀態已失效，請重新登入。');
+
+      const res = await fetch(`${window.SupabaseConfig.SUPABASE_URL}/functions/v1/admin-api`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ action, ...payload })
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || '管理 API 呼叫失敗。');
+      }
+      return data;
+    }
+
+    async function init() {
+      // 1. 等待 SupabaseConfig
+      let attempts = 0;
+      while (!window.SupabaseConfig && attempts < 50) {
+        await new Promise(r => setTimeout(r, 100));
+        attempts++;
+      }
+
+      if (!window.SupabaseConfig) {
+        alert('系統載入失敗，請重新整理頁面。');
+        return;
+      }
+
+      supabaseClient = window.SupabaseConfig.getSupabase();
+      currentUser = await window.SupabaseConfig.getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = 'join.html';
+        return;
+      }
+
+      document.getElementById('userEmailDisplay').textContent = currentUser.email;
+
+      // 2. 驗證權限層級
+      showLoading(true, '驗證管理者帳號權限中...');
+      try {
+        if (currentUser.email === 'hs5743@gapp.hcc.edu.tw') {
+          userRole = 'super_admin';
+        } else {
+          const { data, error } = await supabaseClient
+            .from('user_roles')
+            .select('role')
+            .eq('email', currentUser.email)
+            .single();
+
+          if (error || !data || data.role !== 'admin') {
+            // 如果是教師，跳轉到教師看板
+            if (data && data.role === 'teacher') {
+              window.location.href = 'teacher.html';
+              return;
+            }
+            showAccessDenied();
+            showLoading(false);
+            return;
+          }
+          userRole = 'admin';
+        }
+
+        // 3. 權限通過，初始化介面
+        showLoading(false);
+        document.getElementById('dashboardScreen').style.display = 'block';
+
+        document.getElementById('rolesTabBtn').style.display = 'inline-flex';
+        if (userRole !== 'super_admin') {
+          document.querySelector('#roleSelect option[value="admin"]').style.display = 'none';
+          document.getElementById('roleSelect').value = 'teacher';
+        }
+        loadUserRoles();
+
+        loadRoster();
+
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        showAccessDenied();
+      }
+    }
+
+    function showAccessDenied() {
+      document.getElementById('accessDeniedScreen').style.display = 'block';
+      document.getElementById('dashboardScreen').style.display = 'none';
+    }
+
+    function handleLogout() {
+      if (window.SupabaseConfig) window.SupabaseConfig.signOut();
+      else window.location.href = 'index.html';
+    }
+
+    // Tab 切換
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.admin-panel').forEach(p => {
+        p.classList.toggle('active', p.id === 'panel' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+      });
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+     * 1. SYSTEM CONFIG MODULE
+     * ═══════════════════════════════════════════════════════════ */
+
+    async function saveSystemConfig(e) {
+      e.preventDefault();
+      const gemini = document.getElementById('geminiKey').value.trim();
+      const backup = document.getElementById('geminiKeyBackup').value.trim();
+      const groq = document.getElementById('groqKey').value.trim();
+
+      showLoading(true, '正在寫入 AI 設定...');
+      try {
+        const payload = {};
+        if (gemini) payload.gemini_api_key = gemini;
+        if (backup) payload.gemini_api_key_backup = backup;
+        if (groq) payload.groq_api_key = groq;
+
+        if (Object.keys(payload).length === 0) {
+          showLoading(false);
+          alert('沒有輸入任何變更。');
+          return;
+        }
+
+        await invokeAdminApi('save-config', payload);
+        showLoading(false);
+        alert('系統 AI 金鑰設定儲存成功！');
+        document.getElementById('geminiKey').value = '';
+        document.getElementById('geminiKeyBackup').value = '';
+        document.getElementById('groqKey').value = '';
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('儲存失敗：' + err.message);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+     * 2. STUDENT ROSTER MODULE
+     * ═══════════════════════════════════════════════════════════ */
+
+    async function loadRoster() {
+      try {
+        const data = await invokeAdminApi('get-roster');
+        fullRoster = data.roster || [];
+        renderRosterTable(fullRoster);
+      } catch (err) {
+        console.error(err);
+        alert('名冊資料載入失敗！');
+      }
+    }
+
+    function renderRosterTable(items) {
+      const tbody = document.getElementById('rosterTableBody');
+      if (items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--clr-text-muted);">無學生名冊資料，請點點擊右上方匯入 CSV 或手動新增。</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = items.map(item => `
+        <tr>
+          <td style="font-weight:700;color:var(--clr-text-primary);">${item.name}</td>
+          <td>${item.school}</td>
+          <td>${item.class}</td>
+          <td>${item.grade} 年級</td>
+          <td class="font-en" style="font-size:0.8rem;">${item.email}</td>
+          <td style="text-align:center;">
+            <label class="switch">
+              <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="toggleRosterAccount('${item.email}', this.checked)" />
+              <span class="slider"></span>
+            </label>
+          </td>
+          <td style="text-align:center;">
+            <button class="btn btn--logout" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteRoster('${item.email}')">刪除</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterRoster() {
+      const query = document.getElementById('rosterSearch').value.trim().toLowerCase();
+      if (!query) {
+        renderRosterTable(fullRoster);
+        return;
+      }
+      const filtered = fullRoster.filter(r => 
+        r.name.toLowerCase().includes(query) || 
+        r.email.toLowerCase().includes(query) || 
+        r.school.toLowerCase().includes(query) || 
+        r.class.toLowerCase().includes(query)
+      );
+      renderRosterTable(filtered);
+    }
+
+    async function toggleRosterAccount(email, enabled) {
+      try {
+        await invokeAdminApi('set-roster-enabled', { email, enabled });
+      } catch (err) {
+        console.error(err);
+        alert('帳號啟用切換失敗，請重試。');
+        loadRoster();
+      }
+    }
+
+    async function deleteRoster(email) {
+      if (!confirm('您確定要刪除此筆學生資料嗎？這也會將其從名冊中移出。')) return;
+      showLoading(true, '正在刪除學生資料...');
+      try {
+        await invokeAdminApi('delete-roster', { email });
+        showLoading(false);
+        loadRoster();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('刪除失敗，請檢查網路後重試。');
+      }
+    }
+
+    // 手動新增學生
+    function showAddRosterModal() {
+      document.getElementById('studentAddForm').reset();
+      document.getElementById('stdSchool').value = '新港國小'; // 預設新港國小
+      document.getElementById('stdGrade').value = '5';
+      document.getElementById('addStudentModal').style.display = 'flex';
+    }
+
+    function hideAddRosterModal() {
+      document.getElementById('addStudentModal').style.display = 'none';
+    }
+
+    async function submitStudentForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('stdName').value.trim();
+      const email = document.getElementById('stdEmail').value.trim();
+      const school = document.getElementById('stdSchool').value;
+      const className = document.getElementById('stdClass').value.trim();
+      const grade = parseInt(document.getElementById('stdGrade').value, 10);
+
+      if (!email.endsWith('@gapp.hcc.edu.tw')) {
+        alert('信箱必須為 @gapp.hcc.edu.tw 的 Google 教育帳號。');
+        return;
+      }
+
+      showLoading(true, '正在新增學生到名冊...');
+      try {
+        await invokeAdminApi('upsert-roster', {
+          student: { email, name, school, class: className, grade, enabled: true }
+        });
+        showLoading(false);
+        hideAddRosterModal();
+        loadRoster();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('新增失敗：' + err.message);
+      }
+    }
+
+    // CSV Roster Import
+    function importRosterCsv(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showLoading(true, '正在解析並上傳名冊...');
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const text = e.target.result;
+          const lines = text.split('\n');
+          if (lines.length < 2) {
+            throw new Error('CSV 檔案為空或缺少資料行。');
+          }
+
+          const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+          const required = ['email', 'name', 'school', 'class', 'grade'];
+          for (const req of required) {
+            if (!headers.includes(req)) throw new Error(`CSV 標題缺少必要欄位: ${req}`);
+          }
+
+          const rosterData = [];
+          for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            
+            // 處理 CSV 欄位拆分（處理可能的逗號與空格）
+            const values = line.split(',').map(v => v.trim());
+            const item = {};
+            headers.forEach((h, idx) => {
+              item[h] = values[idx];
+            });
+
+            if (item.email && item.name && item.school && item.class && item.grade) {
+              const gradeNum = parseInt(item.grade, 10);
+              if (isNaN(gradeNum) || gradeNum < 3 || gradeNum > 6) {
+                console.warn(`第 ${i} 行學生 ${item.name} 年級格式錯誤，已略過。`);
+                continue;
+              }
+              if (!item.email.endsWith('@gapp.hcc.edu.tw')) {
+                console.warn(`第 ${i} 行學生 ${item.name} 信箱非指定網域，已略過。`);
+                continue;
+              }
+
+              rosterData.push({
+                email: item.email,
+                name: item.name,
+                school: item.school,
+                class: item.class,
+                grade: gradeNum,
+                enabled: true
+              });
+            }
+          }
+
+          if (rosterData.length === 0) {
+            throw new Error('未在 CSV 檔案中找到任何有效的學生資料列。');
+          }
+
+          await invokeAdminApi('upsert-roster', { roster: rosterData });
+          showLoading(false);
+          alert(`✅ 名冊匯入成功！共新增/更新了 ${rosterData.length} 筆學生資料。`);
+          loadRoster();
+
+        } catch (err) {
+          console.error(err);
+          showLoading(false);
+          alert('解析 CSV 失敗：' + err.message);
+        } finally {
+          event.target.value = ''; // reset input
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+     * 3. USER ROLES MODULE (教職員)
+     * ═══════════════════════════════════════════════════════════ */
+
+    async function loadUserRoles() {
+      try {
+        const data = await invokeAdminApi('get-roles');
+        renderRolesTable(data.roles || []);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderRolesTable(items) {
+      const tbody = document.getElementById('rolesTableBody');
+      tbody.innerHTML = items.map(item => `
+        <tr>
+          <td class="font-en" style="font-weight:700;">${item.email}</td>
+          <td>
+            <span class="role-badge role-badge--${item.role}">
+              ${item.role === 'admin' ? '管理者' : '教師'}
+            </span>
+          </td>
+          <td style="text-align:center;">
+            ${item.role === 'admin' && userRole !== 'super_admin'
+              ? '<span style="font-size:0.75rem;color:var(--clr-text-muted);">僅系統管理者可刪除</span>'
+              : `<button class="btn btn--logout" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteUserRole('${item.email}')">刪除授權</button>`}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function addUserRole(e) {
+      e.preventDefault();
+      const email = document.getElementById('roleEmail').value.trim();
+      const role = document.getElementById('roleSelect').value;
+
+      if (role === 'admin' && userRole !== 'super_admin') {
+        alert('只有系統管理者可以新增管理者。');
+        return;
+      }
+
+      if (!email.endsWith('@gapp.hcc.edu.tw')) {
+        alert('信箱必須為 @gapp.hcc.edu.tw 的 Google 教育帳號。');
+        return;
+      }
+
+      showLoading(true, '正在建立角色授權...');
+      try {
+        await invokeAdminApi('add-role', { email, role });
+        showLoading(false);
+        document.getElementById('roleEmail').value = '';
+        loadUserRoles();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('新增授權失敗：' + err.message);
+      }
+    }
+
+    async function deleteUserRole(email) {
+      if (!confirm(`確定要刪除對 ${email} 的教職員授權嗎？`)) return;
+      showLoading(true, '正在刪除授權...');
+      try {
+        await invokeAdminApi('delete-role', { email });
+        showLoading(false);
+        loadUserRoles();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('刪除授權失敗：' + err.message);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+     * UTILITIES
+     * ═══════════════════════════════════════════════════════════ */
+
+    function showLoading(show, message = '處理中...') {
+      const overlay = document.getElementById('loadingOverlay');
+      const msg = document.getElementById('loadingMsg');
+      if (show) {
+        msg.textContent = message;
+        overlay.style.display = 'flex';
+      } else {
+        overlay.style.display = 'none';
+      }
+    }
+
+    // Bootstrap
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      setTimeout(init, 0);
+    }
+  </script>
+</body>
+</html>

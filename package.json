@@ -1,0 +1,15 @@
+{
+  "name": "english-word-king",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node tools/local-server.mjs",
+    "start": "node tools/local-server.mjs",
+    "build:pages": "node tools/build-pages.mjs",
+    "check:js": "node --check js/config.js && node --check js/index.js && node --check js/speech.js && node --check js/challenge.js && node --check tools/local-server.mjs && node --check tools/check-inline-scripts.mjs && node --check tools/check-json.mjs && node --check tools/build-pages.mjs",
+    "check:inline": "node tools/check-inline-scripts.mjs",
+    "check:json": "node tools/check-json.mjs",
+    "check": "npm run check:js && npm run check:inline && npm run check:json"
+  }
+}

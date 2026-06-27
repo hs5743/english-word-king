@@ -1,0 +1,23 @@
+# Local/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Dependency/cache folders
+node_modules/
+.cache/
+.tmp/
+dist/
+supabase/.temp/
+
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+
+English Learning Handbook*.pdf
+
+# Large source reference PDF exceeds GitHub's 100MB single-file limit.
+# Keep it locally, but do not commit it to GitHub/static hosting.
+English Learning Handbook(修訂日期1140602) 送印的版本 (1).pdf

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>英語單字王 — 教師控制台</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+
+  <style>
+    body { overflow-x: hidden; }
+
+    /* Teacher Layout */
+    .teacher-container {
+      max-width: 1200px;
+      margin: var(--sp-lg) auto;
+      padding: 0 var(--sp-md);
+      position: relative;
+      z-index: 10;
+    }
+
+    .teacher-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: var(--sp-lg);
+      margin-top: var(--sp-lg);
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .teacher-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Stats Grid */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-md);
+      margin-bottom: var(--sp-lg);
+    }
+    @media (max-width: 640px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+
+    .stat-card {
+      padding: var(--sp-md) var(--sp-lg);
+      text-align: center;
+    }
+    .stat-card__val {
+      font-size: 2.2rem; font-weight: 800; font-family: var(--font-en);
+      margin-bottom: var(--sp-xs);
+    }
+    .stat-card__lbl {
+      font-size: 0.8rem; color: var(--clr-text-muted); font-weight: 600;
+      font-family: var(--font-zh);
+    }
+
+    /* Forms */
+    .form-group { margin-bottom: var(--sp-md); }
+    .form-label {
+      display: block; font-size: 0.85rem; font-weight: 700;
+      color: var(--clr-text-secondary); margin-bottom: 6px;
+      font-family: var(--font-zh);
+    }
+    .form-select, .form-input {
+      width: 100%; padding: 10px 14px;
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: var(--clr-text-primary); outline: none;
+      font-family: var(--font-zh); transition: border-color var(--dur-fast);
+    }
+    .form-select:focus, .form-input:focus { border-color: rgba(245,200,66,0.5); }
+
+    /* Huge Session Display */
+    .session-code-display {
+      font-size: 3.6rem; font-weight: 900; font-family: var(--font-en);
+      letter-spacing: 0.08em; text-align: center; padding: var(--sp-md) 0;
+      background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-gold-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: pulse 2.5s infinite ease-in-out;
+    }
+
+    /* Tables */
+    .table-container {
+      width: 100%; overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-md);
+      background: rgba(255,255,255,0.02);
+    }
+    .admin-table {
+      width: 100%; border-collapse: collapse; text-align: left;
+      font-size: 0.875rem;
+    }
+    .admin-table th, .admin-table td {
+      padding: 14px var(--sp-md); border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .admin-table th {
+      background: rgba(255,255,255,0.04); font-weight: 700; color: var(--clr-text-muted);
+      font-family: var(--font-zh); text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.08em;
+    }
+    .admin-table td { color: var(--clr-text-secondary); font-family: var(--font-zh); }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* Flash animation for new scores */
+    .row-highlight {
+      animation: flashGreen 1.5s ease;
+    }
+    @keyframes flashGreen {
+      0%   { background-color: rgba(105,240,174,0.15); }
+      100% { background-color: transparent; }
+    }
+
+    /* Access Denied */
+    .denied-card {
+      max-width: 480px; margin: 100px auto; text-align: center;
+      padding: var(--sp-xl) var(--sp-lg);
+    }
+  </style>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <!-- ── 導覽列 ── -->
+  <nav class="navbar" style="position:relative;z-index:100;">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo">🏫 教師大螢幕控制台</a>
+        <ul class="navbar__nav" style="align-items: center;">
+          <li><span id="userEmailDisplay" style="font-size:0.8rem;color:var(--clr-text-muted);margin-right:12px;">載入中…</span></li>
+          <li><button class="btn btn--ghost" style="padding:6px 14px;font-size:0.8rem;" onclick="handleLogout()">登出</button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── 星空背景光暈 ── -->
+  <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;">
+    <div style="position:absolute;top:-20%;left:-10%;width:50vw;height:50vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(79,195,247,0.04),transparent 70%);"></div>
+    <div style="position:absolute;bottom:-10%;right:-5%;width:40vw;height:40vw;border-radius:50%;
+      background:radial-gradient(circle,rgba(206,147,216,0.04),transparent 70%);"></div>
+  </div>
+
+  <!-- ── Access Denied Screen ── -->
+  <div class="container" id="accessDeniedScreen" style="display:none;">
+    <div class="glass-card denied-card animate-in">
+      <div style="font-size: 3.5rem; margin-bottom: var(--sp-md);">🔒</div>
+      <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: var(--sp-sm);">權限不足</h2>
+      <p style="font-size: 0.9rem; color: var(--clr-text-muted); margin-bottom: var(--sp-lg);">
+        您的帳號未獲得授權，僅限教師、學校管理員或系統管理者登入。
+      </p>
+      <button class="btn btn--primary" onclick="handleLogout()">回首頁登出</button>
+    </div>
+  </div>
+
+  <!-- ── Main Dashboard ── -->
+  <main class="teacher-container" id="dashboardScreen" style="display:none;">
+    
+    <!-- Stats widgets row -->
+    <div class="stats-row animate-in">
+      <div class="glass-card stat-card">
+        <div class="stat-card__val text-gradient-blue" id="statStudentCount">0</div>
+        <div class="stat-card__lbl">完成人數</div>
+      </div>
+      <div class="glass-card stat-card">
+        <div class="stat-card__val text-gradient-gold" id="statAvgScore">0</div>
+        <div class="stat-card__lbl">班級平均分</div>
+      </div>
+      <div class="glass-card stat-card">
+        <div class="stat-card__val" style="color:var(--clr-green-1); font-family:var(--font-en); font-weight:800;" id="statHighScore">0</div>
+        <div class="stat-card__lbl">最高得分</div>
+      </div>
+    </div>
+
+    <div class="teacher-grid animate-in" style="animation-delay: 0.1s;">
+      
+      <!-- LEFT: Session setup -->
+      <section>
+        
+        <!-- Setup Card -->
+        <div class="glass-card" id="setupCard" style="padding:var(--sp-lg); margin-bottom:var(--sp-lg);">
+          <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:var(--sp-md); color:var(--clr-gold-1);">建立新挑戰場次</h2>
+          <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-bottom:var(--sp-lg);">
+            建立場次後，投影幕會顯示 6 位數場次碼，學生在平板輸入即可加入同步挑戰。
+          </p>
+
+          <form id="sessionForm" onsubmit="handleCreateSession(event)">
+            <div class="form-group">
+              <label class="form-label" for="sessionSchool">選擇學校</label>
+              <select class="form-select" id="sessionSchool">
+                <option value="新港國小" selected>新港國小</option>
+                <option value="鳳岡國小">鳳岡國小</option>
+                <option value="豐田國小">豐田國小</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="sessionClass">設定班級 (可選填)</label>
+              <input class="form-input" id="sessionClass" type="text" placeholder="例如：五年一班 (留空表示不限)" />
+            </div>
+
+            <button class="btn btn--primary btn--full" type="submit" style="margin-top:var(--sp-md);">🚀 建立挑戰場次</button>
+          </form>
+        </div>
+
+        <!-- Active Session Card -->
+        <div class="glass-card" id="activeSessionCard" style="padding:var(--sp-lg); display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--sp-sm);">
+            <span style="font-size:0.8rem; font-weight:700; color:var(--clr-green-1); display:flex; align-items:center; gap:6px;">
+              <span style="width:8px; height:8px; border-radius:50%; background:var(--clr-green-1); animation:pulse 1.5s infinite;"></span>
+              進行中場次
+            </span>
+            <span style="font-size:0.75rem; color:var(--clr-text-muted);" id="sessionTimer">剩餘 --:--</span>
+          </div>
+
+          <div class="session-code-display" id="sessionCodeDisplay">000 000</div>
+
+          <div style="padding:var(--sp-md); background:rgba(255,255,255,0.03); border-radius:var(--r-sm); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.06);">
+            <div style="font-size:0.8rem; font-weight:700; margin-bottom:4px; color:var(--clr-text-secondary);" id="activeSchoolInfo">新港國小</div>
+            <div style="font-size:0.75rem; color:var(--clr-text-muted);" id="activeClassInfo">不限班級</div>
+          </div>
+
+          <div style="font-size:0.78rem; color:var(--clr-text-muted); line-height:1.6; margin-bottom:var(--sp-lg); text-align:center;">
+            📢 請學生開啟 <a href="join.html" target="_blank" style="color:var(--clr-blue-1); text-decoration:underline;">join.html</a> 登入，並選擇「課堂挑戰」輸入上方 6 位數字場次碼。
+          </div>
+
+          <button class="btn btn--logout btn--full" style="border-radius:var(--r-md); padding:12px;" onclick="handleCloseSession()">🔴 關閉挑戰場次</button>
+        </div>
+
+      </section>
+
+      <!-- RIGHT: Leaderboard scoreboard -->
+      <section class="glass-card" style="padding:var(--sp-lg); min-height:480px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--sp-md); flex-wrap:wrap; gap: var(--sp-sm);">
+          <div>
+            <h2 style="font-size:1.25rem; font-weight:800; color:var(--clr-text-primary);">📊 即時挑戰成績榜</h2>
+            <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-top:2px;">學生提交答題結果後會自動即時排序浮現</p>
+          </div>
+          
+          <button class="btn btn--ghost" id="exportBtn" style="padding:8px 18px; font-size:0.8rem; border-radius:8px;" onclick="exportToCsv()" disabled>
+            💾 匯出資料 CSV
+          </button>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="table-container">
+          <table class="admin-table" id="leaderboardTable">
+            <thead>
+              <tr>
+                <th style="width:60px; text-align:center;">排名</th>
+                <th>學生姓名</th>
+                <th>學校班級</th>
+                <th style="text-align:right;">挑戰分數</th>
+                <th style="text-align:center;">答錯題數</th>
+                <th style="text-align:right;">口說平均</th>
+                <th style="text-align:right; width:100px;">完成時間</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+              <tr>
+                <td colspan="7" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
+                  等待場次啟動中...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" style="display:none;position:fixed;inset:0;background:rgba(7,9,15,0.7);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+    <div class="loading-spinner"></div>
+    <div style="font-size:0.9rem;color:var(--clr-text-secondary);" id="loadingMsg">處理中，請稍候...</div>
+  </div>
+
+  <!-- ── 頁腳 ── -->
+  <footer style="position:relative; z-index:1; border-top:1px solid var(--glass-border); padding:var(--sp-lg) 0; margin-top:var(--sp-2xl); text-align:center;">
+    <div class="container">
+      <p class="text-muted text-sm">
+        © 2025 三校聯網・英語單字王 ｜
+        鳳岡國小・豐田國小・新港國小 ｜
+        <a href="admin.html" style="opacity:0.4; font-size:0.75rem;">管理員後台</a>
+      </p>
+      <p style="opacity:0.35; font-size:0.72rem; margin-top:4px; font-family:var(--font-zh);">
+        設計開發：新竹縣新港國小教學團隊
+      </p>
+    </div>
+  </footer>
+
+  <!-- ─────────────────────────────────────────────────────────
+       Teacher Dashboard Logic
+       ───────────────────────────────────────────────────────── -->
+
+  <script>
+    let supabaseClient = null;
+    let currentUser = null;
+    let activeSession = null;
+    let attemptsList = [];
+    let realtimeChannel = null;
+    let countdownInterval = null;
+
+    async function init() {
+      // 1. 等待 SupabaseConfig
+      let attempts = 0;
+      while (!window.SupabaseConfig && attempts < 50) {
+        await new Promise(r => setTimeout(r, 100));
+        attempts++;
+      }
+
+      if (!window.SupabaseConfig) {
+        alert('系統載入失敗，請重新整理頁面。');
+        return;
+      }
+
+      supabaseClient = window.SupabaseConfig.getSupabase();
+      currentUser = await window.SupabaseConfig.getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = 'join.html';
+        return;
+      }
+
+      document.getElementById('userEmailDisplay').textContent = currentUser.email;
+
+      // 2. 驗證權限：hs5743@gapp.hcc.edu.tw 或在 user_roles 表中為 admin 或 teacher
+      showLoading(true, '驗證教職員權限中...');
+      try {
+        let isAuthorized = false;
+        if (currentUser.email === 'hs5743@gapp.hcc.edu.tw') {
+          isAuthorized = true;
+        } else {
+          const { data, error } = await supabaseClient
+            .from('user_roles')
+            .select('role')
+            .eq('email', currentUser.email)
+            .single();
+
+          if (!error && data && (data.role === 'teacher' || data.role === 'admin')) {
+            isAuthorized = true;
+          }
+        }
+
+        showLoading(false);
+        if (!isAuthorized) {
+          document.getElementById('accessDeniedScreen').style.display = 'block';
+          return;
+        }
+
+        document.getElementById('dashboardScreen').style.display = 'block';
+
+        // 3. 檢查是否有已存在的進行中場次 (UX 體驗優化)
+        await restoreActiveSession();
+
+      } catch (err) {
+        console.error('[Teacher] Init error:', err);
+        showLoading(false);
+        document.getElementById('accessDeniedScreen').style.display = 'block';
+      }
+    }
+
+    // 嘗試恢復先前的有效場次
+    async function restoreActiveSession() {
+      try {
+        const nowIso = new Date().toISOString();
+        const { data, error } = await supabaseClient
+          .from('challenge_sessions')
+          .select('*')
+          .eq('teacher_uid', currentUser.id)
+          .eq('status', 'active')
+          .gt('expires_at', nowIso)
+          .order('created_at', { ascending: false });
+
+        if (!error && data && data.length > 0) {
+          activeSession = data[0];
+          showActiveSessionUI(activeSession);
+          await loadAttempts(activeSession.id);
+          subscribeToAttempts(activeSession.id);
+        } else {
+          document.getElementById('setupCard').style.display = 'block';
+          document.getElementById('activeSessionCard').style.display = 'none';
+        }
+      } catch (e) {
+        console.error('[Teacher] Restore session error:', e);
+      }
+    }
+
+    // 建立場次
+    async function handleCreateSession(e) {
+      e.preventDefault();
+      const school = document.getElementById('sessionSchool').value;
+      const className = document.getElementById('sessionClass').value.trim();
+
+      showLoading(true, '正在建立課堂場次...');
+      try {
+        const session = await insertSessionWithRetry(school, className);
+        activeSession = session;
+        
+        showLoading(false);
+        showActiveSessionUI(session);
+        attemptsList = [];
+        renderLeaderboard();
+        
+        // 訂閱學生挑戰提交
+        subscribeToAttempts(session.id);
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('建立場次失敗，請重試。');
+      }
+    }
+
+    // 帶有防重複碰撞的 Session Insert
+    async function insertSessionWithRetry(school, className, depth = 0) {
+      if (depth > 5) throw new Error('多次嘗試後無法產生唯一的場次碼。');
+      
+      const sessionCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString(); // 3 hours
+
+      const { data, error } = await supabaseClient
+        .from('challenge_sessions')
+        .insert({
+          teacher_uid: currentUser.id,
+          session_code: sessionCode,
+          school: school,
+          classes: className || null,
+          status: 'active',
+          expires_at: expiresAt
+        })
+        .select()
+        .single();
+
+      if (error) {
+        if (error.code === '23505') { // unique violation
+          return insertSessionWithRetry(school, className, depth + 1);
+        }
+        throw error;
+      }
+      return data;
+    }
+
+    // 顯示進行中場次的 UI
+    function showActiveSessionUI(session) {
+      document.getElementById('setupCard').style.display = 'none';
+      const activeCard = document.getElementById('activeSessionCard');
+      activeCard.style.display = 'block';
+
+      // 格式化顯示場次碼，如 123 456
+      const codeStr = session.session_code;
+      document.getElementById('sessionCodeDisplay').textContent = codeStr.substring(0, 3) + ' ' + codeStr.substring(3);
+
+      document.getElementById('activeSchoolInfo').textContent = '🏫 學校：' + session.school;
+      document.getElementById('activeClassInfo').textContent = session.classes ? '👥 班級：' + session.classes : '👥 班級：不限班級';
+
+      // 開始倒數計時
+      startSessionCountdown(session.expires_at);
+    }
+
+    // 倒數計時
+    function startSessionCountdown(expiresAt) {
+      if (countdownInterval) clearInterval(countdownInterval);
+
+      const target = new Date(expiresAt).getTime();
+      const timerSpan = document.getElementById('sessionTimer');
+
+      function updateTimer() {
+        const now = Date.now();
+        const diff = target - now;
+
+        if (diff <= 0) {
+          clearInterval(countdownInterval);
+          timerSpan.textContent = '已過期';
+          handleCloseSession(false); // 自動關閉
+          return;
+        }
+
+        const hrs = Math.floor(diff / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => n.toString().padStart(2, '0');
+        timerSpan.textContent = `剩餘 ${hrs > 0 ? pad(hrs) + ':' : ''}${pad(mins)}:${pad(secs)}`;
+      }
+
+      updateTimer();
+      countdownInterval = setInterval(updateTimer, 1000);
+    }
+
+    // 關閉場次
+    async function handleCloseSession(confirmRequired = true) {
+      if (confirmRequired && !confirm('確定要關閉當前挑戰場次嗎？學生將無法再以該場次碼加入。')) return;
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      showLoading(true, '正在關閉場次...');
+
+      try {
+        if (activeSession) {
+          await supabaseClient
+            .from('challenge_sessions')
+            .update({ status: 'closed' })
+            .eq('id', activeSession.id);
+        }
+
+        // 取消實時監聽
+        if (realtimeChannel) {
+          supabaseClient.removeChannel(realtimeChannel);
+          realtimeChannel = null;
+        }
+
+        activeSession = null;
+        showLoading(false);
+        
+        document.getElementById('setupCard').style.display = 'block';
+        document.getElementById('activeSessionCard').style.display = 'none';
+        document.getElementById('leaderboardBody').innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
+              等待場次啟動中...
+            </td>
+          </tr>
+        `;
+        document.getElementById('exportBtn').disabled = true;
+        resetStats();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('關閉場次失敗，請重試。');
+      }
+    }
+
+    // 載入已有的 attempts 記錄
+    async function loadAttempts(sessionId) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('daily_attempts')
+          .select('*')
+          .eq('session_id', sessionId)
+          .order('score', { ascending: false })
+          .order('timestamp', { ascending: true });
+
+        if (error) throw error;
+
+        attemptsList = data || [];
+        renderLeaderboard();
+        updateStats();
+      } catch (err) {
+        console.error('[Teacher] Load attempts error:', err);
+      }
+    }
+
+    // 實時訂閱日誌
+    function subscribeToAttempts(sessionId) {
+      if (realtimeChannel) {
+        supabaseClient.removeChannel(realtimeChannel);
+      }
+
+      realtimeChannel = supabaseClient
+        .channel(`attempts-session-${sessionId}`)
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'daily_attempts' },
+          payload => {
+            const record = payload.new;
+            // 僅處理符合當前 session_id 的變更
+            if (record && record.session_id === sessionId) {
+              const idx = attemptsList.findIndex(a => a.id === record.id);
+              let shouldHighlight = false;
+
+              if (idx >= 0) {
+                // 更新已存在記錄 (通常是重新挑戰提交)
+                attemptsList[idx] = record;
+                shouldHighlight = true;
+              } else {
+                // 新增記錄
+                attemptsList.push(record);
+                shouldHighlight = true;
+              }
+
+              // 重新排序：分數高至低，若同分則時間早至晚
+              attemptsList.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+              });
+
+              renderLeaderboard(shouldHighlight ? record.id : null);
+              updateStats();
+            }
+          }
+        )
+        .subscribe();
+    }
+
+    // 計算口說平均
+    function getSpeechAverage(speechScores) {
+      if (!speechScores) return 0;
+      const scores = Array.isArray(speechScores) ? speechScores : JSON.parse(speechScores);
+      const valid = scores.filter(s => s > 0);
+      return valid.length > 0 
+        ? Math.round(valid.reduce((sum, s) => sum + s, 0) / valid.length)
+        : 0;
+    }
+
+    // 渲染排行榜
+    function renderLeaderboard(highlightId = null) {
+      const tbody = document.getElementById('leaderboardBody');
+      const exportBtn = document.getElementById('exportBtn');
+
+      if (attemptsList.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
+              ✨ 尚無學生提交答對紀錄，等待學生加入中...
+            </td>
+          </tr>
+        `;
+        exportBtn.disabled = true;
+        return;
+      }
+
+      exportBtn.disabled = false;
+      tbody.innerHTML = attemptsList.map((item, idx) => {
+        const speechAvg = getSpeechAverage(item.speech_scores);
+        const wrongCount = Array.isArray(item.wrong) ? item.wrong.length : JSON.parse(item.wrong).length;
+        const timeStr = new Date(item.timestamp).toLocaleTimeString('zh-TW', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const highlightClass = item.id === highlightId ? 'row-highlight' : '';
+
+        // 前三名給予勳章或特殊顏色
+        let rankDisplay = (idx + 1).toString();
+        if (idx === 0) rankDisplay = '🥇';
+        else if (idx === 1) rankDisplay = '🥈';
+        else if (idx === 2) rankDisplay = '🥉';
+
+        return `
+          <tr id="row-${item.id}" class="${highlightClass}">
+            <td style="text-align:center; font-weight:900; font-size:1.1rem;">${rankDisplay}</td>
+            <td style="font-weight:700; color:var(--clr-text-primary);">${item.student_name}</td>
+            <td>${item.school} ${item.class || ''}</td>
+            <td style="text-align:right; font-weight:800; color:var(--clr-gold-1); font-family:var(--font-en); font-size:1.05rem;">${item.score}</td>
+            <td style="text-align:center; font-family:var(--font-en);">${wrongCount}</td>
+            <td style="text-align:right; font-family:var(--font-en); color:var(--clr-blue-1); font-weight:700;">${speechAvg}</td>
+            <td style="text-align:right; font-size:0.78rem; color:var(--clr-text-muted); font-family:var(--font-en);">${timeStr}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // 若有高亮元素，在渲染後一段時間移除它的高亮 class
+      if (highlightId) {
+        setTimeout(() => {
+          const el = document.getElementById(`row-${highlightId}`);
+          if (el) el.classList.remove('row-highlight');
+        }, 1500);
+      }
+    }
+
+    // 更新統計指標卡
+    function updateStats() {
+      if (attemptsList.length === 0) {
+        resetStats();
+        return;
+      }
+
+      const total = attemptsList.length;
+      const sum = attemptsList.reduce((acc, cur) => acc + cur.score, 0);
+      const avg = Math.round(sum / total);
+      const max = Math.max(...attemptsList.map(a => a.score));
+
+      document.getElementById('statStudentCount').textContent = total;
+      document.getElementById('statAvgScore').textContent = avg;
+      document.getElementById('statHighScore').textContent = max;
+    }
+
+    function resetStats() {
+      document.getElementById('statStudentCount').textContent = '0';
+      document.getElementById('statAvgScore').textContent = '0';
+      document.getElementById('statHighScore').textContent = '0';
+    }
+
+    // 匯出 CSV 檔
+    function exportToCsv() {
+      if (attemptsList.length === 0) return;
+
+      const headers = ['排名', '學生姓名', '學校', '班級', '年級', '分數', '錯題個數', '錯題清單', '口說平均', '時間'];
+      const rows = attemptsList.map((item, idx) => {
+        const speechAvg = getSpeechAverage(item.speech_scores);
+        const wrongList = Array.isArray(item.wrong) ? item.wrong : JSON.parse(item.wrong);
+        const wrongCount = wrongList.length;
+        const wrongStr = wrongList.join('; ');
+        const timeStr = new Date(item.timestamp).toLocaleString('zh-TW', { hour12: false });
+
+        return [
+          idx + 1,
+          item.student_name,
+          item.school,
+          item.class,
+          item.grade + '年級',
+          item.score,
+          wrongCount,
+          wrongStr,
+          speechAvg,
+          timeStr
+        ];
+      });
+
+      let csvContent = '\uFEFF'; // UTF-8 BOM, 確保 Excel 打開中文不亂碼
+      csvContent += headers.map(h => `"${h}"`).join(',') + '\n';
+      rows.forEach(r => {
+        csvContent += r.map(val => `"${val.toString().replace(/"/g, '""')}"`).join(',') + '\n';
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      const schoolName = activeSession ? activeSession.school : '三校';
+      const className = activeSession && activeSession.classes ? activeSession.classes : '課堂';
+      const filename = `英語單字王挑戰_${schoolName}_${className}_${new Date().toLocaleDateString('sv-SE')}.csv`;
+
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // 登出與載入遮罩
+    function handleLogout() {
+      if (window.SupabaseConfig) window.SupabaseConfig.signOut();
+      else window.location.href = 'index.html';
+    }
+
+    function showLoading(show, message = '處理中...') {
+      const scr = document.getElementById('loadingOverlay');
+      const msg = document.getElementById('loadingMsg');
+      if (show) {
+        msg.textContent = message;
+        scr.style.display = 'flex';
+      } else {
+        scr.style.display = 'none';
+      }
+    }
+
+    // Bootstrap
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      setTimeout(init, 0);
+    }
+  </script>
+
+</body>
+</html>

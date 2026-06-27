@@ -1,0 +1,8247 @@
+[
+  {
+    "id": "pat-what-is-this-apple",
+    "pattern": "What is this?",
+    "zhHint": "這是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-apple"
+    ],
+    "exampleAnswer": "It is an apple.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-like-bananas",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-banana"
+    ],
+    "exampleAnswer": "I like bananas.",
+    "enabled": true
+  },
+  {
+    "id": "pat-is-it-rabbit",
+    "pattern": "Is it a rabbit?",
+    "zhHint": "它是兔子嗎？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-rabbit"
+    ],
+    "exampleAnswer": "Yes, it is.",
+    "enabled": true
+  },
+  {
+    "id": "pat-what-is-that-tiger",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-tiger"
+    ],
+    "exampleAnswer": "It is a tiger.",
+    "enabled": true
+  },
+  {
+    "id": "pat-he-is-my-father",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-father"
+    ],
+    "exampleAnswer": "He is my father.",
+    "enabled": true
+  },
+  {
+    "id": "pat-she-is-my-mother",
+    "pattern": "Who is she?",
+    "zhHint": "她是誰？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-mother"
+    ],
+    "exampleAnswer": "She is my mother.",
+    "enabled": true
+  },
+  {
+    "id": "pat-she-is-my-sister",
+    "pattern": "Who is she?",
+    "zhHint": "她是誰？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-sister"
+    ],
+    "exampleAnswer": "She is my sister.",
+    "enabled": true
+  },
+  {
+    "id": "pat-he-is-my-brother",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-brother"
+    ],
+    "exampleAnswer": "He is my brother.",
+    "enabled": true
+  },
+  {
+    "id": "pat-weather-sunny",
+    "pattern": "How is the weather?",
+    "zhHint": "天氣如何？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-sunny"
+    ],
+    "exampleAnswer": "It is sunny.",
+    "enabled": true
+  },
+  {
+    "id": "pat-weather-rainy",
+    "pattern": "How is the weather?",
+    "zhHint": "天氣如何？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-rainy"
+    ],
+    "exampleAnswer": "It is rainy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-she-is-teacher",
+    "pattern": "Is she a teacher?",
+    "zhHint": "她是老師嗎？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-teacher"
+    ],
+    "exampleAnswer": "Yes, she is.",
+    "enabled": true
+  },
+  {
+    "id": "pat-are-you-student",
+    "pattern": "Are you a student?",
+    "zhHint": "你是學生嗎？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-student"
+    ],
+    "exampleAnswer": "Yes, I am.",
+    "enabled": true
+  },
+  {
+    "id": "pat-where-bathroom",
+    "pattern": "Where is the bathroom?",
+    "zhHint": "浴室在哪裡？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-bathroom"
+    ],
+    "exampleAnswer": "It is in the house.",
+    "enabled": true
+  },
+  {
+    "id": "pat-in-kitchen",
+    "pattern": "Where is Mom?",
+    "zhHint": "媽媽在哪裡？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-kitchen"
+    ],
+    "exampleAnswer": "She is in the kitchen.",
+    "enabled": true
+  },
+  {
+    "id": "pat-he-is-doctor",
+    "pattern": "Is he a doctor?",
+    "zhHint": "他是醫生嗎？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-doctor"
+    ],
+    "exampleAnswer": "Yes, he is.",
+    "enabled": true
+  },
+  {
+    "id": "pat-she-is-nurse",
+    "pattern": "Is she a nurse?",
+    "zhHint": "她是護理師嗎？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-nurse"
+    ],
+    "exampleAnswer": "Yes, she is.",
+    "enabled": true
+  },
+  {
+    "id": "pat-doing-homework",
+    "pattern": "What are you doing?",
+    "zhHint": "你正在做什麼？",
+    "gradeBand": "G6",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-homework"
+    ],
+    "exampleAnswer": "I am doing homework.",
+    "enabled": true
+  },
+  {
+    "id": "pat-going-supermarket",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G6",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-supermarket"
+    ],
+    "exampleAnswer": "I am going to the supermarket.",
+    "enabled": true
+  },
+  {
+    "id": "pat-it-is-beautiful",
+    "pattern": "How is the flower?",
+    "zhHint": "花看起來如何？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-beautiful"
+    ],
+    "exampleAnswer": "It is beautiful.",
+    "enabled": true
+  },
+  {
+    "id": "pat-on-weekends",
+    "pattern": "What do you do on weekends?",
+    "zhHint": "你週末做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-weekend"
+    ],
+    "exampleAnswer": "I read on weekends.",
+    "enabled": true
+  },
+  {
+    "id": "pat-this-is-book",
+    "pattern": "What is this?",
+    "zhHint": "這是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-book"
+    ],
+    "exampleAnswer": "It is a book.",
+    "enabled": true
+  },
+  {
+    "id": "pat-this-is-pencil",
+    "pattern": "What is this?",
+    "zhHint": "這是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-pencil"
+    ],
+    "exampleAnswer": "It is a pencil.",
+    "enabled": true
+  },
+  {
+    "id": "pat-on-desk",
+    "pattern": "Where is the book?",
+    "zhHint": "書在哪裡？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-desk",
+      "passport-book"
+    ],
+    "exampleAnswer": "It is on the desk.",
+    "enabled": true
+  },
+  {
+    "id": "pat-under-chair",
+    "pattern": "Where is the bag?",
+    "zhHint": "書包在哪裡？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-chair"
+    ],
+    "exampleAnswer": "It is under the chair.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-have-dog",
+    "pattern": "What do you have?",
+    "zhHint": "你有什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-dog"
+    ],
+    "exampleAnswer": "I have a dog.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-see-cat",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-cat"
+    ],
+    "exampleAnswer": "I see a cat.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-like-milk",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-milk"
+    ],
+    "exampleAnswer": "I like milk.",
+    "enabled": true
+  },
+  {
+    "id": "pat-drink-water",
+    "pattern": "What do you drink?",
+    "zhHint": "你喝什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-water"
+    ],
+    "exampleAnswer": "I drink water.",
+    "enabled": true
+  },
+  {
+    "id": "pat-can-run",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-run"
+    ],
+    "exampleAnswer": "I can run.",
+    "enabled": true
+  },
+  {
+    "id": "pat-can-jump",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "passport-jump"
+    ],
+    "exampleAnswer": "I can jump.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-can-read",
+    "pattern": "Can you read?",
+    "zhHint": "你會閱讀嗎？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-read"
+    ],
+    "exampleAnswer": "Yes, I can read.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-can-write",
+    "pattern": "Can you write?",
+    "zhHint": "你會書寫嗎？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-write"
+    ],
+    "exampleAnswer": "Yes, I can write.",
+    "enabled": true
+  },
+  {
+    "id": "pat-i-am-happy",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-happy"
+    ],
+    "exampleAnswer": "I am happy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-it-is-difficult",
+    "pattern": "How is the test?",
+    "zhHint": "考試如何？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-difficult"
+    ],
+    "exampleAnswer": "It is difficult.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bee",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-bee"
+    ],
+    "exampleAnswer": "It is a bee.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cow",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-cow"
+    ],
+    "exampleAnswer": "It is a cow.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pet",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pet"
+    ],
+    "exampleAnswer": "It is a pet.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pig",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-pig"
+    ],
+    "exampleAnswer": "It is a pig.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bear",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-bear"
+    ],
+    "exampleAnswer": "It is a bear.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-duck",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-duck"
+    ],
+    "exampleAnswer": "It is a duck.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-frog",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-frog"
+    ],
+    "exampleAnswer": "It is a frog.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lion",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-lion"
+    ],
+    "exampleAnswer": "It is a lion.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mice",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mice"
+    ],
+    "exampleAnswer": "It is a mice.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hippo",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-hippo"
+    ],
+    "exampleAnswer": "It is a hippo.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-horse",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-horse"
+    ],
+    "exampleAnswer": "It is a horse.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-koala",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-koala"
+    ],
+    "exampleAnswer": "It is a koala.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mouse",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mouse"
+    ],
+    "exampleAnswer": "It is a mouse.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-panda",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-panda"
+    ],
+    "exampleAnswer": "It is a panda.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sheep",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-sheep"
+    ],
+    "exampleAnswer": "It is a sheep.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-snake",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-snake"
+    ],
+    "exampleAnswer": "It is a snake.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-whale",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-whale"
+    ],
+    "exampleAnswer": "It is a whale.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-zebra",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-zebra"
+    ],
+    "exampleAnswer": "It is a zebra.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-animal",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-animal"
+    ],
+    "exampleAnswer": "It is an animal.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-monkey",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-monkey"
+    ],
+    "exampleAnswer": "It is a monkey.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-spider",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-spider"
+    ],
+    "exampleAnswer": "It is a spider.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-turtle",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-turtle"
+    ],
+    "exampleAnswer": "It is a turtle.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-chicken",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-chicken"
+    ],
+    "exampleAnswer": "It is a chicken.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-elephant",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-elephant"
+    ],
+    "exampleAnswer": "It is an elephant.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-butterfly",
+    "pattern": "What is that?",
+    "zhHint": "那是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-butterfly"
+    ],
+    "exampleAnswer": "It is a butterfly.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bag",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-bag"
+    ],
+    "exampleAnswer": "I am wearing a bag.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cap",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-cap"
+    ],
+    "exampleAnswer": "I am wearing a cap.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hat",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hat"
+    ],
+    "exampleAnswer": "I am wearing a hat.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-coat",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-coat"
+    ],
+    "exampleAnswer": "I am wearing a coat.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wear",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wear"
+    ],
+    "exampleAnswer": "I am wearing a wear.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dress",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-dress"
+    ],
+    "exampleAnswer": "I am wearing a dress.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pants",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-pants"
+    ],
+    "exampleAnswer": "I am wearing a pants.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-shirt",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-shirt"
+    ],
+    "exampleAnswer": "I am wearing a shirt.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-t-shirt",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-t-shirt"
+    ],
+    "exampleAnswer": "I am wearing a T-shirt.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-skirt",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-skirt"
+    ],
+    "exampleAnswer": "I am wearing a skirt.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-socks",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-socks"
+    ],
+    "exampleAnswer": "I am wearing a socks.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-jacket",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-jacket"
+    ],
+    "exampleAnswer": "I am wearing a jacket.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pocket",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pocket"
+    ],
+    "exampleAnswer": "I am wearing a pocket.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-shorts",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-shorts"
+    ],
+    "exampleAnswer": "I am wearing a shorts.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-shoes",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-shoes"
+    ],
+    "exampleAnswer": "I am wearing a shoes.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-clothes",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-clothes"
+    ],
+    "exampleAnswer": "I am wearing a clothes.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-glasses",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-glasses"
+    ],
+    "exampleAnswer": "I am wearing a glasses.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sweater",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sweater"
+    ],
+    "exampleAnswer": "I am wearing a sweater.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-umbrella",
+    "pattern": "What are you wearing?",
+    "zhHint": "你穿著什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-umbrella"
+    ],
+    "exampleAnswer": "I am wearing an umbrella.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-color",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-color"
+    ],
+    "exampleAnswer": "I see a color.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-gray",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-gray"
+    ],
+    "exampleAnswer": "I see a gray.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pink",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-pink"
+    ],
+    "exampleAnswer": "I see a pink.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-black",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-black"
+    ],
+    "exampleAnswer": "I see a black.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-brown",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-brown"
+    ],
+    "exampleAnswer": "I see a brown.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-white",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-white"
+    ],
+    "exampleAnswer": "I see a white.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-orange",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-orange"
+    ],
+    "exampleAnswer": "I see an orange.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-purple",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-purple"
+    ],
+    "exampleAnswer": "I see a purple.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dad",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-dad"
+    ],
+    "exampleAnswer": "He is my dad.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-daddy",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-daddy"
+    ],
+    "exampleAnswer": "He is my daddy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mom",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-mom"
+    ],
+    "exampleAnswer": "He is my mom.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mommy",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mommy"
+    ],
+    "exampleAnswer": "He is my mommy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-parent",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-parent"
+    ],
+    "exampleAnswer": "He is my parent.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-son",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-son"
+    ],
+    "exampleAnswer": "He is my son.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-daughter",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-daughter"
+    ],
+    "exampleAnswer": "He is my daughter.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-family",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-family"
+    ],
+    "exampleAnswer": "He is my family.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grandfather",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-grandfather"
+    ],
+    "exampleAnswer": "He is my grandfather.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grandpa",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-grandpa"
+    ],
+    "exampleAnswer": "He is my grandpa.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grandmother",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-grandmother"
+    ],
+    "exampleAnswer": "He is my grandmother.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grandma",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-grandma"
+    ],
+    "exampleAnswer": "He is my grandma.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-aunt",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-aunt"
+    ],
+    "exampleAnswer": "He is my aunt.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-uncle",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-uncle"
+    ],
+    "exampleAnswer": "He is my uncle.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grow",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-grow"
+    ],
+    "exampleAnswer": "He is my grow.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cousin",
+    "pattern": "Who is he?",
+    "zhHint": "他是誰？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-cousin"
+    ],
+    "exampleAnswer": "He is my cousin.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-live",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-live"
+    ],
+    "exampleAnswer": "I can live.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fruit",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-fruit"
+    ],
+    "exampleAnswer": "I like fruit.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-peach",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-peach"
+    ],
+    "exampleAnswer": "I like peach.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lemon",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-lemon"
+    ],
+    "exampleAnswer": "I like lemon.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grape",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-grape"
+    ],
+    "exampleAnswer": "I like grape.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-strawberry",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-strawberry"
+    ],
+    "exampleAnswer": "I like strawberry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-watermelon",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-watermelon"
+    ],
+    "exampleAnswer": "I like watermelon.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-breakfast",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-breakfast"
+    ],
+    "exampleAnswer": "I like breakfast.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lunch",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-lunch"
+    ],
+    "exampleAnswer": "I like lunch.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dinner",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-dinner"
+    ],
+    "exampleAnswer": "I like dinner.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-drink",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-drink"
+    ],
+    "exampleAnswer": "I like drink.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tea",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-tea"
+    ],
+    "exampleAnswer": "I like tea.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-egg",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-egg"
+    ],
+    "exampleAnswer": "I like egg.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bread",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-bread"
+    ],
+    "exampleAnswer": "I like bread.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pie",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-pie"
+    ],
+    "exampleAnswer": "I like pie.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-eat",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-eat"
+    ],
+    "exampleAnswer": "I like eat.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cook",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-cook"
+    ],
+    "exampleAnswer": "I like cook.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-soup",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-soup"
+    ],
+    "exampleAnswer": "I like soup.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-food",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-food"
+    ],
+    "exampleAnswer": "I like food.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-beef",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-beef"
+    ],
+    "exampleAnswer": "I like beef.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pork",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-pork"
+    ],
+    "exampleAnswer": "I like pork.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cake",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-cake"
+    ],
+    "exampleAnswer": "I like cake.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-coke",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-coke"
+    ],
+    "exampleAnswer": "I like Coke.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-meal",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-meal"
+    ],
+    "exampleAnswer": "I like meal.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-juice",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-juice"
+    ],
+    "exampleAnswer": "I like juice.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-candy",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-candy"
+    ],
+    "exampleAnswer": "I like candy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-salad",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-salad"
+    ],
+    "exampleAnswer": "I like salad.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pizza",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-pizza"
+    ],
+    "exampleAnswer": "I like pizza.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-full",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-full"
+    ],
+    "exampleAnswer": "I like full.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dumpling",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-dumpling"
+    ],
+    "exampleAnswer": "I like dumpling.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hungry",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hungry"
+    ],
+    "exampleAnswer": "I like hungry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-taste",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-taste"
+    ],
+    "exampleAnswer": "I like taste.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thirsty",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-thirsty"
+    ],
+    "exampleAnswer": "I like thirsty.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-yummy",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-yummy"
+    ],
+    "exampleAnswer": "I like yummy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pumpkin",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pumpkin"
+    ],
+    "exampleAnswer": "I like pumpkin.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ice-cream",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-ice-cream"
+    ],
+    "exampleAnswer": "I like ice cream.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sweet",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-sweet"
+    ],
+    "exampleAnswer": "I like sweet.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sandwich",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sandwich"
+    ],
+    "exampleAnswer": "I like sandwich.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-chocolate",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-chocolate"
+    ],
+    "exampleAnswer": "I like chocolate.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hamburger",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hamburger"
+    ],
+    "exampleAnswer": "I like hamburger.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-french",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-french"
+    ],
+    "exampleAnswer": "I like French.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fries",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-fries"
+    ],
+    "exampleAnswer": "I like fries.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-name",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-name"
+    ],
+    "exampleAnswer": "I see a name.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-miss-ms",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-miss-ms"
+    ],
+    "exampleAnswer": "I see a Miss/Ms.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mr",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mr"
+    ],
+    "exampleAnswer": "I see a Mr.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mrs",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mrs"
+    ],
+    "exampleAnswer": "I see a Mrs.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sea",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sea"
+    ],
+    "exampleAnswer": "I see a sea.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lake",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-lake"
+    ],
+    "exampleAnswer": "I see a lake.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-beach",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-beach"
+    ],
+    "exampleAnswer": "I see a beach.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-river",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-river"
+    ],
+    "exampleAnswer": "I see a river.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mountain",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mountain"
+    ],
+    "exampleAnswer": "I see a mountain.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-forest",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-forest"
+    ],
+    "exampleAnswer": "I see a forest.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-volcano",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-volcano"
+    ],
+    "exampleAnswer": "I see a volcano.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-desert",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-desert"
+    ],
+    "exampleAnswer": "I see a desert.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-island",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-island"
+    ],
+    "exampleAnswer": "I see an island.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-easter",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-easter"
+    ],
+    "exampleAnswer": "I see an Easter.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-halloween",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-halloween"
+    ],
+    "exampleAnswer": "I see a Halloween.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-christmas",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-christmas"
+    ],
+    "exampleAnswer": "I see a Christmas.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-moon",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-moon"
+    ],
+    "exampleAnswer": "I see a Moon.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-festival",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-festival"
+    ],
+    "exampleAnswer": "I see a Festival.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-well",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-well"
+    ],
+    "exampleAnswer": "I see a well.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sick",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sick"
+    ],
+    "exampleAnswer": "I see a sick.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cold",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-cold"
+    ],
+    "exampleAnswer": "I see a cold.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-strong",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-strong"
+    ],
+    "exampleAnswer": "I see a strong.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tired",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-tired"
+    ],
+    "exampleAnswer": "I see a tired.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-toothache",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-toothache"
+    ],
+    "exampleAnswer": "I see a toothache.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-headache",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-headache"
+    ],
+    "exampleAnswer": "I see a headache.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-key",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-key"
+    ],
+    "exampleAnswer": "I see a key.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fan",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-fan"
+    ],
+    "exampleAnswer": "I see a fan.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bed",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-bed"
+    ],
+    "exampleAnswer": "I see a bed.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-house",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-house"
+    ],
+    "exampleAnswer": "I see a house.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wall",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wall"
+    ],
+    "exampleAnswer": "I see a wall.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mop",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mop"
+    ],
+    "exampleAnswer": "I see a mop.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-door",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-door"
+    ],
+    "exampleAnswer": "I see a door.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lamp",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-lamp"
+    ],
+    "exampleAnswer": "I see a lamp.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sweep",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-sweep"
+    ],
+    "exampleAnswer": "I see a sweep.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wash",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wash"
+    ],
+    "exampleAnswer": "I see a wash.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-home",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-home"
+    ],
+    "exampleAnswer": "I see a home.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-table",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-table"
+    ],
+    "exampleAnswer": "I see a table.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-towel",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-towel"
+    ],
+    "exampleAnswer": "I see a towel.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-floor",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-floor"
+    ],
+    "exampleAnswer": "I see a floor.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-shelf",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-shelf"
+    ],
+    "exampleAnswer": "I see a shelf.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-garden",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-garden"
+    ],
+    "exampleAnswer": "I see a garden.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-shower",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-shower"
+    ],
+    "exampleAnswer": "I see a shower.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tv",
+    "pattern": "Where is the cat?",
+    "zhHint": "貓在哪裡？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-tv"
+    ],
+    "exampleAnswer": "It is in the TV.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-computer",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-computer"
+    ],
+    "exampleAnswer": "I see a computer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-refrigerator",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-refrigerator"
+    ],
+    "exampleAnswer": "I see a refrigerator.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-clean",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-clean"
+    ],
+    "exampleAnswer": "I see a clean.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bedroom",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-bedroom"
+    ],
+    "exampleAnswer": "I see a bedroom.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dining",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-dining"
+    ],
+    "exampleAnswer": "I see a dining.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-room",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-room"
+    ],
+    "exampleAnswer": "I see a room.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-buy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-buy"
+    ],
+    "exampleAnswer": "I see a buy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-free",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-free"
+    ],
+    "exampleAnswer": "I see a free.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-money",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-money"
+    ],
+    "exampleAnswer": "I see a money.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dollar",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-dollar"
+    ],
+    "exampleAnswer": "I see a dollar.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-new",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-new"
+    ],
+    "exampleAnswer": "I see a New.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-number",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-number"
+    ],
+    "exampleAnswer": "I see a number.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-all",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-all"
+    ],
+    "exampleAnswer": "I see an all.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-both",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-both"
+    ],
+    "exampleAnswer": "I see a both.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-much",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-much"
+    ],
+    "exampleAnswer": "I see a much.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-many",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-many"
+    ],
+    "exampleAnswer": "I see a many.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-more",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-more"
+    ],
+    "exampleAnswer": "I see a more.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-some",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-some"
+    ],
+    "exampleAnswer": "I see a some.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-first",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-first"
+    ],
+    "exampleAnswer": "I see a first.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-second",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-second"
+    ],
+    "exampleAnswer": "I see a second.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-third",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-third"
+    ],
+    "exampleAnswer": "I see a third.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-last",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-last"
+    ],
+    "exampleAnswer": "I see a last.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-job",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-job"
+    ],
+    "exampleAnswer": "I see a job.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-work",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-work"
+    ],
+    "exampleAnswer": "I see a work.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-worker",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-worker"
+    ],
+    "exampleAnswer": "I see a worker.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-actor",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-actor"
+    ],
+    "exampleAnswer": "I see an actor.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-actress",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-actress"
+    ],
+    "exampleAnswer": "I see an actress.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-singer",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-singer"
+    ],
+    "exampleAnswer": "I see a singer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-driver",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-driver"
+    ],
+    "exampleAnswer": "I see a driver.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-farmer",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-farmer"
+    ],
+    "exampleAnswer": "I see a farmer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mailman",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mailman"
+    ],
+    "exampleAnswer": "I see a mailman.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-waiter",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-waiter"
+    ],
+    "exampleAnswer": "I see a waiter.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-waitress",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-waitress"
+    ],
+    "exampleAnswer": "I see a waitress.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-soldier",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-soldier"
+    ],
+    "exampleAnswer": "I see a soldier.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-police-officer",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-police-officer"
+    ],
+    "exampleAnswer": "I see a police officer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hair",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hair"
+    ],
+    "exampleAnswer": "I see a hair.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-face",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-face"
+    ],
+    "exampleAnswer": "I see a face.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-nose",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-nose"
+    ],
+    "exampleAnswer": "I see a nose.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ear",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-ear"
+    ],
+    "exampleAnswer": "I see an ear.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mouth",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-mouth"
+    ],
+    "exampleAnswer": "I see a mouth.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tooth",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-tooth"
+    ],
+    "exampleAnswer": "I see a tooth.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-leg",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-leg"
+    ],
+    "exampleAnswer": "I see a leg.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-teeth",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-teeth"
+    ],
+    "exampleAnswer": "I see a teeth.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-feet",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-feet"
+    ],
+    "exampleAnswer": "I see a feet.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-back",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-back"
+    ],
+    "exampleAnswer": "I see a back.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-person",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-person"
+    ],
+    "exampleAnswer": "I see a person.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-people",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-people"
+    ],
+    "exampleAnswer": "I see a people.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-baby",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-baby"
+    ],
+    "exampleAnswer": "I see a baby.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-kid",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-kid"
+    ],
+    "exampleAnswer": "I see a kid.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-boy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-boy"
+    ],
+    "exampleAnswer": "I see a boy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-girl",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-girl"
+    ],
+    "exampleAnswer": "I see a girl.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-woman",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-woman"
+    ],
+    "exampleAnswer": "I see a woman.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-women",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-women"
+    ],
+    "exampleAnswer": "I see a women.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bad",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-bad"
+    ],
+    "exampleAnswer": "I see a bad.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-good",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-good"
+    ],
+    "exampleAnswer": "I see a good.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-nice",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-nice"
+    ],
+    "exampleAnswer": "I see a nice.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lazy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-lazy"
+    ],
+    "exampleAnswer": "I see a lazy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cute",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-cute"
+    ],
+    "exampleAnswer": "I see a cute.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-smart",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-smart"
+    ],
+    "exampleAnswer": "I see a smart.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-old",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-old"
+    ],
+    "exampleAnswer": "I see an old.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tall",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-tall"
+    ],
+    "exampleAnswer": "I see a tall.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-short",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-short"
+    ],
+    "exampleAnswer": "I see a short.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thin",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-thin"
+    ],
+    "exampleAnswer": "I see a thin.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-heavy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-heavy"
+    ],
+    "exampleAnswer": "I see a heavy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pretty",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pretty"
+    ],
+    "exampleAnswer": "I see a pretty.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-angry",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-angry"
+    ],
+    "exampleAnswer": "I see an angry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mad",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mad"
+    ],
+    "exampleAnswer": "I see a mad.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-excited",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-excited"
+    ],
+    "exampleAnswer": "I see an excited.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bored",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-bored"
+    ],
+    "exampleAnswer": "I see a bored.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-there",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-there"
+    ],
+    "exampleAnswer": "I see a there.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-left",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-left"
+    ],
+    "exampleAnswer": "I see a left.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-right",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-right"
+    ],
+    "exampleAnswer": "I see a right.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-here",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-here"
+    ],
+    "exampleAnswer": "I see a here.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bank",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-bank"
+    ],
+    "exampleAnswer": "I see a bank.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-park",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-park"
+    ],
+    "exampleAnswer": "I see a park.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-zoo",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-zoo"
+    ],
+    "exampleAnswer": "I see a zoo.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-shop",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-shop"
+    ],
+    "exampleAnswer": "I see a shop.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-store",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-store"
+    ],
+    "exampleAnswer": "I see a store.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bookstore",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-bookstore"
+    ],
+    "exampleAnswer": "I see a bookstore.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-market",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-market"
+    ],
+    "exampleAnswer": "I see a market.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-office",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-office"
+    ],
+    "exampleAnswer": "I see an office.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-post-office",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-post-office"
+    ],
+    "exampleAnswer": "I am going to the post office.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-restroom",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-restroom"
+    ],
+    "exampleAnswer": "I am going to the restroom.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-restaurant",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-restaurant"
+    ],
+    "exampleAnswer": "I am going to the restaurant.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-museum",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-museum"
+    ],
+    "exampleAnswer": "I am going to the museum.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hospital",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hospital"
+    ],
+    "exampleAnswer": "I am going to the hospital.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fire-station",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-fire-station"
+    ],
+    "exampleAnswer": "I am going to the fire station.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-movie-theater",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-movie-theater"
+    ],
+    "exampleAnswer": "I am going to the movie theater.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-police-station",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-police-station"
+    ],
+    "exampleAnswer": "I am going to the police station.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-department-store",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-department-store"
+    ],
+    "exampleAnswer": "I am going to the department store.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-taiwan",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-taiwan"
+    ],
+    "exampleAnswer": "I am going to the Taiwan.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-the-uk",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-the-uk"
+    ],
+    "exampleAnswer": "I am going to the the UK.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-the-usa",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-the-usa"
+    ],
+    "exampleAnswer": "I am going to the the USA.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-germany",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-germany"
+    ],
+    "exampleAnswer": "I see a Germany.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-france",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-france"
+    ],
+    "exampleAnswer": "I see a France.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-japan",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-japan"
+    ],
+    "exampleAnswer": "I see a Japan.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-korea",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-korea"
+    ],
+    "exampleAnswer": "I see a Korea.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-philippines",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-philippines"
+    ],
+    "exampleAnswer": "I see a Philippines.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-vietnam",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-vietnam"
+    ],
+    "exampleAnswer": "I see a Vietnam.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-india",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-india"
+    ],
+    "exampleAnswer": "I see an India.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-singapore",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-singapore"
+    ],
+    "exampleAnswer": "I see a Singapore.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-uganda",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-uganda"
+    ],
+    "exampleAnswer": "I see an Uganda.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thailand",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-thailand"
+    ],
+    "exampleAnswer": "I see a Thailand.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-canada",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-canada"
+    ],
+    "exampleAnswer": "I see a Canada.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-italy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-italy"
+    ],
+    "exampleAnswer": "I see an Italy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-school",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-school"
+    ],
+    "exampleAnswer": "My favorite subject is school.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-class",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-class"
+    ],
+    "exampleAnswer": "My favorite subject is class.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pe",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pe"
+    ],
+    "exampleAnswer": "My favorite subject is PE.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-art",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-art"
+    ],
+    "exampleAnswer": "My favorite subject is art.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-draw",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-draw"
+    ],
+    "exampleAnswer": "My favorite subject is draw.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-math",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-math"
+    ],
+    "exampleAnswer": "My favorite subject is math.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-music",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-music"
+    ],
+    "exampleAnswer": "My favorite subject is music.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-english",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-english"
+    ],
+    "exampleAnswer": "My favorite subject is English.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-chinese",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-chinese"
+    ],
+    "exampleAnswer": "My favorite subject is Chinese.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ask",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-ask"
+    ],
+    "exampleAnswer": "My favorite subject is ask.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-answer",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-answer"
+    ],
+    "exampleAnswer": "My favorite subject is answer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-say",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-say"
+    ],
+    "exampleAnswer": "My favorite subject is say.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-speak",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-speak"
+    ],
+    "exampleAnswer": "My favorite subject is speak.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-talk",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-talk"
+    ],
+    "exampleAnswer": "My favorite subject is talk.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-spell",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-spell"
+    ],
+    "exampleAnswer": "My favorite subject is spell.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-listen",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-listen"
+    ],
+    "exampleAnswer": "My favorite subject is listen.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-study",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-study"
+    ],
+    "exampleAnswer": "My favorite subject is study.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-test",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-test"
+    ],
+    "exampleAnswer": "My favorite subject is test.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-question",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-question"
+    ],
+    "exampleAnswer": "My favorite subject is question.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-glue",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-glue"
+    ],
+    "exampleAnswer": "My favorite subject is glue.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pen",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-pen"
+    ],
+    "exampleAnswer": "My favorite subject is pen.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-marker",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-marker"
+    ],
+    "exampleAnswer": "My favorite subject is marker.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-eraser",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-eraser"
+    ],
+    "exampleAnswer": "My favorite subject is eraser.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-paper",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-paper"
+    ],
+    "exampleAnswer": "My favorite subject is paper.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ruler",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-ruler"
+    ],
+    "exampleAnswer": "My favorite subject is ruler.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-friend",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-friend"
+    ],
+    "exampleAnswer": "My favorite subject is friend.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-story",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-story"
+    ],
+    "exampleAnswer": "My favorite subject is story.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-picture",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-picture"
+    ],
+    "exampleAnswer": "My favorite subject is picture.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-blackboard",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-blackboard"
+    ],
+    "exampleAnswer": "My favorite subject is blackboard.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-classroom",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-classroom"
+    ],
+    "exampleAnswer": "My favorite subject is classroom.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-vacation",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-vacation"
+    ],
+    "exampleAnswer": "My favorite subject is vacation.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-holiday",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-holiday"
+    ],
+    "exampleAnswer": "My favorite subject is holiday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-big",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-big"
+    ],
+    "exampleAnswer": "I see a big.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-small",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-small"
+    ],
+    "exampleAnswer": "I see a small.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-long",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-long"
+    ],
+    "exampleAnswer": "I see a long.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-light",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-light"
+    ],
+    "exampleAnswer": "I see a light.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-high",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-high"
+    ],
+    "exampleAnswer": "I see a high.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pair",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pair"
+    ],
+    "exampleAnswer": "I see a pair.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-play",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-play"
+    ],
+    "exampleAnswer": "I see a play.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sing",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-sing"
+    ],
+    "exampleAnswer": "I see a sing.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dance",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-dance"
+    ],
+    "exampleAnswer": "I see a dance.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-paint",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-paint"
+    ],
+    "exampleAnswer": "I see a paint.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hike",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hike"
+    ],
+    "exampleAnswer": "I see a hike.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-swim",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-swim"
+    ],
+    "exampleAnswer": "I see a swim.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-climb",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-climb"
+    ],
+    "exampleAnswer": "I see a climb.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ball",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-ball"
+    ],
+    "exampleAnswer": "I see a ball.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-baseball",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-baseball"
+    ],
+    "exampleAnswer": "I see a baseball.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-basketball",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-basketball"
+    ],
+    "exampleAnswer": "I see a basketball.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-football",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-football"
+    ],
+    "exampleAnswer": "I see a football.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-soccer",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-soccer"
+    ],
+    "exampleAnswer": "I see a soccer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sport",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sport"
+    ],
+    "exampleAnswer": "I see a sport.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-toy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-toy"
+    ],
+    "exampleAnswer": "I see a toy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-doll",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-doll"
+    ],
+    "exampleAnswer": "I see a doll.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-yo-yo",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-yo-yo"
+    ],
+    "exampleAnswer": "I see a yo-yo.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-win",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-win"
+    ],
+    "exampleAnswer": "I see a win.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-trip",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-trip"
+    ],
+    "exampleAnswer": "I see a trip.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-card",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-card"
+    ],
+    "exampleAnswer": "I see a card.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-drum",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-drum"
+    ],
+    "exampleAnswer": "I see a drum.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-game",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-game"
+    ],
+    "exampleAnswer": "I see a game.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-kite",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-kite"
+    ],
+    "exampleAnswer": "I see a kite.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-song",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-song"
+    ],
+    "exampleAnswer": "I see a song.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-movie",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-movie"
+    ],
+    "exampleAnswer": "I see a movie.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-piano",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-piano"
+    ],
+    "exampleAnswer": "I see a piano.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cup",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-cup"
+    ],
+    "exampleAnswer": "I see a cup.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dish",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-dish"
+    ],
+    "exampleAnswer": "I see a dish.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-glass",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-glass"
+    ],
+    "exampleAnswer": "I see a glass.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fork",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-fork"
+    ],
+    "exampleAnswer": "I see a fork.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-spoon",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-spoon"
+    ],
+    "exampleAnswer": "I see a spoon.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-knife",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-knife"
+    ],
+    "exampleAnswer": "I see a knife.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-chopsticks",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-chopsticks"
+    ],
+    "exampleAnswer": "I see a chopsticks.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mug",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mug"
+    ],
+    "exampleAnswer": "I see a mug.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-evening",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-evening"
+    ],
+    "exampleAnswer": "I see an evening.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-night",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-night"
+    ],
+    "exampleAnswer": "I see a night.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-now",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-now"
+    ],
+    "exampleAnswer": "I see a now.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tomorrow",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-tomorrow"
+    ],
+    "exampleAnswer": "I see a tomorrow.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-day",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-day"
+    ],
+    "exampleAnswer": "I see a day.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-yesterday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-yesterday"
+    ],
+    "exampleAnswer": "I see a yesterday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-early",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-early"
+    ],
+    "exampleAnswer": "I see an early.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-late",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-late"
+    ],
+    "exampleAnswer": "I see a late.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-time",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-time"
+    ],
+    "exampleAnswer": "I see a time.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-watch",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-watch"
+    ],
+    "exampleAnswer": "I see a watch.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-year",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-year"
+    ],
+    "exampleAnswer": "I see a year.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-clock",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-clock"
+    ],
+    "exampleAnswer": "I see a clock.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-o-clock",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-o-clock"
+    ],
+    "exampleAnswer": "I see an o'clock.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-spring",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-spring"
+    ],
+    "exampleAnswer": "I see a spring.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-summer",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-summer"
+    ],
+    "exampleAnswer": "I see a summer.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fall",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-fall"
+    ],
+    "exampleAnswer": "I see a fall.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-winter",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-winter"
+    ],
+    "exampleAnswer": "I see a winter.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-season",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-season"
+    ],
+    "exampleAnswer": "I see a season.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-monday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-monday"
+    ],
+    "exampleAnswer": "I see a Monday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tuesday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-tuesday"
+    ],
+    "exampleAnswer": "I see a Tuesday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wednesday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wednesday"
+    ],
+    "exampleAnswer": "I see a Wednesday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thursday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-thursday"
+    ],
+    "exampleAnswer": "I see a Thursday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-friday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-friday"
+    ],
+    "exampleAnswer": "I see a Friday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-saturday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-saturday"
+    ],
+    "exampleAnswer": "I see a Saturday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sunday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sunday"
+    ],
+    "exampleAnswer": "I see a Sunday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-week",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-week"
+    ],
+    "exampleAnswer": "I see a week.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-january",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-january"
+    ],
+    "exampleAnswer": "I see a January.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-february",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-february"
+    ],
+    "exampleAnswer": "I see a February.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-march",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-march"
+    ],
+    "exampleAnswer": "I see a March.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-april",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-april"
+    ],
+    "exampleAnswer": "I see an April.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-may",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-may"
+    ],
+    "exampleAnswer": "I see a May.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-june",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-june"
+    ],
+    "exampleAnswer": "I see a June.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-july",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-july"
+    ],
+    "exampleAnswer": "I see a July.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-august",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-august"
+    ],
+    "exampleAnswer": "I see an August.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-september",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-september"
+    ],
+    "exampleAnswer": "I see a September.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-october",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-october"
+    ],
+    "exampleAnswer": "I see an October.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-november",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-november"
+    ],
+    "exampleAnswer": "I see a November.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-december",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-december"
+    ],
+    "exampleAnswer": "I see a December.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ride",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-ride"
+    ],
+    "exampleAnswer": "I go to school by ride.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fly",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-fly"
+    ],
+    "exampleAnswer": "I go to school by fly.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-drive",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-drive"
+    ],
+    "exampleAnswer": "I go to school by drive.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-turn",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-turn"
+    ],
+    "exampleAnswer": "I go to school by turn.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-car",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-car"
+    ],
+    "exampleAnswer": "I go to school by car.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bus",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-bus"
+    ],
+    "exampleAnswer": "I go to school by bus.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bus-stop",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-bus-stop"
+    ],
+    "exampleAnswer": "I go to school by bus stop.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-taxi",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-taxi"
+    ],
+    "exampleAnswer": "I go to school by taxi.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-airport",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-airport"
+    ],
+    "exampleAnswer": "I go to school by airport.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ship",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-ship"
+    ],
+    "exampleAnswer": "I go to school by ship.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-boat",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-boat"
+    ],
+    "exampleAnswer": "I go to school by boat.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-station",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-station"
+    ],
+    "exampleAnswer": "I go to school by station.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-motorcycle",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-motorcycle"
+    ],
+    "exampleAnswer": "I go to school by motorcycle.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mrt",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mrt"
+    ],
+    "exampleAnswer": "I go to school by MRT.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-scooter",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-scooter"
+    ],
+    "exampleAnswer": "I go to school by scooter.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fast",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-fast"
+    ],
+    "exampleAnswer": "I go to school by fast.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-slow",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-slow"
+    ],
+    "exampleAnswer": "I go to school by slow.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-truck",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-truck"
+    ],
+    "exampleAnswer": "I go to school by truck.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-weather",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-weather"
+    ],
+    "exampleAnswer": "I see a weather.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sky",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-sky"
+    ],
+    "exampleAnswer": "I see a sky.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sun",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-sun"
+    ],
+    "exampleAnswer": "I see a sun.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-star",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-star"
+    ],
+    "exampleAnswer": "I see a star.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wind",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-wind"
+    ],
+    "exampleAnswer": "I see a wind.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-windy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-windy"
+    ],
+    "exampleAnswer": "I see a windy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-typhoon",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-typhoon"
+    ],
+    "exampleAnswer": "I see a typhoon.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-rain",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-rain"
+    ],
+    "exampleAnswer": "I see a rain.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-rainbow",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-rainbow"
+    ],
+    "exampleAnswer": "I see a rainbow.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-snow",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-snow"
+    ],
+    "exampleAnswer": "I see a snow.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-snowy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-snowy"
+    ],
+    "exampleAnswer": "I see a snowy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wet",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wet"
+    ],
+    "exampleAnswer": "I see a wet.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cloudy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-cloudy"
+    ],
+    "exampleAnswer": "I see a cloudy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hot",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-hot"
+    ],
+    "exampleAnswer": "I see a hot.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-warm",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-warm"
+    ],
+    "exampleAnswer": "I see a warm.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cool",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-cool"
+    ],
+    "exampleAnswer": "I see a cool.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-a",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-a"
+    ],
+    "exampleAnswer": "I see an a.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-an",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-an"
+    ],
+    "exampleAnswer": "I see an an.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-every",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-every"
+    ],
+    "exampleAnswer": "I see an every.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-the",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-the"
+    ],
+    "exampleAnswer": "I see a the.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-this",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-this"
+    ],
+    "exampleAnswer": "I see a this.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-that",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-that"
+    ],
+    "exampleAnswer": "I see a that.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-those",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-those"
+    ],
+    "exampleAnswer": "I see a those.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-these",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-these"
+    ],
+    "exampleAnswer": "I see a these.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-i",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-i"
+    ],
+    "exampleAnswer": "I see an I.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-he",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-he"
+    ],
+    "exampleAnswer": "I see a he.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-she",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-she"
+    ],
+    "exampleAnswer": "I see a she.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-me",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-me"
+    ],
+    "exampleAnswer": "I see a me.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-him",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-him"
+    ],
+    "exampleAnswer": "I see a him.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-her",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-her"
+    ],
+    "exampleAnswer": "I see a her.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-you",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-you"
+    ],
+    "exampleAnswer": "I see a you.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-we",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-we"
+    ],
+    "exampleAnswer": "I see a we.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-us",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-us"
+    ],
+    "exampleAnswer": "I see an us.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-it",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-it"
+    ],
+    "exampleAnswer": "I see an it.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-they",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-they"
+    ],
+    "exampleAnswer": "I see a they.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-them",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-them"
+    ],
+    "exampleAnswer": "I see a them.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-nothing",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-nothing"
+    ],
+    "exampleAnswer": "I see a nothing.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-be",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-be"
+    ],
+    "exampleAnswer": "I see a be.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-do",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-do"
+    ],
+    "exampleAnswer": "I see a do.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-can",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-can"
+    ],
+    "exampleAnswer": "I see a can.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-will",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-will"
+    ],
+    "exampleAnswer": "I see a will.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-and",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-and"
+    ],
+    "exampleAnswer": "I see an and.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-but",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-but"
+    ],
+    "exampleAnswer": "I see a but.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-because",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-because"
+    ],
+    "exampleAnswer": "I see a because.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hi",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-hi"
+    ],
+    "exampleAnswer": "I see a hi.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hello",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-hello"
+    ],
+    "exampleAnswer": "I see a hello.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-please",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-please"
+    ],
+    "exampleAnswer": "I see a please.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-excuse-me",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-excuse-me"
+    ],
+    "exampleAnswer": "I see an excuse me.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-at",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-at"
+    ],
+    "exampleAnswer": "I see an at.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-in",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-in"
+    ],
+    "exampleAnswer": "I see an in.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-of",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-of"
+    ],
+    "exampleAnswer": "I see an of.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-out",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-out"
+    ],
+    "exampleAnswer": "I see an out.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-for",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-for"
+    ],
+    "exampleAnswer": "I see a for.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-near",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-near"
+    ],
+    "exampleAnswer": "I see a near.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-by",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-by"
+    ],
+    "exampleAnswer": "I see a by.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-on",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-on"
+    ],
+    "exampleAnswer": "I see an on.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-behind",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-behind"
+    ],
+    "exampleAnswer": "I see a behind.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-from",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-from"
+    ],
+    "exampleAnswer": "I see a from.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-off",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-off"
+    ],
+    "exampleAnswer": "I see an off.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-to",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-to"
+    ],
+    "exampleAnswer": "I see a to.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-up",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-up"
+    ],
+    "exampleAnswer": "I see an up.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-over",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-over"
+    ],
+    "exampleAnswer": "I see an over.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-than",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-than"
+    ],
+    "exampleAnswer": "I see a than.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-with",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-with"
+    ],
+    "exampleAnswer": "I see a with.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-under",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-under"
+    ],
+    "exampleAnswer": "I see an under.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-next-to",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-next-to"
+    ],
+    "exampleAnswer": "I see a next to.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-about",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-about"
+    ],
+    "exampleAnswer": "I see an about.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-inside",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-inside"
+    ],
+    "exampleAnswer": "I see an inside.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-outside",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-outside"
+    ],
+    "exampleAnswer": "I see an outside.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-after",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-after"
+    ],
+    "exampleAnswer": "I see an after.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-front",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-front"
+    ],
+    "exampleAnswer": "I see a front.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-box",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-box"
+    ],
+    "exampleAnswer": "I see a box.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bottle",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-bottle"
+    ],
+    "exampleAnswer": "I see a bottle.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-gift",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-gift"
+    ],
+    "exampleAnswer": "I see a gift.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-mail",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-mail"
+    ],
+    "exampleAnswer": "I see a mail.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-email",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-email"
+    ],
+    "exampleAnswer": "I see an email.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tree",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-tree"
+    ],
+    "exampleAnswer": "I see a tree.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-way",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-way"
+    ],
+    "exampleAnswer": "I see a way.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-word",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-word"
+    ],
+    "exampleAnswer": "I see a word.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sale",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-sale"
+    ],
+    "exampleAnswer": "I see a sale.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fun",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-fun"
+    ],
+    "exampleAnswer": "I see a fun.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thing",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-thing"
+    ],
+    "exampleAnswer": "I see a thing.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ticket",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-ticket"
+    ],
+    "exampleAnswer": "I see a ticket.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dream",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-dream"
+    ],
+    "exampleAnswer": "I see a dream.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-party",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-party"
+    ],
+    "exampleAnswer": "I see a party.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-photo",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-photo"
+    ],
+    "exampleAnswer": "I see a photo.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-robot",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-robot"
+    ],
+    "exampleAnswer": "I see a robot.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-flower",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-flower"
+    ],
+    "exampleAnswer": "I see a flower.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cellphone",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-cellphone"
+    ],
+    "exampleAnswer": "I see a cellphone.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-birthday",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-birthday"
+    ],
+    "exampleAnswer": "I see a birthday.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-go",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-go"
+    ],
+    "exampleAnswer": "I see a go.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-get",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-get"
+    ],
+    "exampleAnswer": "I see a get.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cry",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-cry"
+    ],
+    "exampleAnswer": "I see a cry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hit",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hit"
+    ],
+    "exampleAnswer": "I see a hit.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-put",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-put"
+    ],
+    "exampleAnswer": "I see a put.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-see",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-see"
+    ],
+    "exampleAnswer": "I see a see.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sit",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sit"
+    ],
+    "exampleAnswer": "I see a sit.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-try",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-try"
+    ],
+    "exampleAnswer": "I see a try.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-call",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-call"
+    ],
+    "exampleAnswer": "I see a call.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-come",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-come"
+    ],
+    "exampleAnswer": "I see a come.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-find",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-find"
+    ],
+    "exampleAnswer": "I see a find.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-feel",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-feel"
+    ],
+    "exampleAnswer": "I see a feel.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-have",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-have"
+    ],
+    "exampleAnswer": "I see a have.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-help",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-help"
+    ],
+    "exampleAnswer": "I see a help.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hope",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-hope"
+    ],
+    "exampleAnswer": "I see a hope.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hurt",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-hurt"
+    ],
+    "exampleAnswer": "I see a hurt.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-know",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-know"
+    ],
+    "exampleAnswer": "I see a know.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-like",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-like"
+    ],
+    "exampleAnswer": "I see a like.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-look",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-look"
+    ],
+    "exampleAnswer": "I see a look.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-love",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-love"
+    ],
+    "exampleAnswer": "I see a love.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-meet",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-meet"
+    ],
+    "exampleAnswer": "I see a meet.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-miss",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-miss"
+    ],
+    "exampleAnswer": "I see a miss.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-need",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-need"
+    ],
+    "exampleAnswer": "I see a need.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-open",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-open"
+    ],
+    "exampleAnswer": "I see an open.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-stop",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-stop"
+    ],
+    "exampleAnswer": "I see a stop.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tell",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-tell"
+    ],
+    "exampleAnswer": "I see a tell.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wait",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wait"
+    ],
+    "exampleAnswer": "I see a wait.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-walk",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-walk"
+    ],
+    "exampleAnswer": "I see a walk.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-want",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-want"
+    ],
+    "exampleAnswer": "I see a want.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-give",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-give"
+    ],
+    "exampleAnswer": "I see a give.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-make",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-make"
+    ],
+    "exampleAnswer": "I see a make.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-brush",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-brush"
+    ],
+    "exampleAnswer": "I see a brush.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hurry",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-hurry"
+    ],
+    "exampleAnswer": "I see a hurry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-laugh",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-laugh"
+    ],
+    "exampleAnswer": "I see a laugh.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-close",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-close"
+    ],
+    "exampleAnswer": "I see a close.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-show",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-show"
+    ],
+    "exampleAnswer": "I see a show.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sleep",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-sleep"
+    ],
+    "exampleAnswer": "I see a sleep.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-smell",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-smell"
+    ],
+    "exampleAnswer": "I see a smell.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-stand",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-stand"
+    ],
+    "exampleAnswer": "I see a stand.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-start",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-start"
+    ],
+    "exampleAnswer": "I see a start.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-take",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-take"
+    ],
+    "exampleAnswer": "I see a take.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thank",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-thank"
+    ],
+    "exampleAnswer": "I see a thank.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-touch",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-touch"
+    ],
+    "exampleAnswer": "I see a touch.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wake",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-wake"
+    ],
+    "exampleAnswer": "I see a wake.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-worry",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-worry"
+    ],
+    "exampleAnswer": "I see a worry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-enjoy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-enjoy"
+    ],
+    "exampleAnswer": "I see an enjoy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-welcome",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-welcome"
+    ],
+    "exampleAnswer": "I see a welcome.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-pick-up",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-pick-up"
+    ],
+    "exampleAnswer": "I can pick up.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ok",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-ok"
+    ],
+    "exampleAnswer": "I see an OK.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-easy",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-easy"
+    ],
+    "exampleAnswer": "I see an easy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-fine",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-fine"
+    ],
+    "exampleAnswer": "I see a fine.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hard",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hard"
+    ],
+    "exampleAnswer": "I see a hard.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-only",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-only"
+    ],
+    "exampleAnswer": "I see an only.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sure",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sure"
+    ],
+    "exampleAnswer": "I see a sure.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dirty",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-dirty"
+    ],
+    "exampleAnswer": "I see a dirty.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-great",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-great"
+    ],
+    "exampleAnswer": "I see a great.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-other",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-other"
+    ],
+    "exampleAnswer": "I see an other.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-quiet",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-quiet"
+    ],
+    "exampleAnswer": "I see a quiet.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ready",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-ready"
+    ],
+    "exampleAnswer": "I see a ready.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wonderful",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-wonderful"
+    ],
+    "exampleAnswer": "I see a wonderful.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-favorite",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-favorite"
+    ],
+    "exampleAnswer": "I see a favorite.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-no",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-no"
+    ],
+    "exampleAnswer": "I see a no.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-so",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-so"
+    ],
+    "exampleAnswer": "I see a so.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-yes",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-yes"
+    ],
+    "exampleAnswer": "I see a yes.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-too",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-too"
+    ],
+    "exampleAnswer": "I see a too.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-very",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-very"
+    ],
+    "exampleAnswer": "I see a very.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-then",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-then"
+    ],
+    "exampleAnswer": "I see a then.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-still",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-still"
+    ],
+    "exampleAnswer": "I see a still.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-not",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-not"
+    ],
+    "exampleAnswer": "I see a not.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-never",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-never"
+    ],
+    "exampleAnswer": "I see a never.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-away",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-away"
+    ],
+    "exampleAnswer": "I see an away.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-always",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-always"
+    ],
+    "exampleAnswer": "I see an always.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-together",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-together"
+    ],
+    "exampleAnswer": "I see a together.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-again",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-again"
+    ],
+    "exampleAnswer": "I see an again.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-maybe",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-maybe"
+    ],
+    "exampleAnswer": "I see a maybe.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-really",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-really"
+    ],
+    "exampleAnswer": "I see a really.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sometimes",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sometimes"
+    ],
+    "exampleAnswer": "I see a sometimes.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-usually",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-usually"
+    ],
+    "exampleAnswer": "I see an usually.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-how",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-how"
+    ],
+    "exampleAnswer": "I see a how.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-who",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-who"
+    ],
+    "exampleAnswer": "I see a who.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-why",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-why"
+    ],
+    "exampleAnswer": "I see a why.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-what",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-what"
+    ],
+    "exampleAnswer": "I see a what.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-when",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-when"
+    ],
+    "exampleAnswer": "I see a when.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-where",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "slots": [
+      "junior-where"
+    ],
+    "exampleAnswer": "I see a where.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-which",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-which"
+    ],
+    "exampleAnswer": "I see a which.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-whose",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-whose"
+    ],
+    "exampleAnswer": "I see a whose.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-o",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-o"
+    ],
+    "exampleAnswer": "I see an o.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-e",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-e"
+    ],
+    "exampleAnswer": "I see an e.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-phonics",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-phonics"
+    ],
+    "exampleAnswer": "I see a phonics.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-expansion",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-expansion"
+    ],
+    "exampleAnswer": "I see an Expansion.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-page",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "passport",
+    "slots": [
+      "passport-page"
+    ],
+    "exampleAnswer": "I see a Page.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-is",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-is"
+    ],
+    "exampleAnswer": "I see an is.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-am",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-am"
+    ],
+    "exampleAnswer": "I see an am.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-are",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-are"
+    ],
+    "exampleAnswer": "I see an are.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-eight",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-eight"
+    ],
+    "exampleAnswer": "I see an eight.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-eleven",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-eleven"
+    ],
+    "exampleAnswer": "I see an eleven.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-five",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-five"
+    ],
+    "exampleAnswer": "I see a five.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-nine",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-nine"
+    ],
+    "exampleAnswer": "I see a nine.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sad",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-sad"
+    ],
+    "exampleAnswer": "I feel sad.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-seven",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-seven"
+    ],
+    "exampleAnswer": "I see a seven.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-six",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-six"
+    ],
+    "exampleAnswer": "I see a six.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ten",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-ten"
+    ],
+    "exampleAnswer": "I see a ten.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-twelve",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-twelve"
+    ],
+    "exampleAnswer": "I see a twelve.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bike",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-bike"
+    ],
+    "exampleAnswer": "I go to school by bike.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-living-room",
+    "pattern": "Where is the cat?",
+    "zhHint": "貓在哪裡？",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "slots": [
+      "elementary-living-room"
+    ],
+    "exampleAnswer": "It is in the living room.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-any",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-any"
+    ],
+    "exampleAnswer": "I see an any.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-catch",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-catch"
+    ],
+    "exampleAnswer": "I can catch.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-goodbye",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-goodbye"
+    ],
+    "exampleAnswer": "I see a goodbye.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-handsome",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-handsome"
+    ],
+    "exampleAnswer": "I feel handsome.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hot-dog",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hot-dog"
+    ],
+    "exampleAnswer": "I like hot dog.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-invite",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-invite"
+    ],
+    "exampleAnswer": "I can invite.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-learn",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-learn"
+    ],
+    "exampleAnswer": "I can learn.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-library",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-library"
+    ],
+    "exampleAnswer": "I am going to the library.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-month",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-month"
+    ],
+    "exampleAnswer": "I see a month.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-next",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-next"
+    ],
+    "exampleAnswer": "I see a next.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-man",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-man"
+    ],
+    "exampleAnswer": "I see a man.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-noodle",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-noodle"
+    ],
+    "exampleAnswer": "I like noodle.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-or",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-or"
+    ],
+    "exampleAnswer": "I see an or.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-place",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-place"
+    ],
+    "exampleAnswer": "I am going to the place.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-plane",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-plane"
+    ],
+    "exampleAnswer": "I go to school by plane.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-post",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-post"
+    ],
+    "exampleAnswer": "I can post.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-my",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-my"
+    ],
+    "exampleAnswer": "I see a my.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-practice",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-practice"
+    ],
+    "exampleAnswer": "I can practice.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-road",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-road"
+    ],
+    "exampleAnswer": "I am going to the road.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-our",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-our"
+    ],
+    "exampleAnswer": "I see an our.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-phone",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-phone"
+    ],
+    "exampleAnswer": "I see a phone.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sofa",
+    "pattern": "Where is the cat?",
+    "zhHint": "貓在哪裡？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sofa"
+    ],
+    "exampleAnswer": "It is in the sofa.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-sorry",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-sorry"
+    ],
+    "exampleAnswer": "I see a sorry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-teach",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-teach"
+    ],
+    "exampleAnswer": "I can teach.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-window",
+    "pattern": "Where is the cat?",
+    "zhHint": "貓在哪裡？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-window"
+    ],
+    "exampleAnswer": "It is in the window.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-young",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-young"
+    ],
+    "exampleAnswer": "I feel young.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-your",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "slots": [
+      "junior-your"
+    ],
+    "exampleAnswer": "I see a your.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-a-lot-of",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-a-lot-of"
+    ],
+    "exampleAnswer": "I see an a lot of.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-across",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-across"
+    ],
+    "exampleAnswer": "I see an across.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-ago",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-ago"
+    ],
+    "exampleAnswer": "I see an ago.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-along",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-along"
+    ],
+    "exampleAnswer": "I see an along.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-before",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-before"
+    ],
+    "exampleAnswer": "I see a before.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-between",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-between"
+    ],
+    "exampleAnswer": "I see a between.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-coffee",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-coffee"
+    ],
+    "exampleAnswer": "I like coffee.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-dry",
+    "pattern": "How is it?",
+    "zhHint": "它看起來如何？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-dry"
+    ],
+    "exampleAnswer": "It is dry.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-everyone",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-everyone"
+    ],
+    "exampleAnswer": "I see an everyone.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-gym",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-gym"
+    ],
+    "exampleAnswer": "I am going to the gym.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-street",
+    "pattern": "Where are you going?",
+    "zhHint": "你要去哪裡？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-street"
+    ],
+    "exampleAnswer": "I am going to the street.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-train",
+    "pattern": "How do you go to school?",
+    "zhHint": "你怎麼去上學？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-train"
+    ],
+    "exampleAnswer": "I go to school by train.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-was",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-was"
+    ],
+    "exampleAnswer": "I see a was.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-were",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-were"
+    ],
+    "exampleAnswer": "I see a were.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-wore",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "slots": [
+      "junior-wore"
+    ],
+    "exampleAnswer": "I can wore.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-already",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-already"
+    ],
+    "exampleAnswer": "I can already.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-also",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-also"
+    ],
+    "exampleAnswer": "I can also.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-been",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-been"
+    ],
+    "exampleAnswer": "I see a been.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-bring",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-bring"
+    ],
+    "exampleAnswer": "I can bring.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-busy",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-busy"
+    ],
+    "exampleAnswer": "I feel busy.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-cheese",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-cheese"
+    ],
+    "exampleAnswer": "I like cheese.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-expensive",
+    "pattern": "How is it?",
+    "zhHint": "它看起來如何？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-expensive"
+    ],
+    "exampleAnswer": "It is expensive.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-finish",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-finish"
+    ],
+    "exampleAnswer": "I can finish.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-hear",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-hear"
+    ],
+    "exampleAnswer": "I can hear.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-just",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-just"
+    ],
+    "exampleAnswer": "I can just.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-large",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-large"
+    ],
+    "exampleAnswer": "I see a large.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-lucky",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-lucky"
+    ],
+    "exampleAnswer": "I feel lucky.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-often",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-often"
+    ],
+    "exampleAnswer": "I can often.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-popular",
+    "pattern": "How do you feel?",
+    "zhHint": "你覺得如何？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-popular"
+    ],
+    "exampleAnswer": "I feel popular.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-since",
+    "pattern": "What do you see?",
+    "zhHint": "你看到什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-since"
+    ],
+    "exampleAnswer": "I see a since.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-subject",
+    "pattern": "What is your favorite subject?",
+    "zhHint": "你最喜歡的學科是什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-subject"
+    ],
+    "exampleAnswer": "My favorite subject is subject.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-think",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-think"
+    ],
+    "exampleAnswer": "I can think.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-tomato",
+    "pattern": "What do you like?",
+    "zhHint": "你喜歡什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-tomato"
+    ],
+    "exampleAnswer": "I like tomato.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-use",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-use"
+    ],
+    "exampleAnswer": "I can use.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-caught",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-caught"
+    ],
+    "exampleAnswer": "I can caught.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-flown",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-flown"
+    ],
+    "exampleAnswer": "I can flown.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-felt",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-felt"
+    ],
+    "exampleAnswer": "I can felt.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-found",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-found"
+    ],
+    "exampleAnswer": "I can found.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grown",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-grown"
+    ],
+    "exampleAnswer": "I can grown.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-grew",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-grew"
+    ],
+    "exampleAnswer": "I can grew.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-heard",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-heard"
+    ],
+    "exampleAnswer": "I can heard.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-known",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-known"
+    ],
+    "exampleAnswer": "I can known.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-spoken",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-spoken"
+    ],
+    "exampleAnswer": "I can spoken.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-stood",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-stood"
+    ],
+    "exampleAnswer": "I can stood.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-thought",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-thought"
+    ],
+    "exampleAnswer": "I can thought.",
+    "enabled": true
+  },
+  {
+    "id": "pat-auto-written",
+    "pattern": "What can you do?",
+    "zhHint": "你會做什麼？",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "slots": [
+      "junior-written"
+    ],
+    "exampleAnswer": "I can written.",
+    "enabled": true
+  }
+]
