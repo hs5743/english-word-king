@@ -244,6 +244,27 @@
           <button class="btn btn--logout btn--full" style="border-radius:var(--r-md); padding:12px;" onclick="handleCloseSession()">🔴 關閉挑戰場次</button>
         </div>
 
+        <!-- 管理工具：下載題庫 -->
+        <div class="glass-card" style="padding:var(--sp-lg); margin-top:var(--sp-lg); border-color:rgba(79,195,247,0.15);">
+          <h2 style="font-size:1rem; font-weight:800; margin-bottom:var(--sp-sm); color:#4fc3f7; display:flex; align-items:center; gap:8px;">
+            📥 管理工具：下載最新題庫
+          </h2>
+          <p style="font-size:0.78rem; color:var(--clr-text-muted); margin-bottom:var(--sp-md); line-height:1.6;">
+            一鍵下載最新版單字庫與句型庫，供教師備課、出題對齊與檢討使用。
+          </p>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button onclick="downloadVocabCSV()" id="btnDownloadVocab"
+              style="width:100%; padding:10px 16px; border-radius:var(--r-md); border:1px solid rgba(79,195,247,0.3); background:rgba(79,195,247,0.08); color:#4fc3f7; font-weight:bold; font-size:0.82rem; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;">
+              📖 下載單字庫 (vocabulary.csv)
+            </button>
+            <button onclick="downloadSentenceCSV()" id="btnDownloadSentence"
+              style="width:100%; padding:10px 16px; border-radius:var(--r-md); border:1px solid rgba(206,147,216,0.3); background:rgba(206,147,216,0.08); color:#ce93d8; font-weight:bold; font-size:0.82rem; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;">
+              📝 下載句型庫 (sentence-patterns.csv)
+            </button>
+          </div>
+          <div id="downloadStatus" style="font-size:0.75rem; color:var(--clr-text-muted); margin-top:var(--sp-sm); text-align:center; min-height:1.2em;"></div>
+        </div>
+
       </section>
 
       <!-- RIGHT: Leaderboard scoreboard -->
@@ -837,6 +858,96 @@
         scr.style.display = 'flex';
       } else {
         scr.style.display = 'none';
+      }
+    }
+
+    // ── 題庫下載工具 ──────────────────────────────────────────
+    const VOCAB_URL    = 'https://hs5743.github.io/english-word-king/data/vocabulary.json'
+    const SENTENCE_URL = 'https://hs5743.github.io/english-word-king/data/sentence-patterns.json'
+
+    function setDownloadStatus(msg, isError) {
+      const el = document.getElementById('downloadStatus')
+      if (!el) return
+      el.textContent = msg
+      el.style.color = isError ? '#ff6b6b' : 'var(--clr-text-muted)'
+    }
+
+    function triggerCSVDownload(csvContent, filename) {
+      // 加入 BOM，使 Excel 能正確顯示中文
+      const bom = '\uFEFF'
+      const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8;' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = filename
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      setTimeout(() => URL.revokeObjectURL(url), 5000)
+    }
+
+    function escCSV(val) {
+      if (val === undefined || val === null) return ''
+      const s = String(val)
+      if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+        return '"' + s.replace(/"/g, '""') + '"'
+      }
+      return s
+    }
+
+    async function downloadVocabCSV() {
+      const btn = document.getElementById('btnDownloadVocab')
+      if (btn) btn.textContent = '⏳ 下載中...'
+      setDownloadStatus('正在讀取最新單字庫...')
+      try {
+        const res = await fetch(VOCAB_URL + '?t=' + Date.now())
+        if (!res.ok) throw new Error('無法讀取單字庫，HTTP ' + res.status)
+        const words = await res.json()
+
+        const headers = ['單字(Word)', '中文(Chinese)', '主題(Topic)', '音標(Phonetic)', '難度年級(Grade)', '拼字音節(Chunks)']
+        const rows = words.map(w => [
+          w.word, w.zh, w.topic, w.phonetic || '',
+          w.grade || '', Array.isArray(w.chunks) ? w.chunks.join('/') : (w.chunks || '')
+        ].map(escCSV).join(','))
+
+        const csv = [headers.join(','), ...rows].join('\r\n')
+        const date = new Date().toLocaleDateString('sv-SE')
+        triggerCSVDownload(csv, `英語單字王_單字庫_${date}.csv`)
+        setDownloadStatus(`✅ 成功下載 ${words.length} 個單字！`, false)
+      } catch (err) {
+        console.error(err)
+        setDownloadStatus('❌ 下載失敗：' + err.message, true)
+      } finally {
+        if (btn) btn.textContent = '📖 下載單字庫 (vocabulary.csv)'
+      }
+    }
+
+    async function downloadSentenceCSV() {
+      const btn = document.getElementById('btnDownloadSentence')
+      if (btn) btn.textContent = '⏳ 下載中...'
+      setDownloadStatus('正在讀取最新句型庫...')
+      try {
+        const res = await fetch(SENTENCE_URL + '?t=' + Date.now())
+        if (!res.ok) throw new Error('無法讀取句型庫，HTTP ' + res.status)
+        const patterns = await res.json()
+
+        const headers = ['句型(Pattern)', '中文說明(Description)', '範例英句(Example)', '範例中譯(Translation)', '對應主題(Topic)', '難度年級(Grade)']
+        const rows = patterns.map(p => [
+          p.pattern || p.id || '', p.description || p.zh || '',
+          p.example || '', p.translation || p.exampleZh || '',
+          p.topic || '', p.grade || ''
+        ].map(escCSV).join(','))
+
+        const csv = [headers.join(','), ...rows].join('\r\n')
+        const date = new Date().toLocaleDateString('sv-SE')
+        triggerCSVDownload(csv, `英語單字王_句型庫_${date}.csv`)
+        setDownloadStatus(`✅ 成功下載 ${patterns.length} 筆句型！`, false)
+      } catch (err) {
+        console.error(err)
+        setDownloadStatus('❌ 下載失敗：' + err.message, true)
+      } finally {
+        if (btn) btn.textContent = '📝 下載句型庫 (sentence-patterns.csv)'
       }
     }
 
