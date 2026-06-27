@@ -3531,13 +3531,13 @@
   },
   {
     "id": "junior-new",
-    "word": "New",
-    "zh": "新臺幣",
-    "topic": "Money",
+    "word": "new",
+    "zh": "新的",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
-      "New"
+      "new"
     ],
     "patterns": [
       "pat-auto-new"

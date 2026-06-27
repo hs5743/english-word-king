@@ -402,15 +402,231 @@ async function loadPublicFallbackWords(grade: number): Promise<FallbackWord[]> {
   }
 }
 
+function repairGrammar(
+  word: string, 
+  zh: string, 
+  topic: string, 
+  defaultSentence: string, 
+  defaultPattern: string, 
+  defaultZhHint: string
+): { sentence: string; pattern: string; sentenceZh: string } {
+  const wordClean = word.toLowerCase().trim()
+  const topicClean = (topic || '').trim()
+
+  // 1. 如果單字是 Adjectives (形容詞) 且為自動生成句，進行優雅替換
+  if (topicClean === 'Adjectives' || topicClean === 'Personal' || ['short', 'tall', 'old', 'new', 'young', 'happy', 'sad', 'big', 'small', 'cold', 'hot', 'warm', 'cool', 'good', 'bad', 'high', 'low', 'long', 'wide', 'narrow', 'wet', 'dry', 'fast', 'quick', 'slow', 'strong', 'weak', 'dirty', 'clean', 'rich', 'poor', 'difficult', 'easy', 'hard', 'soft', 'correct', 'wrong', 'heavy', 'light', 'beautiful', 'ugly', 'sweet', 'sour', 'bitter', 'salty', 'busy', 'free', 'sick', 'healthy', 'hungry', 'full', 'tired', 'smart'].includes(wordClean)) {
+    if (defaultSentence.includes('I see a') || defaultSentence.includes('I see an') || defaultSentence.includes('I can see')) {
+      const subject = ['young', 'old', 'tall', 'short', 'smart', 'happy', 'sad', 'sick', 'healthy', 'hungry', 'full', 'tired', 'busy', 'free', 'beautiful', 'ugly', 'strong', 'weak', 'rich', 'poor'].includes(wordClean) ? 'He' : 'It'
+      const verb = 'is'
+      const translatedSubject = subject === 'He' ? '他' : '它'
+      return {
+        sentence: `${subject} ${verb} ${wordClean}.`,
+        pattern: `${subject} is [word].`,
+        sentenceZh: `${translatedSubject}是${zh}。`
+      }
+    }
+  }
+
+  // 2. 如果單字是 Colors (顏色) 且為自動生成句
+  if (topicClean === 'Colors' || ['red', 'blue', 'green', 'yellow', 'white', 'black', 'pink', 'orange', 'purple', 'brown', 'gray', 'grey'].includes(wordClean)) {
+    if (defaultSentence.includes('I see a') || defaultSentence.includes('I see an') || defaultSentence.includes('I can see')) {
+      return {
+        sentence: `It is ${wordClean}.`,
+        pattern: `It is [word].`,
+        sentenceZh: `它是${zh}的。`
+      }
+    }
+  }
+
+  // 3. 如果單字是代名詞/特殊字且被勉強塞入 "I see a..." 句型
+  const specialPronouns: Record<string, { sentence: string; pattern: string; sentenceZh: string }> = {
+    'all': { sentence: 'They are all here.', pattern: 'They are all [place].', sentenceZh: '他們都在這裡。' },
+    'those': { sentence: 'What are those? They are books.', pattern: 'What are those? They are [objects].', sentenceZh: '那些是什麼？它們是書。' },
+    'these': { sentence: 'What are these? They are apples.', pattern: 'What are these? They are [objects].', sentenceZh: '這些是什麼？它們是蘋果。' },
+    'they': { sentence: 'They are my friends.', pattern: 'They are my [relationship].', sentenceZh: '他們是我的朋友。' },
+    'she': { sentence: 'She is a student.', pattern: 'She is a [job].', sentenceZh: '她是學生。' },
+    'he': { sentence: 'He is a teacher.', pattern: 'He is a [job].', sentenceZh: '他是老師。' },
+    'we': { sentence: 'We are happy.', pattern: 'We are [adjective].', sentenceZh: '我們很高興。' },
+    'you': { sentence: 'You are smart.', pattern: 'You are [adjective].', sentenceZh: '你很聰明。' },
+    'me': { sentence: 'Give it to me.', pattern: 'Give it to [pronoun].', sentenceZh: '把它給我。' },
+    'him': { sentence: 'I like him.', pattern: 'I like [pronoun].', sentenceZh: '我喜歡他。' },
+    'her': { sentence: 'I see her.', pattern: 'I see [pronoun].', sentenceZh: '我看到她。' },
+    'them': { sentence: 'I know them.', pattern: 'I know [pronoun].', sentenceZh: '我認識他們。' },
+    'us': { sentence: 'Come with us.', pattern: 'Come with [pronoun].', sentenceZh: '跟我們一起來。' },
+    'their': { sentence: 'This is their school.', pattern: 'This is their [place].', sentenceZh: '這是他們的學校。' },
+    'our': { sentence: 'This is our class.', pattern: 'This is our [place].', sentenceZh: '這是我們的班級。' },
+    'your': { sentence: 'Where is your bag?', pattern: 'Where is your [object]?', sentenceZh: '你的袋子在哪裡？' },
+    'my': { sentence: 'This is my desk.', pattern: 'This is my [object].', sentenceZh: '這是我的書桌。' },
+    'his': { sentence: 'This is his pen.', pattern: 'This is his [object].', sentenceZh: '這是他的鋼筆。' },
+    'excuse me': { sentence: 'Excuse me, where is the station?', pattern: 'Excuse me, where is the [place]?', sentenceZh: '對不起，請問車站落在哪裡？' }
+  }
+
+  if (specialPronouns[wordClean]) {
+    if (defaultSentence.includes('I see a') || defaultSentence.includes('I see an') || defaultSentence.includes('I can see') || defaultSentence.toLowerCase().includes(`a ${wordClean}`) || defaultSentence.toLowerCase().includes(`an ${wordClean}`)) {
+      return specialPronouns[wordClean]
+    }
+  }
+
+  // 4. 性別配對與人稱主代名詞修正 (例如 "He is my aunt." 修正為 "She is my aunt.")
+  const femaleWords = ['mother', 'mom', 'sister', 'aunt', 'grandmother', 'girl', 'woman', 'daughter', 'queen', 'actress', 'waitress']
+  const maleWords = ['father', 'dad', 'brother', 'uncle', 'grandfather', 'boy', 'man', 'son', 'king', 'actor', 'waiter']
+
+  if (femaleWords.includes(wordClean)) {
+    if (/\bHe is\b/i.test(defaultSentence) || /\bHe's\b/i.test(defaultSentence)) {
+      return {
+        sentence: defaultSentence.replace(/\bHe is\b/g, 'She is').replace(/\bhe is\b/g, 'she is').replace(/\bHe's\b/g, 'She\'s').replace(/\bhe's\b/g, 'she\'s'),
+        pattern: defaultPattern.replace(/\bHe\b/g, 'She').replace(/\bhe\b/g, 'she'),
+        sentenceZh: defaultZhHint.replace(/他/g, '她')
+      }
+    }
+  }
+  if (maleWords.includes(wordClean)) {
+    if (/\bShe is\b/i.test(defaultSentence) || /\bShe's\b/i.test(defaultSentence)) {
+      return {
+        sentence: defaultSentence.replace(/\bShe is\b/g, 'He is').replace(/\bshe is\b/g, 'he is').replace(/\bShe's\b/g, 'He\'s').replace(/\bshe's\b/g, 'he\'s'),
+        pattern: defaultPattern.replace(/\bShe\b/g, 'He').replace(/\bshe\b/g, 'he'),
+        sentenceZh: defaultZhHint.replace(/她/g, '他')
+      }
+    }
+  }
+
+  // 4.1 助動詞與Be動詞修正 (Be & Auxiliaries)
+  const auxMap: Record<string, { sentence: string; pattern: string; sentenceZh: string }> = {
+    'are': { sentence: 'We are students.', pattern: 'We are [job].', sentenceZh: '我們是學生。' },
+    'is': { sentence: 'He is a boy.', pattern: 'He is a [noun].', sentenceZh: '他是個男孩。' },
+    'am': { sentence: 'I am a teacher.', pattern: 'I am a [job].', sentenceZh: '我是個老師。' },
+    'can': { sentence: 'I can do it.', pattern: 'I can do it.', sentenceZh: '我做得到。' },
+    'do': { sentence: 'What do you do?', pattern: 'What do you do?', sentenceZh: '你是做什麼的？' }
+  }
+  if (auxMap[wordClean]) {
+    if (defaultSentence.includes('I see') || defaultSentence.includes('I can see') || defaultSentence.toLowerCase().includes(`a ${wordClean}`) || defaultSentence.toLowerCase().includes(`an ${wordClean}`)) {
+      return auxMap[wordClean]
+    }
+  }
+
+  // 4.2 疾病與身體狀態修正
+  const healthWords = ['toothache', 'headache', 'cold', 'fever']
+  if (healthWords.includes(wordClean)) {
+    if (defaultSentence.includes('I see') || defaultSentence.includes('I can see') || defaultSentence.includes('like')) {
+      return {
+        sentence: `I have a ${wordClean}.`,
+        pattern: `I have a [noun].`,
+        sentenceZh: `我${zh}。`
+      }
+    }
+  }
+
+  // 4.3 飽 (full) 修正
+  if (wordClean === 'full' && (defaultSentence.includes('I like') || defaultSentence.includes('I see'))) {
+    return {
+      sentence: 'I am full.',
+      pattern: 'I am [adjective].',
+      sentenceZh: '我飽了。'
+    }
+  }
+
+  // 4.5 定冠詞與指示詞修正
+  if (wordClean === 'the') {
+    return {
+      sentence: 'I can see the sun.',
+      pattern: 'I can see the [noun].',
+      sentenceZh: '我能看見太陽。'
+    }
+  }
+
+  // 5. 語意矛盾的學術與衣物單字修正 (例如 "My favorite subject is friend." 或 "I am wearing a pocket.")
+  const schoolMisuses = ['study', 'story', 'lesson', 'grade', 'class', 'classroom', 'student', 'teacher', 'friend', 'school']
+  if (schoolMisuses.includes(wordClean) && defaultSentence.includes('favorite subject')) {
+    if (wordClean === 'study') {
+      return { sentence: 'I study English every day.', pattern: 'I study [subject] every day.', sentenceZh: '我每天學習英文。' }
+    }
+    if (wordClean === 'story') {
+      return { sentence: 'I like this story.', pattern: 'I like this [noun].', sentenceZh: '我喜歡這個故事。' }
+    }
+    if (wordClean === 'lesson') {
+      return { sentence: 'This is our English lesson.', pattern: 'This is our [subject] lesson.', sentenceZh: '這是我們的英文課。' }
+    }
+    if (wordClean === 'class' || wordClean === 'classroom') {
+      return { sentence: 'I am in the classroom.', pattern: 'I am in the [place].', sentenceZh: '我在教室裡。' }
+    }
+    if (wordClean === 'school') {
+      return { sentence: 'I go to school by bus.', pattern: 'I go to school by [vehicle].', sentenceZh: '我搭公車去上學。' }
+    }
+    return {
+      sentence: 'He is my friend.',
+      pattern: 'He is my [relationship].',
+      sentenceZh: '他是我的朋友。'
+    }
+  }
+
+  if (wordClean === 'pocket' && defaultSentence.includes('wearing a pocket')) {
+    return {
+      sentence: 'It is in my pocket.',
+      pattern: 'It is in my [noun].',
+      sentenceZh: '它在我的口袋裡。'
+    }
+  }
+
+  // 6. 動詞 (Verbs) 修正
+  const commonVerbs = ['buy', 'work', 'run', 'swim', 'walk', 'jump', 'read', 'write', 'sing', 'dance', 'eat', 'drink', 'sleep', 'play', 'talk', 'see', 'look', 'hear', 'listen', 'fly', 'help', 'wash', 'clean', 'open', 'close', 'go', 'come', 'find', 'make', 'like', 'love', 'want', 'study', 'learn', 'teach']
+  if (commonVerbs.includes(wordClean) || topicClean === 'Actions' || topicClean === 'Verbs') {
+    if (defaultSentence.includes('I see a') || defaultSentence.includes('I see an') || defaultSentence.includes('I can see a') || defaultSentence.toLowerCase().includes(`a ${wordClean}`) || defaultSentence.toLowerCase().includes(`an ${wordClean}`)) {
+      if (wordClean === 'buy') {
+        return { sentence: 'I want to buy a book.', pattern: 'I want to buy a [noun].', sentenceZh: '我想買一本書。' }
+      }
+      if (wordClean === 'like' || wordClean === 'love' || wordClean === 'want') {
+        return { sentence: 'I like apples.', pattern: 'I like [noun].', sentenceZh: '我喜歡蘋果。' }
+      }
+      return {
+        sentence: `I can ${wordClean}.`,
+        pattern: `I can [word].`,
+        sentenceZh: `我會${zh}。`
+      }
+    }
+  }
+
+  // 7. 介詞與副詞 (Prepositions / Adverbs) 修正
+  const prepMap: Record<string, { sentence: string; pattern: string; sentenceZh: string }> = {
+    'off': { sentence: 'Turn it off.', pattern: 'Turn it off.', sentenceZh: '把它關掉。' },
+    'on': { sentence: 'Turn it on.', pattern: 'Turn it on.', sentenceZh: '把它打開。' },
+    'in': { sentence: 'It is in the box.', pattern: 'It is in the [noun].', sentenceZh: '它在盒子裡。' },
+    'under': { sentence: 'It is under the desk.', pattern: 'It is under the [noun].', sentenceZh: '它在書桌下。' },
+    'up': { sentence: 'Look up at the sky.', pattern: 'Look up at the [noun].', sentenceZh: '仰望天空。' },
+    'down': { sentence: 'Sit down, please.', pattern: 'Sit down, please.', sentenceZh: '請坐下。' },
+    'out': { sentence: 'Go out to play.', pattern: 'Go out to [verb].', sentenceZh: '出去玩。' },
+    'by': { sentence: 'I go to school by bus.', pattern: 'I go to school by [vehicle].', sentenceZh: '我搭公車去上學。' },
+    'here': { sentence: 'Please come here.', pattern: 'Please come here.', sentenceZh: '請過來這裡。' },
+    'there': { sentence: 'Let\'s go there.', pattern: 'Let\'s go there.', sentenceZh: '我們去那裡吧。' },
+    'over': { sentence: 'Game over.', pattern: 'Game over.', sentenceZh: '遊戲結束。' },
+    'behind': { sentence: 'He is behind the door.', pattern: 'He is behind the [noun].', sentenceZh: '他在門後面。' },
+    'near': { sentence: 'The school is near my house.', pattern: 'The school is near my [noun].', sentenceZh: '學校在我家附近。' }
+  }
+
+  if (prepMap[wordClean]) {
+    if (defaultSentence.includes('I see a') || defaultSentence.includes('I see an') || defaultSentence.includes('I can see') || defaultSentence.toLowerCase().includes(`a ${wordClean}`) || defaultSentence.toLowerCase().includes(`an ${wordClean}`)) {
+      return prepMap[wordClean]
+    }
+  }
+
+  return {
+    sentence: defaultSentence,
+    pattern: defaultPattern,
+    sentenceZh: defaultZhHint
+  }
+}
+
 function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, PublicPatternItem>): FallbackWord {
   const patternId = Array.isArray(item.patterns) ? item.patterns[0] : ''
   const pattern = patternId ? patternById.get(patternId) : undefined
   const word = String(item.word || '').toLowerCase().trim()
   const exampleAnswer = pattern?.exampleAnswer || `I can see ${word}.`
   const patternText = pattern?.pattern || 'Practice sentence'
-  const sentence = exampleAnswer.toLowerCase().includes(word)
+  const defaultSentence = exampleAnswer.toLowerCase().includes(word)
     ? exampleAnswer
     : `${patternText} ${exampleAnswer}`
+  const defaultSentenceZh = pattern?.zhHint || ''
+
+  const repaired = repairGrammar(word, item.zh || word, item.topic || '', defaultSentence, patternText, defaultSentenceZh)
 
   return {
     word,
@@ -419,9 +635,9 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
     grade: parseGradeBand(item.gradeBand || pattern?.gradeBand),
     chunks: Array.isArray(item.chunks) && item.chunks.length ? item.chunks : chunkWord(word),
     phonetic: '',
-    pattern: patternText,
-    sentence,
-    sentenceZh: pattern?.zhHint || '',
+    pattern: repaired.pattern,
+    sentence: repaired.sentence,
+    sentenceZh: repaired.sentenceZh,
   }
 }
 
@@ -476,7 +692,19 @@ function normalizeChallenge(
       // 必須存在於候選池中，且這次挑戰中尚未重複使用
       if (candidate && !usedWords.has(wordClean)) {
         usedWords.add(wordClean)
-        const sentence = item.exampleSentence || item.sentence || candidate.sentence
+        let finalSentence = item.exampleSentence || item.sentence || candidate.sentence
+        let finalSentenceZh = item.sentenceZh || candidate.sentenceZh
+
+        // 如果是形容詞、顏色或特殊代名詞，強制使用修復後的標準句型，不勉強套用 AI 生產的怪句
+        const isAdj = candidate.topic === 'Adjectives' || candidate.topic === 'Personal'
+        const isCol = candidate.topic === 'Colors'
+        const isSpecial = ['all', 'those', 'these', 'they', 'she', 'he', 'we', 'you', 'me', 'him', 'her', 'them', 'us', 'their', 'our', 'your', 'my', 'his'].includes(wordClean)
+        
+        if (isAdj || isCol || isSpecial) {
+          finalSentence = candidate.sentence
+          finalSentenceZh = candidate.sentenceZh
+        }
+
         validItems.push({
           word: wordClean,
           zh: candidate.zh, // 強制使用題庫標準中文
@@ -484,9 +712,9 @@ function normalizeChallenge(
           chunks: candidate.chunks, // 強制使用題庫標準音節
           phonetic: item.phonetic || candidate.phonetic || '',
           pattern: candidate.pattern || 'Practice sentence', // 強制使用題庫標準句型
-          exampleSentence: sentence,
-          sentenceZh: item.sentenceZh || candidate.sentenceZh,
-          fillBlank: item.fillBlank || makeFillBlank(sentence, wordClean),
+          exampleSentence: finalSentence,
+          sentenceZh: finalSentenceZh,
+          fillBlank: makeFillBlank(finalSentence, wordClean),
           distractors: buildDistractors(wordClean, available, item.distractors),
         })
       }
