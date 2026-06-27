@@ -46,6 +46,10 @@ serve(async (req) => {
     const action = body.action
 
     switch (action) {
+      case 'get-config-status':
+        return await getConfigStatus(supabase)
+      case 'test-ai-config':
+        return await testAiConfig(supabase)
       case 'save-config':
         return await saveConfig(supabase, body)
       case 'get-roster':
@@ -70,6 +74,66 @@ serve(async (req) => {
     return jsonError(500, 'server_error', getErrorMessage(err) || '伺服器發生錯誤。')
   }
 })
+
+async function getConfigStatus(supabase: any) {
+  const { data, error } = await supabase
+    .from('system_config')
+    .select('key,value,updated_at')
+    .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key'])
+  if (error) throw error
+
+  const status = Object.fromEntries(
+    (data || []).map((row: ConfigRow) => [
+      row.key,
+      {
+        configured: isConfiguredSecret(row.value),
+        updated_at: row.updated_at,
+      },
+    ]),
+  )
+
+  for (const key of ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key']) {
+    if (!status[key]) status[key] = { configured: false, updated_at: null }
+  }
+
+  return jsonOk({ status })
+}
+
+async function testAiConfig(supabase: any) {
+  const { data, error } = await supabase
+    .from('system_config')
+    .select('key,value,updated_at')
+    .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key'])
+  if (error) throw error
+
+  const keys = Object.fromEntries((data || []).map((row: ConfigRow) => [row.key, row.value])) as Record<string, string>
+  const attempts: Array<{ provider: string; ok: boolean; message: string }> = []
+
+  if (isConfiguredSecret(keys.gemini_api_key)) {
+    const result = await testGemini(keys.gemini_api_key)
+    attempts.push({ provider: 'Gemini primary', ...result })
+    if (result.ok) return jsonOk({ ok: true, provider: 'Gemini primary', attempts })
+  }
+
+  if (isConfiguredSecret(keys.gemini_api_key_backup)) {
+    const result = await testGemini(keys.gemini_api_key_backup)
+    attempts.push({ provider: 'Gemini backup', ...result })
+    if (result.ok) return jsonOk({ ok: true, provider: 'Gemini backup', attempts })
+  }
+
+  if (isConfiguredSecret(keys.groq_api_key)) {
+    const result = await testGroq(keys.groq_api_key)
+    attempts.push({ provider: 'Groq', ...result })
+    if (result.ok) return jsonOk({ ok: true, provider: 'Groq', attempts })
+  }
+
+  return jsonOk({
+    ok: false,
+    provider: null,
+    attempts,
+    message: attempts.length ? 'No configured AI provider passed the live check.' : 'No AI API key is configured.',
+  })
+}
 
 async function saveConfig(supabase: any, body: any) {
   const rows: ConfigRow[] = []
@@ -182,6 +246,55 @@ function normalizeEmail(email: string) {
   const value = String(email || '').trim().toLowerCase()
   if (!value.endsWith('@gapp.hcc.edu.tw')) throw new Error('信箱必須為 @gapp.hcc.edu.tw。')
   return value
+}
+
+function isConfiguredSecret(value: unknown) {
+  const text = String(value || '').trim()
+  return Boolean(text) && text !== 'REPLACE_WITH_YOUR_GEMINI_KEY'
+}
+
+async function testGemini(key: string) {
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: 'Reply with exactly: OK' }] }],
+        generationConfig: { temperature: 0, maxOutputTokens: 8 },
+      }),
+    })
+    if (!res.ok) return { ok: false, message: await compactError(res) }
+    return { ok: true, message: 'Live Gemini request succeeded.' }
+  } catch (err) {
+    return { ok: false, message: getErrorMessage(err) }
+  }
+}
+
+async function testGroq(key: string) {
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`,
+      },
+      body: JSON.stringify({
+        model: 'llama3-8b-8192',
+        messages: [{ role: 'user', content: 'Reply with exactly: OK' }],
+        temperature: 0,
+        max_tokens: 8,
+      }),
+    })
+    if (!res.ok) return { ok: false, message: await compactError(res) }
+    return { ok: true, message: 'Live Groq request succeeded.' }
+  } catch (err) {
+    return { ok: false, message: getErrorMessage(err) }
+  }
+}
+
+async function compactError(res: Response) {
+  const text = await res.text().catch(() => '')
+  return `${res.status} ${res.statusText}${text ? ` - ${text.slice(0, 240)}` : ''}`
 }
 
 function jsonOk(payload: Record<string, unknown>) {

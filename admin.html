@@ -179,6 +179,18 @@
           金鑰由 Supabase 後端與 Edge Function 安全隔離，前端網頁無法取得真實明文值。
         </p>
 
+        <div id="configStatusBox" style="margin-bottom:var(--sp-lg);padding:var(--sp-md);border:1px solid rgba(148,163,184,0.35);border-radius:12px;background:rgba(255,255,255,0.55);">
+          <div style="display:flex;justify-content:space-between;gap:var(--sp-sm);align-items:center;flex-wrap:wrap;">
+            <strong style="color:var(--clr-text-primary);">AI 金鑰狀態</strong>
+            <div style="display:flex;gap:var(--sp-xs);flex-wrap:wrap;">
+              <button class="btn" type="button" onclick="loadConfigStatus()">重新檢查</button>
+              <button class="btn btn--secondary" type="button" onclick="testAiConfig()">測試 AI 出題</button>
+            </div>
+          </div>
+          <div id="configStatusContent" style="margin-top:var(--sp-sm);font-size:0.9rem;color:var(--clr-text-secondary);">尚未檢查。</div>
+          <div id="configTestResult" style="margin-top:var(--sp-sm);font-size:0.9rem;color:var(--clr-text-secondary);"></div>
+        </div>
+
         <form id="configForm" onsubmit="saveSystemConfig(event)">
           <div class="form-group">
             <label class="form-label" for="geminiKey">Gemini 3.5 Flash 主要 API 金鑰</label>
@@ -441,6 +453,7 @@
         loadUserRoles();
 
         loadRoster();
+        loadConfigStatus();
 
       } catch (err) {
         console.error(err);
@@ -498,6 +511,7 @@
         document.getElementById('geminiKey').value = '';
         document.getElementById('geminiKeyBackup').value = '';
         document.getElementById('groqKey').value = '';
+        await loadConfigStatus();
       } catch (err) {
         console.error(err);
         showLoading(false);
@@ -508,6 +522,60 @@
     /* ═══════════════════════════════════════════════════════════
      * 2. STUDENT ROSTER MODULE
      * ═══════════════════════════════════════════════════════════ */
+
+    async function loadConfigStatus() {
+      const box = document.getElementById('configStatusContent');
+      if (!box) return;
+      box.textContent = '檢查中...';
+      try {
+        const data = await invokeAdminApi('get-config-status');
+        const status = data.status || {};
+        const labels = {
+          gemini_api_key: 'Gemini 主要金鑰',
+          gemini_api_key_backup: 'Gemini 備用金鑰',
+          groq_api_key: 'Groq 備援金鑰',
+        };
+        box.innerHTML = Object.keys(labels).map(function (key) {
+          const item = status[key] || {};
+          const badge = item.configured
+            ? '<span style="color:#047857;font-weight:700;">已設定</span>'
+            : '<span style="color:#b45309;font-weight:700;">未設定</span>';
+          const updated = item.updated_at ? '，更新時間：' + formatDateTime(item.updated_at) : '';
+          return '<div style="margin-top:6px;">' + labels[key] + '：' + badge + updated + '</div>';
+        }).join('');
+      } catch (err) {
+        console.error(err);
+        box.textContent = '狀態檢查失敗：' + err.message;
+      }
+    }
+
+    async function testAiConfig() {
+      const resultEl = document.getElementById('configTestResult');
+      if (!resultEl) return;
+      resultEl.textContent = '正在測試 AI 金鑰...';
+      try {
+        const data = await invokeAdminApi('test-ai-config');
+        if (data.ok) {
+          resultEl.innerHTML = '<span style="color:#047857;font-weight:700;">測試成功</span>：' + data.provider + ' 可以正常回應。';
+          return;
+        }
+        const attempts = (data.attempts || []).map(function (item) {
+          return item.provider + '：' + item.message;
+        }).join('<br>');
+        resultEl.innerHTML = '<span style="color:#b45309;font-weight:700;">測試未通過</span><br>' + (attempts || data.message || '沒有可測試的 AI 金鑰。') + '<br>學生仍會使用內建題庫 fallback。';
+      } catch (err) {
+        console.error(err);
+        resultEl.textContent = '測試失敗：' + err.message;
+      }
+    }
+
+    function formatDateTime(value) {
+      try {
+        return new Date(value).toLocaleString('zh-TW', { hour12: false });
+      } catch (_) {
+        return value || '';
+      }
+    }
 
     async function loadRoster() {
       try {
