@@ -3,6 +3,11 @@
  * 功能：載入排行榜、跑馬燈動態、學校積分
  */
 
+// 全域快取，供開採手冊使用
+let cachedStudentProfile = null
+let cachedVocabList = null
+let activeHandbookTab = 'mining'
+
 // 16階礦物寶石等級科普定義
 const gemTiers = [
   { name: "滑石 (Talc)", emoji: "🌱", min: 0, hardness: 1, desc: "世界上最柔軟的礦物，硬度只有 1，常用來製作爽身粉，摸起來滑滑的！" },
@@ -59,6 +64,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         .single()
       
       if (profile) {
+        cachedStudentProfile = profile // 快取資料
+
         // 更新導覽列為詳細學校與姓名
         if (navbarNav) {
           navbarNav.innerHTML = `
@@ -73,14 +80,18 @@ document.addEventListener('DOMContentLoaded', async () => {
           `
         }
 
+        let miningCount = 0
         let masteredCount = 0
         if (profile.mastery) {
           for (const word in profile.mastery) {
             if (profile.mastery[word] >= 2) {
               masteredCount++
+            } else {
+              miningCount++
             }
           }
         }
+        const totalExplored = miningCount + masteredCount
         
         let currentTierIndex = 0
         for (let i = gemTiers.length - 1; i >= 0; i--) {
@@ -97,6 +108,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (gemSec && gemBadge) {
           gemBadge.textContent = `${currentTier.emoji} ${currentTier.name}`
           gemSec.style.display = 'block'
+        }
+
+        // 更新開採手冊按鈕文字並顯示按鈕
+        const summaryText = document.getElementById('handbook-summary-text')
+        if (summaryText) {
+          summaryText.textContent = `已探勘 ${totalExplored} 字 · ⛏️ 開採中 ${miningCount} · 💎 已開採 ${masteredCount}`
+        }
+        const btnHandbook = document.getElementById('btn-open-handbook')
+        if (btnHandbook) {
+          btnHandbook.style.display = 'block'
         }
 
         const voiceHelperEntry = document.getElementById('voice-helper-entry')
@@ -480,7 +501,181 @@ window.toggleRecognizeHelperTest = function() {
     btn.style.background = 'linear-gradient(135deg, #f5c842, #eab308)'
     btn.style.color = '#000'
   }
-
   rec.start()
 }
 
+/* ── 英語寶石開採手冊 (P4) ─────────────────────────────────── */
+window.openIndexHandbook = async function() {
+  const modal = document.getElementById('handbookModal')
+  const overlay = document.getElementById('handbookModalOverlay')
+  if (!modal || !overlay) return
+
+  modal.style.display = 'flex'
+  overlay.style.display = 'block'
+
+  if (!cachedStudentProfile) {
+    const sb = window.SupabaseConfig?.getSupabase()
+    if (sb) {
+      const user = await window.SupabaseConfig.getCurrentUser()
+      if (user) {
+        const { data: profile } = await sb
+          .from('students')
+          .select('name, school, mastery, total_score')
+          .eq('uid', user.id)
+          .single()
+        if (profile) {
+          cachedStudentProfile = profile
+        }
+      }
+    }
+  }
+
+  if (!cachedStudentProfile) {
+    showToast('無法讀取您的個人檔案，請重試或重新登入。', 'error')
+    closeGemHandbook()
+    return
+  }
+
+  // 載入單字表
+  if (!cachedVocabList) {
+    const grid = document.getElementById('handbook-grid')
+    if (grid) grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color:#8892b0;">💎 正在載入單字庫與探勘地圖...</div>'
+    try {
+      const res = await fetch('data/vocabulary.json')
+      cachedVocabList = await res.json()
+    } catch (e) {
+      console.error('載入單字表失敗:', e)
+      showToast('單字庫載入失敗！', 'error')
+      closeGemHandbook()
+      return
+    }
+  }
+
+  activeHandbookTab = 'mining'
+  window.switchIndexHandbookTab('mining')
+}
+
+window.switchIndexHandbookTab = function(type) {
+  activeHandbookTab = type
+  
+  const tabMining = document.getElementById('tab-mining')
+  const tabMined = document.getElementById('tab-mined')
+  
+  if (type === 'mining') {
+    tabMining.style.background = 'rgba(245,200,66,0.1)'
+    tabMining.style.border = '1px solid var(--clr-gold-1)'
+    tabMining.style.color = 'var(--clr-gold-1)'
+    
+    tabMined.style.background = 'rgba(255,255,255,0.03)'
+    tabMined.style.border = '1px solid rgba(255,255,255,0.08)'
+    tabMined.style.color = '#aaa'
+  } else {
+    tabMined.style.background = 'rgba(245,200,66,0.1)'
+    tabMined.style.border = '1px solid var(--clr-gold-1)'
+    tabMined.style.color = 'var(--clr-gold-1)'
+    
+    tabMining.style.background = 'rgba(255,255,255,0.03)'
+    tabMining.style.border = '1px solid rgba(255,255,255,0.08)'
+    tabMining.style.color = '#aaa'
+  }
+  
+  renderIndexHandbook()
+}
+
+function renderIndexHandbook() {
+  const grid = document.getElementById('handbook-grid')
+  const emptyState = document.getElementById('handbook-empty-state')
+  const progressHeader = document.getElementById('handbook-progress-header')
+  if (!grid || !emptyState || !cachedStudentProfile || !cachedVocabList) return
+
+  const mastery = cachedStudentProfile.mastery || {}
+  
+  // 統計數據
+  let totalMined = 0
+  let totalMining = 0
+  
+  cachedVocabList.forEach(w => {
+    const key = w.word.toLowerCase().trim()
+    if (mastery[key] !== undefined) {
+      if (mastery[key] >= 2) {
+        totalMined++
+      } else {
+        totalMining++
+      }
+    }
+  })
+  const totalExplored = totalMined + totalMining
+  
+  if (progressHeader) {
+    progressHeader.textContent = `已探勘 ${totalExplored} 字 · ⛏️ 開採中 ${totalMining} 顆 · 💎 已開採 ${totalMined} 顆`
+  }
+
+  // 篩選出當前分頁要呈現的單字
+  const listItems = cachedVocabList.filter(w => {
+    const key = w.word.toLowerCase().trim()
+    if (mastery[key] === undefined) return false // 未曾挑戰過的單字，隱藏不顯示
+    const masteryValue = mastery[key]
+    if (activeHandbookTab === 'mining') {
+      return masteryValue < 2
+    } else {
+      return masteryValue >= 2
+    }
+  })
+
+  // 排序：依照單字字母排序，方便查閱
+  listItems.sort((a, b) => a.word.localeCompare(b.word))
+
+  if (listItems.length === 0) {
+    grid.innerHTML = ''
+    grid.style.display = 'none'
+    emptyState.style.display = 'block'
+    return
+  }
+
+  emptyState.style.display = 'none'
+  grid.style.display = 'grid'
+
+  const gemEmojis = {
+    3: '💚',
+    4: '💙',
+    5: '💛',
+    6: '❤️',
+    7: '💎',
+    8: '🔮',
+    9: '👑'
+  }
+
+  grid.innerHTML = listItems.map(w => {
+    const key = w.word.toLowerCase().trim()
+    const masteryValue = mastery[key] || 0
+    
+    if (activeHandbookTab === 'mining') {
+      // 正在開採中：被灰色泥土覆蓋的原石卡片
+      const percent = (masteryValue / 2) * 100
+      const remaining = 2 - masteryValue
+      return `
+        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; position: relative;">
+          <div style="font-size: 2.2rem; filter: grayscale(100%) opacity(50%); margin-bottom: 6px;">🪨</div>
+          <div style="font-size: 0.95rem; font-weight: 600; color: #cbd5e1; word-break: break-all;">${escHtml(w.word)}</div>
+          <div style="font-size: 0.72rem; color: #8892b0; margin-top: 4px;">開採進度: ${masteryValue}/2</div>
+          <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-top: 4px; overflow: hidden;">
+            <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #78716c, #a8a29e); border-radius: 3px;"></div>
+          </div>
+          <span style="font-size: 0.65rem; color: #a8a29e; margin-top: 6px;">再答對 ${remaining} 次洗淨</span>
+        </div>
+      `
+    } else {
+      // 已成功開採：精美彩色寶石卡片
+      const emoji = gemEmojis[w.grade] || '💎'
+      return `
+        <div style="background: rgba(245,200,66,0.04); border: 1px solid rgba(245,200,66,0.22); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s;">
+          <div style="font-size: 2.2rem; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.2));">${emoji}</div>
+          <div style="font-size: 0.95rem; font-weight: bold; color: var(--clr-gold-1); word-break: break-all;">${escHtml(w.word)}</div>
+          <div style="font-size: 0.7rem; color: #8892b0; font-family: monospace; margin-top: 2px;">${escHtml(w.phonetic || '')}</div>
+          <div style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px; font-weight: 500;">${escHtml(w.zh)}</div>
+          <button onclick="window.SpeechEngine.speak('${w.word.replace(/'/g, "\\'")}')" style="background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--clr-gold-1); font-size: 0.85rem; margin-top: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.2)'" onmouseout="this.style.background='rgba(245,200,66,0.1)'">🔊</button>
+        </div>
+      `
+    }
+  }).join('')
+}
