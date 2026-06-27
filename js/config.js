@@ -64,7 +64,7 @@ async function signInWithGoogle(redirectTo = getPageUrl('join.html')) {
     options: {
       queryParams: {
         hd: 'gapp.hcc.edu.tw',  // 限定新竹縣學校帳號
-        prompt: 'select_account',
+        prompt: 'select_account consent',
       },
       redirectTo,
     }
