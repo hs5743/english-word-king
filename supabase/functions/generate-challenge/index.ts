@@ -439,10 +439,11 @@ function repairGrammar(
   // 2. 如果單字是 Colors (顏色) 且為自動生成句
   if (topicClean === 'Colors' || ['red', 'blue', 'green', 'yellow', 'white', 'black', 'pink', 'orange', 'purple', 'brown', 'gray', 'grey'].includes(wordClean)) {
     if (defaultSentence.includes('I see a') || defaultSentence.includes('I see an') || defaultSentence.includes('I can see')) {
+      const suffix = zh.endsWith('的') ? '' : '的'
       return {
         sentence: `It is ${wordClean}.`,
         pattern: `It is [word].`,
-        sentenceZh: `它是${zh}的。`
+        sentenceZh: `它是${zh}${suffix}。`
       }
     }
   }
