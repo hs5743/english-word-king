@@ -985,6 +985,8 @@
         var path = window.location.pathname
         var dir  = path.substring(0, path.lastIndexOf('/') + 1)
         var redirectTo = base + dir + 'join.html'
+        var sb = window.SupabaseConfig.getSupabase()
+        await sb.auth.signOut({ scope: 'local' }).catch(function () {})
 
         await window.SupabaseConfig.signInWithGoogle(redirectTo)
         // Browser redirects to Google — nothing more runs here
