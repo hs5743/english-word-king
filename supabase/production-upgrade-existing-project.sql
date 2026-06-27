@@ -288,3 +288,26 @@ LIMIT 50;
 
 GRANT SELECT ON school_leaderboard TO authenticated, anon;
 GRANT SELECT ON student_leaderboard TO authenticated, anon;
+
+-- ---------- 2026-06-27 Update Leaderboard View to support Gem Levels ----------
+CREATE OR REPLACE VIEW student_leaderboard AS
+SELECT
+  s.name,
+  s.school,
+  s.class,
+  s.grade,
+  s.total_score,
+  s.streak,
+  s.speech_stars,
+  (
+    SELECT COALESCE(COUNT(*), 0)
+    FROM jsonb_each_text(s.mastery)
+    WHERE value::int >= 2
+  ) AS mastered_words,
+  RANK() OVER (ORDER BY s.total_score DESC) AS rank
+FROM students s
+WHERE s.enabled = true
+ORDER BY s.total_score DESC
+LIMIT 50;
+
+GRANT SELECT ON student_leaderboard TO authenticated, anon;

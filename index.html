@@ -66,6 +66,13 @@
             🏅 查看排行榜
           </a>
         </div>
+        <!-- 個人寶石等級卡片 -->
+        <div id="index-gem-section" style="display: none; margin-top: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 12px 18px; text-align: center; cursor: pointer; transition: all 0.2s; margin-left: auto; margin-right: auto; max-width: 320px;" onclick="showLevelModal()">
+          <div style="font-size: 0.75rem; color: var(--clr-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">我的寶石等級 (點選查看科普)</div>
+          <div id="index-gem-badge" style="font-size: 1.25rem; font-weight: bold; color: var(--clr-gold-1); margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            🌱 載入中...
+          </div>
+        </div>
       </section>
 
       <!-- ── 活躍跑馬燈 ── -->
@@ -232,6 +239,48 @@
 
   <!-- Toast 容器 -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Mineral Level Modal -->
+  <div class="drawer-overlay" id="levelModalOverlay" style="z-index: 1000;"></div>
+  <div class="level-modal" id="levelModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: #141923; border: 2px solid var(--clr-gold-1); border-radius: 16px; padding: 24px; z-index: 1001; box-shadow: 0 20px 40px rgba(0,0,0,0.5); color: #fff; font-family: system-ui, -apple-system, sans-serif; text-align: left;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+      <h3 style="margin: 0; color: var(--clr-gold-1); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">💎 寶石等級與礦物科普</h3>
+      <button onclick="closeLevelModal()" style="background: none; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+    </div>
+    <div style="text-align: center; margin: 20px 0;">
+      <div id="modalGemEmoji" style="font-size: 4rem; margin-bottom: 12px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.3));">🌱</div>
+      <div id="modalGemName" style="font-size: 1.4rem; font-weight: bold; color: #fff; margin-bottom: 8px;">滑石 (Talc)</div>
+      <div id="modalGemHardness" style="display: inline-block; background: rgba(245,200,66,0.15); color: var(--clr-gold-1); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px;">莫氏硬度: 1</div>
+    </div>
+    <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+      <h4 style="margin: 0 0 8px 0; font-size: 0.9rem; color: #8892b0;">💡 礦物科普介紹</h4>
+      <p id="modalGemDesc" style="margin: 0; font-size: 0.85rem; line-height: 1.6; color: #ccd6f6; text-align: justify;"></p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px; text-align: center;">
+      <div>
+        <div style="font-size: 0.75rem; color: #8892b0;">累計總積分</div>
+        <div id="modalStudentScore" style="font-size: 1.15rem; font-weight: bold; color: var(--clr-gold-1); margin-top: 4px;">0</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #8892b0;">已熟練單字</div>
+        <div id="modalMasteredCount" style="font-size: 1.15rem; font-weight: bold; color: #52e5a4; margin-top: 4px;">0 字</div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #8892b0;" id="modalNextLevelText">
+      距離下一等級還差 5 顆熟練字
+    </div>
+  </div>
+
+  <script>
+  function showLevelModal() {
+    if (window.showIndexLevelModal) window.showIndexLevelModal();
+  }
+  function closeLevelModal() {
+    document.getElementById('levelModal').style.display = 'none';
+    document.getElementById('levelModalOverlay').style.display = 'none';
+  }
+  document.getElementById('levelModalOverlay').addEventListener('click', closeLevelModal);
+  </script>
 
 </body>
 </html>

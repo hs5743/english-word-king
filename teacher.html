@@ -312,10 +312,31 @@
        ───────────────────────────────────────────────────────── -->
 
   <script>
+    // 16階礦物寶石等級科普定義
+    const gemTiers = [
+      { name: "滑石 (Talc)", emoji: "🌱", min: 0, hardness: 1, desc: "世界上最柔軟的礦物，硬度只有 1，常用來製作爽身粉，摸起來滑滑的！" },
+      { name: "石膏 (Gypsum)", emoji: "🐚", min: 5, hardness: 2, desc: "硬度 2，非常容易被指甲刮傷，常被用來製作雕塑和粉筆喔！" },
+      { name: "方解石 (Calcite)", emoji: "💎", min: 12, hardness: 3, desc: "硬度 3，具有很有趣的雙折射現象，光線穿過它會變兩條！" },
+      { name: "螢石 (Fluorite)", emoji: "🌟", min: 20, hardness: 4, desc: "硬度 4，因為在紫外線照射下會發出美麗螢光而得名，顏色非常豐富。" },
+      { name: "磷灰石 (Apatite)", emoji: "🦕", min: 30, hardness: 5, desc: "硬度 5，它是我們牙齒和骨骼裡重要的礦物成分喔！" },
+      { name: "正長石 (Orthoclase)", emoji: "🪵", min: 42, hardness: 6, desc: "硬度 6，常出現在花崗岩中，是地殼中非常豐富的長石類礦物。" },
+      { name: "石英 / 水晶 (Quartz)", emoji: "🔮", min: 55, hardness: 7, desc: "硬度 7，成分是二氧化矽，純淨時透明如冰，常被做成漂亮的裝飾品。" },
+      { name: "黃玉 / 托帕石 (Topaz)", emoji: "💛", min: 70, hardness: 8, desc: "硬度 8，通常呈現金黃色或天藍色，在古代被視為友誼與希望的象徵。" },
+      { name: "石榴石 (Garnet)", emoji: "🍇", min: 82, hardness: 7.5, desc: "硬度 7.5，形狀和顏色很像紅石榴的種子，古代常當作護身符。" },
+      { name: "翡翠 / 硬玉 (Jadeite)", emoji: "💚", min: 95, hardness: 7, desc: "硬度 7，質地細膩堅韌，在東方文化中象徵著吉祥與好運。" },
+      { name: "電氣石 / 碧璽 (Tourmaline)", emoji: "🎨", min: 110, hardness: 7.5, desc: "硬度 7.5，具有熱電性，加熱時會產生微量電荷，能呈現彩虹般的色彩。" },
+      { name: "剛玉 / 紅藍寶石 (Corundum)", emoji: "❤️", min: 125, hardness: 9, desc: "硬度 9，僅次於鑽石。紅色品種是紅寶石，其他顏色都叫藍寶石。" },
+      { name: "蛋白石 (Opal)", emoji: "🌈", min: 140, hardness: 6, desc: "硬度 6，擁有獨特的「遊彩現象」，在光線下會折射出彩虹般的斑斕光芒。" },
+      { name: "祖母綠 (Emerald)", emoji: "🌲", min: 155, hardness: 8, desc: "硬度 8，擁有極具代表性的翠綠色，被譽為綠色寶石之王。" },
+      { name: "貓眼石 (Chrysoberyl)", emoji: "🐱", min: 175, hardness: 8.5, desc: "硬度 8.5，具有神奇的貓眼效應，在光照下會出現一條明亮的光帶。" },
+      { name: "鑽石 (Diamond)", emoji: "👑", min: 200, hardness: 10, desc: "硬度 10，自然界中硬度最高的終極王者，火彩璀璨，象徵永恆的榮耀。" }
+    ]
+
     let supabaseClient = null;
     let currentUser = null;
     let activeSession = null;
     let attemptsList = [];
+    let studentMasteryMap = new Map();
     let realtimeChannel = null;
     let countdownInterval = null;
 
@@ -560,6 +581,22 @@
         if (error) throw error;
 
         attemptsList = data || [];
+
+        // 一次性加載這些學生的 mastery 資料
+        const uids = [...new Set(attemptsList.map(a => a.student_uid))];
+        if (uids.length > 0) {
+          const { data: studentsData, error: studentError } = await supabaseClient
+            .from('students')
+            .select('uid, mastery')
+            .in('uid', uids);
+          
+          if (!studentError && studentsData) {
+            studentsData.forEach(s => {
+              studentMasteryMap.set(s.uid, s.mastery);
+            });
+          }
+        }
+
         renderLeaderboard();
         updateStats();
       } catch (err) {
@@ -601,8 +638,22 @@
                 return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
               });
 
+              // 先渲染一次 (即使還沒查到 mastery 也可以用舊資料或 default)
               renderLeaderboard(shouldHighlight ? record.id : null);
               updateStats();
+
+              // 非同步查詢最新 mastery 並再次渲染
+              supabaseClient
+                .from('students')
+                .select('uid, mastery')
+                .eq('uid', record.student_uid)
+                .single()
+                .then(({ data: stud }) => {
+                  if (stud) {
+                    studentMasteryMap.set(stud.uid, stud.mastery);
+                    renderLeaderboard(shouldHighlight ? record.id : null);
+                  }
+                });
             }
           }
         )
@@ -649,10 +700,30 @@
         else if (idx === 1) rankDisplay = '🥈';
         else if (idx === 2) rankDisplay = '🥉';
 
+        // 寶石等級稱號計算
+        let gemTag = '';
+        const mastery = studentMasteryMap.get(item.student_uid);
+        if (mastery) {
+          let masteredCount = 0;
+          for (const word in mastery) {
+            if (mastery[word] >= 2) {
+              masteredCount++;
+            }
+          }
+          let currentTier = gemTiers[0];
+          for (let i = gemTiers.length - 1; i >= 0; i--) {
+            if (masteredCount >= gemTiers[i].min) {
+              currentTier = gemTiers[i];
+              break;
+            }
+          }
+          gemTag = ` <span style="font-size:0.75rem; padding: 2px 6px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; color: var(--clr-gold-1); margin-left: 6px; font-weight: bold; white-space: nowrap;">${currentTier.emoji} ${currentTier.name.split(' ')[0]}</span>`;
+        }
+
         return `
           <tr id="row-${item.id}" class="${highlightClass}">
             <td style="text-align:center; font-weight:900; font-size:1.1rem;">${rankDisplay}</td>
-            <td style="font-weight:700; color:var(--clr-text-primary);">${item.student_name}</td>
+            <td style="font-weight:700; color:var(--clr-text-primary);">${item.student_name}${gemTag}</td>
             <td>${item.school} ${item.class || ''}</td>
             <td style="text-align:right; font-weight:800; color:var(--clr-gold-1); font-family:var(--font-en); font-size:1.05rem;">${item.score}</td>
             <td style="text-align:center; font-family:var(--font-en);">${wrongCount}</td>
