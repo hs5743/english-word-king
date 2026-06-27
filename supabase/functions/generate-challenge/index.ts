@@ -269,9 +269,18 @@ serve(async (req) => {
 
     const prompt = `你是一位專業的台灣小學英語老師。請為${gradeLabel}學生出 12 題英語單字挑戰題，融入生活/校園情境「${randomContext}」。
 
-【重要約束】：
-你只能從以下提供的 30 個【候選單字清單】中選擇其中的 12 個單字來出題。絕對不能使用清單之外的單字！
-對於你挑選的每一題單字，其 "word"、"zh"、"topic"、"chunks"、"pattern" 必須完全與候選清單中提供的數值一致。
+【第一約束 — 只能從候選清單選字】：
+你只能從以下【候選單字清單】中，挑選其中 12 個單字來出題。絕對不能使用清單之外的單字！
+對於每一題，"word"、"zh"、"topic"、"chunks" 必須完全與候選清單中的數值一致。
+
+【第二約束 — 自由造句（最重要！）】：
+"exampleSentence" 請發揮你的英語教學創意，為每個單字創作一個自然、貼近生活的英文句子。
+要求如下：
+  1. 句子必須自然包含該 target word（不能拆開或變形）。
+  2. 句子總長度在 5 到 25 個英文單字之間。
+  3. 使用${gradeLabel}學生日常生活中會接觸到的詞彙。
+  4. 禁止使用「I see a [word]」、「I can see a [word]」、「I see an [word]」等硬套句型。
+  5. 可以是問答對話（Q: ... A: ...）、陳述句、祈使句等多種形式。
 
 【候選單字清單】：
 ${JSON.stringify(candidatesJson, null, 2)}
@@ -281,11 +290,11 @@ ${JSON.stringify(candidatesJson, null, 2)}
 - zh: 中文翻譯（必須完全匹配候選清單中的 zh）
 - topic: 主題類別（必須完全匹配候選清單中的 topic）
 - chunks: 音節分割陣列（必須完全匹配候選清單中的 chunks）
-- pattern: 基本句型結構說明（必須完全匹配候選清單中的 pattern）
-- exampleSentence: 使用該單字對應的 pattern (基本句型) 並帶入單字所生成的完整句子或對話。句子必須包含該 target word。例如對應句型為 "What is this? - It's a [word]."，帶入 apple 則生成 "What is this? It's an apple."
+- pattern: 此句子的句型結構說明（例如 "I like [noun]."，可自由描述）
+- exampleSentence: 你為這個單字創作的自然生活化英文例句（請盡量多樣化！）
 - sentenceZh: exampleSentence 的中文翻譯
-- fillBlank: 將 exampleSentence 中對應 word 的單字替換為 "____" 得到的填空句
-- distractors: 與 word 詞性及難度相近 of 3 個英文干擾選項（不可包含 word，且不能與 word 相同）
+- fillBlank: 將 exampleSentence 中的 target word 替換為 "____" 得到的填空句
+- distractors: 與 word 詞性及難度相近的 3 個英文干擾選項（不可包含 word 本身）
 
 請直接輸出 JSON 陣列，不要有任何說明文字。`
 
@@ -534,6 +543,49 @@ function repairGrammar(
     }
   }
 
+  // 4.6 數字 / 複數集合名詞 / 專有地名 / 抽象形容詞
+  // 數字：不可說 "There is a five"
+  const numberWords = ['one','two','three','four','five','six','seven','eight','nine','ten',
+    'eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty',
+    'thirty','forty','fifty','sixty','seventy','eighty','ninety','hundred','thousand']
+  if (numberWords.includes(wordClean)) {
+    return {
+      sentence: `I have ${wordClean} books on my desk.`,
+      pattern: `I have [number] [noun].`,
+      sentenceZh: `我的桌上有${zh}本書。`
+    }
+  }
+
+  // 複數集合名詞（不可說 "There is a people"）
+  const pluralNouns = ['people','children','mice','teeth','feet','men','women','sheep','fish','deer']
+  if (pluralNouns.includes(wordClean)) {
+    return {
+      sentence: `There are many ${wordClean} in the park.`,
+      pattern: `There are many [noun] in the [place].`,
+      sentenceZh: `公園裡有很多${zh}。`
+    }
+  }
+
+  // 抽象形容詞當作名詞塞入 "There is a" 句
+  const abstractWords = ['quiet','noise','fun','peace','love','hate','hope','fear','joy','anger']
+  if (abstractWords.includes(wordClean)) {
+    return {
+      sentence: `The library is very ${wordClean}.`,
+      pattern: `The [place] is very [adjective].`,
+      sentenceZh: `圖書館非常${zh}。`
+    }
+  }
+
+  // 專有地名（國家/城市）：不可說 "There is a canada"
+  if (topicClean === 'Place' || topicClean === 'Places' || topicClean === 'Countries') {
+    const cap = wordClean.charAt(0).toUpperCase() + wordClean.slice(1)
+    return {
+      sentence: `I want to visit ${cap} someday.`,
+      pattern: `I want to visit [place] someday.`,
+      sentenceZh: `我希望有一天能去${zh}。`
+    }
+  }
+
   // 5. 語意矛盾的學術與衣物單字修正 (例如 "My favorite subject is friend." 或 "I am wearing a pocket.")
   const schoolMisuses = ['study', 'story', 'lesson', 'grade', 'class', 'classroom', 'student', 'teacher', 'friend', 'school']
   if (schoolMisuses.includes(wordClean) && defaultSentence.includes('favorite subject')) {
@@ -608,6 +660,47 @@ function repairGrammar(
     }
   }
 
+  // 8. 通用兜底：若句子仍含「I see a/I can see」模式，依主題自動轉換
+  const hasDeadPattern = defaultSentence.includes('I see a') || defaultSentence.includes('I see an') ||
+    defaultSentence.includes('I can see a') || defaultSentence.includes('I can see an') ||
+    defaultSentence.match(/I can see \w+\.?$/)
+
+  if (hasDeadPattern) {
+    const geoTopics = ['Geographical', 'Places', 'Nature', 'Environment']
+    const bodyTopics = ['Body']
+    const clothingTopics = ['Clothing']
+
+    if (geoTopics.includes(topicClean)) {
+      return {
+        sentence: `Have you ever been to a ${wordClean}?`,
+        pattern: `Have you ever been to a [noun]?`,
+        sentenceZh: `你曾經去過${zh}嗎？`
+      }
+    }
+    if (bodyTopics.includes(topicClean)) {
+      return {
+        sentence: `My ${wordClean} hurts today.`,
+        pattern: `My [body part] hurts.`,
+        sentenceZh: `我的${zh}今天很痛。`
+      }
+    }
+    if (clothingTopics.includes(topicClean)) {
+      return {
+        sentence: `I am wearing a ${wordClean} today.`,
+        pattern: `I am wearing a [clothing].`,
+        sentenceZh: `我今天穿著${zh}。`
+      }
+    }
+    // 其他情況：使用「There is a [word].」
+    const startsWithVowel = /^[aeiou]/i.test(wordClean)
+    const article = startsWithVowel ? 'an' : 'a'
+    return {
+      sentence: `There is ${article} ${wordClean} in the room.`,
+      pattern: `There is ${article} [noun] in the [place].`,
+      sentenceZh: `房間裡有一個${zh}。`
+    }
+  }
+
   return {
     sentence: defaultSentence,
     pattern: defaultPattern,
@@ -615,18 +708,58 @@ function repairGrammar(
   }
 }
 
+function buildSmartDefaultSentence(word: string, zh: string, topic: string): { sentence: string; pattern: string; sentenceZh: string } {
+  const t = (topic || '').trim()
+  const startsWithVowel = /^[aeiou]/i.test(word)
+  const article = startsWithVowel ? 'an' : 'a'
+
+  const topicMap: Record<string, () => { sentence: string; pattern: string; sentenceZh: string }> = {
+    'Food': ()    => ({ sentence: `I like ${word}.`, pattern: 'I like [noun].', sentenceZh: `我喜歡${zh}。` }),
+    'Animals': () => ({ sentence: `Look! There is ${article} ${word}.`, pattern: `There is ${article} [animal].`, sentenceZh: `看！有一隻${zh}。` }),
+    'Colors': ()  => ({ sentence: `It is ${word}.`, pattern: 'It is [color].', sentenceZh: `它是${zh}的。` }),
+    'Numbers': () => ({ sentence: `I have ${word} books on my desk.`, pattern: 'I have [number] [noun].', sentenceZh: `我桌上有${zh}本書。` }),
+    'Clothing': () => ({ sentence: `I am wearing ${article} ${word} today.`, pattern: `I am wearing ${article} [clothing].`, sentenceZh: `我今天穿著${zh}。` }),
+    'Body': () => ({ sentence: `My ${word} hurts.`, pattern: 'My [body part] hurts.', sentenceZh: `我的${zh}很痛。` }),
+    'School': () => ({ sentence: `We study ${word} at school.`, pattern: 'We study [subject] at school.', sentenceZh: `我們在學校學習${zh}。` }),
+    'Sports': () => ({ sentence: `I like to play ${word}.`, pattern: 'I like to play [sport].', sentenceZh: `我喜歡打${zh}。` }),
+    'Weather': () => ({ sentence: `The weather is ${word} today.`, pattern: 'The weather is [adjective] today.', sentenceZh: `今天天氣${zh}。` }),
+    'Family': () => ({ sentence: `My ${word} is very kind.`, pattern: 'My [family member] is [adjective].', sentenceZh: `我的${zh}非常親切。` }),
+    'Time': () => ({ sentence: `I love ${word} because it is cold.`, pattern: 'I love [season].', sentenceZh: `我喜歡${zh}，因為天氣很冷。` }),
+    'Place': () => { const cap = word.charAt(0).toUpperCase() + word.slice(1); return { sentence: `I want to visit ${cap} someday.`, pattern: 'I want to visit [place].', sentenceZh: `我希望有一天能去${zh}。` } },
+    'Places': () => { const cap = word.charAt(0).toUpperCase() + word.slice(1); return { sentence: `I want to visit ${cap} someday.`, pattern: 'I want to visit [place].', sentenceZh: `我希望有一天能去${zh}。` } },
+    'Prepositions': () => ({ sentence: `Come and play ${word} me!`, pattern: 'Come and play [preposition] me!', sentenceZh: `來和我一起玩吧！` }),
+    'Actions': () => ({ sentence: `I can ${word}.`, pattern: 'I can [verb].', sentenceZh: `我會${zh}。` }),
+    'Verbs': () => ({ sentence: `I can ${word}.`, pattern: 'I can [verb].', sentenceZh: `我會${zh}。` }),
+    'Adjectives': () => ({ sentence: `The cat is ${word}.`, pattern: 'The [noun] is [adjective].', sentenceZh: `這隻貓很${zh}。` }),
+    'Health': () => ({ sentence: `Exercise keeps you ${word}.`, pattern: 'Exercise keeps you [adjective].', sentenceZh: `運動讓你保持${zh}。` }),
+  }
+
+  const builder = topicMap[t]
+  if (builder) return builder()
+
+  // 最後兜底：讓學生接觸並認識這個詞
+  return {
+    sentence: `Let me show you ${article} ${word}.`,
+    pattern: `Let me show you ${article} [noun].`,
+    sentenceZh: `讓我給你看${zh}。`
+  }
+}
+
 function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, PublicPatternItem>): FallbackWord {
   const patternId = Array.isArray(item.patterns) ? item.patterns[0] : ''
   const pattern = patternId ? patternById.get(patternId) : undefined
   const word = String(item.word || '').toLowerCase().trim()
-  const exampleAnswer = pattern?.exampleAnswer || `I can see ${word}.`
+  const exampleAnswer = pattern?.exampleAnswer || ''
   const patternText = pattern?.pattern || 'Practice sentence'
-  const defaultSentence = exampleAnswer.toLowerCase().includes(word)
-    ? exampleAnswer
-    : `${patternText} ${exampleAnswer}`
   const defaultSentenceZh = pattern?.zhHint || ''
 
-  const repaired = repairGrammar(word, item.zh || word, item.topic || '', defaultSentence, patternText, defaultSentenceZh)
+  // 若 exampleAnswer 實際包含 target word，優先採用；否則用智慧造句
+  const sentenceContainsWord = exampleAnswer.toLowerCase().includes(word) && exampleAnswer.trim().length > 0
+  const rawSentence = sentenceContainsWord ? exampleAnswer : ''
+
+  const repaired = rawSentence
+    ? repairGrammar(word, item.zh || word, item.topic || '', rawSentence, patternText, defaultSentenceZh)
+    : buildSmartDefaultSentence(word, item.zh || word, item.topic || '')
 
   return {
     word,
@@ -692,26 +825,34 @@ function normalizeChallenge(
       // 必須存在於候選池中，且這次挑戰中尚未重複使用
       if (candidate && !usedWords.has(wordClean)) {
         usedWords.add(wordClean)
-        let finalSentence = item.exampleSentence || item.sentence || candidate.sentence
-        let finalSentenceZh = item.sentenceZh || candidate.sentenceZh
-
-        // 如果是形容詞、顏色或特殊代名詞，強制使用修復後的標準句型，不勉強套用 AI 生產的怪句
-        const isAdj = candidate.topic === 'Adjectives' || candidate.topic === 'Personal'
-        const isCol = candidate.topic === 'Colors'
-        const isSpecial = ['all', 'those', 'these', 'they', 'she', 'he', 'we', 'you', 'me', 'him', 'her', 'them', 'us', 'their', 'our', 'your', 'my', 'his'].includes(wordClean)
         
-        if (isAdj || isCol || isSpecial) {
+        const aiSentence = String(item.exampleSentence || item.sentence || '').trim()
+        const aiSentenceZh = String(item.sentenceZh || '').trim()
+
+        // P3 語法自我檢查：AI 句子通過驗證則保留，否則 fallback 回標準句
+        const validation = validateAISentence(aiSentence, wordClean)
+        let finalSentence: string
+        let finalSentenceZh: string
+
+        if (validation.ok) {
+          // ✅ AI 自由句通過驗證，直接採用
+          finalSentence = aiSentence
+          finalSentenceZh = aiSentenceZh || candidate.sentenceZh
+          console.log(`[P3 ✅ AI句通過] word=${wordClean} | sentence="${aiSentence}"`)
+        } else {
+          // ❌ AI 句不符合品質要求，fallback 到 repairGrammar 後的標準句
           finalSentence = candidate.sentence
           finalSentenceZh = candidate.sentenceZh
+          console.warn(`[P3 ❌ AI句不符，使用標準句] word=${wordClean} | reason=${validation.reason} | ai="${aiSentence}" | fallback="${finalSentence}"`)
         }
 
         validItems.push({
           word: wordClean,
-          zh: candidate.zh, // 強制使用題庫標準中文
-          topic: candidate.topic, // 強制使用題庫標準主題
+          zh: candidate.zh,         // 強制使用題庫標準中文
+          topic: candidate.topic,   // 強制使用題庫標準主題
           chunks: candidate.chunks, // 強制使用題庫標準音節
           phonetic: item.phonetic || candidate.phonetic || '',
-          pattern: candidate.pattern || 'Practice sentence', // 強制使用題庫標準句型
+          pattern: item.pattern || candidate.pattern || 'Practice sentence',
           exampleSentence: finalSentence,
           sentenceZh: finalSentenceZh,
           fillBlank: makeFillBlank(finalSentence, wordClean),
@@ -768,6 +909,38 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     fillBlank: makeFillBlank(item.sentence, item.word),
     distractors: buildDistractors(item.word, available),
   }
+}
+
+// P3 後端語法自我檢查：驗證 AI 生成的句子是否符合品質標準
+function validateAISentence(sentence: string, word: string): { ok: boolean; reason: string } {
+  if (!sentence || sentence.trim().length === 0) {
+    return { ok: false, reason: 'empty' }
+  }
+
+  const s = sentence.trim()
+
+  // 關卡 1: 句子必須以單字邊界自然包含 target word（大小寫不敏感）
+  const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  if (!new RegExp(`\\b${escapedWord}\\b`, 'i').test(s)) {
+    return { ok: false, reason: `missing_word:${word}` }
+  }
+
+  // 關卡 2: 句子長度需在 4 到 35 個英文單字之間
+  const wordCount = s.split(/\s+/).length
+  if (wordCount < 4) return { ok: false, reason: `too_short:${wordCount}` }
+  if (wordCount > 35) return { ok: false, reason: `too_long:${wordCount}` }
+
+  // 關卡 3: 禁止硬套「I see a/an [word]」等死板句型
+  const bannedPatterns = [
+    /\bI see (a|an) \w+\.?$/i,
+    /\bI can see (a|an) \w+\.?$/i,
+    /\bI see (a|an) \w+ here\.?$/i,
+  ]
+  for (const pat of bannedPatterns) {
+    if (pat.test(s)) return { ok: false, reason: 'banned_pattern:I_see_a' }
+  }
+
+  return { ok: true, reason: '' }
 }
 
 function makeFillBlank(sentence: string, word: string): string {
