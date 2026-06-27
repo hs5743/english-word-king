@@ -70,6 +70,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           gemSec.style.display = 'block'
         }
 
+        const voiceHelperEntry = document.getElementById('voice-helper-entry')
+        if (voiceHelperEntry) {
+          voiceHelperEntry.style.display = 'block'
+        }
+
         // 綁定大廳點擊 Modal 的資料
         window.showIndexLevelModal = () => {
           document.getElementById('modalGemEmoji').textContent = currentTier.emoji
@@ -218,3 +223,184 @@ function showToast(message, type = 'info') {
   container.appendChild(toast)
   setTimeout(() => toast.remove(), 3200)
 }
+
+/* ── 語音與麥克風設備檢測助手 ────────────────────────── */
+window.voiceHelperStream = null
+window.voiceHelperAudioCtx = null
+window.voiceHelperAnimationId = null
+window.voiceHelperRecognition = null
+
+// 1. 開啟語音檢測助手 Modal
+window.openVoiceHelper = function() {
+  // 重置 UI 狀態
+  document.getElementById('step-mic-status').textContent = '⏳ 未檢測'
+  document.getElementById('step-mic-status').style.color = '#fff'
+  document.getElementById('visual-analyzer-box').style.display = 'none'
+  document.getElementById('mic-troubleshoot').style.display = 'none'
+  document.getElementById('step-recognize-box').style.display = 'none'
+  document.getElementById('rec-test-result').textContent = ''
+  
+  // 顯示 Modal
+  document.getElementById('voiceHelperModal').style.display = 'block'
+  document.getElementById('voiceHelperModalOverlay').style.display = 'block'
+
+  // Step 1: 瀏覽器口說相容性檢測
+  const recognitionSupport = !!(window.SpeechRecognition || window.webkitSpeechRecognition)
+  const stepCompat = document.getElementById('step-compat-status')
+  if (recognitionSupport) {
+    stepCompat.textContent = '✅ 支援口說辨識'
+    stepCompat.style.color = '#52e5a4'
+  } else {
+    stepCompat.textContent = '❌ 不支援口說 (請用 Chrome)'
+    stepCompat.style.color = '#ff6b6b'
+  }
+}
+
+// 2. 檢測麥克風權限與音頻輸入
+window.testMicrophoneDevice = async function() {
+  const stepMic = document.getElementById('step-mic-status')
+  const btnRequest = document.getElementById('btn-request-mic')
+  
+  btnRequest.textContent = '🎙️ 正在請求權限...'
+  
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    window.voiceHelperStream = stream
+    
+    // 更新狀態
+    stepMic.textContent = '✅ 麥克風正常'
+    stepMic.style.color = '#52e5a4'
+    btnRequest.textContent = '🎙️ 麥克風權限檢測成功'
+    btnRequest.disabled = true
+    document.getElementById('visual-analyzer-box').style.display = 'block'
+    document.getElementById('mic-troubleshoot').style.display = 'none'
+    
+    // 解鎖 Step 3
+    document.getElementById('step-recognize-box').style.display = 'block'
+
+    // 啟動 Web Audio 分析器，建立聲波即時跳動效果
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+    window.voiceHelperAudioCtx = audioCtx
+    
+    const source = audioCtx.createMediaStreamSource(stream)
+    const analyser = audioCtx.createAnalyser()
+    analyser.fftSize = 32
+    source.connect(analyser)
+    
+    const dataArray = new Uint8Array(analyser.frequencyBinCount)
+    const bars = document.querySelectorAll('.wave-bar')
+    
+    function drawWave() {
+      if (!window.voiceHelperAudioCtx) return
+      analyser.getByteFrequencyData(dataArray)
+      
+      bars.forEach((bar, idx) => {
+        const val = dataArray[idx] || 0
+        const height = Math.max(4, Math.min(32, (val / 255) * 32))
+        bar.style.height = `${height}px`
+      })
+      window.voiceHelperAnimationId = requestAnimationFrame(drawWave)
+    }
+    drawWave()
+    
+  } catch (err) {
+    console.error('麥克風存取失敗:', err)
+    stepMic.textContent = '❌ 權限被拒絕'
+    stepMic.style.color = '#ff6b6b'
+    btnRequest.textContent = '🎙️ 點擊重新檢測'
+    btnRequest.disabled = false
+    
+    document.getElementById('visual-analyzer-box').style.display = 'none'
+    document.getElementById('mic-troubleshoot').style.display = 'block'
+    document.getElementById('step-recognize-box').style.display = 'none'
+  }
+}
+
+// 3. 停止與清理所有設備檢測資源 (防止佔用麥克風與紅燈亮)
+window.stopVoiceHelperTest = function() {
+  if (window.voiceHelperAnimationId) {
+    cancelAnimationFrame(window.voiceHelperAnimationId)
+    window.voiceHelperAnimationId = null
+  }
+  if (window.voiceHelperStream) {
+    window.voiceHelperStream.getTracks().forEach(track => track.stop())
+    window.voiceHelperStream = null
+  }
+  if (window.voiceHelperAudioCtx) {
+    window.voiceHelperAudioCtx.close()
+    window.voiceHelperAudioCtx = null
+  }
+  if (window.voiceHelperRecognition) {
+    window.voiceHelperRecognition.stop()
+    window.voiceHelperRecognition = null
+  }
+  
+  // 重置按鈕
+  const btnRequest = document.getElementById('btn-request-mic')
+  if (btnRequest) {
+    btnRequest.textContent = '🎙️ 點擊檢測麥克風權限'
+    btnRequest.disabled = false
+  }
+  const btnRec = document.getElementById('btn-rec-test')
+  if (btnRec) {
+    btnRec.textContent = '🔴 開始口說辨識'
+    btnRec.style.background = 'linear-gradient(135deg, #f5c842, #eab308)'
+    btnRec.style.color = '#000'
+  }
+}
+
+// 4. 試音口說辨識挑戰
+window.toggleRecognizeHelperTest = function() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+  if (!SpeechRecognition) return
+
+  const btn = document.getElementById('btn-rec-test')
+  const resultEl = document.getElementById('rec-test-result')
+
+  if (window.voiceHelperRecognition) {
+    window.voiceHelperRecognition.stop()
+    return
+  }
+
+  const rec = new SpeechRecognition()
+  rec.lang = 'en-US'
+  rec.continuous = false
+  rec.interimResults = false
+
+  rec.onstart = () => {
+    window.voiceHelperRecognition = rec
+    btn.textContent = '⏹️ 正在聆聽，請唸 apple...'
+    btn.style.background = '#ff6b6b'
+    btn.style.color = '#fff'
+    resultEl.textContent = '🎙️ 請清晰讀出：apple'
+    resultEl.style.color = '#e2e8f0'
+  }
+
+  rec.onresult = (event) => {
+    const text = event.results[0][0].transcript.toLowerCase().trim()
+    console.log('試音辨識結果:', text)
+    if (text.includes('apple') || text.includes('ap') || text.includes('ple')) {
+      resultEl.textContent = `🎉 辨識成功！聽到你唸了 "${text}"，設備一切正常！`
+      resultEl.style.color = '#52e5a4'
+    } else {
+      resultEl.textContent = `❓ 辨識為 "${text}"，好像不太像 apple，靠近麥克風再試一次！`
+      resultEl.style.color = '#f5c842'
+    }
+  }
+
+  rec.onerror = (e) => {
+    console.error('試音辨識錯誤:', e)
+    resultEl.textContent = '❌ 辨識失敗或無聲音輸入，請大聲重試。'
+    resultEl.style.color = '#ff6b6b'
+  }
+
+  rec.onend = () => {
+    window.voiceHelperRecognition = null
+    btn.textContent = '🔴 開始口說辨識'
+    btn.style.background = 'linear-gradient(135deg, #f5c842, #eab308)'
+    btn.style.color = '#000'
+  }
+
+  rec.start()
+}
+

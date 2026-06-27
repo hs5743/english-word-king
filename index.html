@@ -73,6 +73,12 @@
             🌱 載入中...
           </div>
         </div>
+        <!-- 設備檢測助手卡片 -->
+        <div id="voice-helper-entry" style="display: none; margin-top: 0.75rem; background: rgba(79,195,247,0.06); border: 1px solid rgba(79,195,247,0.15); border-radius: 16px; padding: 10px 18px; text-align: center; cursor: pointer; transition: all 0.2s; margin-left: auto; margin-right: auto; max-width: 320px;" onclick="showVoiceHelperModal()">
+          <div style="font-size: 0.8rem; color: #4fc3f7; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            🎙️ 麥克風與口說設備檢測
+          </div>
+        </div>
       </section>
 
       <!-- ── 活躍跑馬燈 ── -->
@@ -280,7 +286,79 @@
     document.getElementById('levelModalOverlay').style.display = 'none';
   }
   document.getElementById('levelModalOverlay').addEventListener('click', closeLevelModal);
+
+  // Voice Helper controls
+  function showVoiceHelperModal() {
+    if (window.openVoiceHelper) window.openVoiceHelper();
+  }
+  function closeVoiceHelperModal() {
+    document.getElementById('voiceHelperModal').style.display = 'none';
+    document.getElementById('voiceHelperModalOverlay').style.display = 'none';
+    if (window.stopVoiceHelperTest) window.stopVoiceHelperTest();
+  }
+  document.getElementById('voiceHelperModalOverlay').addEventListener('click', closeVoiceHelperModal);
   </script>
+
+  <!-- Voice Helper Modal -->
+  <div class="drawer-overlay" id="voiceHelperModalOverlay" style="z-index: 1000; display: none;"></div>
+  <div class="level-modal" id="voiceHelperModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: #141923; border: 2px solid #4fc3f7; border-radius: 16px; padding: 24px; z-index: 1001; box-shadow: 0 20px 40px rgba(0,0,0,0.5); color: #fff; font-family: system-ui, -apple-system, sans-serif; text-align: left;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+      <h3 style="margin: 0; color: #4fc3f7; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">🎙️ 麥克風與口說檢測助手</h3>
+      <button onclick="closeVoiceHelperModal()" style="background: none; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- Step 1: Web Speech Support -->
+      <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 0.9rem; font-weight: bold;">1. 瀏覽器口說相容性</div>
+          <div style="font-size: 0.75rem; color: #8892b0; margin-top: 2px;">檢測瀏覽器是否支援語音辨識</div>
+        </div>
+        <div id="step-compat-status" style="font-size: 0.9rem; font-weight: bold;">⏳ 檢測中</div>
+      </div>
+
+      <!-- Step 2: Microphone Permission & Audio Input -->
+      <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 0.9rem; font-weight: bold;">2. 麥克風與錄音檢測</div>
+            <div style="font-size: 0.75rem; color: #8892b0; margin-top: 2px;">取得授權並測試聲音灌入狀況</div>
+          </div>
+          <div id="step-mic-status" style="font-size: 0.9rem; font-weight: bold;">⏳ 未檢測</div>
+        </div>
+        
+        <button id="btn-request-mic" onclick="if (window.testMicrophoneDevice) window.testMicrophoneDevice()" style="width: 100%; padding: 8px 12px; background: rgba(79,195,247,0.15); border: 1px solid rgba(79,195,247,0.3); color: #4fc3f7; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">🎙️ 點擊檢測麥克風權限</button>
+        
+        <!-- Live wave analyzer UI -->
+        <div id="visual-analyzer-box" style="display: none; margin-top: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; text-align: center;">
+          <div style="font-size: 0.75rem; color: #8892b0; margin-bottom: 8px;">🎤 請對著麥克風說話：</div>
+          <div style="display: flex; justify-content: center; align-items: flex-end; gap: 6px; height: 32px;" id="waveBarsContainer">
+            <div class="wave-bar" style="width: 6px; height: 4px; background: #4fc3f7; border-radius: 3px; transition: height 0.08s;"></div>
+            <div class="wave-bar" style="width: 6px; height: 4px; background: #4fc3f7; border-radius: 3px; transition: height 0.08s;"></div>
+            <div class="wave-bar" style="width: 6px; height: 4px; background: #4fc3f7; border-radius: 3px; transition: height 0.08s;"></div>
+            <div class="wave-bar" style="width: 6px; height: 4px; background: #4fc3f7; border-radius: 3px; transition: height 0.08s;"></div>
+            <div class="wave-bar" style="width: 6px; height: 4px; background: #4fc3f7; border-radius: 3px; transition: height 0.08s;"></div>
+          </div>
+        </div>
+
+        <div id="mic-troubleshoot" style="display: none; margin-top: 12px; background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.2); border-radius: 8px; padding: 10px; font-size: 0.8rem; color: #ff6b6b; line-height: 1.4;">
+          ⚠️ 權限拒絕或找不到錄音設備！<br>
+          請點擊網址列左側的【鎖頭 🔒】圖示，並開啟【麥克風】功能，再重新點擊檢測。
+        </div>
+      </div>
+
+      <!-- Step 3: Speech Recognition Test -->
+      <div id="step-recognize-box" style="display: none; background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.05);">
+        <div style="font-size: 0.9rem; font-weight: bold; margin-bottom: 8px;">3. 口說試音挑戰</div>
+        <div style="font-size: 0.75rem; color: #8892b0; margin-bottom: 12px; line-height: 1.4;">
+          請點擊按鈕，並對著麥克風朗讀單字：<br>
+          <strong style="font-size: 1.25rem; color: var(--clr-gold-1); display: block; text-align: center; margin: 8px 0; letter-spacing: 1px;">apple</strong>
+        </div>
+        <button id="btn-rec-test" onclick="if (window.toggleRecognizeHelperTest) window.toggleRecognizeHelperTest()" style="width: 100%; padding: 10px; background: linear-gradient(135deg, #f5c842, #eab308); border: none; border-radius: 8px; color: #000; font-weight: bold; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;">🔴 開始口說辨識</button>
+        <div id="rec-test-result" style="text-align: center; margin-top: 10px; font-size: 0.85rem; font-weight: 600;"></div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
