@@ -728,6 +728,11 @@
       background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.3);
       color: #ffc107; font-size: 0.85rem; text-align: center; margin-bottom: var(--sp-md);
     }
+    
+    .speed-btn.active {
+      background: var(--clr-gold-1) !important;
+      color: #000 !important;
+    }
   </style>
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -769,6 +774,13 @@
   </div>
 
   <div class="topbar__right">
+    <!-- 全域語速調節器 -->
+    <div class="speech-speed-selector" style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 2px; gap: 2px; margin-right: 8px;">
+      <span style="font-size: 0.68rem; color: #8892b0; padding: 0 4px; font-weight: bold; white-space: nowrap;">語速</span>
+      <button onclick="setSpeechSpeed(1.2, this)" class="speed-btn" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">快</button>
+      <button onclick="setSpeechSpeed(0.85, this)" class="speed-btn active" style="background: var(--clr-gold-1); border: none; color: #000; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">中</button>
+      <button onclick="setSpeechSpeed(0.55, this)" class="speed-btn" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">慢</button>
+    </div>
     <div class="stat-pill stat-pill--streak" id="streakPill">
       🔥 <span id="streakCount">0</span> 天
     </div>
@@ -1178,6 +1190,7 @@ function speakCurrentSentence(){ window.ChallengeApp?.speakSentence(); }
 function speakText(t)          { window.SpeechEngine?.speak(t); }
 function restartChallenge()    { window.ChallengeApp?.restart(); }
 function joinClassSession()    { window.ChallengeApp?.joinClassSession(); }
+function setSpeechSpeed(rate, el) { window.ChallengeApp?.setSpeechSpeed(rate, el); }
 </script>
 
 </body>

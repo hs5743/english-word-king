@@ -40,6 +40,7 @@
   let currentUser = null
   let studentProfile = null
   let initialGemTierIndex = -1
+  let currentSpeechRate = 0.85
   let currentMode = 'daily'        // daily (每日計分) | free (自由練習) | class (課堂挑戰)
   let currentType = 'spelling'     // spelling | speech | sentence
   let currentChallenge = []        // 12題題目資料
@@ -688,7 +689,7 @@
     triggerConfetti()
     correctCount++
     if (window.SpeechEngine) {
-      window.SpeechEngine.speak(word)
+      window.SpeechEngine.speak(word, 'en-US', currentSpeechRate)
     }
     revealSpellingAnswer(word, true)
     updateMastery(word, true)
@@ -995,6 +996,16 @@
     sessionSpeechScores,
     questionAnswered,
     openLevelModal,
+    
+    // 設定全域播放語速
+    setSpeechSpeed: function (rate, el) {
+      currentSpeechRate = rate
+      document.querySelectorAll('.speech-speed-selector .speed-btn').forEach(btn => {
+        btn.classList.remove('active')
+      })
+      if (el) el.classList.add('active')
+      showToast(`語速已調整為: ${rate === 1.2 ? '快速' : rate === 0.85 ? '中速' : '慢速'}`, 'info')
+    },
 
     // 切換模式（每日 / 練習 / 課堂）
     setMode: async function (mode) {
@@ -1067,13 +1078,13 @@
     // 重播當前單字發音
     speakWord: function () {
       if (!window.SpeechEngine) return
-      window.SpeechEngine.speak(currentChallenge[currentIndex].word)
+      window.SpeechEngine.speak(currentChallenge[currentIndex].word, 'en-US', currentSpeechRate)
     },
 
     // 重播當前例句發音
     speakSentence: function () {
       if (!window.SpeechEngine) return
-      window.SpeechEngine.speak(currentChallenge[currentIndex].exampleSentence)
+      window.SpeechEngine.speak(currentChallenge[currentIndex].exampleSentence, 'en-US', currentSpeechRate)
     },
 
     // 重設挑戰
