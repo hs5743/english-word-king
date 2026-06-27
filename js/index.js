@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const voiceHelperEntry = document.getElementById('voice-helper-entry')
         if (voiceHelperEntry) {
-          voiceHelperEntry.style.display = 'block'
+          voiceHelperEntry.style.marginTop = '0.75rem'
         }
 
         // 綁定大廳點擊 Modal 的資料
