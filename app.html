@@ -79,6 +79,43 @@
       transform: scale(1.03);
     }
 
+    /* Confetti item styling (WOW Factor) */
+    .confetti-piece {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #f5c842;
+      border-radius: 3px;
+      opacity: 0.8;
+      animation: fallAndSpin 3s linear forwards;
+    }
+
+    @keyframes scaleUpModal {
+      0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    @keyframes rotateGlow {
+      0% { transform: translate(-25%, -25%) rotate(0deg); }
+      100% { transform: translate(-25%, -25%) rotate(360deg); }
+    }
+
+    @keyframes pulseGem {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(245, 200, 66, 0.4)); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 35px rgba(245, 200, 66, 0.7)); }
+    }
+
+    @keyframes fallAndSpin {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(105vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
     /* Streak & score pills */
     .stat-pill {
       display: flex; align-items: center; gap: 6px;
@@ -1058,6 +1095,27 @@
   </div>
 </div>
 
+<!-- Gem Upgrade Modal (WOW Factor) -->
+<div class="drawer-overlay" id="gemUpgradeModalOverlay" style="z-index: 2000; display: none;"></div>
+<div class="level-modal" id="gemUpgradeModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: radial-gradient(circle at center, #1e293b, #0f172a); border: 3px solid #f5c842; border-radius: 24px; padding: 32px; z-index: 2001; box-shadow: 0 0 50px rgba(245, 200, 66, 0.4); color: #fff; font-family: system-ui, -apple-system, sans-serif; text-align: center; overflow: hidden; animation: scaleUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
+  <div class="glow-bg" style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent, rgba(245, 200, 66, 0.1), transparent, rgba(245, 200, 66, 0.1)); animation: rotateGlow 8s linear infinite; pointer-events: none; z-index: 0;"></div>
+  <div style="position: relative; z-index: 1;">
+    <div style="font-size: 1.2rem; font-weight: bold; color: #f5c842; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; animation: pulseGem 2s infinite;">LEVEL UP!</div>
+    <h2 style="margin: 0 0 16px 0; font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #fff, #f5c842); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">恭喜等級晉升！</h2>
+    <div id="upgradeGemEmoji" style="font-size: 6rem; margin: 16px 0; animation: pulseGem 1.5s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(245, 200, 66, 0.5));">💎</div>
+    <div style="font-size: 1.1rem; color: #94a3b8; margin-bottom: 4px;">你已成功開採並解鎖</div>
+    <div id="upgradeGemName" style="font-size: 2rem; font-weight: 800; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 8px;">鑽石 (Diamond)</div>
+    <div id="upgradeGemHardness" style="display: inline-block; background: rgba(245,200,66,0.2); border: 1px solid rgba(245,200,66,0.3); color: #f5c842; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; margin-bottom: 20px;">莫氏硬度: 10</div>
+    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px; margin-bottom: 24px; text-align: justify;">
+      <p id="upgradeGemDesc" style="margin: 0; font-size: 0.9rem; line-height: 1.6; color: #cbd5e1;"></p>
+    </div>
+    <button onclick="closeGemUpgradeModal()" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #f5c842, #eab308); border: none; border-radius: 12px; color: #000; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4); transition: transform 0.2s, box-shadow 0.2s;">太棒了，繼續挑戰！</button>
+  </div>
+</div>
+
+<!-- Fullscreen confetti container -->
+<div id="upgradeConfettiContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2002; overflow: hidden;"></div>
+
 <script src="js/challenge.js" defer></script>
 
 <script>
@@ -1077,6 +1135,11 @@ function showLevelModal() {
 function closeLevelModal() {
   document.getElementById('levelModal').style.display = 'none';
   document.getElementById('levelModalOverlay').style.display = 'none';
+}
+function closeGemUpgradeModal() {
+  document.getElementById('gemUpgradeModal').style.display = 'none';
+  document.getElementById('gemUpgradeModalOverlay').style.display = 'none';
+  document.getElementById('upgradeConfettiContainer').innerHTML = '';
 }
 
 function switchType(type, el) {
@@ -1099,6 +1162,7 @@ function toggleMasteryDrawer() {
 }
 document.getElementById('drawerOverlay').addEventListener('click', toggleMasteryDrawer);
 document.getElementById('levelModalOverlay').addEventListener('click', closeLevelModal);
+document.getElementById('gemUpgradeModalOverlay').addEventListener('click', closeGemUpgradeModal);
 
 // Pass-through functions connected to ChallengeApp
 function goToPrev()    { window.ChallengeApp?.prev(); }

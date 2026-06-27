@@ -39,6 +39,7 @@
   let supabase = null
   let currentUser = null
   let studentProfile = null
+  let initialGemTierIndex = -1
   let currentMode = 'daily'        // daily (每日計分) | free (自由練習) | class (課堂挑戰)
   let currentType = 'spelling'     // spelling | speech | sentence
   let currentChallenge = []        // 12題題目資料
@@ -116,6 +117,23 @@
       }
 
       studentProfile = profile
+
+      // 計算初始寶石等級索引
+      let initialMasteredCount = 0
+      if (studentProfile && studentProfile.mastery) {
+        for (const word in studentProfile.mastery) {
+          if (studentProfile.mastery[word] >= 2) {
+            initialMasteredCount++
+          }
+        }
+      }
+      initialGemTierIndex = 0
+      for (let i = gemTiers.length - 1; i >= 0; i--) {
+        if (initialMasteredCount >= gemTiers[i].min) {
+          initialGemTierIndex = i
+          break
+        }
+      }
 
       // 3. 填寫頂部資訊列
       updateTopbarInfo()
@@ -1421,6 +1439,105 @@
     }
 
     triggerConfetti()
+
+    // 檢查是否升級並彈出酷炫 Modal (WOW Factor)
+    let finalMasteredCount = 0
+    if (studentProfile && studentProfile.mastery) {
+      for (const word in studentProfile.mastery) {
+        if (studentProfile.mastery[word] >= 2) {
+          finalMasteredCount++
+        }
+      }
+    }
+    let finalGemTierIndex = 0
+    for (let i = gemTiers.length - 1; i >= 0; i--) {
+      if (finalMasteredCount >= gemTiers[i].min) {
+        finalGemTierIndex = i
+        break
+      }
+    }
+
+    if (initialGemTierIndex !== -1 && finalGemTierIndex > initialGemTierIndex) {
+      const newGem = gemTiers[finalGemTierIndex]
+      document.getElementById('upgradeGemEmoji').textContent = newGem.emoji
+      document.getElementById('upgradeGemName').textContent = newGem.name
+      document.getElementById('upgradeGemHardness').textContent = `莫氏硬度: ${newGem.hardness}`
+      document.getElementById('upgradeGemDesc').textContent = newGem.desc
+
+      setTimeout(() => {
+        document.getElementById('gemUpgradeModal').style.display = 'block'
+        document.getElementById('gemUpgradeModalOverlay').style.display = 'block'
+        playUnlockSound()
+        createGemConfetti()
+      }, 800)
+    }
+  }
+
+  // 播放 Web Audio API 合成解鎖音效
+  function playUnlockSound() {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+      
+      const osc1 = audioCtx.createOscillator()
+      const gain1 = audioCtx.createGain()
+      osc1.type = 'sine'
+      osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime)
+      osc1.frequency.exponentialRampToValueAtTime(880.00, audioCtx.currentTime + 0.18)
+      gain1.gain.setValueAtTime(0.25, audioCtx.currentTime)
+      gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35)
+      osc1.connect(gain1)
+      gain1.connect(audioCtx.destination)
+      osc1.start()
+      osc1.stop(audioCtx.currentTime + 0.35)
+
+      setTimeout(() => {
+        const osc2 = audioCtx.createOscillator()
+        const gain2 = audioCtx.createGain()
+        osc2.type = 'triangle'
+        osc2.frequency.setValueAtTime(880.00, audioCtx.currentTime)
+        osc2.frequency.exponentialRampToValueAtTime(1318.51, audioCtx.currentTime + 0.3)
+        gain2.gain.setValueAtTime(0.2, audioCtx.currentTime)
+        gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6)
+        osc2.connect(gain2)
+        gain2.connect(audioCtx.destination)
+        osc2.start()
+        osc2.stop(audioCtx.currentTime + 0.6)
+      }, 160)
+    } catch (e) {
+      console.warn('Web Audio API 播放音效失敗:', e)
+    }
+  }
+
+  // 創造 HTML Confetti 飄落粒子
+  function createGemConfetti() {
+    const container = document.getElementById('upgradeConfettiContainer')
+    if (!container) return
+    container.innerHTML = ''
+    
+    const colors = ['#f5c842', '#4fc3f7', '#69f0ae', '#ce93d8', '#ff6b6b', '#ffd700']
+    const shapes = ['3px', '50%']
+    
+    for (let i = 0; i < 40; i++) {
+      const piece = document.createElement('div')
+      piece.className = 'confetti-piece'
+      
+      const left = Math.random() * 100
+      const delay = Math.random() * 1.5
+      const duration = 2 + Math.random() * 2
+      const size = 8 + Math.random() * 10
+      const bg = colors[Math.floor(Math.random() * colors.length)]
+      const radius = shapes[Math.floor(Math.random() * shapes.length)]
+      
+      piece.style.left = `${left}%`
+      piece.style.animationDelay = `${delay}s`
+      piece.style.animationDuration = `${duration}s`
+      piece.style.width = `${size}px`
+      piece.style.height = `${size}px`
+      piece.style.background = bg
+      piece.style.borderRadius = radius
+      
+      container.appendChild(piece)
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════
