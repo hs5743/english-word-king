@@ -296,7 +296,109 @@ ${JSON.stringify(candidatesJson, null, 2)}
 - fillBlank: 將 exampleSentence 中的 target word 替換為 "____" 得到的填空句
 - distractors: 與 word 詞性及難度相近的 3 個英文干擾選項（不可包含 word 本身）
 
-請直接輸出 JSON 陣列，不要有任何說明文字。`
+ 請直接輸出 JSON 陣列，不要有任何說明文字。`
+
+    // P3.5: AI 命題對比測試模式 (Gemini vs Groq Llama 3)
+    if (body.runComparisonTest === true) {
+      console.log("=== Running AI Model Comparison Test ===");
+      const testResults = {
+        gemini: [] as any[],
+        groq: [] as any[]
+      };
+
+      const evaluateOutput = (data: any[]) => {
+        if (!Array.isArray(data)) {
+          return { ok: false, error: 'Output is not an array', count: 0, validSentenceCount: 0, candidateMatchCount: 0, samples: [] };
+        }
+        let validSentenceCount = 0;
+        let candidateMatchCount = 0;
+        const candidateSet = new Set(candidatePool.map(c => c.word.toLowerCase().trim()));
+
+        data.forEach(item => {
+          if (item && item.word) {
+            const wordClean = String(item.word).toLowerCase().trim();
+            if (candidateSet.has(wordClean)) {
+              candidateMatchCount++;
+            }
+            const validation = validateAISentence(item.exampleSentence || '', wordClean);
+            if (validation.ok) {
+              validSentenceCount++;
+            }
+          }
+        });
+
+        return {
+          ok: data.length === 12,
+          count: data.length,
+          validSentenceCount,
+          candidateMatchCount,
+          samples: data.slice(0, 2).map(item => ({
+            word: item.word,
+            sentence: item.exampleSentence,
+            zh: item.sentenceZh
+          }))
+        };
+      };
+
+      // 3 輪測試 - Gemini
+      if (keys.gemini_api_key && keys.gemini_api_key !== 'REPLACE_WITH_YOUR_GEMINI_KEY') {
+        for (let round = 1; round <= 3; round++) {
+          const start = Date.now();
+          let success = true;
+          let evalResult = null;
+          let errorMsg = '';
+          try {
+            const data = await callGemini(keys.gemini_api_key, prompt);
+            evalResult = evaluateOutput(data);
+          } catch (err) {
+            success = false;
+            errorMsg = getErrorMessage(err);
+          }
+          const duration = Date.now() - start;
+          testResults.gemini.push({
+            round,
+            success,
+            duration,
+            error: errorMsg,
+            ...evalResult
+          });
+        }
+      }
+
+      // 3 輪測試 - Groq (Llama 3)
+      if (keys.groq_api_key && keys.groq_api_key !== 'REPLACE_WITH_YOUR_GROQ_KEY') {
+        for (let round = 1; round <= 3; round++) {
+          const start = Date.now();
+          let success = true;
+          let evalResult = null;
+          let errorMsg = '';
+          try {
+            const data = await callGroq(keys.groq_api_key, prompt);
+            evalResult = evaluateOutput(data);
+          } catch (err) {
+            success = false;
+            errorMsg = getErrorMessage(err);
+          }
+          const duration = Date.now() - start;
+          testResults.groq.push({
+            round,
+            success,
+            duration,
+            error: errorMsg,
+            ...evalResult
+          });
+        }
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          isComparisonTest: true,
+          results: testResults
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // 9. AI 出題（三段 Failover）
     let challengeData: any[] | null = null
@@ -991,7 +1093,7 @@ async function callGroq(key: string, prompt: string): Promise<any[]> {
       'Authorization': `Bearer ${key}`
     },
     body: JSON.stringify({
-      model: 'llama3-8b-8192',
+      model: 'llama-3.1-8b-instant',
       messages: [
         {
           role: 'system',
