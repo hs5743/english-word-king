@@ -216,6 +216,52 @@
               <input class="form-input" id="sessionClass" type="text" placeholder="例如：五年一班 (留空表示不限)" />
             </div>
 
+            <div class="form-group">
+              <label class="form-label" for="packageQuestionCount">本場題數</label>
+              <select class="form-select" id="packageQuestionCount">
+                <option value="10">10 題</option>
+                <option value="12" selected>12 題</option>
+                <option value="15">15 題</option>
+                <option value="20">20 題</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="packageTypeMix">題型比例</label>
+              <select class="form-select" id="packageTypeMix">
+                <option value="balanced" selected>平均混合：拼字 / 口說 / 句型 / 配對</option>
+                <option value="spelling-heavy">拼字較多</option>
+                <option value="speech-heavy">口說較多</option>
+                <option value="sentence-heavy">句型較多</option>
+                <option value="review">複習檢核</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="packageDifficulty">難度</label>
+              <select class="form-select" id="packageDifficulty">
+                <option value="3">三年級</option>
+                <option value="4" selected>四年級</option>
+                <option value="5">五年級</option>
+                <option value="6">六年級</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="packageWords">指定單字</label>
+              <input class="form-input" id="packageWords" type="text" placeholder="apple, water, sunny" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="packagePatterns">指定句型</label>
+              <input class="form-input" id="packagePatterns" type="text" placeholder="I like __. / I can __." />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="packageInstruction">補充指令</label>
+              <textarea class="form-input" id="packageInstruction" rows="3" placeholder="例如：以食物和天氣為主"></textarea>
+            </div>
+
             <button class="btn btn--primary btn--full" type="submit" style="margin-top:var(--sp-md);">🚀 建立挑戰場次</button>
           </form>
         </div>
@@ -241,6 +287,7 @@
           <div style="padding:var(--sp-md); background:rgba(255,255,255,0.03); border-radius:var(--r-sm); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.06);">
             <div style="font-size:0.8rem; font-weight:700; margin-bottom:4px; color:var(--clr-text-secondary);" id="activeSchoolInfo">新港國小</div>
             <div style="font-size:0.75rem; color:var(--clr-text-muted);" id="activeClassInfo">不限班級</div>
+            <div style="font-size:0.75rem; color:var(--clr-gold-1); margin-top:6px; line-height:1.5;" id="activePackageInfo">本場固定題目包準備中</div>
           </div>
 
           <div style="font-size:0.78rem; color:var(--clr-text-muted); line-height:1.6; margin-bottom:var(--sp-lg); text-align:center;">
@@ -314,6 +361,18 @@
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section class="glass-card" style="padding:var(--sp-lg); margin-top:var(--sp-lg);">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--sp-sm); flex-wrap:wrap; margin-bottom:var(--sp-md);">
+          <div>
+            <h2 style="font-size:1.12rem; font-weight:900; color:var(--clr-gold-1);">本場考題與正確率</h2>
+            <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-top:2px;">挑戰結束後可開啟題目，和學生一起檢討每題表現。</p>
+          </div>
+          <button class="btn btn--ghost" style="padding:8px 18px; font-size:0.8rem; border-radius:8px;" onclick="loadQuestionReview()" id="reviewBtn" disabled>更新正確率</button>
+        </div>
+        <div id="questionReviewStatus" style="font-size:0.78rem; color:var(--clr-text-muted); margin-bottom:var(--sp-sm);">尚未建立場次</div>
+        <div id="questionReviewList" style="display:grid; gap:10px;"></div>
       </section>
 
     </div>
@@ -394,7 +453,9 @@
     let supabaseClient = null;
     let currentUser = null;
     let activeSession = null;
+    let activePackage = null;
     let attemptsList = [];
+    let questionResultsList = [];
     let studentMasteryMap = new Map();
     let realtimeChannel = null;
     let countdownInterval = null;
@@ -474,7 +535,9 @@
         if (!error && data && data.length > 0) {
           activeSession = data[0];
           showActiveSessionUI(activeSession);
+          await loadActivePackage(activeSession.id);
           await loadAttempts(activeSession.id);
+          await loadQuestionReview();
           subscribeToAttempts(activeSession.id);
         } else {
           document.getElementById('setupCard').style.display = 'block';
@@ -486,18 +549,116 @@
     }
 
     // 建立場次
+    function splitTeacherList(value) {
+      return String(value || '')
+        .split(/[,;\n、，\/]+/)
+        .map(item => item.trim())
+        .filter(Boolean)
+        .slice(0, 20);
+    }
+
+    function readPackageConfig() {
+      return {
+        questionCount: Number(document.getElementById('packageQuestionCount').value || 12),
+        typeMix: document.getElementById('packageTypeMix').value || 'balanced',
+        difficultyGrade: Number(document.getElementById('packageDifficulty').value || 4),
+        customWords: splitTeacherList(document.getElementById('packageWords').value),
+        customPatterns: splitTeacherList(document.getElementById('packagePatterns').value),
+        extraInstruction: document.getElementById('packageInstruction').value.trim().slice(0, 300)
+      };
+    }
+
+    async function createChallengePackage(session, config) {
+      const authSession = (await supabaseClient.auth.getSession()).data.session;
+      if (!authSession) throw new Error('登入狀態已失效，請重新登入。');
+
+      const response = await fetch(`${window.SupabaseConfig.SUPABASE_URL}/functions/v1/generate-challenge`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authSession.access_token}`
+        },
+        body: JSON.stringify({
+          grade: config.difficultyGrade,
+          isPractice: true,
+          teacherConfig: config,
+          packageSessionId: session.id,
+          packageSessionCode: session.session_code,
+          packageExpiresAt: session.expires_at
+        })
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || '題目包產生失敗');
+      }
+
+      const { data: packageRow, error } = await supabaseClient
+        .from('challenge_packages')
+        .select('*')
+        .eq('session_id', session.id)
+        .single();
+      if (error) throw error;
+      activePackage = packageRow;
+      return packageRow;
+    }
+
+    async function loadActivePackage(sessionId) {
+      activePackage = null;
+      const { data, error } = await supabaseClient
+        .from('challenge_packages')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: false })
+        .limit(1);
+      if (!error && data && data.length > 0) activePackage = data[0];
+      updatePackageInfo();
+      renderQuestionReview();
+      return activePackage;
+    }
+
+    function getPackageChallengeData() {
+      if (!activePackage) return [];
+      if (Array.isArray(activePackage.challenge_data)) return activePackage.challenge_data;
+      try {
+        const parsed = JSON.parse(activePackage.challenge_data);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function updatePackageInfo() {
+      const info = document.getElementById('activePackageInfo');
+      const reviewBtn = document.getElementById('reviewBtn');
+      if (!info) return;
+      if (!activePackage) {
+        info.textContent = '本場固定題目包尚未建立';
+        if (reviewBtn) reviewBtn.disabled = true;
+        return;
+      }
+      const cfg = activePackage.teacher_config || {};
+      const count = getPackageChallengeData().length || cfg.questionCount || 0;
+      info.textContent = `固定題目包：${count} 題 / ${cfg.difficultyGrade || '-'} 年級 / ${cfg.typeMix || 'balanced'}`;
+      if (reviewBtn) reviewBtn.disabled = false;
+    }
+
     async function handleCreateSession(e) {
       e.preventDefault();
       const school = document.getElementById('sessionSchool').value;
       const className = document.getElementById('sessionClass').value.trim();
+      const packageConfig = readPackageConfig();
 
-      showLoading(true, '正在建立課堂場次...');
+      showLoading(true, '正在建立場次並產生固定題目包...');
       try {
         const session = await insertSessionWithRetry(school, className);
         activeSession = session;
+        await createChallengePackage(session, packageConfig);
         
         showLoading(false);
         showActiveSessionUI(session);
+        updatePackageInfo();
+        await loadQuestionReview();
         attemptsList = [];
         renderLeaderboard();
         
@@ -633,6 +794,10 @@
             .from('challenge_sessions')
             .update({ status: 'closed' })
             .eq('id', activeSession.id);
+          await supabaseClient
+            .from('challenge_packages')
+            .update({ status: 'closed' })
+            .eq('session_id', activeSession.id);
         }
 
         // 取消實時監聽
@@ -642,6 +807,8 @@
         }
 
         activeSession = null;
+        activePackage = null;
+        questionResultsList = [];
         showLoading(false);
         
         document.getElementById('setupCard').style.display = 'block';
@@ -654,6 +821,9 @@
           </tr>
         `;
         document.getElementById('exportBtn').disabled = true;
+        document.getElementById('reviewBtn').disabled = true;
+        document.getElementById('questionReviewStatus').textContent = '尚未建立場次';
+        document.getElementById('questionReviewList').innerHTML = '';
         resetStats();
       } catch (err) {
         console.error(err);
@@ -735,6 +905,7 @@
               // 先渲染一次 (即使還沒查到 mastery 也可以用舊資料或 default)
               renderLeaderboard(shouldHighlight ? record.id : null);
               updateStats();
+              loadQuestionReview();
 
               // 非同步查詢最新 mastery 並再次渲染
               supabaseClient
@@ -752,6 +923,75 @@
           }
         )
         .subscribe();
+    }
+
+    async function loadQuestionReview() {
+      if (!activeSession) return;
+      if (!activePackage) await loadActivePackage(activeSession.id);
+      const status = document.getElementById('questionReviewStatus');
+      if (status) status.textContent = '正在整理逐題正確率...';
+      const { data, error } = await supabaseClient
+        .from('challenge_question_results')
+        .select('*')
+        .eq('session_id', activeSession.id)
+        .order('question_order', { ascending: true });
+      if (error) {
+        console.error('[Teacher] Question review error:', error);
+        if (status) status.textContent = '讀取逐題正確率失敗：' + error.message;
+        return;
+      }
+      questionResultsList = data || [];
+      renderQuestionReview();
+    }
+
+    function renderQuestionReview() {
+      const status = document.getElementById('questionReviewStatus');
+      const list = document.getElementById('questionReviewList');
+      if (!status || !list) return;
+      const questions = getPackageChallengeData();
+      if (!activeSession) {
+        status.textContent = '尚未建立場次';
+        list.innerHTML = '';
+        return;
+      }
+      if (!questions.length) {
+        status.textContent = '本場題目包尚未建立或讀取中';
+        list.innerHTML = '';
+        return;
+      }
+
+      const byQuestion = new Map();
+      questionResultsList.forEach(row => {
+        const key = row.question_id || `q${row.question_order}`;
+        if (!byQuestion.has(key)) byQuestion.set(key, []);
+        byQuestion.get(key).push(row);
+      });
+
+      status.textContent = questionResultsList.length
+        ? `已彙整 ${questionResultsList.length} 筆逐題作答紀錄`
+        : '尚無學生完成作答；先顯示本場題目包。';
+
+      list.innerHTML = questions.map((q, idx) => {
+        const questionId = q.id || `q${idx + 1}`;
+        const rows = byQuestion.get(questionId) || [];
+        const total = rows.length;
+        const correct = rows.filter(row => row.is_correct).length;
+        const rate = total ? Math.round((correct / total) * 100) : null;
+        const color = rate === null ? 'var(--clr-text-muted)' : rate >= 80 ? 'var(--clr-green-1)' : rate >= 60 ? 'var(--clr-gold-1)' : 'var(--clr-red-1)';
+        return `
+          <div style="padding:12px 14px; border:1px solid rgba(255,255,255,0.08); border-radius:var(--r-md); background:rgba(255,255,255,0.035); display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center;">
+            <div style="min-width:0;">
+              <div style="font-size:0.82rem; color:var(--clr-text-muted); margin-bottom:4px;">第 ${idx + 1} 題 · ${q.topic || 'Other'}</div>
+              <div style="font-size:0.98rem; font-weight:900; color:var(--clr-text-primary); font-family:var(--font-en);">${q.word || ''} <span style="font-family:var(--font-zh); color:var(--clr-text-secondary); font-size:0.82rem;">${q.zh || ''}</span></div>
+              <div style="font-size:0.8rem; color:var(--clr-text-muted); margin-top:4px; line-height:1.5;">${q.exampleSentence || ''}</div>
+            </div>
+            <div style="text-align:right; min-width:86px;">
+              <div style="font-size:1.25rem; font-weight:900; color:${color}; font-family:var(--font-en);">${rate === null ? '--' : rate + '%'}</div>
+              <div style="font-size:0.74rem; color:var(--clr-text-muted);">${correct}/${total} 答對</div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     // 計算口說平均

@@ -47,6 +47,8 @@
   let currentIndex = 0
   let isDoneToday = false          // 今天是否已挑戰過計分模式
   let currentSessionId = null      // 當前加入的課堂場次 UUID
+  let currentSessionCode = ''
+  let currentPackageId = null
   let speechBonusPoints = 0        // 口說額外加分
   let hasBonusAwarded = new Array(12).fill(false) // 避免重複加分
   let isSpellingRecording = false  // spelling 錄音狀態
@@ -56,6 +58,7 @@
   let sessionStars = 0
   let sessionWrongWords = []
   let sessionSpeechScores = []
+  let sessionQuestionResults = []
   let questionAnswered = new Array(12).fill(false)
   let startTime = 0
 
@@ -253,6 +256,8 @@
   async function startClassFromCode(code) {
     currentMode = 'class'
     currentSessionId = null
+    currentSessionCode = ''
+    currentPackageId = null
     activateModeTab('class')
     document.getElementById('sessionJoinCard').style.display = 'block'
     document.getElementById('challengeCard').style.display = 'none'
@@ -260,6 +265,61 @@
     document.getElementById('sessionCodeInput').value = code
     sessionStorage.removeItem('pendingClassCode')
     await window.ChallengeApp.joinClassSession()
+  }
+
+  function challengeLength() {
+    return Array.isArray(currentChallenge) && currentChallenge.length ? currentChallenge.length : 12
+  }
+
+  function shuffleChallengeForStudent(items) {
+    const seed = `${currentUser?.id || 'student'}-${currentSessionId || 'free'}`
+    let hash = 0
+    for (let i = 0; i < seed.length; i++) hash = ((hash << 5) - hash + seed.charCodeAt(i)) | 0
+    const seededRandom = () => {
+      hash = (hash * 1664525 + 1013904223) | 0
+      return ((hash >>> 0) / 4294967296)
+    }
+    return [...items].sort(() => seededRandom() - 0.5)
+  }
+
+  function resetChallengeState(count) {
+    currentIndex = 0
+    correctCount = 0
+    speechBonusPoints = 0
+    sessionStars = 0
+    sessionWrongWords = []
+    sessionSpeechScores = new Array(count).fill(0)
+    sessionQuestionResults = []
+    questionAnswered = new Array(count).fill(false)
+    hasBonusAwarded = new Array(count).fill(false)
+    startTime = Date.now()
+    const totalEl = document.getElementById('qTotal')
+    if (totalEl) totalEl.textContent = count
+  }
+
+  function inferQuestionType(index) {
+    if (currentMode === 'daily') {
+      if (index >= 4 && index <= 7) return 'speech'
+      if (index >= 8) return 'sentence'
+    }
+    return currentType || 'spelling'
+  }
+
+  function recordQuestionResult(isCorrect, score = null, type = null) {
+    if (!currentChallenge[currentIndex]) return
+    const q = currentChallenge[currentIndex]
+    const questionId = q.id || `q${currentIndex + 1}_${q.word || currentIndex + 1}`
+    if (sessionQuestionResults.some(row => row.question_id === questionId)) return
+    sessionQuestionResults.push({
+      question_id: questionId,
+      question_order: currentIndex + 1,
+      question_type: type || inferQuestionType(currentIndex),
+      word: q.word || '',
+      topic: q.topic || '',
+      is_correct: Boolean(isCorrect),
+      score,
+      answered_at: new Date().toISOString()
+    })
   }
 
   async function loadSessionChallenge() {
@@ -280,6 +340,34 @@
       }
 
       const isPractice = (currentMode === 'free' || currentMode === 'class')
+
+      if (currentMode === 'class' && currentSessionId) {
+        const { data: packages, error: packageError } = await supabase
+          .from('challenge_packages')
+          .select('*')
+          .eq('session_id', currentSessionId)
+          .eq('status', 'active')
+          .gt('expires_at', new Date().toISOString())
+          .order('created_at', { ascending: false })
+          .limit(1)
+
+        if (packageError) throw packageError
+        const packageRow = packages && packages[0]
+        if (!packageRow) throw new Error('本場次題目包尚未建立或已過期，請老師重新開啟場次。')
+
+        const packageData = Array.isArray(packageRow.challenge_data)
+          ? packageRow.challenge_data
+          : JSON.parse(packageRow.challenge_data || '[]')
+        currentPackageId = packageRow.id
+        currentChallenge = shuffleChallengeForStudent(packageData)
+        window.currentChallenge = currentChallenge
+        resetChallengeState(currentChallenge.length)
+        document.getElementById('masteryList').innerHTML = ''
+        document.getElementById('masteryListMobile').innerHTML = ''
+        showLoading(false)
+        renderQuestion(0)
+        return
+      }
 
       const response = await fetch(`${window.SupabaseConfig.SUPABASE_URL}/functions/v1/generate-challenge`, {
         method: 'POST',
@@ -304,13 +392,7 @@
       window.currentChallenge = currentChallenge // 讓外部/語音引擎可取用
 
       // 重設挑戰狀態
-      currentIndex = 0
-      correctCount = 0
-      sessionStars = 0
-      sessionWrongWords = []
-      sessionSpeechScores = new Array(12).fill(0)
-      questionAnswered = new Array(12).fill(false)
-      startTime = Date.now()
+      resetChallengeState(currentChallenge.length)
 
       // 清空側邊欄紀錄
       document.getElementById('masteryList').innerHTML = ''
@@ -338,7 +420,7 @@
 
     // 1. 更新進度標籤與進度條
     document.getElementById('qCurrent').textContent = index + 1
-    const progressPct = ((index + 1) / 12) * 100
+    const progressPct = ((index + 1) / challengeLength()) * 100
     document.getElementById('progressFill').style.width = progressPct + '%'
 
     // 2. 重置上一題的狀態
@@ -733,6 +815,7 @@
     // 解鎖下一題
     document.getElementById('nextBtn').removeAttribute('disabled')
     questionAnswered[currentIndex] = true
+    recordQuestionResult(isCorrect, isCorrect ? 100 : 0, 'spelling')
 
     updateMasteryItem(word, isCorrect, isCorrect ? 100 : 0)
   }
@@ -1100,6 +1183,7 @@
     // 解鎖下一題
     document.getElementById('nextBtn').removeAttribute('disabled')
     questionAnswered[currentIndex] = true
+    recordQuestionResult(res.score >= 80, res.score, 'speech')
 
     updateMasteryItem(expectedWord, res.score >= 80, res.score)
   }
@@ -1224,6 +1308,7 @@
 
     document.getElementById('nextBtn').removeAttribute('disabled')
     questionAnswered[currentIndex] = true
+    recordQuestionResult(isCorrect, isCorrect ? 100 : 0, 'sentence')
 
     updateMasteryItem(q.word, isCorrect, isCorrect ? 100 : 0)
   }
@@ -1313,6 +1398,8 @@
 
       currentMode = mode
       currentSessionId = null // 重設場次
+      currentSessionCode = ''
+      currentPackageId = null
 
       if (mode === 'class') {
         // 顯示輸入場次碼卡片，隱藏挑戰內容
@@ -1348,7 +1435,7 @@
 
     // 下一題
     next: function () {
-      if (currentIndex < 11) {
+      if (currentIndex < challengeLength() - 1) {
         renderQuestion(currentIndex + 1)
       } else {
         // 完成挑戰！
@@ -1362,6 +1449,7 @@
       updateMastery(q.word, false)
       updateMasteryItem(q.word, false, 0)
       questionAnswered[currentIndex] = true
+      recordQuestionResult(false, 0, inferQuestionType(currentIndex))
       document.getElementById('nextBtn').removeAttribute('disabled')
       this.next()
     },
@@ -1439,6 +1527,7 @@
         }
 
         currentSessionId = sessionData.id
+        currentSessionCode = sessionData.session_code
 
         // 進入挑戰
         document.getElementById('sessionJoinCard').style.display = 'none'
@@ -1594,9 +1683,10 @@
       ? validSpeechScores.reduce((a, b) => a + b, 0) / validSpeechScores.length
       : 0
 
-    const standardScore = Math.round((correctCount / 12) * 80 + (avgSpeech / 100) * 20)
+    const totalQuestions = challengeLength()
+    const standardScore = Math.round((correctCount / totalQuestions) * 80 + (avgSpeech / 100) * 20)
     const finalScoreVal = Math.min(100, standardScore + speechBonusPoints)
-    const accuracyVal = Math.round((correctCount / 12) * 100)
+    const accuracyVal = Math.round((correctCount / totalQuestions) * 100)
 
     try {
       const isClassMode = currentMode === 'class'
@@ -1625,6 +1715,27 @@
           })
 
         if (attemptError) throw attemptError
+
+        if (isClassMode && sessionQuestionResults.length > 0) {
+          const rows = sessionQuestionResults.map(row => ({
+            attempt_id: attemptId,
+            session_id: currentSessionId,
+            session_code: currentSessionCode,
+            student_uid: currentUser.id,
+            question_id: row.question_id,
+            question_order: row.question_order,
+            question_type: row.question_type,
+            word: row.word,
+            topic: row.topic,
+            is_correct: row.is_correct,
+            score: row.score,
+            answered_at: row.answered_at
+          }))
+          const { error: resultError } = await supabase
+            .from('challenge_question_results')
+            .insert(rows)
+          if (resultError) throw resultError
+        }
 
         // 課堂挑戰提供教師即時榜，不消耗每日計分額度，也不累加全站總分。
         if (isClassMode) {

@@ -1,4 +1,6 @@
 -- 升級學生排行榜 View，加入 mastered_words 欄位以便在大廳排行榜上展示學生適性化寶石等級
+DROP VIEW IF EXISTS student_leaderboard;
+
 CREATE OR REPLACE VIEW student_leaderboard AS
 SELECT
   s.name,

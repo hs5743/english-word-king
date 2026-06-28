@@ -42,6 +42,7 @@ type PublicPatternItem = {
 }
 
 type ChallengeItem = {
+  id?: string
   word: string
   zh: string
   topic: string
@@ -53,6 +54,15 @@ type ChallengeItem = {
   fillBlank: string
   distractors: string[]
   distractorZhs: Record<string, string>
+}
+
+type TeacherChallengeConfig = {
+  questionCount?: number
+  difficultyGrade?: number
+  typeMix?: string
+  customWords?: string[]
+  customPatterns?: string[]
+  extraInstruction?: string
 }
 
 type SpiralBucket = 'weak' | 'weak-topic' | 'learning' | 'new' | 'mastered' | 'fill'
@@ -303,7 +313,20 @@ serve(async (req) => {
 
     // 解析請求參數
     const body = await req.json().catch(() => ({}))
-    const { grade, wrongWords = [], isPractice = false, testUid = '' } = body
+    const {
+      grade,
+      wrongWords = [],
+      isPractice = false,
+      testUid = '',
+      teacherConfig = null,
+      packageSessionId = '',
+      packageSessionCode = '',
+      packageExpiresAt = ''
+    } = body
+    const normalizedTeacherConfig = normalizeTeacherConfig(teacherConfig)
+    const requestedQuestionCount = normalizedTeacherConfig
+      ? normalizeQuestionCount(normalizedTeacherConfig.questionCount)
+      : 12
 
     if (!grade || grade < 3 || grade > 9) {
       return errorResponse(400, 'invalid_grade', '年級參數錯誤（需介於 3~9 年級）。')
@@ -337,7 +360,7 @@ serve(async (req) => {
 
     // 4.5 讀取學生的 mastery 欄位與級數
     let studentMastery: Record<string, number> = {}
-    let studentGrade = grade
+    let studentGrade = normalizedTeacherConfig?.difficultyGrade || grade
     try {
       if (devSecret === 'super-secret-test-token-2026' && body.testMastery) {
         studentMastery = body.testMastery
@@ -392,15 +415,15 @@ serve(async (req) => {
       } else {
         const { data: recentAttempts, error: recentError } = await supabase
           .from('daily_attempts')
-          .select('wrong_words')
+          .select('wrong')
           .eq('student_uid', user.id)
-          .order('created_at', { ascending: false })
+          .order('timestamp', { ascending: false })
           .limit(8)
 
         if (recentError) {
           console.warn('讀取近期錯題失敗，僅使用本次前端錯題:', recentError.message)
         } else {
-          const recentWrongWords = (recentAttempts || []).flatMap(row => extractWrongWords(row.wrong_words))
+          const recentWrongWords = (recentAttempts || []).flatMap(row => extractWrongWords(row.wrong))
           spiralWrongWords = mergeWordLists(spiralWrongWords, recentWrongWords)
         }
       }
@@ -440,8 +463,11 @@ serve(async (req) => {
     const keys = Object.fromEntries((configRows || []).map(r => [r.key, r.value])) as Record<string, string>
 
     // 7. 載入題庫與過濾符合適性上限的單字
-    const fallbackBank = await loadPublicFallbackWords(adaptiveMaxGrade)
-    const candidatePool = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
+    const fallbackBankBase = await loadPublicFallbackWords(adaptiveMaxGrade)
+    const customWords = normalizedTeacherConfig ? buildTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
+    const fallbackBank = mergeFallbackWords(customWords, fallbackBankBase)
+    const candidatePoolBase = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
+    const candidatePool = mergeFallbackWords(customWords, candidatePoolBase)
     const candidatesJson = candidatePool.map(c => ({
       word: c.word,
       zh: c.zh,
@@ -454,7 +480,19 @@ serve(async (req) => {
     const gradeLabel = studentGrade <= 6 ? `國小 ${studentGrade} 年級` : `國中 ${studentGrade - 6} 年級`
     const randomContext = contexts[Math.floor(Math.random() * contexts.length)]
 
-    const prompt = `你是一位專業的台灣小學英語老師。請為${gradeLabel}學生出 12 題英語單字挑戰題，融入生活/校園情境「${randomContext}」。
+    const teacherPromptBlock = normalizedTeacherConfig ? `
+本場教師指定條件：
+- 題數：${requestedQuestionCount} 題
+- 題型比例：${normalizedTeacherConfig.typeMix || '系統平均分配'}
+- 難度：${normalizedTeacherConfig.difficultyGrade || studentGrade} 年級
+- 指定單字：${(normalizedTeacherConfig.customWords || []).join(', ') || '無'}
+- 指定句型：${(normalizedTeacherConfig.customPatterns || []).join(' / ') || '無'}
+- 補充指令：${normalizedTeacherConfig.extraInstruction || '無'}
+若指定單字不在候選題庫，仍可使用，但需以 teacher_custom 題目處理，句子要自然、適合國小學生。
+` : ''
+
+    const prompt = `你是一位專業的台灣小學英語老師。請為${gradeLabel}學生出 ${requestedQuestionCount} 題英語單字挑戰題，融入生活/校園情境「${randomContext}」。
+${teacherPromptBlock}
 
 【第一約束 — 只能從候選清單選字】：
 你只能從以下【候選單字清單】（共 10 個單字）中，挑選單字來出 12 題。絕對不能使用清單之外的單字！
@@ -631,16 +669,43 @@ ${JSON.stringify(candidatesJson, null, 2)}
     if (!challengeData) {
       console.warn(`AI 出題失敗，改用內建題庫 fallback：${lastError ? getErrorMessage(lastError) : '無可用金鑰'}`)
       challengeSource = 'fallback'
-      challengeData = buildFallbackChallenge(adaptiveMaxGrade, wrongWords, candidatePool, fallbackBank)
+      challengeData = buildFallbackChallenge(adaptiveMaxGrade, wrongWords, candidatePool, fallbackBank, requestedQuestionCount)
     }
 
     // 10. 驗證與過濾回傳資料格式
-    const finalChallenge = normalizeChallenge(challengeData, adaptiveMaxGrade, candidatePool, fallbackBank)
+    const finalChallenge = normalizeChallenge(challengeData, adaptiveMaxGrade, candidatePool, fallbackBank, requestedQuestionCount)
+      .map((item, index) => ({
+        ...item,
+        id: item.id || `q${String(index + 1).padStart(2, '0')}_${normalizeWord(item.word) || index + 1}`
+      }))
+
+    if (normalizedTeacherConfig && packageSessionId && packageSessionCode) {
+      const { error: packageError } = await supabase
+        .from('challenge_packages')
+        .upsert({
+          session_id: packageSessionId,
+          session_code: packageSessionCode,
+          teacher_uid: user.id,
+          teacher_config: {
+            ...normalizedTeacherConfig,
+            questionCount: requestedQuestionCount
+          },
+          challenge_data: finalChallenge,
+          status: 'active',
+          expires_at: packageExpiresAt || new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString()
+        }, { onConflict: 'session_id' })
+
+      if (packageError) {
+        console.error('Failed to save challenge package:', packageError)
+        return errorResponse(500, 'package_save_failed', packageError.message)
+      }
+    }
 
     return new Response(
       JSON.stringify({
         success: true,
         source: challengeSource,
+        questionCount: finalChallenge.length,
         fallbackSize: fallbackBank.length,
         levelTitle: currentTier.name,
         levelIndex: currentTierIndex + 1,
@@ -1142,6 +1207,69 @@ function parseGradeBand(gradeBand?: string): number {
   return match ? Number(match[0]) : 3
 }
 
+function normalizeQuestionCount(value: unknown): number {
+  const count = Number(value)
+  return [10, 12, 15, 20].includes(count) ? count : 12
+}
+
+function normalizeTeacherConfig(value: unknown): TeacherChallengeConfig | null {
+  if (!value || typeof value !== 'object') return null
+  const raw = value as Record<string, unknown>
+  return {
+    questionCount: normalizeQuestionCount(raw.questionCount),
+    difficultyGrade: Math.min(6, Math.max(3, Number(raw.difficultyGrade || 4))),
+    typeMix: String(raw.typeMix || 'balanced').slice(0, 40),
+    customWords: normalizeTeacherTextList(raw.customWords),
+    customPatterns: normalizeTeacherTextList(raw.customPatterns, 8),
+    extraInstruction: String(raw.extraInstruction || '').trim().slice(0, 300),
+  }
+}
+
+function normalizeTeacherTextList(value: unknown, max = 20): string[] {
+  const source = Array.isArray(value) ? value.join(',') : String(value || '')
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const part of source.split(/[,;\n、，\/]+/)) {
+    const clean = part.trim()
+    if (!clean || seen.has(clean.toLowerCase())) continue
+    seen.add(clean.toLowerCase())
+    result.push(clean.slice(0, 40))
+    if (result.length >= max) break
+  }
+  return result
+}
+
+function buildTeacherCustomWords(words: string[], bank: FallbackWord[]): FallbackWord[] {
+  const bankWords = new Set(bank.map(item => normalizeWord(item.word)))
+  return normalizeTeacherTextList(words).filter(word => !bankWords.has(normalizeWord(word))).map(word => {
+    const clean = normalizeWord(word)
+    const sentence = `I can use ${clean} in class.`
+    return {
+      word: clean,
+      zh: word,
+      topic: 'Teacher Custom',
+      grade: 3,
+      chunks: chunkWord(clean),
+      phonetic: '',
+      pattern: 'I can use [word] in class.',
+      sentence,
+      sentenceZh: `我可以在課堂中使用 ${word}。`,
+    }
+  })
+}
+
+function mergeFallbackWords(primary: FallbackWord[], secondary: FallbackWord[]): FallbackWord[] {
+  const seen = new Set<string>()
+  const merged: FallbackWord[] = []
+  for (const item of [...primary, ...secondary]) {
+    const key = normalizeWord(item.word)
+    if (!key || seen.has(key)) continue
+    seen.add(key)
+    merged.push(item)
+  }
+  return merged
+}
+
 function chunkWord(word: string): string[] {
   if (word.length <= 4) return [word]
   const chunks: string[] = []
@@ -1153,7 +1281,8 @@ function buildFallbackChallenge(
   grade: number, 
   wrongWords: string[] = [], 
   candidatePool: FallbackWord[] = [], 
-  bank: FallbackWord[] = fallbackWords
+  bank: FallbackWord[] = fallbackWords,
+  questionCount = 12
 ): ChallengeItem[] {
   const available = bank.filter(w => w.grade <= Math.max(3, grade))
   const pool = candidatePool.length >= 10 ? candidatePool : [...candidatePool, ...available]
@@ -1161,17 +1290,18 @@ function buildFallbackChallenge(
     arr.findIndex(other => other.word === item.word) === index
   )
   const expanded: FallbackWord[] = []
-  while (expanded.length < 12) {
+  while (expanded.length < questionCount) {
     expanded.push(...shuffledPool)
   }
-  return expanded.slice(0, 12).map(item => toChallengeItem(item, available))
+  return expanded.slice(0, questionCount).map(item => toChallengeItem(item, available))
 }
 
 function normalizeChallenge(
   items: any[], 
   grade: number, 
   candidatePool: FallbackWord[] = [], 
-  bank: FallbackWord[] = fallbackWords
+  bank: FallbackWord[] = fallbackWords,
+  questionCount = 12
 ): ChallengeItem[] {
   const available = bank.filter(w => w.grade <= Math.max(3, grade))
   const poolMap = new Map(candidatePool.map(c => [c.word.toLowerCase().trim(), c]))
@@ -1234,12 +1364,12 @@ function normalizeChallenge(
   }
 
   // 2. 如果合格題目不足 12 題，使用候選池中未使用的單字補齊
-  if (validItems.length < 12) {
+  if (validItems.length < questionCount) {
     const remainingCandidates = candidatePool.filter(c => !usedWords.has(c.word.toLowerCase().trim()))
     const shuffledRemaining = shuffle(remainingCandidates)
     
     for (const item of shuffledRemaining) {
-      if (validItems.length >= 12) break
+      if (validItems.length >= questionCount) break
       const wordClean = item.word.toLowerCase().trim()
       usedWords.add(wordClean)
       validItems.push(toChallengeItem(item, available))
@@ -1247,11 +1377,11 @@ function normalizeChallenge(
   }
 
   // 3. 如果依然不足 12 題，用 available 隨機補齊
-  if (validItems.length < 12) {
+  if (validItems.length < questionCount) {
     const remainingAvailable = available.filter(w => !usedWords.has(w.word.toLowerCase().trim()))
     const shuffledRemaining = shuffle(remainingAvailable)
     for (const item of shuffledRemaining) {
-      if (validItems.length >= 12) break
+      if (validItems.length >= questionCount) break
       const wordClean = item.word.toLowerCase().trim()
       usedWords.add(wordClean)
       validItems.push(toChallengeItem(item, available))
@@ -1259,12 +1389,12 @@ function normalizeChallenge(
   }
 
   // 4. 最後的最後，如果還是不夠，允許重複使用 available 的字
-  while (validItems.length < 12) {
+  while (validItems.length < questionCount) {
     const item = available[validItems.length % available.length]
     validItems.push(toChallengeItem(item, available))
   }
 
-  return validItems.slice(0, 12)
+  return validItems.slice(0, questionCount)
 }
 
 function toChallengeItem(item: FallbackWord, available: FallbackWord[]): ChallengeItem {
