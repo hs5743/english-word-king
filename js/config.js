@@ -139,7 +139,24 @@ window.SupabaseConfig = {
   getPageUrl,
 }
 
-// 頁面載入時自動初始化
+// 系統版本號
+const APP_VERSION = 'v1.3.0-CP13'
+
+function appendAppVersion() {
+  const footers = document.getElementsByTagName('footer')
+  if (footers.length > 0) {
+    const footer = footers[0]
+    const p = footer.querySelector('p.text-muted') || footer.querySelector('p')
+    if (p) {
+      if (!p.textContent.includes('版本號')) {
+        p.innerHTML += ` ｜ <span style="opacity:0.65; font-size:0.75rem; font-family:var(--font-en);">Version: ${APP_VERSION}</span>`
+      }
+    }
+  }
+}
+
+// 頁面載入時自動初始化與套用版本號
 document.addEventListener('DOMContentLoaded', () => {
   initSupabase()
+  appendAppVersion()
 })
