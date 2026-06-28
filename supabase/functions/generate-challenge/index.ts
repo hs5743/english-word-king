@@ -628,37 +628,75 @@ ${JSON.stringify(candidatesJson, null, 2)}
       );
     }
 
-    // 9. AI 出題（三段 Failover）
+    // 9. AI 出題（三段 Failover + 失敗重試 + 延遲分流）
     let challengeData: any[] | null = null
     let lastError: unknown = null
     let challengeSource = 'ai'
 
+    // 重試輔助函數：執行出題，出錯時等待後重試
+    async function executeWithRetry<T>(
+      fn: () => Promise<T>,
+      retries = 2,
+      delayMs = 1500
+    ): Promise<T> {
+      let lastErr: any = null;
+      for (let i = 0; i < retries; i++) {
+        try {
+          return await fn();
+        } catch (err) {
+          lastErr = err;
+          const errMsg = getErrorMessage(err);
+          console.warn(`⚠️ AI 呼叫失敗 (嘗試 ${i + 1}/${retries}): ${errMsg}`);
+          if (i < retries - 1) {
+            console.log(`⏳ 等待 ${delayMs} 毫秒後重新嘗試...`);
+            await new Promise(resolve => setTimeout(resolve, delayMs));
+          }
+        }
+      }
+      throw lastErr;
+    }
+
     // 嘗試 1：主要 Gemini 金鑰
     if (keys.gemini_api_key && keys.gemini_api_key !== 'REPLACE_WITH_YOUR_GEMINI_KEY') {
       try {
-        challengeData = await callGemini(keys.gemini_api_key, prompt)
+        challengeData = await executeWithRetry(
+          () => callGemini(keys.gemini_api_key, prompt),
+          2, // 最多嘗試 2 次
+          1500 // 失敗後等待 1.5 秒
+        )
         console.log('✅ Gemini 主金鑰出題成功')
       } catch (err) {
-        console.warn('⚠️ Gemini 主金鑰失敗，嘗試備援...', getErrorMessage(err))
+        console.warn('⚠️ Gemini 主金鑰失敗，準備備援...', getErrorMessage(err))
         lastError = err
+        // 進入備援前稍微停頓 800 毫秒以分散流量
+        await new Promise(resolve => setTimeout(resolve, 800))
       }
     }
 
     // 嘗試 2：備用 Gemini 金鑰
     if (!challengeData && keys.gemini_api_key_backup) {
       try {
-        challengeData = await callGemini(keys.gemini_api_key_backup, prompt)
+        challengeData = await executeWithRetry(
+          () => callGemini(keys.gemini_api_key_backup, prompt),
+          2,
+          1500
+        )
         console.log('✅ Gemini 備援金鑰出題成功')
       } catch (err) {
-        console.warn('⚠️ Gemini 備援失敗，嘗試 Groq...', getErrorMessage(err))
+        console.warn('⚠️ Gemini 備援失敗，準備 Groq...', getErrorMessage(err))
         lastError = err
+        await new Promise(resolve => setTimeout(resolve, 800))
       }
     }
 
     // 嘗試 3：Groq Llama 3 備援
     if (!challengeData && keys.groq_api_key) {
       try {
-        challengeData = await callGroq(keys.groq_api_key, prompt)
+        challengeData = await executeWithRetry(
+          () => callGroq(keys.groq_api_key, prompt),
+          2,
+          1500
+        )
         console.log('✅ Groq 備援出題成功')
       } catch (err) {
         console.error('❌ 所有 AI 提供商均失敗', getErrorMessage(err))
