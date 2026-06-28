@@ -729,7 +729,7 @@ function renderMiningStage() {
 
 window.playMiningSpeech = function() {
   if (!currentMiningWord || !window.SpeechEngine) return;
-  window.SpeechEngine.speak(currentMiningWord.word, 0.8);
+  window.SpeechEngine.speak(currentMiningWord.word, 'en-US', 0.8);
 };
 
 window.checkMiningSpelling = function() {
