@@ -1475,10 +1475,11 @@
         if (!res.ok) throw new Error('無法讀取單字庫，HTTP ' + res.status)
         const words = await res.json()
 
-        const headers = ['單字(Word)', '中文(Chinese)', '主題(Topic)', '音標(Phonetic)', '難度年級(Grade)', '拼字音節(Chunks)']
+        const headers = ['單字(Word)', '中文(Chinese)', '主題(Topic)', '音標(Phonetic)', '難度年級(Grade)', '拼字音節(Chunks)', '例句(Sentence)', '例句中譯(Translation)']
         const rows = words.map(w => [
           w.word, w.zh, w.topic, w.phonetic || '',
-          w.grade || '', Array.isArray(w.chunks) ? w.chunks.join('/') : (w.chunks || '')
+          w.grade || '', Array.isArray(w.chunks) ? w.chunks.join('/') : (w.chunks || ''),
+          w.sentence || '', w.sentenceZh || ''
         ].map(escCSV).join(','))
 
         const csv = [headers.join(','), ...rows].join('\r\n')
