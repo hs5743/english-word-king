@@ -302,6 +302,7 @@
                 <span style="color:var(--clr-text-muted);">📦 題目包設定：</span>
                 <span style="font-weight:700; color:var(--clr-gold-1);" id="activePackageInfo">準備中</span>
               </div>
+              <div id="activePackageWords" style="display:none; flex-wrap:wrap; gap:6px; margin-top:6px; border-top:1px dashed rgba(255,255,255,0.08); padding-top:8px;"></div>
               <div style="display:flex; justify-content:flex-end; margin-top:4px;">
                 <button class="btn" style="padding:4px 12px; font-size:0.7rem; border-radius:6px; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.25); color:var(--clr-gold-1); cursor:pointer; font-weight:700; transition:all var(--dur-fast);" onclick="handleRegeneratePackage()" id="btnRegeneratePackage">🔄 重新出題</button>
               </div>
@@ -653,18 +654,49 @@
       const info = document.getElementById('activePackageInfo');
       const reviewBtn = document.getElementById('reviewBtn');
       const toggleBtn = document.getElementById('btnToggleReview');
+      const wordsContainer = document.getElementById('activePackageWords');
+      
       if (!info) return;
       if (!activePackage) {
         info.textContent = '本場固定題目包尚未建立';
         if (reviewBtn) reviewBtn.disabled = true;
         if (toggleBtn) toggleBtn.disabled = true;
+        if (wordsContainer) {
+          wordsContainer.innerHTML = '';
+          wordsContainer.style.display = 'none';
+        }
         return;
       }
+      
       const cfg = activePackage.teacher_config || {};
-      const count = getPackageChallengeData().length || cfg.questionCount || 0;
+      const questions = getPackageChallengeData();
+      const count = questions.length || cfg.questionCount || 0;
       info.textContent = `${count} 題 / ${cfg.difficultyGrade || '-'} 年級 / ${cfg.typeMix || 'balanced'}`;
       if (reviewBtn) reviewBtn.disabled = false;
       if (toggleBtn) toggleBtn.disabled = false;
+
+      // 提取並顯示不重複的單字摘要 Chips
+      if (wordsContainer) {
+        const uniqueWords = [];
+        const seen = new Set();
+        questions.forEach(q => {
+          const w = q.word;
+          if (w && !seen.has(w.toLowerCase().trim())) {
+            seen.add(w.toLowerCase().trim());
+            uniqueWords.push(w);
+          }
+        });
+
+        if (uniqueWords.length > 0) {
+          wordsContainer.innerHTML = uniqueWords.map(w => 
+            `<span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:var(--clr-text-secondary); font-family:var(--font-en); font-weight:600; white-space:nowrap; display:inline-flex; align-items:center;">🏷️ ${w}</span>`
+          ).join('');
+          wordsContainer.style.display = 'flex';
+        } else {
+          wordsContainer.innerHTML = '';
+          wordsContainer.style.display = 'none';
+        }
+      }
     }
 
     async function handleRegeneratePackage() {
@@ -869,6 +901,12 @@
         document.getElementById('exportBtn').disabled = true;
         document.getElementById('reviewBtn').disabled = true;
         
+        const wordsContainer = document.getElementById('activePackageWords');
+        if (wordsContainer) {
+          wordsContainer.innerHTML = '';
+          wordsContainer.style.display = 'none';
+        }
+
         const toggleBtn = document.getElementById('btnToggleReview');
         if (toggleBtn) {
           toggleBtn.disabled = true;
