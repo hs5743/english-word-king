@@ -662,7 +662,7 @@
       }
       const cfg = activePackage.teacher_config || {};
       const count = getPackageChallengeData().length || cfg.questionCount || 0;
-      info.textContent = `固定題目包：${count} 題 / ${cfg.difficultyGrade || '-'} 年級 / ${cfg.typeMix || 'balanced'}`;
+      info.textContent = `${count} 題 / ${cfg.difficultyGrade || '-'} 年級 / ${cfg.typeMix || 'balanced'}`;
       if (reviewBtn) reviewBtn.disabled = false;
       if (toggleBtn) toggleBtn.disabled = false;
     }
@@ -757,8 +757,8 @@
       document.getElementById('sessionCodeDisplay').textContent = codeStr.substring(0, 3) + ' ' + codeStr.substring(3);
       updateSessionJoinLink(codeStr);
 
-      document.getElementById('activeSchoolInfo').textContent = '🏫 學校：' + session.school;
-      document.getElementById('activeClassInfo').textContent = session.classes ? '👥 班級：' + session.classes : '👥 班級：不限班級';
+      document.getElementById('activeSchoolInfo').textContent = session.school;
+      document.getElementById('activeClassInfo').textContent = session.classes || '不限班級';
 
       // 開始倒數計時
       startSessionCountdown(session.expires_at);
