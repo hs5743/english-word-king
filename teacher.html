@@ -276,25 +276,40 @@
             <span style="font-size:0.75rem; color:var(--clr-text-muted);" id="sessionTimer">剩餘 --:--</span>
           </div>
 
-          <div class="session-code-display" id="sessionCodeDisplay">000 000</div>
+          <div class="session-code-display" id="sessionCodeDisplay" style="margin-bottom:var(--sp-md);">000 000</div>
 
-          <div id="sessionQrPanel" style="display:none; margin:var(--sp-md) auto var(--sp-lg); padding:var(--sp-md); max-width:260px; border-radius:var(--r-md); background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); text-align:center;">
-            <img id="sessionQrImage" alt="課堂挑戰 QR Code" width="180" height="180"
-              style="width:180px;height:180px;border-radius:16px;background:#fff;padding:10px;box-shadow:0 8px 22px rgba(0,0,0,0.12);" />
-            <div style="font-size:0.72rem;color:var(--clr-text-muted);line-height:1.5;margin-top:8px;word-break:break-all;" id="sessionJoinLinkText"></div>
+          <!-- 精緻 QR Code 卡片 -->
+          <div id="sessionQrPanel" style="display:none; margin:var(--sp-md) auto var(--sp-lg); padding:var(--sp-lg); max-width:280px; border-radius:var(--r-md); background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.15);">
+            <div style="background:#fff; padding:12px; border-radius:18px; display:inline-block; box-shadow:0 8px 24px rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.1); margin-bottom:12px;">
+              <img id="sessionQrImage" alt="課堂挑戰 QR Code" width="160" height="160" style="width:160px; height:160px; display:block; border-radius:10px;" />
+            </div>
+            <div style="font-size:0.75rem; color:var(--clr-text-secondary); font-weight:700; margin-bottom:8px;">📱 學生掃碼直接加入</div>
+            <div style="font-size:0.65rem; color:var(--clr-text-muted); background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.08); padding:6px 8px; border-radius:6px; word-break:break-all; font-family:monospace; user-select:all; line-height:1.4;" id="sessionJoinLinkText"></div>
           </div>
 
-          <div style="padding:var(--sp-md); background:rgba(255,255,255,0.03); border-radius:var(--r-sm); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.06);">
-            <div style="font-size:0.8rem; font-weight:700; margin-bottom:4px; color:var(--clr-text-secondary);" id="activeSchoolInfo">新港國小</div>
-            <div style="font-size:0.75rem; color:var(--clr-text-muted);" id="activeClassInfo">不限班級</div>
-            <div style="font-size:0.75rem; color:var(--clr-gold-1); margin-top:6px; line-height:1.5; display:flex; justify-content:space-between; align-items:center;" id="activePackageInfoContainer">
-              <span id="activePackageInfo">本場固定題目包準備中</span>
-              <button class="btn" style="padding: 3px 8px; font-size: 0.72rem; border-radius: 6px; background: rgba(245,200,66,0.12); border: 1.5px solid rgba(245,200,66,0.25); color: var(--clr-gold-1); cursor: pointer; transition: all var(--dur-fast);" onclick="handleRegeneratePackage()" id="btnRegeneratePackage">🔄 重新出題</button>
+          <!-- 資訊格欄排版 -->
+          <div style="padding:var(--sp-md); background:rgba(255,255,255,0.02); border-radius:var(--r-md); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.05); font-size:0.78rem; display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="color:var(--clr-text-muted);">🏫 學校：</span>
+              <span style="font-weight:700; color:var(--clr-text-primary);" id="activeSchoolInfo">新港國小</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;">
+              <span style="color:var(--clr-text-muted);">👥 班級：</span>
+              <span style="font-weight:700; color:var(--clr-text-primary);" id="activeClassInfo">不限班級</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;" id="activePackageInfoContainer">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="color:var(--clr-text-muted);">📦 題目包設定：</span>
+                <span style="font-weight:700; color:var(--clr-gold-1);" id="activePackageInfo">準備中</span>
+              </div>
+              <div style="display:flex; justify-content:flex-end; margin-top:4px;">
+                <button class="btn" style="padding:4px 12px; font-size:0.7rem; border-radius:6px; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.25); color:var(--clr-gold-1); cursor:pointer; font-weight:700; transition:all var(--dur-fast);" onclick="handleRegeneratePackage()" id="btnRegeneratePackage">🔄 重新出題</button>
+              </div>
             </div>
           </div>
 
-          <div style="font-size:0.78rem; color:var(--clr-text-muted); line-height:1.6; margin-bottom:var(--sp-lg); text-align:center;">
-            📢 請學生掃描 QR Code，或開啟 <a href="class.html" target="_blank" style="color:var(--clr-blue-1); text-decoration:underline;">class.html</a> 手動輸入上方 6 位數字場次碼。
+          <div style="font-size:0.75rem; color:var(--clr-text-muted); line-height:1.6; margin-bottom:var(--sp-lg); text-align:center; padding:0 8px;">
+            📢 學生可掃描 QR Code 或開啟 <a href="class.html" target="_blank" style="color:var(--clr-blue-1); text-decoration:underline;">class.html</a> 輸入上方 6 位數字場次碼加入。
           </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:var(--sp-md);">
@@ -370,12 +385,15 @@
         <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--sp-sm); flex-wrap:wrap; margin-bottom:var(--sp-md);">
           <div>
             <h2 style="font-size:1.12rem; font-weight:900; color:var(--clr-gold-1);">本場考題與正確率</h2>
-            <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-top:2px;">挑戰結束後可開啟題目，和學生一起檢討每題表現。</p>
+            <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-top:2px;">挑戰結束後可展開題目，與學生共同檢討答題狀況。</p>
           </div>
-          <button class="btn btn--ghost" style="padding:8px 18px; font-size:0.8rem; border-radius:8px;" onclick="loadQuestionReview()" id="reviewBtn" disabled>更新正確率</button>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" style="padding:8px 18px; font-size:0.8rem; border-radius:8px; background:rgba(245,200,66,0.1); border:1.5px solid rgba(245,200,66,0.25); color:var(--clr-gold-1); cursor:pointer; font-weight:700; transition:all var(--dur-fast);" onclick="toggleQuestionReviewVisibility()" id="btnToggleReview" disabled>👁️ 展開題目與正確率</button>
+            <button class="btn btn--ghost" style="padding:8px 18px; font-size:0.8rem; border-radius:8px;" onclick="loadQuestionReview()" id="reviewBtn" disabled>更新數據</button>
+          </div>
         </div>
         <div id="questionReviewStatus" style="font-size:0.78rem; color:var(--clr-text-muted); margin-bottom:var(--sp-sm);">尚未建立場次</div>
-        <div id="questionReviewList" style="display:grid; gap:10px;"></div>
+        <div id="questionReviewList" style="display:none; gap:10px;"></div>
       </section>
 
     </div>
@@ -634,16 +652,19 @@
     function updatePackageInfo() {
       const info = document.getElementById('activePackageInfo');
       const reviewBtn = document.getElementById('reviewBtn');
+      const toggleBtn = document.getElementById('btnToggleReview');
       if (!info) return;
       if (!activePackage) {
         info.textContent = '本場固定題目包尚未建立';
         if (reviewBtn) reviewBtn.disabled = true;
+        if (toggleBtn) toggleBtn.disabled = true;
         return;
       }
       const cfg = activePackage.teacher_config || {};
       const count = getPackageChallengeData().length || cfg.questionCount || 0;
       info.textContent = `固定題目包：${count} 題 / ${cfg.difficultyGrade || '-'} 年級 / ${cfg.typeMix || 'balanced'}`;
       if (reviewBtn) reviewBtn.disabled = false;
+      if (toggleBtn) toggleBtn.disabled = false;
     }
 
     async function handleRegeneratePackage() {
@@ -847,6 +868,18 @@
         `;
         document.getElementById('exportBtn').disabled = true;
         document.getElementById('reviewBtn').disabled = true;
+        
+        const toggleBtn = document.getElementById('btnToggleReview');
+        if (toggleBtn) {
+          toggleBtn.disabled = true;
+          toggleBtn.innerHTML = '👁️ 展開題目與正確率';
+          toggleBtn.style.background = 'rgba(245,200,66,0.1)';
+          toggleBtn.style.borderColor = 'rgba(245,200,66,0.25)';
+          toggleBtn.style.color = 'var(--clr-gold-1)';
+        }
+        document.getElementById('questionReviewList').style.display = 'none';
+        isQuestionReviewVisible = false;
+
         document.getElementById('questionReviewStatus').textContent = '尚未建立場次';
         document.getElementById('questionReviewList').innerHTML = '';
         resetStats();
@@ -1026,6 +1059,27 @@
           </div>
         `;
       }).join('');
+    }
+
+    let isQuestionReviewVisible = false;
+    function toggleQuestionReviewVisibility() {
+      const list = document.getElementById('questionReviewList');
+      const btn = document.getElementById('btnToggleReview');
+      if (!list || !btn) return;
+      isQuestionReviewVisible = !isQuestionReviewVisible;
+      if (isQuestionReviewVisible) {
+        list.style.display = 'grid';
+        btn.innerHTML = '👁️‍🗨️ 隱藏題目與正確率';
+        btn.style.background = 'rgba(255,255,255,0.08)';
+        btn.style.borderColor = 'rgba(255,255,255,0.2)';
+        btn.style.color = 'var(--clr-text-primary)';
+      } else {
+        list.style.display = 'none';
+        btn.innerHTML = '👁️ 展開題目與正確率';
+        btn.style.background = 'rgba(245,200,66,0.1)';
+        btn.style.borderColor = 'rgba(245,200,66,0.25)';
+        btn.style.color = 'var(--clr-gold-1)';
+      }
     }
 
     // 計算口說平均
