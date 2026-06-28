@@ -619,16 +619,6 @@ function renderIndexHandbook() {
   emptyState.style.display = 'none'
   grid.style.display = 'grid'
 
-  const gemEmojis = {
-    3: '💚',
-    4: '💙',
-    5: '💛',
-    6: '❤️',
-    7: '💎',
-    8: '🔮',
-    9: '👑'
-  }
-
   grid.innerHTML = listItems.map(w => {
     const key = w.word.toLowerCase().trim()
     const masteryValue = mastery[key] || 0
@@ -650,13 +640,17 @@ function renderIndexHandbook() {
       `
     } else {
       // 已成功開採：精美彩色寶石卡片
-      const emoji = gemEmojis[w.grade] || '💎'
+      const level = w.difficultyLevel || w.grade || 3
+      const gem = gemTiers[level - 1]
+      const emoji = gem ? gem.emoji : '💎'
+      const gemName = gem ? gem.name.split(' ')[0] : '寶石'
       return `
         <div style="background: rgba(245,200,66,0.04); border: 1px solid rgba(245,200,66,0.22); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s;">
-          <div style="font-size: 2.2rem; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.2));">${emoji}</div>
+          <div style="font-size: 2.2rem; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.2));" title="${escHtml(gem?.name || '')}">${emoji}</div>
           <div style="font-size: 0.95rem; font-weight: bold; color: var(--clr-gold-1); word-break: break-all;">${escHtml(w.word)}</div>
           <div style="font-size: 0.7rem; color: #8892b0; font-family: monospace; margin-top: 2px;">${escHtml(w.phonetic || '')}</div>
           <div style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px; font-weight: 500;">${escHtml(w.zh)}</div>
+          <div style="font-size: 0.65rem; color: var(--clr-gold-1); opacity: 0.8; margin-top: 4px;">${gemName} (Lv.${level})</div>
           <button onclick="window.SpeechEngine.speak('${w.word.replace(/'/g, "\\'")}')" style="background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--clr-gold-1); font-size: 0.85rem; margin-top: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.2)'" onmouseout="this.style.background='rgba(245,200,66,0.1)'">🔊</button>
         </div>
       `
