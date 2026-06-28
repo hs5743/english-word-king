@@ -154,7 +154,7 @@
         }
 
         sessionStorage.setItem('pendingClassCode', code)
-        var redirectTo = new URL('join.html', window.location.href).href
+        var redirectTo = window.location.href
         var sb = window.SupabaseConfig.getSupabase()
         await sb.auth.signOut({ scope: 'local' }).catch(function () {})
         await window.SupabaseConfig.signInWithGoogle(redirectTo)
@@ -188,8 +188,7 @@
       await waitForConfig().catch(function () {})
       if (window.SupabaseConfig) {
         var user = await window.SupabaseConfig.getCurrentUser()
-        var hasOAuthCode = window.location.search.indexOf('code=') !== -1
-        if (user && hasOAuthCode && /^\d{6}$/.test(code)) {
+        if (user && /^\d{6}$/.test(code)) {
           goToClassChallenge(code)
         }
       }

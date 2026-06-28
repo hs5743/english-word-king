@@ -464,7 +464,7 @@ serve(async (req) => {
 
     // 7. 載入題庫與過濾符合適性上限的單字
     const fallbackBankBase = await loadPublicFallbackWords(adaptiveMaxGrade)
-    const customWords = normalizedTeacherConfig ? buildTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
+    const customWords = normalizedTeacherConfig ? resolveTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
     const fallbackBank = mergeFallbackWords(customWords, fallbackBankBase)
     const candidatePoolBase = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
     const candidatePool = mergeFallbackWords(customWords, candidatePoolBase).slice(0, 10)
@@ -1247,10 +1247,14 @@ function normalizeTeacherTextList(value: unknown, max = 20): string[] {
   return result
 }
 
-function buildTeacherCustomWords(words: string[], bank: FallbackWord[]): FallbackWord[] {
-  const bankWords = new Set(bank.map(item => normalizeWord(item.word)))
-  return normalizeTeacherTextList(words).filter(word => !bankWords.has(normalizeWord(word))).map(word => {
+function resolveTeacherCustomWords(words: string[], bank: FallbackWord[]): FallbackWord[] {
+  const bankMap = new Map(bank.map(item => [normalizeWord(item.word), item]))
+  return normalizeTeacherTextList(words).map(word => {
     const clean = normalizeWord(word)
+    const existing = bankMap.get(clean)
+    if (existing) {
+      return existing
+    }
     const sentence = `I can use ${clean} in class.`
     return {
       word: clean,
@@ -1426,12 +1430,37 @@ function normalizeChallenge(
       }
     }
 
-    // 若 AI 重複出題不足，則 fallback 隨機挑選候選單字並複製為預設題目
-    let dupIndex = 0
+    // 計算目前每個候選單字已被使用的次數，確保重複挑戰分配最平均
+    const wordCounts = new Map<string, number>()
+    for (const c of candidatePool) {
+      wordCounts.set(c.word.toLowerCase().trim(), 0)
+    }
+    for (const item of validUniqueItems) {
+      const w = item.word.toLowerCase().trim()
+      if (wordCounts.has(w)) {
+        wordCounts.set(w, wordCounts.get(w)! + 1)
+      }
+    }
+    for (const item of finalRepeatedItems) {
+      const w = item.word.toLowerCase().trim()
+      if (wordCounts.has(w)) {
+        wordCounts.set(w, wordCounts.get(w)! + 1)
+      }
+    }
+
+    // 每次挑選目前使用次數最少的單字進行重複出題
     while (finalRepeatedItems.length < neededRepeated) {
-      const candidate = candidatePool[dupIndex % candidatePool.length]
-      finalRepeatedItems.push(toChallengeItem(candidate, available))
-      dupIndex++
+      const sortedCandidates = [...candidatePool].sort((a, b) => {
+        const countA = wordCounts.get(a.word.toLowerCase().trim()) || 0
+        const countB = wordCounts.get(b.word.toLowerCase().trim()) || 0
+        return countA - countB
+      })
+
+      const picked = sortedCandidates[0]
+      const wClean = picked.word.toLowerCase().trim()
+      wordCounts.set(wClean, (wordCounts.get(wClean) || 0) + 1)
+
+      finalRepeatedItems.push(toChallengeItem(picked, available))
     }
   }
 
