@@ -306,6 +306,33 @@
       </section>
 
     </div>
+
+    <!-- P6: Learning analytics report -->
+    <section class="glass-card animate-in" style="animation-delay:0.18s; padding:var(--sp-lg); margin-top:var(--sp-lg);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-md); flex-wrap:wrap; margin-bottom:var(--sp-md);">
+        <div>
+          <h2 style="font-size:1.2rem; font-weight:900; color:var(--clr-green-1); margin-bottom:4px;">📈 學習數據強弱項分析</h2>
+          <p style="font-size:0.8rem; color:var(--clr-text-muted);">彙整近期挑戰紀錄、錯題主題與口說表現，快速產生教學建議。</p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <select id="reportSchoolFilter" class="form-select" style="width:auto; min-width:130px; padding:8px 12px;">
+            <option value="">全部學校</option>
+            <option value="新港國小">新港國小</option>
+            <option value="鳳岡國小">鳳岡國小</option>
+            <option value="豐田國小">豐田國小</option>
+          </select>
+          <select id="reportRangeFilter" class="form-select" style="width:auto; min-width:110px; padding:8px 12px;">
+            <option value="7">近 7 天</option>
+            <option value="30" selected>近 30 天</option>
+            <option value="90">近 90 天</option>
+          </select>
+          <button class="btn btn--primary" style="padding:9px 18px; border-radius:10px; font-size:0.82rem;" onclick="loadLearningReport()">生成報告</button>
+        </div>
+      </div>
+
+      <div id="learningReportStatus" style="font-size:0.78rem; color:var(--clr-text-muted); margin-bottom:var(--sp-md);">尚未生成報告</div>
+      <div id="learningReportContent" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:var(--sp-md);"></div>
+    </section>
   </main>
 
   <!-- Loading Overlay -->
@@ -831,6 +858,137 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    }
+
+    function safeJsonArray(value) {
+      if (Array.isArray(value)) return value;
+      if (!value) return [];
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    async function loadVocabularyTopicMap() {
+      const res = await fetch(VOCAB_URL + '?t=' + Date.now());
+      if (!res.ok) throw new Error('無法讀取題庫主題資料');
+      const rows = await res.json();
+      const map = new Map();
+      rows.forEach(item => {
+        const word = String(item.word || '').toLowerCase().trim();
+        if (word && item.enabled !== false) map.set(word, { topic: item.topic || 'Other', zh: item.zh || word });
+      });
+      return map;
+    }
+
+    function countBy(rows, getKey) {
+      const map = new Map();
+      rows.forEach(row => {
+        const key = getKey(row);
+        if (!key) return;
+        map.set(key, (map.get(key) || 0) + 1);
+      });
+      return [...map.entries()].sort((a, b) => b[1] - a[1]);
+    }
+
+    function renderMetricCard(title, value, sub, color = 'var(--clr-gold-1)') {
+      return `
+        <div style="padding:var(--sp-md); border-radius:var(--r-md); background:rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-size:0.76rem; color:var(--clr-text-muted); margin-bottom:6px;">${title}</div>
+          <div style="font-size:1.45rem; font-weight:900; color:${color}; font-family:var(--font-en);">${value}</div>
+          <div style="font-size:0.76rem; color:var(--clr-text-secondary); margin-top:4px; line-height:1.5;">${sub}</div>
+        </div>
+      `;
+    }
+
+    function renderListCard(title, rows, emptyText) {
+      const body = rows.length
+        ? rows.slice(0, 8).map(([label, count], idx) => `
+            <div style="display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+              <span style="color:var(--clr-text-secondary); font-size:0.82rem;">${idx + 1}. ${label}</span>
+              <span style="font-family:var(--font-en); color:var(--clr-gold-1); font-weight:800;">${count}</span>
+            </div>
+          `).join('')
+        : `<div style="font-size:0.82rem; color:var(--clr-text-muted); padding:8px 0;">${emptyText}</div>`;
+      return `
+        <div style="padding:var(--sp-md); border-radius:var(--r-md); background:rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-size:0.9rem; color:var(--clr-text-primary); font-weight:900; margin-bottom:8px;">${title}</div>
+          ${body}
+        </div>
+      `;
+    }
+
+    async function loadLearningReport() {
+      const status = document.getElementById('learningReportStatus');
+      const content = document.getElementById('learningReportContent');
+      const days = Number(document.getElementById('reportRangeFilter').value || 30);
+      const school = document.getElementById('reportSchoolFilter').value;
+      status.textContent = '正在整理近期挑戰紀錄...';
+      content.innerHTML = '';
+
+      try {
+        const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+        let query = supabaseClient
+          .from('daily_attempts')
+          .select('student_uid, student_name, school, class, grade, score, wrong, speech_scores, practice, timestamp')
+          .gte('timestamp', since)
+          .order('timestamp', { ascending: false })
+          .limit(1000);
+        if (school) query = query.eq('school', school);
+
+        const [{ data, error }, topicMap] = await Promise.all([query, loadVocabularyTopicMap()]);
+        if (error) throw error;
+
+        const rows = data || [];
+        if (rows.length === 0) {
+          status.textContent = `近 ${days} 天沒有可分析的挑戰紀錄。`;
+          content.innerHTML = renderMetricCard('資料狀態', '0', '尚無紀錄，完成一次課堂或每日挑戰後即可分析。', 'var(--clr-text-muted)');
+          return;
+        }
+
+        const students = new Set(rows.map(row => row.student_uid));
+        const avgScore = Math.round(rows.reduce((sum, row) => sum + Number(row.score || 0), 0) / rows.length);
+        const speechAverages = rows.map(row => getSpeechAverage(row.speech_scores)).filter(score => score > 0);
+        const avgSpeech = speechAverages.length
+          ? Math.round(speechAverages.reduce((sum, score) => sum + score, 0) / speechAverages.length)
+          : 0;
+        const wrongWords = rows.flatMap(row => safeJsonArray(row.wrong).map(word => String(word).toLowerCase().trim()).filter(Boolean));
+        const weakWords = countBy(wrongWords.map(word => ({ word })), row => row.word)
+          .map(([word, count]) => [`${word}${topicMap.get(word)?.zh ? ` (${topicMap.get(word).zh})` : ''}`, count]);
+        const weakTopics = countBy(wrongWords.map(word => ({ topic: topicMap.get(word)?.topic || 'Other' })), row => row.topic);
+        const schoolRows = countBy(rows, row => row.school);
+        const gradeRows = countBy(rows, row => `${row.grade} 年級`);
+
+        const topTopic = weakTopics[0]?.[0] || '尚無明顯弱項';
+        const topWord = weakWords[0]?.[0] || '尚無明顯錯字';
+        const recommendations = [
+          avgScore < 70 ? '先安排 8 分鐘低壓複習，再進入計分挑戰。' : '分數基礎穩定，可加入限時或小組互助挑戰。',
+          avgSpeech && avgSpeech < 75 ? '口說平均偏低，建議先用慢速播放全班跟讀，再個別挑戰。' : '口說表現可維持每題一次額外加分機制。',
+          topTopic !== '尚無明顯弱項' ? `下次課堂優先複習 ${topTopic} 主題，搭配圖卡或情境問答。` : '目前錯題量不足，先累積更多挑戰紀錄。',
+          topWord !== '尚無明顯錯字' ? `把 ${topWord} 放進課前暖身與課後出口票。` : '可從最近新字中挑 5 個做快速配對。'
+        ];
+
+        status.textContent = `已分析 ${rows.length} 筆挑戰紀錄、${students.size} 位學生，範圍：近 ${days} 天${school ? ` / ${school}` : ''}。`;
+        content.innerHTML = [
+          renderMetricCard('參與學生', students.size, `${rows.length} 筆挑戰紀錄`, 'var(--clr-blue-1)'),
+          renderMetricCard('平均分數', avgScore, avgScore >= 80 ? '整體掌握度良好' : '建議增加錯題複習密度', 'var(--clr-gold-1)'),
+          renderMetricCard('口說平均', avgSpeech || '--', avgSpeech ? '依 speech_scores 有效分數計算' : '尚無口說分數', 'var(--clr-green-1)'),
+          renderListCard('高頻錯字 Top 8', weakWords, '目前沒有錯字資料'),
+          renderListCard('弱項主題排行', weakTopics, '目前沒有弱項主題'),
+          renderListCard('學校參與分布', schoolRows, '尚無學校資料'),
+          renderListCard('年級參與分布', gradeRows, '尚無年級資料'),
+          `<div style="padding:var(--sp-md); border-radius:var(--r-md); background:rgba(105,240,174,0.055); border:1px solid rgba(105,240,174,0.16); grid-column:1/-1;">
+            <div style="font-size:0.95rem; color:var(--clr-green-1); font-weight:900; margin-bottom:8px;">智慧教學建議</div>
+            ${recommendations.map(text => `<div style="font-size:0.84rem; color:var(--clr-text-secondary); line-height:1.7;">• ${text}</div>`).join('')}
+          </div>`
+        ].join('');
+      } catch (err) {
+        console.error('[Teacher] Learning report error:', err);
+        status.textContent = '產生報告失敗：' + err.message;
+        content.innerHTML = '';
+      }
     }
 
     // 登出與載入遮罩

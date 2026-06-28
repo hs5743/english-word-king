@@ -11,6 +11,8 @@
     "check:inline": "node tools/check-inline-scripts.mjs",
     "check:json": "node tools/check-json.mjs",
     "test:spiral": "node tools/test-spiral-selection.mjs",
+    "audit:vocab": "node tools/audit-vocabulary-topics.mjs",
+    "fix:vocab": "node tools/audit-vocabulary-topics.mjs --fix",
     "check": "npm run check:js && npm run check:inline && npm run check:json"
   }
 }

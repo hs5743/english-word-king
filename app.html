@@ -500,6 +500,20 @@
     .speech-chip--correct { background: rgba(105,240,174,0.15); color: var(--clr-green-1); border-color: var(--clr-green-1); }
     .speech-chip--close   { background: rgba(255,193,7,0.15);   color: #ffc107;           border-color: #ffc107; }
     .speech-chip--wrong   { background: rgba(255,107,107,0.15); color: var(--clr-red-1);  border-color: var(--clr-red-1); }
+    .speech-diagnosis {
+      margin-top: var(--sp-md); padding: var(--sp-sm) var(--sp-md);
+      border-radius: var(--r-md); background: rgba(79,195,247,0.08);
+      border: 1px solid rgba(79,195,247,0.18); text-align: left;
+      display: none;
+    }
+    .speech-diagnosis__title {
+      font-size: 0.82rem; font-weight: 900; color: var(--clr-blue-1);
+      margin-bottom: 6px;
+    }
+    .speech-diagnosis__body {
+      font-size: 0.78rem; color: var(--clr-text-secondary);
+      line-height: 1.6;
+    }
 
     /* ══ SENTENCE PANEL ══════════════════════════════ */
     .scene-icon {
@@ -960,6 +974,10 @@
           </div>
           <div style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm)" id="scoreLabel">發音分數</div>
           <div class="speech-word-chips" id="speechWordChips"></div>
+          <div class="speech-diagnosis" id="speechDiagnosis">
+            <div class="speech-diagnosis__title">AI 音標弱項診斷</div>
+            <div class="speech-diagnosis__body" id="speechDiagnosisBody"></div>
+          </div>
           <div style="margin-top:var(--sp-md)">
             <button class="speak-btn" onclick="speakCurrentWord()" style="margin:0 auto">🔊 聽正確發音</button>
           </div>

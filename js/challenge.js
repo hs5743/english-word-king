@@ -986,6 +986,8 @@
     micBtn.className = 'mic-btn'
     document.getElementById('micStatus').textContent = '按麥克風開始朗讀'
     document.getElementById('speechResult').style.display = 'none'
+    const diagnosisBox = document.getElementById('speechDiagnosis')
+    if (diagnosisBox) diagnosisBox.style.display = 'none'
 
     // 檢查瀏覽器是否支援
     if (window.SpeechEngine && !window.SpeechEngine.isSupported) {
@@ -1067,6 +1069,17 @@
       chip.textContent = r.word
       chips.appendChild(chip)
     })
+
+    const diagnosisBox = document.getElementById('speechDiagnosis')
+    const diagnosisBody = document.getElementById('speechDiagnosisBody')
+    if (diagnosisBox && diagnosisBody && window.SpeechEngine.diagnosePronunciation) {
+      const diagnosis = window.SpeechEngine.diagnosePronunciation(expectedWord, transcript)
+      diagnosisBody.innerHTML = diagnosis.tips.map(tip => `<div>• ${tip}</div>`).join('')
+      diagnosisBox.style.display = 'block'
+      diagnosisBox.style.borderColor = diagnosis.level === 'good'
+        ? 'rgba(105,240,174,0.25)'
+        : 'rgba(79,195,247,0.18)'
+    }
 
     document.getElementById('speechResult').style.display = 'block'
 

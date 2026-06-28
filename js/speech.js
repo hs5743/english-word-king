@@ -444,6 +444,55 @@
     return { score, wordResults }
   }
 
+  function diagnosePronunciation(expected, transcript) {
+    const expWords = _normalizeText(expected)
+    const transWords = _normalizeText(transcript)
+    const target = expWords[0] || ''
+    const heard = transWords[0] || ''
+    const tips = []
+
+    if (!target) {
+      return { level: 'info', tips: ['請先完成一次朗讀，系統會依辨識結果給建議。'] }
+    }
+
+    if (!heard) {
+      return { level: 'warning', tips: ['沒有辨識到清楚單字，請靠近麥克風，先慢慢唸一次。'] }
+    }
+
+    if (target === heard) {
+      return { level: 'good', tips: ['發音辨識完整，下一步可以練習用同一個單字朗讀完整例句。'] }
+    }
+
+    if (target[0] !== heard[0]) {
+      tips.push(`開頭音 /${target[0]}/ 可能不夠清楚，先把第一個音拉長再接後面。`)
+    }
+    if (target[target.length - 1] !== heard[heard.length - 1]) {
+      tips.push(`尾音 /${target[target.length - 1]}/ 可能被省略，收尾時請輕輕唸出最後一個音。`)
+    }
+
+    const patterns = [
+      { re: /th/, tip: '含有 th 音，舌尖要輕碰上下牙齒之間，不要唸成 s 或 t。' },
+      { re: /r/, tip: '含有 r 音，嘴唇微圓、舌頭不要碰上顎。' },
+      { re: /l/, tip: '含有 l 音，舌尖要碰到上排牙齒後方。' },
+      { re: /v/, tip: '含有 v 音，上排牙齒輕碰下唇，讓氣流震動。' },
+      { re: /f/, tip: '含有 f 音，上排牙齒輕碰下唇，只送氣不震動。' },
+      { re: /ng$/, tip: '結尾 ng 要從鼻腔收音，不要加成「恩格」。' },
+    ]
+    patterns.forEach(item => {
+      if (item.re.test(target)) tips.push(item.tip)
+    })
+
+    if (Math.abs(target.length - heard.length) >= 2) {
+      tips.push('辨識到的音節長度差異較大，建議跟著慢速播放一節一節模仿。')
+    }
+
+    if (tips.length === 0) {
+      tips.push('整體接近，但仍有小誤差；請聽一次正確發音後再唸，注意重音和母音長短。')
+    }
+
+    return { level: 'practice', tips: tips.slice(0, 3) }
+  }
+
   /* ═══════════════════════════════════════════════════════════
    * 4. TEXT-TO-SPEECH
    * ═══════════════════════════════════════════════════════════ */
@@ -634,6 +683,7 @@
 
     /** DP 評分 */
     scoreTranscript,
+    diagnosePronunciation,
 
     /** TTS */
     speak,

@@ -1324,7 +1324,7 @@
     "id": "junior-wear",
     "word": "wear",
     "zh": "穿、戴",
-    "topic": "Clothing",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -2233,7 +2233,7 @@
     "id": "elementary-cook",
     "word": "cook",
     "zh": "做飯",
-    "topic": "Food",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -2428,7 +2428,7 @@
     "id": "passport-full",
     "word": "full",
     "zh": "飽",
-    "topic": "Food",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -2477,7 +2477,7 @@
     "id": "junior-taste",
     "word": "taste",
     "zh": "嚐起來",
-    "topic": "Food",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -2493,7 +2493,7 @@
     "id": "passport-thirsty",
     "word": "thirsty",
     "zh": "渴的",
-    "topic": "Food",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -2509,7 +2509,7 @@
     "id": "passport-yummy",
     "word": "yummy",
     "zh": "美味好吃的",
-    "topic": "Food",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -2560,7 +2560,7 @@
     "id": "passport-sweet",
     "word": "sweet",
     "zh": "甜的",
-    "topic": "Food",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -3199,7 +3199,7 @@
     "id": "passport-sweep",
     "word": "sweep",
     "zh": "掃",
-    "topic": "House",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -3401,7 +3401,7 @@
     "id": "junior-clean",
     "word": "clean",
     "zh": "乾淨的",
-    "topic": "House",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -3467,7 +3467,7 @@
     "id": "junior-buy",
     "word": "buy",
     "zh": "買",
-    "topic": "Money",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5174,7 +5174,7 @@
     "id": "elementary-draw",
     "word": "draw",
     "zh": "畫",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -5273,7 +5273,7 @@
     "id": "passport-answer",
     "word": "answer",
     "zh": "回答",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -5306,7 +5306,7 @@
     "id": "junior-speak",
     "word": "speak",
     "zh": "說說",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5338,7 +5338,7 @@
     "id": "junior-spell",
     "word": "spell",
     "zh": "拚寫",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -5354,7 +5354,7 @@
     "id": "junior-listen",
     "word": "listen",
     "zh": "聽",
-    "topic": "School",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8684,7 +8684,7 @@
     "id": "junior-get",
     "word": "get",
     "zh": "得到",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8700,7 +8700,7 @@
     "id": "passport-cry",
     "word": "cry",
     "zh": "哭、哭泣",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -8716,7 +8716,7 @@
     "id": "junior-hit",
     "word": "hit",
     "zh": "打、碰撞",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8748,7 +8748,7 @@
     "id": "elementary-see",
     "word": "see",
     "zh": "看",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -8764,7 +8764,7 @@
     "id": "junior-sit",
     "word": "sit",
     "zh": "坐",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8780,7 +8780,7 @@
     "id": "junior-try",
     "word": "try",
     "zh": "嘗試",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8796,7 +8796,7 @@
     "id": "junior-call",
     "word": "call",
     "zh": "打電話給",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8812,7 +8812,7 @@
     "id": "junior-come",
     "word": "come",
     "zh": "來",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8828,7 +8828,7 @@
     "id": "junior-find",
     "word": "find",
     "zh": "找到",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8860,7 +8860,7 @@
     "id": "elementary-have",
     "word": "have",
     "zh": "有",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -8876,7 +8876,7 @@
     "id": "junior-help",
     "word": "help",
     "zh": "幫助",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8908,7 +8908,7 @@
     "id": "passport-hurt",
     "word": "hurt",
     "zh": "受傷",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -8924,7 +8924,7 @@
     "id": "junior-know",
     "word": "know",
     "zh": "知道、認識",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8940,7 +8940,7 @@
     "id": "elementary-like",
     "word": "like",
     "zh": "喜歡",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -8956,7 +8956,7 @@
     "id": "junior-look",
     "word": "look",
     "zh": "看、看起來",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -8972,7 +8972,7 @@
     "id": "junior-love",
     "word": "love",
     "zh": "愛、喜愛",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9004,7 +9004,7 @@
     "id": "passport-miss",
     "word": "miss",
     "zh": "想念",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9020,7 +9020,7 @@
     "id": "junior-need",
     "word": "need",
     "zh": "需要",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9036,7 +9036,7 @@
     "id": "junior-open",
     "word": "open",
     "zh": "開",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9052,7 +9052,7 @@
     "id": "passport-stop",
     "word": "stop",
     "zh": "停",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9068,7 +9068,7 @@
     "id": "junior-tell",
     "word": "tell",
     "zh": "告訴、告知",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9084,7 +9084,7 @@
     "id": "junior-wait",
     "word": "wait",
     "zh": "等、等待",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9100,7 +9100,7 @@
     "id": "elementary-walk",
     "word": "walk",
     "zh": "走路",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -9148,7 +9148,7 @@
     "id": "junior-make",
     "word": "make",
     "zh": "做、製造",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9164,7 +9164,7 @@
     "id": "passport-brush",
     "word": "brush",
     "zh": "用刷子刷",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9180,7 +9180,7 @@
     "id": "passport-hurry",
     "word": "hurry",
     "zh": "趕快、急忙",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9197,7 +9197,7 @@
     "id": "passport-laugh",
     "word": "laugh",
     "zh": "笑",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9213,7 +9213,7 @@
     "id": "junior-close",
     "word": "close",
     "zh": "關",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9229,7 +9229,7 @@
     "id": "passport-show",
     "word": "show",
     "zh": "給..看、展示",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9245,7 +9245,7 @@
     "id": "elementary-sleep",
     "word": "sleep",
     "zh": "睡覺",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -9261,7 +9261,7 @@
     "id": "junior-smell",
     "word": "smell",
     "zh": "聞起來",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9277,7 +9277,7 @@
     "id": "junior-stand",
     "word": "stand",
     "zh": "站、站立",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9293,7 +9293,7 @@
     "id": "junior-start",
     "word": "start",
     "zh": "開始",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9325,7 +9325,7 @@
     "id": "passport-thank",
     "word": "thank",
     "zh": "感謝(某人)",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9341,7 +9341,7 @@
     "id": "passport-touch",
     "word": "touch",
     "zh": "觸碰",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9373,7 +9373,7 @@
     "id": "passport-worry",
     "word": "worry",
     "zh": "擔心",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9390,7 +9390,7 @@
     "id": "passport-enjoy",
     "word": "enjoy",
     "zh": "享受、喜歡",
-    "topic": "Other",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9407,7 +9407,7 @@
     "id": "passport-welcome",
     "word": "welcome",
     "zh": "歡迎",
-    "topic": "Other",
+    "topic": "Interjections",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9424,7 +9424,7 @@
     "id": "passport-pick-up",
     "word": "pick up",
     "zh": "撿起、接(人)、接(電話)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9457,7 +9457,7 @@
     "id": "junior-easy",
     "word": "easy",
     "zh": "簡單的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9473,7 +9473,7 @@
     "id": "junior-fine",
     "word": "fine",
     "zh": "很好、不錯的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9489,7 +9489,7 @@
     "id": "junior-hard",
     "word": "hard",
     "zh": "困難的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9505,7 +9505,7 @@
     "id": "junior-only",
     "word": "only",
     "zh": "僅有的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9522,7 +9522,7 @@
     "id": "junior-sure",
     "word": "sure",
     "zh": "確定的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9538,7 +9538,7 @@
     "id": "junior-dirty",
     "word": "dirty",
     "zh": "髒的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9554,7 +9554,7 @@
     "id": "junior-great",
     "word": "great",
     "zh": "很棒的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9570,7 +9570,7 @@
     "id": "passport-other",
     "word": "other",
     "zh": "其他的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9587,7 +9587,7 @@
     "id": "passport-quiet",
     "word": "quiet",
     "zh": "安靜的、平靜的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9604,7 +9604,7 @@
     "id": "passport-ready",
     "word": "ready",
     "zh": "準備好的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9620,7 +9620,7 @@
     "id": "passport-wonderful",
     "word": "wonderful",
     "zh": "很棒的、精彩的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9638,7 +9638,7 @@
     "id": "passport-favorite",
     "word": "favorite",
     "zh": "最喜歡的",
-    "topic": "Other",
+    "topic": "Adjectives",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9655,7 +9655,7 @@
     "id": "elementary-no",
     "word": "no",
     "zh": "不",
-    "topic": "Other",
+    "topic": "Interjections",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -9671,7 +9671,7 @@
     "id": "junior-so",
     "word": "so",
     "zh": "所以",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9687,7 +9687,7 @@
     "id": "elementary-yes",
     "word": "yes",
     "zh": "是",
-    "topic": "Other",
+    "topic": "Interjections",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -9703,7 +9703,7 @@
     "id": "junior-too",
     "word": "too",
     "zh": "1.也",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9719,7 +9719,7 @@
     "id": "junior-very",
     "word": "very",
     "zh": "非常",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9735,7 +9735,7 @@
     "id": "passport-then",
     "word": "then",
     "zh": "然後、接著",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9751,7 +9751,7 @@
     "id": "passport-still",
     "word": "still",
     "zh": "仍然",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9767,7 +9767,7 @@
     "id": "elementary-not",
     "word": "not",
     "zh": "不、沒有",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "elementary-basic",
     "chunks": [
@@ -9783,7 +9783,7 @@
     "id": "junior-never",
     "word": "never",
     "zh": "不曾",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9800,7 +9800,7 @@
     "id": "passport-away",
     "word": "away",
     "zh": "離開",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9816,7 +9816,7 @@
     "id": "junior-always",
     "word": "always",
     "zh": "總是、永遠",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9833,7 +9833,7 @@
     "id": "junior-together",
     "word": "together",
     "zh": "一起",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9851,7 +9851,7 @@
     "id": "junior-again",
     "word": "again",
     "zh": "再一次",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9867,7 +9867,7 @@
     "id": "passport-maybe",
     "word": "maybe",
     "zh": "也許",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "passport",
     "chunks": [
@@ -9883,7 +9883,7 @@
     "id": "junior-really",
     "word": "really",
     "zh": "真正地",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9901,7 +9901,7 @@
     "id": "junior-sometimes",
     "word": "sometimes",
     "zh": "有時候",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -9918,7 +9918,7 @@
     "id": "junior-usually",
     "word": "usually",
     "zh": "通常",
-    "topic": "Other",
+    "topic": "Other adverbs",
     "gradeBand": "G3",
     "source": "junior-basic",
     "chunks": [
@@ -10390,7 +10390,7 @@
     "id": "junior-catch",
     "word": "catch",
     "zh": "接/抓住",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -10457,7 +10457,7 @@
     "id": "junior-invite",
     "word": "invite",
     "zh": "邀請",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -10474,7 +10474,7 @@
     "id": "junior-learn",
     "word": "learn",
     "zh": "學習",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -10652,7 +10652,7 @@
     "id": "junior-practice",
     "word": "practice",
     "zh": "練習",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -10751,7 +10751,7 @@
     "id": "junior-teach",
     "word": "teach",
     "zh": "教導",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G7",
     "source": "junior-basic",
     "chunks": [
@@ -11047,7 +11047,7 @@
     "id": "junior-wore",
     "word": "wore",
     "zh": "穿(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G8",
     "source": "junior-basic",
     "chunks": [
@@ -11113,7 +11113,7 @@
     "id": "junior-bring",
     "word": "bring",
     "zh": "帶來",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11179,7 +11179,7 @@
     "id": "junior-finish",
     "word": "finish",
     "zh": "完成",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11196,7 +11196,7 @@
     "id": "junior-hear",
     "word": "hear",
     "zh": "聽到",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11328,7 +11328,7 @@
     "id": "junior-think",
     "word": "think",
     "zh": "認為",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11361,7 +11361,7 @@
     "id": "junior-use",
     "word": "use",
     "zh": "使用",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11377,7 +11377,7 @@
     "id": "junior-caught",
     "word": "caught",
     "zh": "抓(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11393,7 +11393,7 @@
     "id": "junior-flown",
     "word": "flown",
     "zh": "飛(過去分詞)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11425,7 +11425,7 @@
     "id": "junior-found",
     "word": "found",
     "zh": "找到(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11457,7 +11457,7 @@
     "id": "junior-grew",
     "word": "grew",
     "zh": "成長(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11473,7 +11473,7 @@
     "id": "junior-heard",
     "word": "heard",
     "zh": "聽見(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11489,7 +11489,7 @@
     "id": "junior-known",
     "word": "known",
     "zh": "知道(過去分詞)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11505,7 +11505,7 @@
     "id": "junior-spoken",
     "word": "spoken",
     "zh": "說(過去分詞)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11522,7 +11522,7 @@
     "id": "junior-stood",
     "word": "stood",
     "zh": "站立(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11538,7 +11538,7 @@
     "id": "junior-thought",
     "word": "thought",
     "zh": "想(過去式)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
@@ -11554,7 +11554,7 @@
     "id": "junior-written",
     "word": "written",
     "zh": "寫(過去分詞)",
-    "topic": "Other verbs",
+    "topic": "Actions",
     "gradeBand": "G9",
     "source": "junior-basic",
     "chunks": [
