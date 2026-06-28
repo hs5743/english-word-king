@@ -176,7 +176,13 @@
 
     ;(async function init() {
       var params = new URLSearchParams(window.location.search)
-      var code = String(sessionStorage.getItem('pendingClassCode') || params.get('classCode') || '').replace(/\D/g, '').slice(0, 6)
+      var code = String(
+        sessionStorage.getItem('pendingClassCode') ||
+        params.get('classCode') ||
+        params.get('session') ||
+        params.get('room') ||
+        ''
+      ).replace(/\D/g, '').slice(0, 6)
       if (code) document.getElementById('classCodeInput').value = code
 
       await waitForConfig().catch(function () {})

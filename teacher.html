@@ -232,13 +232,24 @@
 
           <div class="session-code-display" id="sessionCodeDisplay">000 000</div>
 
+          <div id="sessionQrPanel" style="display:none; margin:var(--sp-md) auto var(--sp-lg); padding:var(--sp-md); max-width:260px; border-radius:var(--r-md); background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); text-align:center;">
+            <img id="sessionQrImage" alt="課堂挑戰 QR Code" width="180" height="180"
+              style="width:180px;height:180px;border-radius:16px;background:#fff;padding:10px;box-shadow:0 8px 22px rgba(0,0,0,0.12);" />
+            <div style="font-size:0.72rem;color:var(--clr-text-muted);line-height:1.5;margin-top:8px;word-break:break-all;" id="sessionJoinLinkText"></div>
+          </div>
+
           <div style="padding:var(--sp-md); background:rgba(255,255,255,0.03); border-radius:var(--r-sm); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.06);">
             <div style="font-size:0.8rem; font-weight:700; margin-bottom:4px; color:var(--clr-text-secondary);" id="activeSchoolInfo">新港國小</div>
             <div style="font-size:0.75rem; color:var(--clr-text-muted);" id="activeClassInfo">不限班級</div>
           </div>
 
           <div style="font-size:0.78rem; color:var(--clr-text-muted); line-height:1.6; margin-bottom:var(--sp-lg); text-align:center;">
-            📢 請學生開啟 <a href="class.html" target="_blank" style="color:var(--clr-blue-1); text-decoration:underline;">class.html</a>，登入後直接輸入上方 6 位數字場次碼。
+            📢 請學生掃描 QR Code，或開啟 <a href="class.html" target="_blank" style="color:var(--clr-blue-1); text-decoration:underline;">class.html</a> 手動輸入上方 6 位數字場次碼。
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:var(--sp-md);">
+            <button class="btn btn--ghost" style="border-radius:var(--r-md); padding:10px; font-size:0.78rem;" onclick="toggleSessionQr()">🔳 顯示 QR</button>
+            <button class="btn btn--ghost" style="border-radius:var(--r-md); padding:10px; font-size:0.78rem;" onclick="copySessionJoinLink()">🔗 複製連結</button>
           </div>
 
           <button class="btn btn--logout btn--full" style="border-radius:var(--r-md); padding:12px;" onclick="handleCloseSession()">🔴 關閉挑戰場次</button>
@@ -387,6 +398,7 @@
     let studentMasteryMap = new Map();
     let realtimeChannel = null;
     let countdownInterval = null;
+    let activeJoinLink = '';
 
     async function init() {
       // 1. 等待 SupabaseConfig
@@ -536,12 +548,46 @@
       // 格式化顯示場次碼，如 123 456
       const codeStr = session.session_code;
       document.getElementById('sessionCodeDisplay').textContent = codeStr.substring(0, 3) + ' ' + codeStr.substring(3);
+      updateSessionJoinLink(codeStr);
 
       document.getElementById('activeSchoolInfo').textContent = '🏫 學校：' + session.school;
       document.getElementById('activeClassInfo').textContent = session.classes ? '👥 班級：' + session.classes : '👥 班級：不限班級';
 
       // 開始倒數計時
       startSessionCountdown(session.expires_at);
+    }
+
+    function updateSessionJoinLink(code) {
+      const base = new URL('class.html', window.location.href);
+      base.searchParams.set('classCode', code);
+      activeJoinLink = base.href;
+
+      const qrImg = document.getElementById('sessionQrImage');
+      const linkText = document.getElementById('sessionJoinLinkText');
+      if (qrImg) {
+        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=' + encodeURIComponent(activeJoinLink);
+      }
+      if (linkText) linkText.textContent = activeJoinLink;
+    }
+
+    function toggleSessionQr() {
+      const panel = document.getElementById('sessionQrPanel');
+      if (!panel) return;
+      panel.style.display = panel.style.display === 'none' || !panel.style.display ? 'block' : 'none';
+    }
+
+    async function copySessionJoinLink() {
+      if (!activeJoinLink && activeSession) updateSessionJoinLink(activeSession.session_code);
+      try {
+        await navigator.clipboard.writeText(activeJoinLink);
+        alert('已複製學生掃碼連結！');
+      } catch (_) {
+        const text = document.getElementById('sessionJoinLinkText');
+        if (text) {
+          document.getElementById('sessionQrPanel').style.display = 'block';
+          alert('瀏覽器不允許自動複製，請手動複製 QR 下方連結。');
+        }
+      }
     }
 
     // 倒數計時
