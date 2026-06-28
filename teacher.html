@@ -287,7 +287,10 @@
           <div style="padding:var(--sp-md); background:rgba(255,255,255,0.03); border-radius:var(--r-sm); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.06);">
             <div style="font-size:0.8rem; font-weight:700; margin-bottom:4px; color:var(--clr-text-secondary);" id="activeSchoolInfo">新港國小</div>
             <div style="font-size:0.75rem; color:var(--clr-text-muted);" id="activeClassInfo">不限班級</div>
-            <div style="font-size:0.75rem; color:var(--clr-gold-1); margin-top:6px; line-height:1.5;" id="activePackageInfo">本場固定題目包準備中</div>
+            <div style="font-size:0.75rem; color:var(--clr-gold-1); margin-top:6px; line-height:1.5; display:flex; justify-content:space-between; align-items:center;" id="activePackageInfoContainer">
+              <span id="activePackageInfo">本場固定題目包準備中</span>
+              <button class="btn" style="padding: 3px 8px; font-size: 0.72rem; border-radius: 6px; background: rgba(245,200,66,0.12); border: 1.5px solid rgba(245,200,66,0.25); color: var(--clr-gold-1); cursor: pointer; transition: all var(--dur-fast);" onclick="handleRegeneratePackage()" id="btnRegeneratePackage">🔄 重新出題</button>
+            </div>
           </div>
 
           <div style="font-size:0.78rem; color:var(--clr-text-muted); line-height:1.6; margin-bottom:var(--sp-lg); text-align:center;">
@@ -643,18 +646,40 @@
       if (reviewBtn) reviewBtn.disabled = false;
     }
 
+    async function handleRegeneratePackage() {
+      if (!activeSession) return;
+      if (!confirm('確認要重新讓 AI 生成本場次的題目包嗎？這會覆蓋目前的題目，已作答學生的答案將不列入新題目的統計中。')) return;
+
+      const packageConfig = readPackageConfig();
+      showLoading(true, '正在重新呼叫 AI 模型生成固定題目包...');
+      try {
+        await createChallengePackage(activeSession, packageConfig);
+        showLoading(false);
+        updatePackageInfo();
+        await loadQuestionReview();
+        alert('題目包已成功重新生成！');
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('重新生成題目包失敗：' + err.message);
+      }
+    }
+
     async function handleCreateSession(e) {
       e.preventDefault();
       const school = document.getElementById('sessionSchool').value;
       const className = document.getElementById('sessionClass').value.trim();
       const packageConfig = readPackageConfig();
 
-      showLoading(true, '正在建立場次並產生固定題目包...');
+      showLoading(true, '[1/3] 正在向資料庫建立場次...');
       try {
         const session = await insertSessionWithRetry(school, className);
         activeSession = session;
+        
+        showLoading(true, '[2/3] 正在呼叫 AI 模型生成客製化題目包（此步驟約需 5-8 秒）...');
         await createChallengePackage(session, packageConfig);
         
+        showLoading(true, '[3/3] 正在儲存題目包並載入大螢幕設定...');
         showLoading(false);
         showActiveSessionUI(session);
         updatePackageInfo();
@@ -667,7 +692,7 @@
       } catch (err) {
         console.error(err);
         showLoading(false);
-        alert('建立場次失敗，請重試。');
+        alert('建立場次失敗，請重試：' + err.message);
       }
     }
 

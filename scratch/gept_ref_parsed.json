@@ -1,0 +1,4082 @@
+[
+  {
+    "word": "animal",
+    "zh": "動物",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "bear",
+    "zh": "熊",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "bee",
+    "zh": "蜜蜂",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "bird",
+    "zh": "鳥",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "butterfly",
+    "zh": "蝴蝶",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "cat",
+    "zh": "貓",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "chicken",
+    "zh": "雞",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "cow",
+    "zh": "乳牛",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "dog",
+    "zh": "狗",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "duck",
+    "zh": "鴨子",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "elephant",
+    "zh": "大象",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "fish",
+    "zh": "魚",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "frog",
+    "zh": "青蛙",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "hippo",
+    "zh": "河馬",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "horse",
+    "zh": "馬",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "koala",
+    "zh": "無尾熊",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "lion",
+    "zh": "獅子",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "mice",
+    "zh": "老鼠 (複數)",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "monkey",
+    "zh": "猴子",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "mouse",
+    "zh": "老鼠",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "panda",
+    "zh": "大貓熊",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "pet",
+    "zh": "寵物",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "pig",
+    "zh": "豬",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "rabbit",
+    "zh": "兔子",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "sheep",
+    "zh": "綿羊",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "snake",
+    "zh": "蛇",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "spider",
+    "zh": "蜘蛛",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "tiger",
+    "zh": "老虎",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "turtle",
+    "zh": "烏龜",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "whale",
+    "zh": "鯨魚",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "zebra",
+    "zh": "斑馬",
+    "pos": "名詞",
+    "topic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "bag",
+    "zh": "袋子",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "cap",
+    "zh": "棒球帽",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "clothes",
+    "zh": "衣服",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "coat",
+    "zh": "外套",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "dress",
+    "zh": "洋裝",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "glasses",
+    "zh": "眼鏡",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "hat",
+    "zh": "帽子",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "jacket",
+    "zh": "夾克、外套",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "pants",
+    "zh": "長褲",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "pocket",
+    "zh": "口袋",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "shirt",
+    "zh": "襯衫",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "shoes",
+    "zh": "鞋子",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "shorts",
+    "zh": "短褲",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "skirt",
+    "zh": "裙子",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "socks",
+    "zh": "襪子",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "sweater",
+    "zh": "毛衣",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "T-shirt T",
+    "zh": "恤",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "umbrella",
+    "zh": "傘",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "wear",
+    "zh": "穿、戴",
+    "pos": "動詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "black",
+    "zh": "黑色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "blue",
+    "zh": "藍色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "brown",
+    "zh": "咖啡色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "color",
+    "zh": "顏色",
+    "pos": "名詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "gray",
+    "zh": "灰色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "green",
+    "zh": "綠色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "orange",
+    "zh": "橘色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "pink",
+    "zh": "粉紅色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "purple",
+    "zh": "紫色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "red",
+    "zh": "紅色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "white",
+    "zh": "白色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "yellow",
+    "zh": "黃色的",
+    "pos": "形容詞",
+    "topic": "Colors 顏色"
+  },
+  {
+    "word": "aunt",
+    "zh": "阿姨、姑姑、伯母、舅媽",
+    "pos": "名詞",
+    "topic": "Family 家庭"
+  },
+  {
+    "word": "brother",
+    "zh": "哥哥、弟弟",
+    "pos": "名詞",
+    "topic": "Family 家庭"
+  },
+  {
+    "word": "cousin",
+    "zh": "堂兄（弟、姊、妹）",
+    "pos": "名詞",
+    "topic": "Family 家庭"
+  },
+  {
+    "word": "dad",
+    "zh": "爸爸 (= father; daddy)",
+    "pos": "名詞",
+    "topic": "Family 家庭"
+  },
+  {
+    "word": "daddy",
+    "zh": "爸爸 (= father; dad)",
+    "pos": "名詞",
+    "topic": "Family 家庭"
+  },
+  {
+    "word": "daughter",
+    "zh": "女兒",
+    "pos": "名詞",
+    "topic": "Family 家庭"
+  },
+  {
+    "word": "father",
+    "zh": "爸爸 (= dad; daddy)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandfather",
+    "zh": "外公、爺爺 (= grandpa)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandma",
+    "zh": "外婆、奶奶 (= grandmother)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandmother",
+    "zh": "外婆、奶奶 (= grandma)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandpa",
+    "zh": "外公、爺爺 (= grandfather)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grow",
+    "zh": "成長、長大",
+    "pos": "動詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "live",
+    "zh": "住",
+    "pos": "動詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "mom",
+    "zh": "媽媽 (= mother; mommy)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "mommy",
+    "zh": "媽媽 (= mother; mom)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "mother",
+    "zh": "媽媽 (= mom; mommy)",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "parent",
+    "zh": "父母親",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "sister",
+    "zh": "姐姐、妹妹",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "son",
+    "zh": "兒子",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "uncle",
+    "zh": "叔叔、舅舅、姑丈、姨丈",
+    "pos": "名詞",
+    "topic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "apple",
+    "zh": "蘋果",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "banana",
+    "zh": "香蕉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "beef",
+    "zh": "牛肉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "bread",
+    "zh": "麵包",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "breakfast",
+    "zh": "早餐",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "cake",
+    "zh": "蛋糕",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "candy",
+    "zh": "糖果",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "chicken",
+    "zh": "雞肉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "chocolate",
+    "zh": "巧克力",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "coffee",
+    "zh": "咖啡",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "coke",
+    "zh": "可樂",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "cook",
+    "zh": "做飯",
+    "pos": "動詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "cookies",
+    "zh": "餅乾",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "dinner",
+    "zh": "晚餐",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "drink",
+    "zh": "喝",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "duck",
+    "zh": "鴨肉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "dumpling",
+    "zh": "水餃",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "eat",
+    "zh": "吃",
+    "pos": "動詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "egg",
+    "zh": "蛋",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "fish",
+    "zh": "魚肉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "food",
+    "zh": "食物",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "French fries",
+    "zh": "薯條",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "fruit",
+    "zh": "水果",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "full",
+    "zh": "飽的",
+    "pos": "形容詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "grape",
+    "zh": "葡萄",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "hamburger",
+    "zh": "漢堡",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "hungry",
+    "zh": "餓的",
+    "pos": "形容詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "ice cream",
+    "zh": "冰淇淋",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "juice",
+    "zh": "果汁",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "lemon",
+    "zh": "檸檬",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "lunch",
+    "zh": "午餐",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "meal",
+    "zh": "餐",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "milk",
+    "zh": "牛奶",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "noodles",
+    "zh": "麵",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "orange",
+    "zh": "橘子",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "peach",
+    "zh": "桃子",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "pie",
+    "zh": "派",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "pizza",
+    "zh": "披薩",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "pork",
+    "zh": "豬肉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "pumpkin",
+    "zh": "南瓜",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "rice",
+    "zh": "米飯",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "salad",
+    "zh": "沙拉",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "sandwich",
+    "zh": "三明治",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "soup",
+    "zh": "湯",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "strawberry",
+    "zh": "草莓",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "sweet",
+    "zh": "甜的",
+    "pos": "形容詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "taste",
+    "zh": "嚐起來",
+    "pos": "動詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "tea",
+    "zh": "茶",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "thirsty",
+    "zh": "口渴的",
+    "pos": "形容詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "water",
+    "zh": "水",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "watermelon",
+    "zh": "西瓜",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "yummy",
+    "zh": "好吃的、美味的",
+    "pos": "形容詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "Miss",
+    "zh": "小姐",
+    "pos": "",
+    "topic": "Forms of address 稱謂"
+  },
+  {
+    "word": "Mr.",
+    "zh": "先生",
+    "pos": "",
+    "topic": "Forms of address 稱謂"
+  },
+  {
+    "word": "Mrs.",
+    "zh": "太太",
+    "pos": "",
+    "topic": "Forms of address 稱謂"
+  },
+  {
+    "word": "name",
+    "zh": "名字",
+    "pos": "名詞",
+    "topic": "Forms of address 稱謂"
+  },
+  {
+    "word": "beach",
+    "zh": "海灘",
+    "pos": "名詞",
+    "topic": "Geographical terms 地理名詞"
+  },
+  {
+    "word": "lake",
+    "zh": "湖",
+    "pos": "名詞",
+    "topic": "Geographical terms 地理名詞"
+  },
+  {
+    "word": "mountain",
+    "zh": "山",
+    "pos": "名詞",
+    "topic": "Geographical terms 地理名詞"
+  },
+  {
+    "word": "river",
+    "zh": "河流",
+    "pos": "名詞",
+    "topic": "Geographical terms 地理名詞"
+  },
+  {
+    "word": "sea",
+    "zh": "大海",
+    "pos": "名詞",
+    "topic": "Geographical terms 地理名詞"
+  },
+  {
+    "word": "Christmas",
+    "zh": "聖誕節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "Dragon Boat Festival",
+    "zh": "端午節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "Easter",
+    "zh": "復活節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "Halloween",
+    "zh": "萬聖節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "Moon Festival",
+    "zh": "中秋節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "cold",
+    "zh": "感冒",
+    "pos": "名詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "headache",
+    "zh": "頭痛",
+    "pos": "名詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "sick",
+    "zh": "生病的",
+    "pos": "形容詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "strong",
+    "zh": "強壯的",
+    "pos": "形容詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "tired",
+    "zh": "疲累的",
+    "pos": "形容詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "toothache",
+    "zh": "牙痛",
+    "pos": "名詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "well",
+    "zh": "好的, 健康地",
+    "pos": "形容詞, 副詞",
+    "topic": "Health 健康"
+  },
+  {
+    "word": "bathroom",
+    "zh": "浴室",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "bed",
+    "zh": "床",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "bedroom",
+    "zh": "臥房",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "chair",
+    "zh": "椅子",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "clean",
+    "zh": "乾淨的",
+    "pos": "形容詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "clean",
+    "zh": "清理",
+    "pos": "動詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "computer",
+    "zh": "電腦",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "desk",
+    "zh": "桌子",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "dining room (",
+    "zh": "家裡的)餐廳",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "door",
+    "zh": "門",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "fan",
+    "zh": "電扇",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "floor",
+    "zh": "地板",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "fridge",
+    "zh": "電冰箱 (= refrigerator)",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "garden",
+    "zh": "院子、花園",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "home",
+    "zh": "家庭",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "house",
+    "zh": "房子",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "key",
+    "zh": "鑰匙",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "kitchen",
+    "zh": "廚房",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "lamp",
+    "zh": "燈",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "living room",
+    "zh": "客廳",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "mop",
+    "zh": "用拖把拖地",
+    "pos": "動詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "refrigerator",
+    "zh": "電冰箱 (= fridge)",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "shelf",
+    "zh": "架子",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "shower",
+    "zh": "淋浴",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "sofa",
+    "zh": "沙發",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "street",
+    "zh": "街道",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "sweep",
+    "zh": "掃",
+    "pos": "動詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "table",
+    "zh": "桌子",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "telephone",
+    "zh": "電話",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "television",
+    "zh": "電視 (= TV)",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "towel",
+    "zh": "毛巾",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "TV",
+    "zh": "電視 (= television)",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "wall",
+    "zh": "牆壁",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "wash",
+    "zh": "洗",
+    "pos": "動詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "window",
+    "zh": "窗戶",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "buy",
+    "zh": "買",
+    "pos": "動詞",
+    "topic": "Money 金錢"
+  },
+  {
+    "word": "dollar",
+    "zh": "元",
+    "pos": "名詞",
+    "topic": "Money 金錢"
+  },
+  {
+    "word": "free",
+    "zh": "免費的",
+    "pos": "形容詞",
+    "topic": "Money 金錢"
+  },
+  {
+    "word": "all",
+    "zh": "全部的",
+    "pos": "限定詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "both",
+    "zh": "兩個都",
+    "pos": "限定詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "eight",
+    "zh": "八",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "eighteen",
+    "zh": "十八",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "eighty",
+    "zh": "八十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "eleven",
+    "zh": "十一",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "fifteen",
+    "zh": "十五",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "fifty",
+    "zh": "五十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "first",
+    "zh": "第一",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "five",
+    "zh": "五",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "forty",
+    "zh": "四十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "four",
+    "zh": "四",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "fourteen",
+    "zh": "十四",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "hundred",
+    "zh": "一百",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "last",
+    "zh": "最後的",
+    "pos": "限定詞, 形容詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "many",
+    "zh": "許多(例如many flowers)",
+    "pos": "限定詞, 形容詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "more",
+    "zh": "更多、較多",
+    "pos": "限定詞, 副詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "much",
+    "zh": "許多(例如much water)",
+    "pos": "限定詞, 副詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "nine",
+    "zh": "九",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "nineteen",
+    "zh": "十九",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "ninety",
+    "zh": "九十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "number",
+    "zh": "數字",
+    "pos": "名詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "one",
+    "zh": "一",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "second",
+    "zh": "第二",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "seven",
+    "zh": "七",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "seventeen",
+    "zh": "十七",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "seventy",
+    "zh": "七十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "six",
+    "zh": "六",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "sixteen",
+    "zh": "十六",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "Sixty",
+    "zh": "六十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "some",
+    "zh": "一些",
+    "pos": "限定詞",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "ten",
+    "zh": "十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "third",
+    "zh": "第三",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "thirteen",
+    "zh": "十三",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "thirty",
+    "zh": "三十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "three",
+    "zh": "三",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "twelve",
+    "zh": "十二",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "twenty",
+    "zh": "二十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "two",
+    "zh": "二",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "zero",
+    "zh": "零",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "actor",
+    "zh": "男演員",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "actress",
+    "zh": "女演員",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "cook",
+    "zh": "廚師",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "doctor",
+    "zh": "醫生",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "driver",
+    "zh": "司機、駕駛員",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "farmer",
+    "zh": "農夫",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "job",
+    "zh": "工作、職業",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "mailman",
+    "zh": "郵差",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "nurse",
+    "zh": "護士",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "police officer",
+    "zh": "警察",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "singer",
+    "zh": "歌手",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "soldier",
+    "zh": "軍人",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "waiter",
+    "zh": "男服務生",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "waitress",
+    "zh": "女服務生",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "work",
+    "zh": "工作",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "worker",
+    "zh": "工作者",
+    "pos": "名詞",
+    "topic": "Occupations 工作"
+  },
+  {
+    "word": "arm",
+    "zh": "手臂",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "back",
+    "zh": "背",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "ear",
+    "zh": "耳朵",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "eye",
+    "zh": "眼睛",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "face",
+    "zh": "臉",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "feet",
+    "zh": "腳 (複數)",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "foot",
+    "zh": "腳",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "hair",
+    "zh": "頭髮",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "hand",
+    "zh": "手",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "head",
+    "zh": "頭",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "leg",
+    "zh": "腿",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "mouth",
+    "zh": "嘴巴",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "nose",
+    "zh": "鼻子",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "teeth",
+    "zh": "牙齒 (複數)",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "tooth",
+    "zh": "牙齒",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "baby",
+    "zh": "嬰兒",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "boy",
+    "zh": "男孩",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "girl",
+    "zh": "女孩",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "kid",
+    "zh": "小孩",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "man",
+    "zh": "男人",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "men",
+    "zh": "男人 (複數)",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "person",
+    "zh": "人",
+    "pos": "名詞",
+    "topic": "people 人 (複數) 名詞"
+  },
+  {
+    "word": "woman",
+    "zh": "女人",
+    "pos": "名詞",
+    "topic": "people 人 (複數) 名詞"
+  },
+  {
+    "word": "women",
+    "zh": "女人 (複數)",
+    "pos": "名詞",
+    "topic": "people 人 (複數) 名詞"
+  },
+  {
+    "word": "angry",
+    "zh": "生氣的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "bad",
+    "zh": "不好的、壞的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "beautiful",
+    "zh": "美麗的、漂亮的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "bored",
+    "zh": "覺得無聊的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "boring",
+    "zh": "令人無聊的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "busy",
+    "zh": "忙碌的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "cute",
+    "zh": "可愛的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "excited",
+    "zh": "覺得興奮的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "exciting",
+    "zh": "令人興奮的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "good",
+    "zh": "好的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "happy",
+    "zh": "開心的、高興的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "heavy",
+    "zh": "重的 (人)",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "lazy",
+    "zh": "懶惰的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "mad",
+    "zh": "生氣的、氣憤的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "nice",
+    "zh": "令人愉快的、宜人的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "old 1.",
+    "zh": "年紀、年齡；2. 老的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "pretty",
+    "zh": "漂亮的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "sad",
+    "zh": "傷心的、難過的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "short",
+    "zh": "矮的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "smart",
+    "zh": "聰明的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "tall",
+    "zh": "高的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "thin",
+    "zh": "瘦的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "young",
+    "zh": "年輕的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "back",
+    "zh": "向後、回原處",
+    "pos": "副詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "bank",
+    "zh": "銀行",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "bookstore",
+    "zh": "書店",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "department store",
+    "zh": "百貨公司",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "fire station",
+    "zh": "消防站",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "here",
+    "zh": "這裡",
+    "pos": "副詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "hospital",
+    "zh": "醫院",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "Japan",
+    "zh": "日本",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "left",
+    "zh": "左邊(的)",
+    "pos": "形容詞, 副詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "market",
+    "zh": "市場",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "movie theater",
+    "zh": "電影院",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "museum",
+    "zh": "博物館",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "office",
+    "zh": "辦公室",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "park",
+    "zh": "公園",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "police station",
+    "zh": "警察局",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "post office",
+    "zh": "郵局",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "restaurant",
+    "zh": "餐廳",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "restroom",
+    "zh": "洗手間、廁所",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "right",
+    "zh": "右邊",
+    "pos": "形容詞, 副詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "shop",
+    "zh": "商店 (UK; 英式英語)",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "store",
+    "zh": "商店 (US; 美式英語)",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "supermarket",
+    "zh": "超級市場",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "Taiwan",
+    "zh": "臺灣",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "there",
+    "zh": "那裡",
+    "pos": "副詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "UK",
+    "zh": "英國",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "USA",
+    "zh": "美國",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "zoo",
+    "zh": "動物園",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "answer",
+    "zh": "回答",
+    "pos": "動詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "art",
+    "zh": "美術、藝術",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "ask",
+    "zh": "問",
+    "pos": "動詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "blackboard",
+    "zh": "黑板",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "book",
+    "zh": "書、書本",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "Chinese",
+    "zh": "中文",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "class",
+    "zh": "課；班級",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "classroom",
+    "zh": "教室",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "draw",
+    "zh": "畫、描畫",
+    "pos": "動詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "English",
+    "zh": "英文",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "eraser",
+    "zh": "橡皮擦",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "friend",
+    "zh": "朋友",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "glue",
+    "zh": "膠水",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "homework",
+    "zh": "回家作業",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "library",
+    "zh": "圖書館",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "listen",
+    "zh": "聽",
+    "pos": "動詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "marker",
+    "zh": "麥克筆",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "math",
+    "zh": "數學",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "music",
+    "zh": "音樂",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "paper",
+    "zh": "紙張",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "PE",
+    "zh": "體育（課）",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "pen",
+    "zh": "筆、鋼筆",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "pencil",
+    "zh": "鉛筆",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "picture",
+    "zh": "圖片、照片",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "question",
+    "zh": "問題",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "read",
+    "zh": "閱讀",
+    "pos": "動詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "ruler",
+    "zh": "尺",
+    "pos": "名詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "say",
+    "zh": "說",
+    "pos": "動詞",
+    "topic": "School 學校"
+  },
+  {
+    "word": "science",
+    "zh": "科學",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "speak",
+    "zh": "說",
+    "pos": "動詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "spell",
+    "zh": "拼寫、用字母拼",
+    "pos": "動詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "story",
+    "zh": "故事",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "student",
+    "zh": "學生",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "study",
+    "zh": "學習",
+    "pos": "動詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "talk",
+    "zh": "說話、談話",
+    "pos": "動詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "teacher",
+    "zh": "老師",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "test",
+    "zh": "考試",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "vacation",
+    "zh": "假期",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "write",
+    "zh": "寫",
+    "pos": "動詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "big",
+    "zh": "大的",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "heavy",
+    "zh": "重的 (物品)",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "high",
+    "zh": "高的",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "light",
+    "zh": "輕的",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "long",
+    "zh": "長的",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "pair",
+    "zh": "一雙、一對",
+    "pos": "名詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "short",
+    "zh": "短的",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "small",
+    "zh": "小的",
+    "pos": "形容詞",
+    "topic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "ball",
+    "zh": "球",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "baseball",
+    "zh": "棒球",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "basketball",
+    "zh": "籃球",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "card",
+    "zh": "卡片",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "climb",
+    "zh": "爬、攀爬",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "dance",
+    "zh": "跳舞",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "doll",
+    "zh": "玩偶",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "drum",
+    "zh": "鼓",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "fish",
+    "zh": "釣魚",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "football",
+    "zh": "足球 (UK; 英式英語)",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "game",
+    "zh": "遊戲、比賽",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "hike",
+    "zh": "健行",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "kite",
+    "zh": "風箏",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "movie",
+    "zh": "電影",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "paint",
+    "zh": "用顏料畫、刷油漆",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "piano",
+    "zh": "鋼琴",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "play",
+    "zh": "玩",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "run",
+    "zh": "跑、跑步",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "sing",
+    "zh": "唱歌",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "soccer",
+    "zh": "足球 (US; 美式英語)",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "song",
+    "zh": "歌曲",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "sport",
+    "zh": "運動",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "swim",
+    "zh": "游泳",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "toy",
+    "zh": "玩具",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "trip",
+    "zh": "（短程的）旅行",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "win",
+    "zh": "贏",
+    "pos": "動詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "yo-yo",
+    "zh": "溜溜球",
+    "pos": "名詞",
+    "topic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "chopsticks",
+    "zh": "筷子",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "cup",
+    "zh": "杯子",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "dish",
+    "zh": "碟子、盤子",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "fork",
+    "zh": "叉子",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "glass",
+    "zh": "玻璃杯",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "knife",
+    "zh": "刀子",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "spoon",
+    "zh": "湯匙",
+    "pos": "名詞",
+    "topic": "Tableware 餐具"
+  },
+  {
+    "word": "afternoon",
+    "zh": "下午",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "April",
+    "zh": "四月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "August",
+    "zh": "八月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "clock",
+    "zh": "時鐘",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "day",
+    "zh": "天",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "December",
+    "zh": "十二月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "early",
+    "zh": "早到（的）",
+    "pos": "形容詞, 副詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "evening",
+    "zh": "傍晚",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "fall",
+    "zh": "秋天",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "February",
+    "zh": "二月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "Friday",
+    "zh": "星期五",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "January",
+    "zh": "一月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "July",
+    "zh": "七月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "June",
+    "zh": "六月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "late",
+    "zh": "晚到（的）",
+    "pos": "形容詞, 副詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "March",
+    "zh": "三月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "May",
+    "zh": "五月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "Monday",
+    "zh": "星期一",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "month",
+    "zh": "月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "morning",
+    "zh": "早上",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "night",
+    "zh": "晚上",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "November",
+    "zh": "十一月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "now",
+    "zh": "現在",
+    "pos": "副詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "o'clock ...",
+    "zh": "點鐘",
+    "pos": "副詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "October",
+    "zh": "十月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "Saturday",
+    "zh": "星期六",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "season",
+    "zh": "季節",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "September",
+    "zh": "九月",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "spring",
+    "zh": "春天",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "summer",
+    "zh": "夏天",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "Sunday",
+    "zh": "星期日",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "Thursday",
+    "zh": "星期四",
+    "pos": "名詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "today",
+    "zh": "今天",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "tomorrow",
+    "zh": "明天",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "Tuesday",
+    "zh": "星期二",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "watch",
+    "zh": "手錶",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "Wednesday",
+    "zh": "星期三",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "week",
+    "zh": "星期",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "winter",
+    "zh": "冬天",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "year",
+    "zh": "年",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "yesterday",
+    "zh": "昨天",
+    "pos": "名詞",
+    "topic": "time 時間 名詞"
+  },
+  {
+    "word": "airplane",
+    "zh": "飛機 (= plane)",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "airport",
+    "zh": "機場",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "bicycle",
+    "zh": "腳踏車 (= bike)",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "bike",
+    "zh": "腳踏車 (= bicycle)",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "boat",
+    "zh": "船",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "bus",
+    "zh": "公車",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "bus stop",
+    "zh": "公車站",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "car",
+    "zh": "車子",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "drive",
+    "zh": "開車",
+    "pos": "動詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "fast",
+    "zh": "快速的（地）",
+    "pos": "形容詞, 副詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "fly",
+    "zh": "飛、飛行",
+    "pos": "動詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "motorcycle",
+    "zh": "摩托車",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "MRT",
+    "zh": "捷運",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "plane",
+    "zh": "飛機 (= airplane)",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "ride",
+    "zh": "騎（機車、腳踏車等）",
+    "pos": "動詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "scooter",
+    "zh": "輕型機車",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "ship",
+    "zh": "（大）船",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "slow",
+    "zh": "慢的",
+    "pos": "形容詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "station",
+    "zh": "車站",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "taxi",
+    "zh": "計程車",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "train",
+    "zh": "火車",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "truck",
+    "zh": "卡車",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "turn",
+    "zh": "轉彎",
+    "pos": "動詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "cloudy",
+    "zh": "多雲的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "cold",
+    "zh": "寒冷的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "cool",
+    "zh": "涼爽的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "hot",
+    "zh": "熱的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "moon",
+    "zh": "月亮",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "rain",
+    "zh": "下雨",
+    "pos": "動詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "rain",
+    "zh": "雨水",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "rainbow",
+    "zh": "彩虹",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "rainy",
+    "zh": "下雨的/多雨的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "sky",
+    "zh": "天空",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "snow",
+    "zh": "下雪",
+    "pos": "動詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "snow",
+    "zh": "雪",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "star",
+    "zh": "星星",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "sun",
+    "zh": "太陽",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "sunny",
+    "zh": "晴朗的、出太陽的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "typhoon",
+    "zh": "颱風",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "warm",
+    "zh": "溫暖的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "weather",
+    "zh": "天氣",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "wet",
+    "zh": "潮濕的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "wind",
+    "zh": "風",
+    "pos": "名詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "windy",
+    "zh": "風大的",
+    "pos": "形容詞",
+    "topic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "a",
+    "zh": "一個",
+    "pos": "冠詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "an",
+    "zh": "一個",
+    "pos": "冠詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "every",
+    "zh": "每一個",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "her",
+    "zh": "她的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "his",
+    "zh": "他的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "its",
+    "zh": "它的、牠的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "my",
+    "zh": "我的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "our",
+    "zh": "我們的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "that",
+    "zh": "那個",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "the",
+    "zh": "這",
+    "pos": "冠詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "their",
+    "zh": "他們的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "these",
+    "zh": "這些",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "this",
+    "zh": "這個",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "those",
+    "zh": "那些",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "your",
+    "zh": "你的、你們的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "he",
+    "zh": "他",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "her",
+    "zh": "她",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "him",
+    "zh": "他(受詞)",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "I",
+    "zh": "我",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "it",
+    "zh": "它、牠",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "me",
+    "zh": "我(受詞)",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "nothing",
+    "zh": "什麼都沒有",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "she",
+    "zh": "她",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "them",
+    "zh": "他們(受詞)",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "they",
+    "zh": "他們",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "us",
+    "zh": "我們(受詞)",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "we",
+    "zh": "我們",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "you",
+    "zh": "你；你們",
+    "pos": "代名詞",
+    "topic": "Pronouns 代名詞"
+  },
+  {
+    "word": "be",
+    "zh": "是 (is, am, are)",
+    "pos": "助動詞",
+    "topic": "Be & auxiliaries be動詞/助動詞"
+  },
+  {
+    "word": "can",
+    "zh": "可以",
+    "pos": "助動詞",
+    "topic": "Be & auxiliaries be動詞/助動詞"
+  },
+  {
+    "word": "do",
+    "zh": "助動詞",
+    "pos": "助動詞",
+    "topic": "Be & auxiliaries be動詞/助動詞"
+  },
+  {
+    "word": "have",
+    "zh": "助動詞",
+    "pos": "助動詞",
+    "topic": "Be & auxiliaries be動詞/助動詞"
+  },
+  {
+    "word": "will",
+    "zh": "將會",
+    "pos": "助動詞",
+    "topic": "Be & auxiliaries be動詞/助動詞"
+  },
+  {
+    "word": "and",
+    "zh": "和",
+    "pos": "連接詞",
+    "topic": "Conjunctions 連接詞"
+  },
+  {
+    "word": "because",
+    "zh": "因為",
+    "pos": "連接詞",
+    "topic": "Conjunctions 連接詞"
+  },
+  {
+    "word": "but",
+    "zh": "但是",
+    "pos": "連接詞",
+    "topic": "Conjunctions 連接詞"
+  },
+  {
+    "word": "bye",
+    "zh": "再見 (= goodbye)",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "excuse me",
+    "zh": "不好意思、對不起",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "goodbye",
+    "zh": "再見 (= bye)",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "hello",
+    "zh": "哈囉",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "hi",
+    "zh": "嗨",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "please",
+    "zh": "請",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "about 1.",
+    "zh": "大約；2. 關於...",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "after",
+    "zh": "在...之後",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "at",
+    "zh": "在(某處)、在(時刻)",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "before",
+    "zh": "在...之前",
+    "pos": "介系詞, 連接詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "behind",
+    "zh": "在...後面",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "by",
+    "zh": "在...旁邊",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "for",
+    "zh": "給、為了(某人、物)",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "from",
+    "zh": "從(某處)/(某時刻)/(某人)",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "in",
+    "zh": "在...裡面、在某短時間裡",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "in front of",
+    "zh": "在...前面",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "inside",
+    "zh": "在...裡面、向...裡面",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "near",
+    "zh": "靠近、接近",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "next to",
+    "zh": "在...旁邊",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "of ...",
+    "zh": "的",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "off",
+    "zh": "離開、從...去掉",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "on",
+    "zh": "在...上面；在(某一天)",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "out",
+    "zh": "向外地",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "outside",
+    "zh": "在...外面、向...外面",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "over",
+    "zh": "在...上方",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "than",
+    "zh": "比",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "to",
+    "zh": "向、朝、對著",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "under",
+    "zh": "在...下方",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "up",
+    "zh": "向上",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "with",
+    "zh": "和...一起",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "birthday",
+    "zh": "生日",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "bottle",
+    "zh": "瓶子",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "box",
+    "zh": "箱子",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "can",
+    "zh": "罐子",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "cellphone",
+    "zh": "手機",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "dream",
+    "zh": "夢",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "email",
+    "zh": "電子郵件",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "flower",
+    "zh": "花",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "fun",
+    "zh": "樂趣",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "gift",
+    "zh": "禮物",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "mail",
+    "zh": "信",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "party",
+    "zh": "派對",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "photo",
+    "zh": "照片",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "robot",
+    "zh": "機器人",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "sale",
+    "zh": "拍賣、特價",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "thing",
+    "zh": "東西、物",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "ticket",
+    "zh": "票",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "trash",
+    "zh": "垃圾",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "tree",
+    "zh": "樹",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "way",
+    "zh": "路、方向",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "word",
+    "zh": "字",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "bite",
+    "zh": "咬",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "brush",
+    "zh": "用刷子刷",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "call",
+    "zh": "打電話給...",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "close",
+    "zh": "關",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "come",
+    "zh": "來",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "cry",
+    "zh": "哭、哭泣",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "do",
+    "zh": "做",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "enjoy",
+    "zh": "享受、喜歡",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "fall",
+    "zh": "掉落",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "feel",
+    "zh": "感受、感覺",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "find",
+    "zh": "找",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "get",
+    "zh": "得到、收到",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "give",
+    "zh": "給",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "go",
+    "zh": "去、走",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "have",
+    "zh": "有",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "help",
+    "zh": "幫助",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "hit",
+    "zh": "打、碰撞",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "hope",
+    "zh": "希望",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "hurry",
+    "zh": "趕快、急忙",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "hurt",
+    "zh": "受傷",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "jump",
+    "zh": "跳",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "know",
+    "zh": "知道、認識",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "laugh",
+    "zh": "笑",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "let's",
+    "zh": "讓我們...",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "like",
+    "zh": "喜歡",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "look",
+    "zh": "看、看起來",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "love",
+    "zh": "愛、喜愛",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "make",
+    "zh": "做、製造",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "meet",
+    "zh": "遇見、會面",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "miss",
+    "zh": "想念",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "need",
+    "zh": "需要",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "open",
+    "zh": "開",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "pick up",
+    "zh": "撿起、接（人）、接（電話）",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "put",
+    "zh": "放",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "see",
+    "zh": "看見",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "show",
+    "zh": "給...看、展示",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "sit",
+    "zh": "坐下",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "sleep",
+    "zh": "睡覺",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "smell",
+    "zh": "聞起來",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "stand",
+    "zh": "站、站立",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "start",
+    "zh": "開始",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "stop",
+    "zh": "停下來",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "take",
+    "zh": "攜帶、拿取",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "tell",
+    "zh": "告訴、告知",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "thank",
+    "zh": "感謝（某人）",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "touch",
+    "zh": "觸碰",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "try",
+    "zh": "嘗試",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "wait",
+    "zh": "等、等待",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "wake",
+    "zh": "醒來、喚醒",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "walk",
+    "zh": "走路",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "want",
+    "zh": "想要",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "watch",
+    "zh": "看",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "welcome",
+    "zh": "歡迎",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "worry",
+    "zh": "擔心",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "cool",
+    "zh": "清涼的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "different",
+    "zh": "不一樣的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "dirty",
+    "zh": "髒的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "easy",
+    "zh": "簡單的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "favorite",
+    "zh": "最喜歡的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "fine",
+    "zh": "很好的、很不錯的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "fun",
+    "zh": "有趣的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "great",
+    "zh": "很棒的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "hard",
+    "zh": "困難的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "hot",
+    "zh": "燙的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "interesting",
+    "zh": "有趣的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "new",
+    "zh": "新的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "OK",
+    "zh": "好的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "only",
+    "zh": "僅有的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "other",
+    "zh": "其他的 形容詞,",
+    "pos": "代名詞, 限定詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "quiet",
+    "zh": "安靜的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "ready",
+    "zh": "準備好的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "right",
+    "zh": "對的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "sorry",
+    "zh": "感到抱歉的、對不起",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "sure",
+    "zh": "確定的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "wet",
+    "zh": "濕的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "wonderful",
+    "zh": "很棒的、精彩的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "again",
+    "zh": "再一次、又一次",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "always",
+    "zh": "總是、永遠",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "away",
+    "zh": "離開",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "maybe",
+    "zh": "也許",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "never",
+    "zh": "不曾",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "no",
+    "zh": "不",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "not",
+    "zh": "不、沒有",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "OK",
+    "zh": "沒事",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "only",
+    "zh": "唯一地",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "really",
+    "zh": "真正地",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "so",
+    "zh": "所以",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "sometimes",
+    "zh": "有時候",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "still",
+    "zh": "仍然",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "sure",
+    "zh": "當然",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "then",
+    "zh": "然後、接著",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "together",
+    "zh": "一起",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "too 1.",
+    "zh": "也；2. 太...",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "usually",
+    "zh": "通常",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "very",
+    "zh": "非常",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "yes",
+    "zh": "是",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "how",
+    "zh": "如何...",
+    "pos": "副詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "what",
+    "zh": "什麼...",
+    "pos": "代名詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "when",
+    "zh": "何時...",
+    "pos": "副詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "where",
+    "zh": "在哪裡...",
+    "pos": "副詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "which",
+    "zh": "哪一個...",
+    "pos": "限定詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "who",
+    "zh": "誰...",
+    "pos": "代名詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "whose",
+    "zh": "誰的...",
+    "pos": "限定詞",
+    "topic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "why",
+    "zh": "為什麼...",
+    "pos": "副詞",
+    "topic": "Wh-words 疑問詞"
+  }
+]

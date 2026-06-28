@@ -1,0 +1,1753 @@
+[
+  {
+    "id": "junior-weekend",
+    "word": "weekend",
+    "zh": "週末",
+    "topic": "Time",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "week",
+      "end"
+    ],
+    "patterns": [
+      "pat-on-weekends"
+    ],
+    "enabled": true,
+    "needsReview": false
+  },
+  {
+    "id": "junior-difficult",
+    "word": "difficult",
+    "zh": "困難的",
+    "topic": "Adjectives",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "dif",
+      "fi",
+      "cult"
+    ],
+    "patterns": [
+      "pat-it-is-difficult"
+    ],
+    "enabled": true,
+    "needsReview": false
+  },
+  {
+    "id": "elementary-t-shirt",
+    "word": "T-shirt",
+    "zh": "T恤",
+    "topic": "Clothing",
+    "gradeBand": "G5",
+    "source": "elementary-basic",
+    "chunks": [
+      "T",
+      "shirt"
+    ],
+    "patterns": [
+      "pat-auto-t-shirt"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-family",
+    "word": "family",
+    "zh": "家庭;家⼈",
+    "topic": "Family",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "fam",
+      "i",
+      "ly"
+    ],
+    "patterns": [
+      "pat-auto-family"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-french",
+    "word": "French",
+    "zh": "薯條",
+    "topic": "Food",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "French"
+    ],
+    "patterns": [
+      "pat-auto-french"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-fries",
+    "word": "fries",
+    "zh": "你最喜歡的⾷物是？",
+    "topic": "Food",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "fries"
+    ],
+    "patterns": [
+      "pat-auto-fries"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-miss-ms",
+    "word": "Miss/Ms",
+    "zh": "⼩姐",
+    "topic": "Forms",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Mis",
+      "s/Ms"
+    ],
+    "patterns": [
+      "pat-auto-miss-ms"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-mr",
+    "word": "Mr",
+    "zh": "先⽣",
+    "topic": "Forms",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Mr"
+    ],
+    "patterns": [
+      "pat-auto-mr"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-mrs",
+    "word": "Mrs",
+    "zh": "太太(已婚)",
+    "topic": "Forms",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Mrs"
+    ],
+    "patterns": [
+      "pat-auto-mrs"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-forest",
+    "word": "forest",
+    "zh": "森林",
+    "topic": "Geographical",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "for",
+      "est"
+    ],
+    "patterns": [
+      "pat-auto-forest"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-volcano",
+    "word": "volcano",
+    "zh": "⽕⼭",
+    "topic": "Geographical",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "vol",
+      "cano"
+    ],
+    "patterns": [
+      "pat-auto-volcano"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-desert",
+    "word": "desert",
+    "zh": "沙漠",
+    "topic": "Geographical",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "desert"
+    ],
+    "patterns": [
+      "pat-auto-desert"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-island",
+    "word": "island",
+    "zh": "島嶼",
+    "topic": "Geographical",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "is",
+      "land"
+    ],
+    "patterns": [
+      "pat-auto-island"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-festival",
+    "word": "Festival",
+    "zh": "端午節",
+    "topic": "Holidays",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Fes",
+      "ti",
+      "val"
+    ],
+    "patterns": [
+      "pat-auto-festival"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-dining",
+    "word": "dining",
+    "zh": "(家裡的)餐廳",
+    "topic": "House",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "din",
+      "ing"
+    ],
+    "patterns": [
+      "pat-auto-dining"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-room",
+    "word": "room",
+    "zh": "客廳",
+    "topic": "House",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "room"
+    ],
+    "patterns": [
+      "pat-auto-room"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-money",
+    "word": "money",
+    "zh": "錢",
+    "topic": "Money",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "mon",
+      "ey"
+    ],
+    "patterns": [
+      "pat-auto-money"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-people",
+    "word": "people",
+    "zh": "⼈(複數)",
+    "topic": "People",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "peo",
+      "ple"
+    ],
+    "patterns": [
+      "pat-auto-people"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-old",
+    "word": "old",
+    "zh": "⽼的",
+    "topic": "Personal",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "old"
+    ],
+    "patterns": [
+      "pat-auto-old"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-the-uk",
+    "word": "the UK",
+    "zh": "英國",
+    "topic": "Places",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "the",
+      "UK"
+    ],
+    "patterns": [
+      "pat-auto-the-uk"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-the-usa",
+    "word": "the USA",
+    "zh": "美國",
+    "topic": "Places",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "the",
+      "USA"
+    ],
+    "patterns": [
+      "pat-auto-the-usa"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-germany",
+    "word": "Germany",
+    "zh": "德國",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Ger",
+      "many"
+    ],
+    "patterns": [
+      "pat-auto-germany"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-france",
+    "word": "France",
+    "zh": "法國",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "France"
+    ],
+    "patterns": [
+      "pat-auto-france"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-korea",
+    "word": "Korea",
+    "zh": "韓國、南韓",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Ko",
+      "rea"
+    ],
+    "patterns": [
+      "pat-auto-korea"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-philippines",
+    "word": "Philippines",
+    "zh": "菲律賓",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Philip",
+      "pines"
+    ],
+    "patterns": [
+      "pat-auto-philippines"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-vietnam",
+    "word": "Vietnam",
+    "zh": "越南",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Viet",
+      "nam"
+    ],
+    "patterns": [
+      "pat-auto-vietnam"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-india",
+    "word": "India",
+    "zh": "印度",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "In",
+      "dia"
+    ],
+    "patterns": [
+      "pat-auto-india"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-singapore",
+    "word": "Singapore",
+    "zh": "新加坡",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Sin",
+      "ga",
+      "pore"
+    ],
+    "patterns": [
+      "pat-auto-singapore"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-uganda",
+    "word": "Uganda",
+    "zh": "烏⼲達",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Ugan",
+      "da"
+    ],
+    "patterns": [
+      "pat-auto-uganda"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-thailand",
+    "word": "Thailand",
+    "zh": "泰國",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Thai",
+      "land"
+    ],
+    "patterns": [
+      "pat-auto-thailand"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-canada",
+    "word": "Canada",
+    "zh": "加拿大",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Cana",
+      "da"
+    ],
+    "patterns": [
+      "pat-auto-canada"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-italy",
+    "word": "Italy",
+    "zh": "義大利",
+    "topic": "Place",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Italy"
+    ],
+    "patterns": [
+      "pat-auto-italy"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "elementary-school",
+    "word": "school",
+    "zh": "學校",
+    "topic": "School",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "chunks": [
+      "school"
+    ],
+    "patterns": [
+      "pat-auto-school"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-holiday",
+    "word": "holiday",
+    "zh": "節⽇、假⽇",
+    "topic": "School",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "hol",
+      "i",
+      "day"
+    ],
+    "patterns": [
+      "pat-auto-holiday"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-mug",
+    "word": "mug",
+    "zh": "⾺克杯",
+    "topic": "Tableware",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "mug"
+    ],
+    "patterns": [
+      "pat-auto-mug"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "elementary-time",
+    "word": "time",
+    "zh": "時間",
+    "topic": "Time",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "chunks": [
+      "time"
+    ],
+    "patterns": [
+      "pat-auto-time"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "elementary-o-clock",
+    "word": "o'clock",
+    "zh": "...點鐘",
+    "topic": "Time",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "chunks": [
+      "o'",
+      "clock"
+    ],
+    "patterns": [
+      "pat-auto-o-clock"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-snowy",
+    "word": "snowy",
+    "zh": "下雪的、多雪的",
+    "topic": "Weather",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "snowy"
+    ],
+    "patterns": [
+      "pat-auto-snowy"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-of",
+    "word": "of",
+    "zh": "...的",
+    "topic": "Prepositions",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "of"
+    ],
+    "patterns": [
+      "pat-auto-of"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-about",
+    "word": "about",
+    "zh": "大約、關於",
+    "topic": "Prepositions",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "about"
+    ],
+    "patterns": [
+      "pat-auto-about"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-front",
+    "word": "front",
+    "zh": "在...之前",
+    "topic": "Prepositions",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "front"
+    ],
+    "patterns": [
+      "pat-auto-front"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-too",
+    "word": "too",
+    "zh": "1.也",
+    "topic": "Other",
+    "gradeBand": "G3",
+    "source": "junior-basic",
+    "chunks": [
+      "too"
+    ],
+    "patterns": [
+      "pat-auto-too"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-o",
+    "word": "o",
+    "zh": "⾃",
+    "topic": "Wh-words",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "o"
+    ],
+    "patterns": [
+      "pat-auto-o"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-e",
+    "word": "e",
+    "zh": "然",
+    "topic": "Wh-words",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "e"
+    ],
+    "patterns": [
+      "pat-auto-e"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-phonics",
+    "word": "phonics",
+    "zh": "均⼀教育平台",
+    "topic": "Wh-words",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "phon",
+      "ics"
+    ],
+    "patterns": [
+      "pat-auto-phonics"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-expansion",
+    "word": "Expansion",
+    "zh": "新⽵縣鳳岡區",
+    "topic": "Wh-words",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Ex",
+      "pan",
+      "sion"
+    ],
+    "patterns": [
+      "pat-auto-expansion"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "passport-page",
+    "word": "Page",
+    "zh": "國⼩英語護照",
+    "topic": "Wh-words",
+    "gradeBand": "G3",
+    "source": "passport",
+    "chunks": [
+      "Page"
+    ],
+    "patterns": [
+      "pat-auto-page"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "elementary-is",
+    "word": "is",
+    "zh": "是",
+    "topic": "Be & Auxiliaries",
+    "gradeBand": "G3",
+    "source": "elementary-basic",
+    "chunks": [
+      "is"
+    ],
+    "patterns": [
+      "pat-auto-is"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "elementary-am",
+    "word": "am",
+    "zh": "是",
+    "topic": "Be & Auxiliaries",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "chunks": [
+      "am"
+    ],
+    "patterns": [
+      "pat-auto-am"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "elementary-are",
+    "word": "are",
+    "zh": "是",
+    "topic": "Be & Auxiliaries",
+    "gradeBand": "G4",
+    "source": "elementary-basic",
+    "chunks": [
+      "are"
+    ],
+    "patterns": [
+      "pat-auto-are"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-any",
+    "word": "any",
+    "zh": "任何的",
+    "topic": "Articles",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "any"
+    ],
+    "patterns": [
+      "pat-auto-any"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-catch",
+    "word": "catch",
+    "zh": "接/抓住",
+    "topic": "Other verbs",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "catch"
+    ],
+    "patterns": [
+      "pat-auto-catch"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-handsome",
+    "word": "handsome",
+    "zh": "英俊的",
+    "topic": "Personal characteristics",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "hand",
+      "some"
+    ],
+    "patterns": [
+      "pat-auto-handsome"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-hot-dog",
+    "word": "hot dog",
+    "zh": "熱狗",
+    "topic": "Food",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "hot",
+      "dog"
+    ],
+    "patterns": [
+      "pat-auto-hot-dog"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-invite",
+    "word": "invite",
+    "zh": "邀請",
+    "topic": "Other verbs",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "in",
+      "vite"
+    ],
+    "patterns": [
+      "pat-auto-invite"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-learn",
+    "word": "learn",
+    "zh": "學習",
+    "topic": "Other verbs",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "learn"
+    ],
+    "patterns": [
+      "pat-auto-learn"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-next",
+    "word": "next",
+    "zh": "下一個",
+    "topic": "Time",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "next"
+    ],
+    "patterns": [
+      "pat-auto-next"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-noodle",
+    "word": "noodle",
+    "zh": "麵條",
+    "topic": "Food",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "noo",
+      "dle"
+    ],
+    "patterns": [
+      "pat-auto-noodle"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-or",
+    "word": "or",
+    "zh": "或者",
+    "topic": "Conjunctions",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "or"
+    ],
+    "patterns": [
+      "pat-auto-or"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-place",
+    "word": "place",
+    "zh": "地方",
+    "topic": "Places",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "place"
+    ],
+    "patterns": [
+      "pat-auto-place"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-post",
+    "word": "post",
+    "zh": "郵件/張貼",
+    "topic": "Other verbs",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "post"
+    ],
+    "patterns": [
+      "pat-auto-post"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-practice",
+    "word": "practice",
+    "zh": "練習",
+    "topic": "Other verbs",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "prac",
+      "tice"
+    ],
+    "patterns": [
+      "pat-auto-practice"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-road",
+    "word": "road",
+    "zh": "道路",
+    "topic": "Places",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "road"
+    ],
+    "patterns": [
+      "pat-auto-road"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-phone",
+    "word": "phone",
+    "zh": "電話",
+    "topic": "Other nouns",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "phone"
+    ],
+    "patterns": [
+      "pat-auto-phone"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-teach",
+    "word": "teach",
+    "zh": "教導",
+    "topic": "Other verbs",
+    "gradeBand": "G7",
+    "source": "junior-basic",
+    "chunks": [
+      "teach"
+    ],
+    "patterns": [
+      "pat-auto-teach"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-a-lot-of",
+    "word": "a lot of",
+    "zh": "許多",
+    "topic": "Articles",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "a",
+      "lot",
+      "of"
+    ],
+    "patterns": [
+      "pat-auto-a-lot-of"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-across",
+    "word": "across",
+    "zh": "橫過",
+    "topic": "Prepositions",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "across"
+    ],
+    "patterns": [
+      "pat-auto-across"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-ago",
+    "word": "ago",
+    "zh": "以前",
+    "topic": "Time",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "ago"
+    ],
+    "patterns": [
+      "pat-auto-ago"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-along",
+    "word": "along",
+    "zh": "沿著",
+    "topic": "Prepositions",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "along"
+    ],
+    "patterns": [
+      "pat-auto-along"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-between",
+    "word": "between",
+    "zh": "在...之間",
+    "topic": "Prepositions",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "be",
+      "tween"
+    ],
+    "patterns": [
+      "pat-auto-between"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-dry",
+    "word": "dry",
+    "zh": "乾的",
+    "topic": "Other adjectives",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "dry"
+    ],
+    "patterns": [
+      "pat-auto-dry"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-everyone",
+    "word": "everyone",
+    "zh": "每個人",
+    "topic": "Pronouns",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "ev",
+      "ery",
+      "one"
+    ],
+    "patterns": [
+      "pat-auto-everyone"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-gym",
+    "word": "gym",
+    "zh": "體育館",
+    "topic": "Places",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "gym"
+    ],
+    "patterns": [
+      "pat-auto-gym"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-was",
+    "word": "was",
+    "zh": "是(過去式)",
+    "topic": "Be & Auxiliaries",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "was"
+    ],
+    "patterns": [
+      "pat-auto-was"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-were",
+    "word": "were",
+    "zh": "是(過去式複數)",
+    "topic": "Be & Auxiliaries",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "were"
+    ],
+    "patterns": [
+      "pat-auto-were"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-wore",
+    "word": "wore",
+    "zh": "穿(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G8",
+    "source": "junior-basic",
+    "chunks": [
+      "wore"
+    ],
+    "patterns": [
+      "pat-auto-wore"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-already",
+    "word": "already",
+    "zh": "已經",
+    "topic": "Other adverbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "al",
+      "ready"
+    ],
+    "patterns": [
+      "pat-auto-already"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-also",
+    "word": "also",
+    "zh": "也",
+    "topic": "Other adverbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "al",
+      "so"
+    ],
+    "patterns": [
+      "pat-auto-also"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-been",
+    "word": "been",
+    "zh": "是(過去分詞)",
+    "topic": "Be & Auxiliaries",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "been"
+    ],
+    "patterns": [
+      "pat-auto-been"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-bring",
+    "word": "bring",
+    "zh": "帶來",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "bring"
+    ],
+    "patterns": [
+      "pat-auto-bring"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-cheese",
+    "word": "cheese",
+    "zh": "起司",
+    "topic": "Food",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "cheese"
+    ],
+    "patterns": [
+      "pat-auto-cheese"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-expensive",
+    "word": "expensive",
+    "zh": "昂貴的",
+    "topic": "Other adjectives",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "ex",
+      "pen",
+      "sive"
+    ],
+    "patterns": [
+      "pat-auto-expensive"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-finish",
+    "word": "finish",
+    "zh": "完成",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "fin",
+      "ish"
+    ],
+    "patterns": [
+      "pat-auto-finish"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-hear",
+    "word": "hear",
+    "zh": "聽到",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "hear"
+    ],
+    "patterns": [
+      "pat-auto-hear"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-just",
+    "word": "just",
+    "zh": "只是/剛剛",
+    "topic": "Other adverbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "just"
+    ],
+    "patterns": [
+      "pat-auto-just"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-large",
+    "word": "large",
+    "zh": "大的",
+    "topic": "Size",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "large"
+    ],
+    "patterns": [
+      "pat-auto-large"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-lucky",
+    "word": "lucky",
+    "zh": "幸運的",
+    "topic": "Personal characteristics",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "lucky"
+    ],
+    "patterns": [
+      "pat-auto-lucky"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-often",
+    "word": "often",
+    "zh": "經常",
+    "topic": "Other adverbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "of",
+      "ten"
+    ],
+    "patterns": [
+      "pat-auto-often"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-popular",
+    "word": "popular",
+    "zh": "受歡迎的",
+    "topic": "Personal characteristics",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "pop",
+      "u",
+      "lar"
+    ],
+    "patterns": [
+      "pat-auto-popular"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-since",
+    "word": "since",
+    "zh": "自從",
+    "topic": "Prepositions",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "since"
+    ],
+    "patterns": [
+      "pat-auto-since"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-subject",
+    "word": "subject",
+    "zh": "學科",
+    "topic": "School",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "sub",
+      "ject"
+    ],
+    "patterns": [
+      "pat-auto-subject"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-think",
+    "word": "think",
+    "zh": "認為",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "think"
+    ],
+    "patterns": [
+      "pat-auto-think"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-tomato",
+    "word": "tomato",
+    "zh": "番茄",
+    "topic": "Food",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "toma",
+      "to"
+    ],
+    "patterns": [
+      "pat-auto-tomato"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-use",
+    "word": "use",
+    "zh": "使用",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "use"
+    ],
+    "patterns": [
+      "pat-auto-use"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-caught",
+    "word": "caught",
+    "zh": "抓(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "caught"
+    ],
+    "patterns": [
+      "pat-auto-caught"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-flown",
+    "word": "flown",
+    "zh": "飛(過去分詞)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "flown"
+    ],
+    "patterns": [
+      "pat-auto-flown"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-felt",
+    "word": "felt",
+    "zh": "感覺(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "felt"
+    ],
+    "patterns": [
+      "pat-auto-felt"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-found",
+    "word": "found",
+    "zh": "找到(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "found"
+    ],
+    "patterns": [
+      "pat-auto-found"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-grown",
+    "word": "grown",
+    "zh": "成長(過去分詞)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "grown"
+    ],
+    "patterns": [
+      "pat-auto-grown"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-grew",
+    "word": "grew",
+    "zh": "成長(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "grew"
+    ],
+    "patterns": [
+      "pat-auto-grew"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-heard",
+    "word": "heard",
+    "zh": "聽見(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "heard"
+    ],
+    "patterns": [
+      "pat-auto-heard"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-known",
+    "word": "known",
+    "zh": "知道(過去分詞)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "known"
+    ],
+    "patterns": [
+      "pat-auto-known"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-spoken",
+    "word": "spoken",
+    "zh": "說(過去分詞)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "spo",
+      "ken"
+    ],
+    "patterns": [
+      "pat-auto-spoken"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-stood",
+    "word": "stood",
+    "zh": "站立(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "stood"
+    ],
+    "patterns": [
+      "pat-auto-stood"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-thought",
+    "word": "thought",
+    "zh": "想(過去式)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "thought"
+    ],
+    "patterns": [
+      "pat-auto-thought"
+    ],
+    "enabled": true,
+    "needsReview": true
+  },
+  {
+    "id": "junior-written",
+    "word": "written",
+    "zh": "寫(過去分詞)",
+    "topic": "Other verbs",
+    "gradeBand": "G9",
+    "source": "junior-basic",
+    "chunks": [
+      "writ",
+      "ten"
+    ],
+    "patterns": [
+      "pat-auto-written"
+    ],
+    "enabled": true,
+    "needsReview": true
+  }
+]

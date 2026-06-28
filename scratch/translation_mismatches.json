@@ -1,0 +1,1311 @@
+[
+  {
+    "word": "sister",
+    "dbZh": "姊妹",
+    "pdfZh": "姐姐、妹妹",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "brother",
+    "dbZh": "兄弟",
+    "pdfZh": "哥哥、弟弟",
+    "dbTopic": "Family",
+    "pdfTopic": "Family 家庭"
+  },
+  {
+    "word": "nurse",
+    "dbZh": "護理師",
+    "pdfZh": "護士",
+    "dbTopic": "Jobs",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "desk",
+    "dbZh": "書桌",
+    "pdfZh": "桌子",
+    "dbTopic": "School",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "happy",
+    "dbZh": "快樂的",
+    "pdfZh": "開心的、高興的",
+    "dbTopic": "Adjectives",
+    "pdfTopic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "cow",
+    "dbZh": "乳⽜",
+    "pdfZh": "乳牛",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "duck",
+    "dbZh": "鴨⼦",
+    "pdfZh": "鴨肉",
+    "dbTopic": "Animals",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "frog",
+    "dbZh": "⻘蛙",
+    "pdfZh": "青蛙",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "lion",
+    "dbZh": "獅⼦",
+    "pdfZh": "獅子",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "mice",
+    "dbZh": "⽼⿏(複數)",
+    "pdfZh": "老鼠 (複數)",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "hippo",
+    "dbZh": "河⾺",
+    "pdfZh": "河馬",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "horse",
+    "dbZh": "⾺",
+    "pdfZh": "馬",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "mouse",
+    "dbZh": "⽼⿏",
+    "pdfZh": "老鼠",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "panda",
+    "dbZh": "大熊貓",
+    "pdfZh": "大貓熊",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "sheep",
+    "dbZh": "綿⽺",
+    "pdfZh": "綿羊",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "whale",
+    "dbZh": "鯨⿂",
+    "pdfZh": "鯨魚",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "zebra",
+    "dbZh": "斑⾺",
+    "pdfZh": "斑馬",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "monkey",
+    "dbZh": "猴⼦",
+    "pdfZh": "猴子",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "turtle",
+    "dbZh": "烏⿔",
+    "pdfZh": "烏龜",
+    "dbTopic": "Animals",
+    "pdfTopic": "Animals & insects 動物/昆蟲"
+  },
+  {
+    "word": "bag",
+    "dbZh": "袋⼦",
+    "pdfZh": "袋子",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "hat",
+    "dbZh": "帽⼦",
+    "pdfZh": "帽子",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "skirt",
+    "dbZh": "裙⼦",
+    "pdfZh": "裙子",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "socks",
+    "dbZh": "襪⼦",
+    "pdfZh": "襪子",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "pocket",
+    "dbZh": "⼝袋",
+    "pdfZh": "口袋",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "shoes",
+    "dbZh": "鞋⼦",
+    "pdfZh": "鞋子",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "clothes",
+    "dbZh": "⾐服",
+    "pdfZh": "衣服",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "sweater",
+    "dbZh": "⽑⾐",
+    "pdfZh": "毛衣",
+    "dbTopic": "Clothing",
+    "pdfTopic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "color",
+    "dbZh": "顏⾊",
+    "pdfZh": "顏色",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "gray",
+    "dbZh": "灰⾊的",
+    "pdfZh": "灰色的",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "pink",
+    "dbZh": "粉紅⾊的",
+    "pdfZh": "粉紅色的",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "black",
+    "dbZh": "⿊⾊的",
+    "pdfZh": "黑色的",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "brown",
+    "dbZh": "咖啡⾊的",
+    "pdfZh": "咖啡色的",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "white",
+    "dbZh": "⽩⾊的",
+    "pdfZh": "白色的",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "orange",
+    "dbZh": "橘⾊的",
+    "pdfZh": "橘子",
+    "dbTopic": "Choose",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "purple",
+    "dbZh": "紫⾊的",
+    "pdfZh": "紫色的",
+    "dbTopic": "Choose",
+    "pdfTopic": "Colors 顏色"
+  },
+  {
+    "word": "parent",
+    "dbZh": "父親或⺟親",
+    "pdfZh": "父母親",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "son",
+    "dbZh": "兒⼦",
+    "pdfZh": "兒子",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandfather",
+    "dbZh": "外公;爺爺",
+    "pdfZh": "外公、爺爺 (= grandpa)",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandpa",
+    "dbZh": "外公;爺爺",
+    "pdfZh": "外公、爺爺 (= grandfather)",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandmother",
+    "dbZh": "外婆;奶奶",
+    "pdfZh": "外婆、奶奶 (= grandma)",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grandma",
+    "dbZh": "外婆;奶奶",
+    "pdfZh": "外婆、奶奶 (= grandmother)",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "aunt",
+    "dbZh": "阿姨;姑姑;伯⺟;舅媽",
+    "pdfZh": "阿姨、姑姑、伯母、舅媽",
+    "dbTopic": "Family",
+    "pdfTopic": "Family 家庭"
+  },
+  {
+    "word": "uncle",
+    "dbZh": "叔叔;舅舅;姑丈;姨丈",
+    "pdfZh": "叔叔、舅舅、姑丈、姨丈",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "grow",
+    "dbZh": "成⻑;⻑大",
+    "pdfZh": "成長、長大",
+    "dbTopic": "Family",
+    "pdfTopic": "family 家庭、家人 名詞"
+  },
+  {
+    "word": "fruit",
+    "dbZh": "⽔果",
+    "pdfZh": "水果",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "peach",
+    "dbZh": "桃⼦",
+    "pdfZh": "桃子",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "watermelon",
+    "dbZh": "⻄瓜",
+    "pdfZh": "西瓜",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "cook",
+    "dbZh": "做飯",
+    "pdfZh": "廚師",
+    "dbTopic": "Food",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "food",
+    "dbZh": "⾷物",
+    "pdfZh": "食物",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "beef",
+    "dbZh": "⽜肉",
+    "pdfZh": "牛肉",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "dumpling",
+    "dbZh": "⽔餃",
+    "pdfZh": "水餃",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "yummy",
+    "dbZh": "美味好吃的",
+    "pdfZh": "好吃的、美味的",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "chocolate",
+    "dbZh": "巧克⼒",
+    "pdfZh": "巧克力",
+    "dbTopic": "Food",
+    "pdfTopic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "mountain",
+    "dbZh": "⼭",
+    "pdfZh": "山",
+    "dbTopic": "Geographical",
+    "pdfTopic": "Geographical terms 地理名詞"
+  },
+  {
+    "word": "Moon",
+    "dbZh": "中秋節",
+    "pdfZh": "月亮",
+    "dbTopic": "Holidays",
+    "pdfTopic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "well",
+    "dbZh": "好的、健康的",
+    "pdfZh": "好的, 健康地",
+    "dbTopic": "Health",
+    "pdfTopic": "Health 健康"
+  },
+  {
+    "word": "sick",
+    "dbZh": "⽣病的",
+    "pdfZh": "生病的",
+    "dbTopic": "Health",
+    "pdfTopic": "Health 健康"
+  },
+  {
+    "word": "cold",
+    "dbZh": "感冒",
+    "pdfZh": "寒冷的",
+    "dbTopic": "Health",
+    "pdfTopic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "house",
+    "dbZh": "家",
+    "pdfZh": "房子",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "mop",
+    "dbZh": "⽤拖把拖地",
+    "pdfZh": "用拖把拖地",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "door",
+    "dbZh": "⾨",
+    "pdfZh": "門",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "table",
+    "dbZh": "桌⼦",
+    "pdfZh": "桌子",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "towel",
+    "dbZh": "⽑⼱",
+    "pdfZh": "毛巾",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "shelf",
+    "dbZh": "架⼦",
+    "pdfZh": "架子",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "garden",
+    "dbZh": "院⼦、花園",
+    "pdfZh": "院子、花園",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "refrigerator",
+    "dbZh": "沙發",
+    "pdfZh": "電冰箱 (= fridge)",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "clean",
+    "dbZh": "乾淨的",
+    "pdfZh": "清理",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "bedroom",
+    "dbZh": "臥室",
+    "pdfZh": "臥房",
+    "dbTopic": "House",
+    "pdfTopic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "some",
+    "dbZh": "⼀些",
+    "pdfZh": "一些",
+    "dbTopic": "Numbers",
+    "pdfTopic": "Numbers 數字"
+  },
+  {
+    "word": "first",
+    "dbZh": "第⼀",
+    "pdfZh": "第一",
+    "dbTopic": "Numbers",
+    "pdfTopic": "Numbers 數字"
+  },
+  {
+    "word": "second",
+    "dbZh": "第⼆",
+    "pdfZh": "第二",
+    "dbTopic": "Numbers",
+    "pdfTopic": "Numbers 數字"
+  },
+  {
+    "word": "singer",
+    "dbZh": "歌⼿",
+    "pdfZh": "歌手",
+    "dbTopic": "Occupations",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "driver",
+    "dbZh": "司機駕駛員",
+    "pdfZh": "司機、駕駛員",
+    "dbTopic": "Occupations",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "waiter",
+    "dbZh": "男服務⽣",
+    "pdfZh": "男服務生",
+    "dbTopic": "Occupations",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "waitress",
+    "dbZh": "女服務⽣",
+    "pdfZh": "女服務生",
+    "dbTopic": "Occupations",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "soldier",
+    "dbZh": "軍⼈",
+    "pdfZh": "軍人",
+    "dbTopic": "Occupations",
+    "pdfTopic": "Occupations 工作"
+  },
+  {
+    "word": "ear",
+    "dbZh": "⽿朵",
+    "pdfZh": "耳朵",
+    "dbTopic": "Parts",
+    "pdfTopic": "Parts of body 身體部位"
+  },
+  {
+    "word": "tooth",
+    "dbZh": "牙⿒",
+    "pdfZh": "牙齒",
+    "dbTopic": "Parts",
+    "pdfTopic": "Parts of body 身體部位"
+  },
+  {
+    "word": "teeth",
+    "dbZh": "牙⿒(複數)",
+    "pdfZh": "牙齒 (複數)",
+    "dbTopic": "Parts",
+    "pdfTopic": "Parts of body 身體部位"
+  },
+  {
+    "word": "back",
+    "dbZh": "背",
+    "pdfZh": "向後、回原處",
+    "dbTopic": "Parts",
+    "pdfTopic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "person",
+    "dbZh": "⼈(單數)",
+    "pdfZh": "人",
+    "dbTopic": "People",
+    "pdfTopic": "people 人 (複數) 名詞"
+  },
+  {
+    "word": "kid",
+    "dbZh": "⼩孩",
+    "pdfZh": "小孩",
+    "dbTopic": "People",
+    "pdfTopic": "People 人"
+  },
+  {
+    "word": "girl",
+    "dbZh": "男⼈",
+    "pdfZh": "女孩",
+    "dbTopic": "People",
+    "pdfTopic": "People 人"
+  },
+  {
+    "word": "woman",
+    "dbZh": "女⼈",
+    "pdfZh": "女人",
+    "dbTopic": "People",
+    "pdfTopic": "people 人 (複數) 名詞"
+  },
+  {
+    "word": "women",
+    "dbZh": "女⼈(複數)",
+    "pdfZh": "女人 (複數)",
+    "dbTopic": "People",
+    "pdfTopic": "people 人 (複數) 名詞"
+  },
+  {
+    "word": "nice",
+    "dbZh": "宜⼈的",
+    "pdfZh": "令人愉快的、宜人的",
+    "dbTopic": "Personal",
+    "pdfTopic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "tall",
+    "dbZh": "年輕的",
+    "pdfZh": "高的",
+    "dbTopic": "Personal",
+    "pdfTopic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "short",
+    "dbZh": "忙碌的",
+    "pdfZh": "短的",
+    "dbTopic": "Personal",
+    "pdfTopic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "angry",
+    "dbZh": "⽣氣的",
+    "pdfZh": "生氣的",
+    "dbTopic": "Personal",
+    "pdfTopic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "mad",
+    "dbZh": "氣憤地",
+    "pdfZh": "生氣的、氣憤的",
+    "dbTopic": "Personal",
+    "pdfTopic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "right",
+    "dbZh": "右邊(的)",
+    "pdfZh": "對的",
+    "dbTopic": "Place",
+    "pdfTopic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "bank",
+    "dbZh": "銀⾏",
+    "pdfZh": "銀行",
+    "dbTopic": "Place",
+    "pdfTopic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "Japan",
+    "dbZh": "⽇本",
+    "pdfZh": "日本",
+    "dbTopic": "Place",
+    "pdfTopic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "music",
+    "dbZh": "⾳樂",
+    "pdfZh": "音樂",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "English",
+    "dbZh": "英⽂",
+    "pdfZh": "英文",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "Chinese",
+    "dbZh": "中⽂",
+    "pdfZh": "中文",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "spell",
+    "dbZh": "拚寫",
+    "pdfZh": "拼寫、用字母拼",
+    "dbTopic": "School",
+    "pdfTopic": "school 學校 名詞"
+  },
+  {
+    "word": "glue",
+    "dbZh": "膠⽔",
+    "pdfZh": "膠水",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "marker",
+    "dbZh": "⿆克筆",
+    "pdfZh": "麥克筆",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "eraser",
+    "dbZh": "橡⽪擦",
+    "pdfZh": "橡皮擦",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "picture",
+    "dbZh": "圖⽚、照⽚",
+    "pdfZh": "圖片、照片",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "blackboard",
+    "dbZh": "⿊板",
+    "pdfZh": "黑板",
+    "dbTopic": "School",
+    "pdfTopic": "School 學校"
+  },
+  {
+    "word": "small",
+    "dbZh": "⼩的",
+    "pdfZh": "小的",
+    "dbTopic": "Size",
+    "pdfTopic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "long",
+    "dbZh": "⻑的",
+    "pdfZh": "長的",
+    "dbTopic": "Size",
+    "pdfTopic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "high",
+    "dbZh": "⾼的",
+    "pdfZh": "高的",
+    "dbTopic": "Size",
+    "pdfTopic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "pair",
+    "dbZh": "⼀雙、⼀對",
+    "pdfZh": "一雙、一對",
+    "dbTopic": "Size",
+    "pdfTopic": "Sizes & measurements 尺寸/計量"
+  },
+  {
+    "word": "paint",
+    "dbZh": "⽤顏料畫、油漆刷",
+    "pdfZh": "用顏料畫、刷油漆",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "hike",
+    "dbZh": "健⾏",
+    "pdfZh": "健行",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "football",
+    "dbZh": "⾜球(英式)",
+    "pdfZh": "足球 (UK; 英式英語)",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "soccer",
+    "dbZh": "⾜球(美式)",
+    "pdfZh": "足球 (US; 美式英語)",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "trip",
+    "dbZh": "旅⾏(短程的)",
+    "pdfZh": "（短程的）旅行",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "card",
+    "dbZh": "卡⽚",
+    "pdfZh": "卡片",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "drum",
+    "dbZh": "⿎",
+    "pdfZh": "鼓",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "kite",
+    "dbZh": "⾵箏",
+    "pdfZh": "風箏",
+    "dbTopic": "Sport,",
+    "pdfTopic": "Sports, interests & hobbies 運動/興趣/嗜好"
+  },
+  {
+    "word": "cup",
+    "dbZh": "杯⼦",
+    "pdfZh": "杯子",
+    "dbTopic": "Tableware",
+    "pdfTopic": "Tableware 餐具"
+  },
+  {
+    "word": "dish",
+    "dbZh": "碟⼦、盤⼦",
+    "pdfZh": "碟子、盤子",
+    "dbTopic": "Tableware",
+    "pdfTopic": "Tableware 餐具"
+  },
+  {
+    "word": "fork",
+    "dbZh": "叉⼦",
+    "pdfZh": "叉子",
+    "dbTopic": "Tableware",
+    "pdfTopic": "Tableware 餐具"
+  },
+  {
+    "word": "knife",
+    "dbZh": "⼑⼦",
+    "pdfZh": "刀子",
+    "dbTopic": "Tableware",
+    "pdfTopic": "Tableware 餐具"
+  },
+  {
+    "word": "chopsticks",
+    "dbZh": "筷⼦",
+    "pdfZh": "筷子",
+    "dbTopic": "Tableware",
+    "pdfTopic": "Tableware 餐具"
+  },
+  {
+    "word": "watch",
+    "dbZh": "⼿錶",
+    "pdfZh": "看",
+    "dbTopic": "Time",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "fall",
+    "dbZh": "秋天",
+    "pdfZh": "掉落",
+    "dbTopic": "Time",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "Monday",
+    "dbZh": "星期⼀",
+    "pdfZh": "星期一",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "Tuesday",
+    "dbZh": "星期⼆",
+    "pdfZh": "星期二",
+    "dbTopic": "Time",
+    "pdfTopic": "time 時間 名詞"
+  },
+  {
+    "word": "Sunday",
+    "dbZh": "星期⽇",
+    "pdfZh": "星期日",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "January",
+    "dbZh": "⼀月",
+    "pdfZh": "一月",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "February",
+    "dbZh": "⼆月",
+    "pdfZh": "二月",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "August",
+    "dbZh": "⼋月",
+    "pdfZh": "八月",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "October",
+    "dbZh": "⼗月",
+    "pdfZh": "十月",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "November",
+    "dbZh": "⼗⼀月",
+    "pdfZh": "十一月",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "December",
+    "dbZh": "⼗⼆月",
+    "pdfZh": "十二月",
+    "dbTopic": "Time",
+    "pdfTopic": "Time 時間"
+  },
+  {
+    "word": "ride",
+    "dbZh": "騎(機⾞、腳踏⾞)",
+    "pdfZh": "騎（機車、腳踏車等）",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "fly",
+    "dbZh": "⾶、⾶⾏",
+    "pdfZh": "飛、飛行",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "drive",
+    "dbZh": "開⾞",
+    "pdfZh": "開車",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "car",
+    "dbZh": "⾞⼦",
+    "pdfZh": "車子",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "airport",
+    "dbZh": "⾶機",
+    "pdfZh": "機場",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "ship",
+    "dbZh": "船(大)",
+    "pdfZh": "（大）船",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "station",
+    "dbZh": "⾞站",
+    "pdfZh": "車站",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "motorcycle",
+    "dbZh": "摩托⾞",
+    "pdfZh": "摩托車",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "scooter",
+    "dbZh": "輕型機⾞",
+    "pdfZh": "輕型機車",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "fast",
+    "dbZh": "快的",
+    "pdfZh": "快速的（地）",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "truck",
+    "dbZh": "卡⾞",
+    "pdfZh": "卡車",
+    "dbTopic": "Transportation",
+    "pdfTopic": "Transportation 運輸"
+  },
+  {
+    "word": "wind",
+    "dbZh": "⾵",
+    "pdfZh": "風",
+    "dbTopic": "Weather",
+    "pdfTopic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "windy",
+    "dbZh": "⾵大的",
+    "pdfZh": "風大的",
+    "dbTopic": "Weather",
+    "pdfTopic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "typhoon",
+    "dbZh": "颱⾵",
+    "pdfZh": "颱風",
+    "dbTopic": "Weather",
+    "pdfTopic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "rain",
+    "dbZh": "⾬⽔，下⾬",
+    "pdfZh": "雨水",
+    "dbTopic": "Weather",
+    "pdfTopic": "Weather & nature 天氣/自然"
+  },
+  {
+    "word": "hot",
+    "dbZh": "熱的",
+    "pdfZh": "燙的",
+    "dbTopic": "Weather",
+    "pdfTopic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "cool",
+    "dbZh": "涼爽的",
+    "pdfZh": "清涼的",
+    "dbTopic": "Weather",
+    "pdfTopic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "every",
+    "dbZh": "每⼀個",
+    "pdfZh": "每一個",
+    "dbTopic": "Articles",
+    "pdfTopic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "you",
+    "dbZh": "你;你們",
+    "pdfZh": "你；你們",
+    "dbTopic": "Pronouns",
+    "pdfTopic": "Pronouns 代名詞"
+  },
+  {
+    "word": "do",
+    "dbZh": "助動詞",
+    "pdfZh": "做",
+    "dbTopic": "Be",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "can",
+    "dbZh": "可以",
+    "pdfZh": "罐子",
+    "dbTopic": "Be",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "in",
+    "dbZh": "在...裡⾯",
+    "pdfZh": "在...裡面、在某短時間裡",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "out",
+    "dbZh": "在外地",
+    "pdfZh": "向外地",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "for",
+    "dbZh": "給、為了(某⼈)",
+    "pdfZh": "給、為了(某人、物)",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "on",
+    "dbZh": "在....上⾯",
+    "pdfZh": "在...上面；在(某一天)",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "behind",
+    "dbZh": "在...後⾯",
+    "pdfZh": "在...後面",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "from",
+    "dbZh": "從(某處、某時刻、某⼈)",
+    "pdfZh": "從(某處)/(某時刻)/(某人)",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "over",
+    "dbZh": "在...上⽅",
+    "pdfZh": "在...上方",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "than",
+    "dbZh": "⽐",
+    "pdfZh": "比",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "with",
+    "dbZh": "和...⼀起",
+    "pdfZh": "和...一起",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "inside",
+    "dbZh": "在..裡⾯",
+    "pdfZh": "在...裡面、向...裡面",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "outside",
+    "dbZh": "在...外⾯",
+    "pdfZh": "在...外面、向...外面",
+    "dbTopic": "Prepositions",
+    "pdfTopic": "Prepositions 介系詞"
+  },
+  {
+    "word": "box",
+    "dbZh": "箱⼦",
+    "pdfZh": "箱子",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "bottle",
+    "dbZh": "瓶⼦",
+    "pdfZh": "瓶子",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "email",
+    "dbZh": "電⼦郵件",
+    "pdfZh": "電子郵件",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "way",
+    "dbZh": "路、⽅向",
+    "pdfZh": "路、方向",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "fun",
+    "dbZh": "樂趣",
+    "pdfZh": "有趣的",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "thing",
+    "dbZh": "東⻄、物",
+    "pdfZh": "東西、物",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "photo",
+    "dbZh": "照⽚",
+    "pdfZh": "照片",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "robot",
+    "dbZh": "機器⼈",
+    "pdfZh": "機器人",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "cellphone",
+    "dbZh": "⼿機",
+    "pdfZh": "手機",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "birthday",
+    "dbZh": "⽣⽇",
+    "pdfZh": "生日",
+    "dbTopic": "Other",
+    "pdfTopic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "meet",
+    "dbZh": "遇⾒、會⾯",
+    "pdfZh": "遇見、會面",
+    "dbTopic": "Other",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "brush",
+    "dbZh": "⽤刷⼦刷",
+    "pdfZh": "用刷子刷",
+    "dbTopic": "Other",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "show",
+    "dbZh": "給..看、展⽰",
+    "pdfZh": "給...看、展示",
+    "dbTopic": "Other",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "stand",
+    "dbZh": "站、站⽴",
+    "pdfZh": "站、站立",
+    "dbTopic": "Other",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "thank",
+    "dbZh": "感謝(某⼈)",
+    "pdfZh": "感謝（某人）",
+    "dbTopic": "Other",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "worry",
+    "dbZh": "擔⼼",
+    "pdfZh": "擔心",
+    "dbTopic": "Other",
+    "pdfTopic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "OK",
+    "dbZh": "好的",
+    "pdfZh": "沒事",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "fine",
+    "dbZh": "很好、不錯的",
+    "pdfZh": "很好的、很不錯的",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "only",
+    "dbZh": "僅有的",
+    "pdfZh": "唯一地",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "sure",
+    "dbZh": "確定的",
+    "pdfZh": "當然",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "very",
+    "dbZh": "⾮常",
+    "pdfZh": "非常",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "together",
+    "dbZh": "⼀起",
+    "pdfZh": "一起",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "again",
+    "dbZh": "再⼀次",
+    "pdfZh": "再一次、又一次",
+    "dbTopic": "Other",
+    "pdfTopic": "Other adverbs 其他副詞"
+  },
+  {
+    "word": "which",
+    "dbZh": "哪⼀個...",
+    "pdfZh": "哪一個...",
+    "dbTopic": "Wh-words",
+    "pdfTopic": "Wh-words 疑問詞"
+  },
+  {
+    "word": "sad",
+    "dbZh": "悲傷的",
+    "pdfZh": "傷心的、難過的",
+    "dbTopic": "Personal characteristics",
+    "pdfTopic": "Personal characteristics 個性/特點"
+  }
+]

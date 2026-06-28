@@ -1,0 +1,314 @@
+[
+  {
+    "word": "T-shirt T",
+    "zh": "恤",
+    "pos": "名詞",
+    "topic": "Clothing & accessories 衣服/配件"
+  },
+  {
+    "word": "cookies",
+    "zh": "餅乾",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "French fries",
+    "zh": "薯條",
+    "pos": "名詞",
+    "topic": "Food & drink 食物/飲料"
+  },
+  {
+    "word": "Mr.",
+    "zh": "先生",
+    "pos": "",
+    "topic": "Forms of address 稱謂"
+  },
+  {
+    "word": "Mrs.",
+    "zh": "太太",
+    "pos": "",
+    "topic": "Forms of address 稱謂"
+  },
+  {
+    "word": "Dragon Boat Festival",
+    "zh": "端午節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "Moon Festival",
+    "zh": "中秋節",
+    "pos": "名詞",
+    "topic": "Holidays & festivals 節日/節慶"
+  },
+  {
+    "word": "dining room (",
+    "zh": "家裡的)餐廳",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "fridge",
+    "zh": "電冰箱 (= refrigerator)",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "telephone",
+    "zh": "電話",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "television",
+    "zh": "電視 (= TV)",
+    "pos": "名詞",
+    "topic": "Houses & apartments 房子/公寓"
+  },
+  {
+    "word": "eighteen",
+    "zh": "十八",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "eighty",
+    "zh": "八十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "fifteen",
+    "zh": "十五",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "fifty",
+    "zh": "五十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "forty",
+    "zh": "四十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "fourteen",
+    "zh": "十四",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "hundred",
+    "zh": "一百",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "nineteen",
+    "zh": "十九",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "ninety",
+    "zh": "九十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "seventeen",
+    "zh": "十七",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "seventy",
+    "zh": "七十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "sixteen",
+    "zh": "十六",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "Sixty",
+    "zh": "六十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "thirteen",
+    "zh": "十三",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "thirty",
+    "zh": "三十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "twenty",
+    "zh": "二十",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "zero",
+    "zh": "零",
+    "pos": "數字",
+    "topic": "Numbers 數字"
+  },
+  {
+    "word": "arm",
+    "zh": "手臂",
+    "pos": "名詞",
+    "topic": "Parts of body 身體部位"
+  },
+  {
+    "word": "men",
+    "zh": "男人 (複數)",
+    "pos": "名詞",
+    "topic": "People 人"
+  },
+  {
+    "word": "boring",
+    "zh": "令人無聊的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "exciting",
+    "zh": "令人興奮的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "old 1.",
+    "zh": "年紀、年齡；2. 老的",
+    "pos": "形容詞",
+    "topic": "Personal characteristics 個性/特點"
+  },
+  {
+    "word": "UK",
+    "zh": "英國",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "USA",
+    "zh": "美國",
+    "pos": "名詞",
+    "topic": "Places & directions 地點/方位"
+  },
+  {
+    "word": "science",
+    "zh": "科學",
+    "pos": "名詞",
+    "topic": "school 學校 名詞"
+  },
+  {
+    "word": "o'clock ...",
+    "zh": "點鐘",
+    "pos": "副詞",
+    "topic": "Time 時間"
+  },
+  {
+    "word": "airplane",
+    "zh": "飛機 (= plane)",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "bicycle",
+    "zh": "腳踏車 (= bike)",
+    "pos": "名詞",
+    "topic": "Transportation 運輸"
+  },
+  {
+    "word": "his",
+    "zh": "他的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "its",
+    "zh": "它的、牠的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "their",
+    "zh": "他們的",
+    "pos": "限定詞",
+    "topic": "Articles & determiners 冠詞/限定詞"
+  },
+  {
+    "word": "bye",
+    "zh": "再見 (= goodbye)",
+    "pos": "感嘆詞",
+    "topic": "Interjections 感嘆詞"
+  },
+  {
+    "word": "about 1.",
+    "zh": "大約；2. 關於...",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "in front of",
+    "zh": "在...前面",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "of ...",
+    "zh": "的",
+    "pos": "介系詞",
+    "topic": "Prepositions 介系詞"
+  },
+  {
+    "word": "trash",
+    "zh": "垃圾",
+    "pos": "名詞",
+    "topic": "Other nouns 其他名詞"
+  },
+  {
+    "word": "bite",
+    "zh": "咬",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "let's",
+    "zh": "讓我們...",
+    "pos": "動詞",
+    "topic": "Other verbs 其他動詞"
+  },
+  {
+    "word": "different",
+    "zh": "不一樣的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "interesting",
+    "zh": "有趣的",
+    "pos": "形容詞",
+    "topic": "Other adjectives 其他形容詞"
+  },
+  {
+    "word": "too 1.",
+    "zh": "也；2. 太...",
+    "pos": "副詞",
+    "topic": "Other adverbs 其他副詞"
+  }
+]

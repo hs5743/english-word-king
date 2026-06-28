@@ -467,7 +467,7 @@ serve(async (req) => {
     const customWords = normalizedTeacherConfig ? buildTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
     const fallbackBank = mergeFallbackWords(customWords, fallbackBankBase)
     const candidatePoolBase = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
-    const candidatePool = mergeFallbackWords(customWords, candidatePoolBase)
+    const candidatePool = mergeFallbackWords(customWords, candidatePoolBase).slice(0, 10)
     const candidatesJson = candidatePool.map(c => ({
       word: c.word,
       zh: c.zh,
@@ -495,10 +495,10 @@ serve(async (req) => {
 ${teacherPromptBlock}
 
 【第一約束 — 只能從候選清單選字】：
-你只能從以下【候選單字清單】（共 10 個單字）中，挑選單字來出 12 題。絕對不能使用清單之外的單字！
+你只能從以下【候選單字清單】（共 10 個單字）中，挑選單字來出 ${requestedQuestionCount} 題。絕對不能使用清單之外的單字！
 出題要求：
-  1. 這 12 題中，前 10 題必須完全覆蓋這 10 個候選單字（即每個單字剛好出一題，不得遺漏）。
-  2. 第 11 和 12 題，請從這 10 個單字中，再選 2 個單字重複考驗，但必須為這 2 題創作完全不同的新英文例句與新句型結構，以加強學生對單字的應用與熟練度！
+  1. 這 ${requestedQuestionCount} 題中，前 10 題必須完全覆蓋這 10 個候選單字（即每個單字剛好出一題，不得遺漏）。
+  ${requestedQuestionCount > 10 ? `2. 第 11 到 ${requestedQuestionCount} 題，請從這 10 個單字中，再挑選 ${requestedQuestionCount - 10} 個單字重複考驗，但必須為這些重複的題目創作完全不同的新英文例句與新句型結構，以加強學生對單字的應用與熟練度！` : '2. 每一題都對應不同的單字，不要重複。'}
   3. 對於每一題，"word"、"zh"、"topic"、"chunks" 必須完全與候選清單中的數值一致。
 
 【第二約束 — 自由造句（最重要！）】：
@@ -673,9 +673,17 @@ ${JSON.stringify(candidatesJson, null, 2)}
     }
 
     // 10. 驗證與過濾回傳資料格式
-    const finalChallenge = normalizeChallenge(challengeData, adaptiveMaxGrade, candidatePool, fallbackBank, requestedQuestionCount)
+    const finalChallenge = normalizeChallenge(
+      challengeData, 
+      adaptiveMaxGrade, 
+      candidatePool, 
+      fallbackBank, 
+      requestedQuestionCount, 
+      normalizedTeacherConfig?.typeMix || 'balanced'
+    )
       .map((item, index) => ({
         ...item,
+        original_index: index,
         id: item.id || `q${String(index + 1).padStart(2, '0')}_${normalizeWord(item.word) || index + 1}`
       }))
 
@@ -1301,58 +1309,114 @@ function normalizeChallenge(
   grade: number, 
   candidatePool: FallbackWord[] = [], 
   bank: FallbackWord[] = fallbackWords,
-  questionCount = 12
+  questionCount = 12,
+  typeMix = 'balanced'
 ): ChallengeItem[] {
   const available = bank.filter(w => w.grade <= Math.max(3, grade))
   const poolMap = new Map(candidatePool.map(c => [c.word.toLowerCase().trim(), c]))
-  const usedWords = new Set<string>()
-  const validItems: ChallengeItem[] = []
-
-  // 1. 過濾出符合約束的題目
+  
+  // Group AI items by word
+  const aiItemsByWord = new Map<string, any[]>()
   if (Array.isArray(items)) {
     for (const item of items) {
       if (!item || !item.word) continue
       const wordClean = String(item.word).toLowerCase().trim()
-      const candidate = poolMap.get(wordClean)
-      
-      // 必須存在於候選池中，且這次挑戰中尚未重複使用
-      if (candidate && !usedWords.has(wordClean)) {
-        usedWords.add(wordClean)
-        
-        const aiSentence = String(item.exampleSentence || item.sentence || '').trim()
-        const aiSentenceZh = String(item.sentenceZh || '').trim()
-
-        // P3 語法自我檢查：AI 句子通過驗證則保留，否則 fallback 回標準句
-        const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
-        let finalSentence: string
-        let finalSentenceZh: string
-
-        if (validation.ok) {
-          // ✅ AI 自由句通過驗證，直接採用
-          finalSentence = aiSentence
-          finalSentenceZh = validateSentenceZh(aiSentenceZh) ? aiSentenceZh : candidate.sentenceZh
-          console.log(`[P3 ✅ AI句通過] word=${wordClean} | sentence="${aiSentence}"`)
-        } else {
-          // ❌ AI 句不符合品質要求，fallback 到 repairGrammar 後的標準句
-          finalSentence = candidate.sentence
-          finalSentenceZh = candidate.sentenceZh
-          console.warn(`[P3 ❌ AI句不符，使用標準句] word=${wordClean} | reason=${validation.reason} | ai="${aiSentence}" | fallback="${finalSentence}"`)
+      if (poolMap.has(wordClean)) {
+        if (!aiItemsByWord.has(wordClean)) {
+          aiItemsByWord.set(wordClean, [])
         }
+        aiItemsByWord.get(wordClean)!.push(item)
+      }
+    }
+  }
 
-        const distractors = buildDistractors(wordClean, available, item.distractors, candidate.topic)
+  const validUniqueItems: ChallengeItem[] = []
+  const duplicateAiItems: any[] = []
+
+  // 1. 處理前 10 題：保證候選詞不重複且完整覆蓋
+  for (const candidate of candidatePool) {
+    const wordClean = candidate.word.toLowerCase().trim()
+    const aiList = aiItemsByWord.get(wordClean) || []
+    
+    if (aiList.length > 0) {
+      const firstAiItem = aiList[0]
+      const aiSentence = String(firstAiItem.exampleSentence || firstAiItem.sentence || '').trim()
+      const aiSentenceZh = String(firstAiItem.sentenceZh || '').trim()
+      
+      const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
+      let finalSentence: string
+      let finalSentenceZh: string
+
+      if (validation.ok) {
+        finalSentence = aiSentence
+        finalSentenceZh = validateSentenceZh(aiSentenceZh) ? aiSentenceZh : candidate.sentenceZh
+      } else {
+        finalSentence = candidate.sentence
+        finalSentenceZh = candidate.sentenceZh
+      }
+
+      const distractors = buildDistractors(wordClean, available, firstAiItem.distractors, candidate.topic)
+      const distractorZhs: Record<string, string> = {}
+      distractors.forEach(d => {
+        const found = available.find(w => w.word.toLowerCase().trim() === d.toLowerCase().trim())
+        distractorZhs[d] = found ? found.zh : d
+      })
+
+      validUniqueItems.push({
+        word: wordClean,
+        zh: candidate.zh,
+        topic: candidate.topic,
+        chunks: candidate.chunks,
+        phonetic: firstAiItem.phonetic || candidate.phonetic || '',
+        pattern: firstAiItem.pattern || candidate.pattern || 'Practice sentence',
+        exampleSentence: finalSentence,
+        sentenceZh: finalSentenceZh,
+        fillBlank: makeFillBlank(finalSentence, wordClean),
+        distractors,
+        distractorZhs,
+      })
+
+      // 將該單字其他的 AI 出題塞入 duplicateAiItems 供後續重複出題使用
+      for (let i = 1; i < aiList.length; i++) {
+        duplicateAiItems.push(aiList[i])
+      }
+    } else {
+      validUniqueItems.push(toChallengeItem(candidate, available))
+    }
+  }
+
+  // 2. 處理大於 10 題的重複考驗題目
+  const finalRepeatedItems: ChallengeItem[] = []
+  const neededRepeated = Math.max(0, questionCount - validUniqueItems.length)
+
+  if (neededRepeated > 0) {
+    // 優先使用 AI 生成的重複題目
+    for (const dupItem of duplicateAiItems) {
+      if (finalRepeatedItems.length >= neededRepeated) break
+      const wordClean = String(dupItem.word).toLowerCase().trim()
+      const candidate = poolMap.get(wordClean)!
+
+      const aiSentence = String(dupItem.exampleSentence || dupItem.sentence || '').trim()
+      const aiSentenceZh = String(dupItem.sentenceZh || '').trim()
+      
+      const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
+      if (validation.ok) {
+        const finalSentence = aiSentence
+        const finalSentenceZh = validateSentenceZh(aiSentenceZh) ? aiSentenceZh : candidate.sentenceZh
+        const distractors = buildDistractors(wordClean, available, dupItem.distractors, candidate.topic)
         const distractorZhs: Record<string, string> = {}
         distractors.forEach(d => {
           const found = available.find(w => w.word.toLowerCase().trim() === d.toLowerCase().trim())
           distractorZhs[d] = found ? found.zh : d
         })
 
-        validItems.push({
+        finalRepeatedItems.push({
           word: wordClean,
-          zh: candidate.zh,         // 強制使用題庫標準中文
-          topic: candidate.topic,   // 強制使用題庫標準主題
-          chunks: candidate.chunks, // 強制使用題庫標準音節
-          phonetic: item.phonetic || candidate.phonetic || '',
-          pattern: item.pattern || candidate.pattern || 'Practice sentence',
+          zh: candidate.zh,
+          topic: candidate.topic,
+          chunks: candidate.chunks,
+          phonetic: dupItem.phonetic || candidate.phonetic || '',
+          pattern: dupItem.pattern || candidate.pattern || 'Practice sentence',
           exampleSentence: finalSentence,
           sentenceZh: finalSentenceZh,
           fillBlank: makeFillBlank(finalSentence, wordClean),
@@ -1361,40 +1425,63 @@ function normalizeChallenge(
         })
       }
     }
-  }
 
-  // 2. 如果合格題目不足 12 題，使用候選池中未使用的單字補齊
-  if (validItems.length < questionCount) {
-    const remainingCandidates = candidatePool.filter(c => !usedWords.has(c.word.toLowerCase().trim()))
-    const shuffledRemaining = shuffle(remainingCandidates)
-    
-    for (const item of shuffledRemaining) {
-      if (validItems.length >= questionCount) break
-      const wordClean = item.word.toLowerCase().trim()
-      usedWords.add(wordClean)
-      validItems.push(toChallengeItem(item, available))
+    // 若 AI 重複出題不足，則 fallback 隨機挑選候選單字並複製為預設題目
+    let dupIndex = 0
+    while (finalRepeatedItems.length < neededRepeated) {
+      const candidate = candidatePool[dupIndex % candidatePool.length]
+      finalRepeatedItems.push(toChallengeItem(candidate, available))
+      dupIndex++
     }
   }
 
-  // 3. 如果依然不足 12 題，用 available 隨機補齊
-  if (validItems.length < questionCount) {
-    const remainingAvailable = available.filter(w => !usedWords.has(w.word.toLowerCase().trim()))
-    const shuffledRemaining = shuffle(remainingAvailable)
-    for (const item of shuffledRemaining) {
-      if (validItems.length >= questionCount) break
-      const wordClean = item.word.toLowerCase().trim()
-      usedWords.add(wordClean)
-      validItems.push(toChallengeItem(item, available))
+  const combined = [...validUniqueItems, ...finalRepeatedItems]
+
+  // 3. 計算題型分配數量 (spelling / speech / sentence)
+  let spellingCount = 0
+  let speechCount = 0
+  let sentenceCount = 0
+
+  if (typeMix === 'spelling-heavy') {
+    spellingCount = Math.floor(questionCount * 0.5)
+    const remaining = questionCount - spellingCount
+    speechCount = Math.floor(remaining / 2)
+    sentenceCount = remaining - speechCount
+  } else if (typeMix === 'speech-heavy') {
+    speechCount = Math.floor(questionCount * 0.5)
+    const remaining = questionCount - speechCount
+    spellingCount = Math.floor(remaining / 2)
+    sentenceCount = remaining - spellingCount
+  } else if (typeMix === 'sentence-heavy') {
+    sentenceCount = Math.floor(questionCount * 0.5)
+    const remaining = questionCount - sentenceCount
+    spellingCount = Math.floor(remaining / 2)
+    speechCount = remaining - spellingCount
+  } else {
+    // balanced or review
+    spellingCount = Math.floor(questionCount / 3)
+    speechCount = Math.floor(questionCount / 3)
+    sentenceCount = questionCount - spellingCount - speechCount
+  }
+
+  // 4. 進行分流分群排列並寫入題型標記 (Spelling -> Speech -> Sentence)
+  const finalChallenge: ChallengeItem[] = []
+  let assigned = 0
+  for (const item of combined) {
+    let type: 'spelling' | 'speech' | 'sentence' = 'spelling'
+    if (assigned < spellingCount) {
+      type = 'spelling'
+    } else if (assigned < spellingCount + speechCount) {
+      type = 'speech'
+    } else {
+      type = 'sentence'
     }
+    item.question_type = type
+    finalChallenge.push(item)
+    assigned++
   }
 
-  // 4. 最後的最後，如果還是不夠，允許重複使用 available 的字
-  while (validItems.length < questionCount) {
-    const item = available[validItems.length % available.length]
-    validItems.push(toChallengeItem(item, available))
-  }
-
-  return validItems.slice(0, questionCount)
+  return finalChallenge
 }
 
 function toChallengeItem(item: FallbackWord, available: FallbackWord[]): ChallengeItem {

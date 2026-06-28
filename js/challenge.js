@@ -298,6 +298,10 @@
   }
 
   function inferQuestionType(index) {
+    if (!currentChallenge || !currentChallenge[index]) return 'spelling'
+    const q = currentChallenge[index]
+    if (q.question_type) return q.question_type
+
     if (currentMode === 'daily') {
       if (index >= 4 && index <= 7) return 'speech'
       if (index >= 8) return 'sentence'
@@ -310,9 +314,12 @@
     const q = currentChallenge[currentIndex]
     const questionId = q.id || `q${currentIndex + 1}_${q.word || currentIndex + 1}`
     if (sessionQuestionResults.some(row => row.question_id === questionId)) return
+    
+    const originalOrder = (q.original_index !== undefined) ? (q.original_index + 1) : (currentIndex + 1)
+    
     sessionQuestionResults.push({
       question_id: questionId,
-      question_order: currentIndex + 1,
+      question_order: originalOrder,
       question_type: type || inferQuestionType(currentIndex),
       word: q.word || '',
       topic: q.topic || '',
@@ -426,13 +433,18 @@
     // 2. 重置上一題的狀態
     resetQuestionState()
 
-    // 3. 計分挑戰模式（Daily）：題目鎖定流，自由練習則依據當前所選 Tab 分流
+    // 3. 計分挑戰模式與課堂模式：題目鎖定流，自由練習則依據當前所選 Tab 分流
     if (currentMode === 'daily') {
       // 0-3: spelling, 4-7: speech, 8-11: sentence
       let targetType = 'spelling'
       if (index >= 4 && index <= 7) targetType = 'speech'
       else if (index >= 8) targetType = 'sentence'
 
+      currentType = targetType
+      updateTypeTabsUI(targetType)
+    } else if (currentMode === 'class') {
+      // 依據題目包中由後端分配好的 question_type 分流
+      const targetType = q.question_type || 'spelling'
       currentType = targetType
       updateTypeTabsUI(targetType)
     }
@@ -1696,7 +1708,7 @@
       // 1. 每日挑戰與課堂挑戰都寫入紀錄；自由練習只更新 mastery。
       if (isDailyMode || isClassMode) {
         const suffix = isClassMode ? currentSessionId : 'daily'
-        const attemptId = `${currentUser.id}_${today}_${suffix}`
+        const attemptId = `${currentUser.id}_${today}_${suffix}_${Date.now()}`
         const { error: attemptError } = await supabase
           .from('daily_attempts')
           .insert({
