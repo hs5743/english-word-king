@@ -636,6 +636,7 @@ function renderIndexHandbook() {
             <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #78716c, #a8a29e); border-radius: 3px;"></div>
           </div>
           <span style="font-size: 0.65rem; color: #a8a29e; margin-top: 6px;">再答對 ${remaining} 次洗淨</span>
+          <button onclick="window.startMining('${w.word.replace(/'/g, "\\'")}')" style="margin-top: 10px; width: 100%; padding: 6px 12px; border: 1px solid rgba(245,200,66,0.3); background: rgba(245,200,66,0.08); color: var(--clr-gold-1); font-weight: bold; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.2)'" onmouseout="this.style.background='rgba(245,200,66,0.08)'">⛏️ 開始開採</button>
         </div>
       `
     } else {
@@ -656,4 +657,268 @@ function renderIndexHandbook() {
       `
     }
   }).join('')
+}
+
+/* ── 英語寶石開鑿狀態機與複習挑戰 (Scenario 1) ─────────────────────── */
+let currentMiningWord = null;
+let currentMiningStage = 1; // 1: 聽音寫字, 2: 口說跟讀
+
+window.startMining = function(wordText) {
+  if (!cachedVocabList) return;
+  const wordItem = cachedVocabList.find(w => w.word.toLowerCase().trim() === wordText.toLowerCase().trim());
+  if (!wordItem) return;
+
+  currentMiningWord = wordItem;
+  currentMiningStage = 1;
+
+  document.getElementById('miningModalOverlay').style.display = 'block';
+  document.getElementById('miningModal').style.display = 'flex';
+
+  renderMiningStage();
+};
+
+window.closeIndexMiningModal = function() {
+  document.getElementById('miningModal').style.display = 'none';
+  document.getElementById('miningModalOverlay').style.display = 'none';
+  if (window.SpeechEngine && window.SpeechEngine.isListening) {
+    window.SpeechEngine.stopListening();
+  }
+  currentMiningWord = null;
+};
+
+function renderMiningStage() {
+  const content = document.getElementById('miningStageContent');
+  if (!content || !currentMiningWord) return;
+
+  if (currentMiningStage === 1) {
+    content.innerHTML = `
+      <div style="text-align: center; width: 100%;">
+        <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--clr-gold-1); font-weight: bold; margin-bottom: 8px;">步驟 1 / 2：聽音寫字</div>
+        <div style="font-size: 0.88rem; color: #8892b0; margin-bottom: 20px;">請聽發音，拼寫出正確的單字。</div>
+        
+        <button onclick="window.playMiningSpeech()" class="btn btn--primary" style="margin-bottom: 24px; padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; border-radius: 30px; box-shadow: 0 4px 12px rgba(245,200,66,0.2); cursor: pointer;">
+          🔊 播放發音
+        </button>
+        
+        <input type="text" id="miningSpellingInput" autocomplete="off" placeholder="在此輸入拼字..." style="display: block; width: 85%; max-width: 280px; margin: 0 auto 16px; padding: 12px; font-size: 1.25rem; font-weight: bold; text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; outline: none; transition: all 0.2s;" onkeydown="if(event.key==='Enter') window.checkMiningSpelling()" />
+        <div id="spellingFeedback" style="font-size: 0.8rem; min-height: 1.2em; margin-bottom: 16px;"></div>
+        
+        <button onclick="window.checkMiningSpelling()" class="btn btn--primary" style="padding: 10px 32px; border-radius: 10px; font-weight: bold; cursor: pointer;">確認答案</button>
+      </div>
+    `;
+    setTimeout(() => window.playMiningSpeech(), 300);
+  } else {
+    content.innerHTML = `
+      <div style="text-align: center; width: 100%;">
+        <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--clr-gold-1); font-weight: bold; margin-bottom: 8px;">步驟 2 / 2：口說朗讀</div>
+        <div style="font-size: 0.88rem; color: #8892b0; margin-bottom: 12px;">請點擊麥克風，大聲朗讀以下句子。</div>
+        
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
+          <h4 style="font-size: 1.25rem; font-weight: bold; color: #f8fafc; margin: 0 0 6px 0; line-height: 1.4;">${escHtml(currentMiningWord.sentence || 'No sentence available')}</h4>
+          <p style="font-size: 0.85rem; color: #a8a29e; margin: 0;">(${escHtml(currentMiningWord.sentenceZh || '')})</p>
+        </div>
+        
+        <button id="btnMiningRecord" onclick="window.startMiningSpeech()" class="btn" style="border-radius: 50%; width: 72px; height: 72px; font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; background: rgba(245,200,66,0.1); border: 2px solid var(--clr-gold-1); color: var(--clr-gold-1); cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 16px rgba(0,0,0,0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          🎤
+        </button>
+        <div id="miningRecordStatus" style="font-size: 0.85rem; color: #8892b0; min-height: 1.5em; margin-bottom: 12px;">點擊麥克風開始錄音</div>
+      </div>
+    `;
+  }
+}
+
+window.playMiningSpeech = function() {
+  if (!currentMiningWord || !window.SpeechEngine) return;
+  window.SpeechEngine.speak(currentMiningWord.word, 0.8);
+};
+
+window.checkMiningSpelling = function() {
+  const inputEl = document.getElementById('miningSpellingInput');
+  const feedbackEl = document.getElementById('spellingFeedback');
+  if (!inputEl || !feedbackEl || !currentMiningWord) return;
+
+  const value = inputEl.value.trim().toLowerCase();
+  const expected = currentMiningWord.word.toLowerCase().trim();
+
+  if (value === expected) {
+    feedbackEl.innerHTML = `<span style="color:#10b981; font-weight:bold;">✓ 拼字正確！</span>`;
+    setTimeout(() => {
+      currentMiningStage = 2;
+      renderMiningStage();
+    }, 800);
+  } else {
+    feedbackEl.innerHTML = `<span style="color:#ef4444; font-weight:bold;">✗ 拼法不對喔，再試一次！</span>`;
+    inputEl.style.borderColor = '#ef4444';
+    inputEl.focus();
+    setTimeout(() => {
+      inputEl.style.borderColor = 'rgba(255,255,255,0.15)';
+    }, 1000);
+  }
+};
+
+window.startMiningSpeech = function() {
+  const btn = document.getElementById('btnMiningRecord');
+  const status = document.getElementById('miningRecordStatus');
+  if (!btn || !status || !currentMiningWord) return;
+
+  if (!window.SpeechEngine || !window.SpeechEngine.isSupported) {
+    status.innerHTML = `<span style="color: #f59e0b; font-weight: bold;">⚠️ 瀏覽器不支援語音辨識</span><br><p style="font-size:0.75rem; color:#8892b0; margin-top:4px;">由於您的瀏覽器不支援，我們自動判定通過！</p>`;
+    setTimeout(async () => {
+      await completeMining();
+    }, 2500);
+    return;
+  }
+
+  if (window.SpeechEngine.isListening) {
+    window.SpeechEngine.stopListening();
+    return;
+  }
+
+  btn.style.background = '#ef4444';
+  btn.style.color = '#fff';
+  btn.style.borderColor = '#ef4444';
+  btn.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.4)';
+  status.textContent = '正在錄音，請開始朗讀...';
+
+  window.SpeechEngine.startListening(
+    currentMiningWord.sentence,
+    (interim, isFinal) => {
+      status.textContent = isFinal ? `辨識結果: ${interim}` : `正在聆聽: ${interim}`;
+    },
+    (err) => {
+      console.error(err);
+      status.textContent = `錯誤: ${err.message || err}`;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+      btn.style.boxShadow = '';
+      showToast('錄音失敗，請再試一次！', 'error');
+    }
+  ).then(transcript => {
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+    btn.style.boxShadow = '';
+
+    if (transcript) {
+      const res = window.SpeechEngine.scoreTranscript(currentMiningWord.sentence, transcript);
+      status.textContent = `評分中... (${res.score}分)`;
+
+      if (res.score >= 70) {
+        status.innerHTML = `<span style="color: #10b981; font-weight: bold;">✓ 成功！評分: ${res.score}分</span>`;
+        setTimeout(() => completeMining(), 1000);
+      } else {
+        status.innerHTML = `<span style="color: #ef4444; font-weight: bold;">✗ 評分: ${res.score}分 (未達 70 分，請重試)</span>`;
+        showToast('發音不夠準確，請再朗讀一次！', 'error');
+      }
+    }
+  });
+};
+
+async function completeMining() {
+  const sb = window.SupabaseConfig?.getSupabase();
+  const user = await window.SupabaseConfig?.getCurrentUser();
+  if (!sb || !user || !cachedStudentProfile || !currentMiningWord) {
+    showToast('連線失敗，請重試', 'error');
+    return;
+  }
+
+  const wordKey = currentMiningWord.word.toLowerCase().trim();
+  const mastery = cachedStudentProfile.mastery || {};
+  mastery[wordKey] = 2; // 洗淨開採成功，熟練度升為 2
+
+  try {
+    const { error } = await sb
+      .from('students')
+      .update({ mastery: mastery })
+      .eq('uid', user.id);
+
+    if (error) throw error;
+
+    // 播放音效與彩帶
+    playUnlockSound();
+    triggerGemUnlockConfetti();
+
+    showToast(`🎉 成功開採並洗淨寶石：${currentMiningWord.word}！`, 'success');
+
+    cachedStudentProfile.mastery = mastery;
+    renderIndexHandbook();
+    window.closeIndexMiningModal();
+
+  } catch (err) {
+    console.error('更新開採記錄失敗:', err);
+    showToast('開採記錄存檔失敗，請重試！', 'error');
+  }
+}
+
+function playUnlockSound() {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc1 = audioCtx.createOscillator();
+    const gain1 = audioCtx.createGain();
+    osc1.connect(gain1);
+
+    osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+    osc1.frequency.exponentialRampToValueAtTime(880.00, audioCtx.currentTime + 0.18); // A5
+    gain1.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+    gain1.connect(audioCtx.destination);
+    osc1.start();
+    osc1.stop(audioCtx.currentTime + 0.35);
+
+    setTimeout(() => {
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.connect(gain2);
+
+      osc2.frequency.setValueAtTime(880.00, audioCtx.currentTime);
+      osc2.frequency.exponentialRampToValueAtTime(1318.51, audioCtx.currentTime + 0.3); // E6
+      gain2.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+
+      gain2.connect(audioCtx.destination);
+      osc2.start();
+      osc2.stop(audioCtx.currentTime + 0.6);
+    }, 180);
+  } catch (e) {
+    console.warn('Web Audio API 播放音效失敗:', e);
+  }
+}
+
+function triggerGemUnlockConfetti() {
+  const container = document.createElement('div');
+  container.style.position = 'fixed';
+  container.style.top = '0';
+  container.style.left = '0';
+  container.style.width = '100vw';
+  container.style.height = '100vh';
+  container.style.pointerEvents = 'none';
+  container.style.zIndex = '9999';
+  document.body.appendChild(container);
+
+  const emojis = ['💎', '🔮', '🌟', '🌈', '👑', '✨', '💖', '🍀'];
+  const count = 40;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.position = 'absolute';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.bottom = '-50px';
+    p.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
+    p.style.transition = `all ${Math.random() * 2 + 1.5}s cubic-bezier(0.1, 0.8, 0.3, 1)`;
+    p.style.opacity = '1';
+    p.style.transform = `translateY(0) rotate(${Math.random() * 360}deg)`;
+    container.appendChild(p);
+
+    requestAnimationFrame(() => {
+      p.style.transform = `translateY(-${Math.random() * 80 + 70}vh) rotate(${Math.random() * 720 - 360}deg)`;
+      p.style.opacity = '0';
+    });
+  }
+
+  setTimeout(() => {
+    container.remove();
+  }, 3500);
 }
