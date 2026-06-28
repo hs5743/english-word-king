@@ -28,6 +28,7 @@ const expectedTopics = {
   say: 'Actions',
   feel: 'Actions',
   hope: 'Actions',
+  ok: 'Interjections',
 }
 
 for (const [word, topic] of Object.entries(expectedTopics)) {

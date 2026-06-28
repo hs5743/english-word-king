@@ -80,6 +80,14 @@ const actionWords = new Set([
   'meet', 'give', 'say', 'feel', 'hope',
 ])
 
+const specialWordSentences: Record<string, { sentence: string; pattern: string; sentenceZh: string }> = {
+  ok: { sentence: 'I am OK now.', pattern: 'I am [word] now.', sentenceZh: '我現在沒問題了。' },
+  will: { sentence: 'I will go to school tomorrow.', pattern: 'I [auxiliary] [verb] tomorrow.', sentenceZh: '我明天將會去學校。' },
+}
+
+const femaleFamilyWords = new Set(['mother', 'mom', 'mommy', 'sister', 'aunt', 'grandmother', 'girl', 'woman', 'daughter'])
+const maleFamilyWords = new Set(['father', 'dad', 'brother', 'uncle', 'grandfather', 'boy', 'man', 'son'])
+
 const fallbackWords: FallbackWord[] = [
   { word: 'apple', zh: '蘋果', topic: 'Food', grade: 3, chunks: ['ap', 'ple'], phonetic: '/ˈæpəl/', sentence: 'What is this? It is an apple.', sentenceZh: '這是什麼？它是一顆蘋果。' },
   { word: 'book', zh: '書', topic: 'School', grade: 3, chunks: ['book'], phonetic: '/bʊk/', sentence: 'What is that? It is a book.', sentenceZh: '那是什麼？它是一本書。' },
@@ -722,6 +730,10 @@ function repairGrammar(
     return buildSmartDefaultSentence(wordClean, zh, 'Time')
   }
 
+  if (specialWordSentences[wordClean]) {
+    return specialWordSentences[wordClean]
+  }
+
   if (isActionWord(wordClean, topicClean)) {
     const lower = defaultSentence.toLowerCase()
     if (lower.includes('i see a') || lower.includes('i see an') || lower.includes('there is a') || lower.includes('there is an')) {
@@ -785,8 +797,8 @@ function repairGrammar(
   }
 
   // 4. 性別配對與人稱主代名詞修正 (例如 "He is my aunt." 修正為 "She is my aunt.")
-  const femaleWords = ['mother', 'mom', 'sister', 'aunt', 'grandmother', 'girl', 'woman', 'daughter', 'queen', 'actress', 'waitress']
-  const maleWords = ['father', 'dad', 'brother', 'uncle', 'grandfather', 'boy', 'man', 'son', 'king', 'actor', 'waiter']
+  const femaleWords = [...femaleFamilyWords, 'queen', 'actress', 'waitress']
+  const maleWords = [...maleFamilyWords, 'king', 'actor', 'waiter']
 
   if (femaleWords.includes(wordClean)) {
     if (/\bHe is\b/i.test(defaultSentence) || /\bHe's\b/i.test(defaultSentence)) {
@@ -1030,6 +1042,9 @@ function buildSmartDefaultSentence(word: string, zh: string, topic: string): { s
     }
   }
 
+  const special = specialWordSentences[normalizeWord(word)]
+  if (special) return special
+
   if (isAdjectiveWord(word, topic)) {
     return {
       sentence: `The cat is ${word}.`,
@@ -1185,7 +1200,7 @@ function normalizeChallenge(
         if (validation.ok) {
           // ✅ AI 自由句通過驗證，直接採用
           finalSentence = aiSentence
-          finalSentenceZh = aiSentenceZh || candidate.sentenceZh
+          finalSentenceZh = validateSentenceZh(aiSentenceZh) ? aiSentenceZh : candidate.sentenceZh
           console.log(`[P3 ✅ AI句通過] word=${wordClean} | sentence="${aiSentence}"`)
         } else {
           // ❌ AI 句不符合品質要求，fallback 到 repairGrammar 後的標準句
@@ -1342,7 +1357,39 @@ function validateAISentence(sentence: string, word: string, topic = ''): { ok: b
     }
   }
 
+  if (specialWordSentences[word]) {
+    const specialAsNounPatterns = [
+      new RegExp(`\\bThere is (a|an) ${escapedWord}\\b`, 'i'),
+      new RegExp(`\\bI see (a|an) ${escapedWord}\\b`, 'i'),
+    ]
+    for (const pat of specialAsNounPatterns) {
+      if (pat.test(s)) return { ok: false, reason: 'special_word_used_as_noun' }
+    }
+  }
+
+  // 關卡 7: 家庭/人物詞需符合基本性別代名詞搭配。
+  if (femaleFamilyWords.has(word) && /\bHe is my\b/i.test(s)) {
+    return { ok: false, reason: 'gender_mismatch:female_word_with_he' }
+  }
+  if (maleFamilyWords.has(word) && /\bShe is my\b/i.test(s)) {
+    return { ok: false, reason: 'gender_mismatch:male_word_with_she' }
+  }
+
   return { ok: true, reason: '' }
+}
+
+function validateSentenceZh(sentenceZh: string): boolean {
+  const zh = String(sentenceZh || '').trim()
+  if (!zh) return false
+  if (zh.length > 80) return false
+  if (!/[\u4e00-\u9fff]/.test(zh)) return false
+  if (/[。！？,.，]{4,}/.test(zh)) return false
+
+  // Groq/Llama 偶爾會輸出簡體亂碼或語料碎片；偵測到明顯簡體雜訊時回退題庫中譯。
+  const simplifiedNoiseMatches = zh.match(/[给个们这车仅请觉过会园当纵]/g) || []
+  if (simplifiedNoiseMatches.length >= 2) return false
+
+  return true
 }
 
 function makeFillBlank(sentence: string, word: string): string {
