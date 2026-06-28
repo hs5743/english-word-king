@@ -1003,10 +1003,19 @@
         const correct = rows.filter(row => row.is_correct).length;
         const rate = total ? Math.round((correct / total) * 100) : null;
         const color = rate === null ? 'var(--clr-text-muted)' : rate >= 80 ? 'var(--clr-green-1)' : rate >= 60 ? 'var(--clr-gold-1)' : 'var(--clr-red-1)';
+        
+        // 對照中文題型標籤
+        const typeLabels = {
+          spelling: '🧩 拼字',
+          speech: '🎤 口說',
+          sentence: '📝 句型'
+        };
+        const typeLabel = typeLabels[q.question_type] || '🧩 拼字';
+
         return `
           <div style="padding:12px 14px; border:1px solid rgba(255,255,255,0.08); border-radius:var(--r-md); background:rgba(255,255,255,0.035); display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center;">
             <div style="min-width:0;">
-              <div style="font-size:0.82rem; color:var(--clr-text-muted); margin-bottom:4px;">第 ${idx + 1} 題 · ${q.topic || 'Other'}</div>
+              <div style="font-size:0.82rem; color:var(--clr-text-muted); margin-bottom:4px;">第 ${idx + 1} 題 · ${typeLabel} · ${q.topic || 'Other'}</div>
               <div style="font-size:0.98rem; font-weight:900; color:var(--clr-text-primary); font-family:var(--font-en);">${q.word || ''} <span style="font-family:var(--font-zh); color:var(--clr-text-secondary); font-size:0.82rem;">${q.zh || ''}</span></div>
               <div style="font-size:0.8rem; color:var(--clr-text-muted); margin-top:4px; line-height:1.5;">${q.exampleSentence || ''}</div>
             </div>

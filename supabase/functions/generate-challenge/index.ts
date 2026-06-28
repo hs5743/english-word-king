@@ -1494,21 +1494,74 @@ function normalizeChallenge(
   }
 
   // 4. 進行分流分群排列並寫入題型標記 (Spelling -> Speech -> Sentence)
-  const finalChallenge: ChallengeItem[] = []
-  let assigned = 0
-  for (const item of combined) {
-    let type: 'spelling' | 'speech' | 'sentence' = 'spelling'
-    if (assigned < spellingCount) {
-      type = 'spelling'
-    } else if (assigned < spellingCount + speechCount) {
-      type = 'speech'
-    } else {
-      type = 'sentence'
-    }
-    item.question_type = type
-    finalChallenge.push(item)
-    assigned++
+  // 同時確保同一個單字在兩次出題中絕對不會被分配到相同的題型！
+  const quotas = {
+    spelling: spellingCount,
+    speech: speechCount,
+    sentence: sentenceCount
   }
+  
+  const wordTypes = new Map<string, ('spelling' | 'speech' | 'sentence')[]>()
+
+  // 第一階段：為前 10 題分配題型 (這 10 題皆為 unique 單字)
+  for (let i = 0; i < 10; i++) {
+    if (i >= combined.length) break
+    const item = combined[i]
+    const wClean = item.word.toLowerCase().trim()
+
+    // 依配額剩餘比例排序選擇最佳題型
+    const availableTypes = (['spelling', 'speech', 'sentence'] as const)
+      .filter(t => quotas[t] > 0)
+    
+    availableTypes.sort((a, b) => quotas[b] - quotas[a])
+
+    if (availableTypes.length > 0) {
+      const selectedType = availableTypes[0]
+      item.question_type = selectedType
+      quotas[selectedType]--
+      if (!wordTypes.has(wClean)) wordTypes.set(wClean, [])
+      wordTypes.get(wClean)!.push(selectedType)
+    } else {
+      item.question_type = 'spelling' // 兜底
+    }
+  }
+
+  // 第二階段：為剩下的重複出題分配題型 (index 10 以後)
+  for (let i = 10; i < combined.length; i++) {
+    const item = combined[i]
+    const wClean = item.word.toLowerCase().trim()
+    const forbiddenTypes = wordTypes.get(wClean) || []
+
+    // 優先挑選非重複的題型且配額大於 0
+    let availableTypes = (['spelling', 'speech', 'sentence'] as const)
+      .filter(t => quotas[t] > 0 && !forbiddenTypes.includes(t))
+
+    if (availableTypes.length === 0) {
+      // 兜底：若配額極限下無法避開，則使用任意剩餘配額
+      availableTypes = (['spelling', 'speech', 'sentence'] as const)
+        .filter(t => quotas[t] > 0)
+    }
+
+    availableTypes.sort((a, b) => quotas[b] - quotas[a])
+
+    if (availableTypes.length > 0) {
+      const selectedType = availableTypes[0]
+      item.question_type = selectedType
+      quotas[selectedType]--
+      if (!wordTypes.has(wClean)) wordTypes.set(wClean, [])
+      wordTypes.get(wClean)!.push(selectedType)
+    } else {
+      item.question_type = 'spelling' // 兜底
+    }
+  }
+
+  // 為了讓學生挑戰時維持分群，我們最後依 Spelling -> Speech -> Sentence 的順序重新排序題目列表
+  const typePriority = { spelling: 1, speech: 2, sentence: 3 }
+  const finalChallenge = [...combined].sort((a, b) => {
+    const priorityA = typePriority[a.question_type || 'spelling']
+    const priorityB = typePriority[b.question_type || 'spelling']
+    return priorityA - priorityB
+  })
 
   return finalChallenge
 }
