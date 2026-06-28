@@ -676,7 +676,7 @@
         const session = await insertSessionWithRetry(school, className);
         activeSession = session;
         
-        showLoading(true, '[2/3] 正在呼叫 AI 模型生成客製化題目包（此步驟約需 5-8 秒）...');
+        showLoading(true, '[2/3] 正在呼叫 AI 模型生成客製化題目包...');
         await createChallengePackage(session, packageConfig);
         
         showLoading(true, '[3/3] 正在儲存題目包並載入大螢幕設定...');
