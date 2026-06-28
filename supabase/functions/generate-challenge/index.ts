@@ -13,6 +13,7 @@ type FallbackWord = {
   zh: string
   topic: string
   grade: number
+  difficultyLevel?: number  // 1-16，對應 16 個寶石階段；舊內建資料可不設定
   chunks: string[]
   phonetic: string
   pattern?: string
@@ -26,8 +27,12 @@ type PublicVocabularyItem = {
   zh?: string
   topic?: string
   gradeBand?: string
+  grade?: number
+  difficultyLevel?: number  // 新增：1-16 階難度
   chunks?: string[]
   patterns?: string[]
+  sentence?: string         // 新增：預載例句
+  sentenceZh?: string       // 新增：預載中譯
   enabled?: boolean
 }
 
@@ -403,8 +408,11 @@ serve(async (req) => {
     const currentTier = gemTiers[currentTierIndex]
     const nextTier = gemTiers[currentTierIndex + 1]
     const adaptiveMaxGrade = currentTier.maxGrade
+    // 新增：使用 difficultyLevel (1-16) 對應 16 個寶石關卡，實現更精細的適性化
+    // currentTierIndex 是 0-15，+1 後即為對應的 difficultyLevel 上限
+    const adaptiveMaxDifficultyLevel = currentTierIndex + 1
 
-    console.log(`[Adaptive Learning] Student UID: ${user.id}, Mastered: ${masteredCount}, Tier: ${currentTier.name}, Max Grade: ${adaptiveMaxGrade}`)
+    console.log(`[Adaptive Learning] Student UID: ${user.id}, Mastered: ${masteredCount}, Tier: ${currentTier.name}, Max Grade: ${adaptiveMaxGrade}, MaxDifficultyLevel: ${adaptiveMaxDifficultyLevel}`)
 
     const requestWrongWords = normalizeWordList(wrongWords)
     let spiralWrongWords = [...requestWrongWords]
@@ -463,7 +471,8 @@ serve(async (req) => {
     const keys = Object.fromEntries((configRows || []).map(r => [r.key, r.value])) as Record<string, string>
 
     // 7. 載入題庫與過濾符合適性上限的單字
-    const fallbackBankBase = await loadPublicFallbackWords(adaptiveMaxGrade)
+    // 優先用 difficultyLevel 做 16 階精細篩選；舊資料若無 difficultyLevel 欄位則降級用 grade
+    const fallbackBankBase = await loadPublicFallbackWords(adaptiveMaxGrade, adaptiveMaxDifficultyLevel)
     const customWords = normalizedTeacherConfig ? resolveTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
     const fallbackBank = mergeFallbackWords(customWords, fallbackBankBase)
     const candidatePoolBase = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
@@ -782,7 +791,7 @@ function getErrorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err || '')
 }
 
-async function loadPublicFallbackWords(grade: number): Promise<FallbackWord[]> {
+async function loadPublicFallbackWords(grade: number, maxDifficultyLevel?: number): Promise<FallbackWord[]> {
   try {
     const [vocabularyRes, patternsRes] = await Promise.all([
       fetch(`${PUBLIC_DATA_BASE}/vocabulary.json`),
@@ -804,13 +813,24 @@ async function loadPublicFallbackWords(grade: number): Promise<FallbackWord[]> {
     const mapped = vocabulary
       .filter(isUsablePublicVocabularyItem)
       .map(item => toFallbackWord(item, patternById))
-      .filter(item => item.grade <= maxGrade)
 
-    if (mapped.length >= 12) return mapped
-    throw new Error(`public fallback has only ${mapped.length} usable words`)
+    // 優先使用 difficultyLevel 篩選（更精細的 16 階適性化）
+    // 若單字有 difficultyLevel 欄位，用它；否則降級使用 grade（相容舊資料）
+    const filtered = maxDifficultyLevel
+      ? mapped.filter(item => (item.difficultyLevel ?? item.grade) <= maxDifficultyLevel)
+      : mapped.filter(item => item.grade <= maxGrade)
+
+    if (filtered.length >= 12) return filtered
+
+    // filtered 太少時回退到全年級篩選（相容舊資料）
+    const fallback = mapped.filter(item => item.grade <= maxGrade)
+    if (fallback.length >= 12) return fallback
+
+    throw new Error(`public fallback has only ${filtered.length} usable words`)
   } catch (err) {
     console.warn('Public fallback data unavailable; using embedded fallback:', getErrorMessage(err))
-    return fallbackWords.filter(w => w.grade <= Math.max(3, grade))
+    const maxGrade = Math.max(3, grade)
+    return fallbackWords.filter(w => w.grade <= maxGrade)
   }
 }
 
@@ -1223,28 +1243,43 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
   const patternId = Array.isArray(item.patterns) ? item.patterns[0] : ''
   const pattern = patternId ? patternById.get(patternId) : undefined
   const word = String(item.word || '').toLowerCase().trim()
-  const exampleAnswer = pattern?.exampleAnswer || ''
-  const patternText = pattern?.pattern || 'Practice sentence'
-  const defaultSentenceZh = pattern?.zhHint || ''
+  const grade = item.grade ?? parseGradeBand(item.gradeBand || pattern?.gradeBand)
+  const difficultyLevel = item.difficultyLevel ?? grade  // 使用新欄位，降級用 grade
 
-  // 若 exampleAnswer 實際包含 target word，優先採用；否則用智慧造句
-  const sentenceContainsWord = exampleAnswer.toLowerCase().includes(word) && exampleAnswer.trim().length > 0
-  const rawSentence = sentenceContainsWord ? exampleAnswer : ''
+  // 優先使用 vocabulary.json 預載的高品質例句（由 upgrade-vocabulary.mjs 生成）
+  const preloadedSentence   = String(item.sentence   || '').trim()
+  const preloadedSentenceZh = String(item.sentenceZh || '').trim()
 
-  const repaired = rawSentence
-    ? repairGrammar(word, item.zh || word, item.topic || '', rawSentence, patternText, defaultSentenceZh)
-    : buildSmartDefaultSentence(word, item.zh || word, item.topic || '')
+  let finalSentence   = preloadedSentence
+  let finalSentenceZh = preloadedSentenceZh
+  let finalPattern    = 'Practice sentence'
+
+  // 若預載例句不存在，再嘗試從 sentence-patterns 提取（相容舊資料）
+  if (!finalSentence) {
+    const exampleAnswer = pattern?.exampleAnswer || ''
+    const patternText   = pattern?.pattern || 'Practice sentence'
+    const defaultZh     = pattern?.zhHint || ''
+    const sentenceContainsWord = exampleAnswer.toLowerCase().includes(word) && exampleAnswer.trim().length > 0
+    const rawSentence = sentenceContainsWord ? exampleAnswer : ''
+    const repaired = rawSentence
+      ? repairGrammar(word, item.zh || word, item.topic || '', rawSentence, patternText, defaultZh)
+      : buildSmartDefaultSentence(word, item.zh || word, item.topic || '')
+    finalSentence   = repaired.sentence
+    finalSentenceZh = repaired.sentenceZh
+    finalPattern    = repaired.pattern
+  }
 
   return {
     word,
     zh: item.zh || word,
     topic: item.topic || 'Daily',
-    grade: parseGradeBand(item.gradeBand || pattern?.gradeBand),
+    grade,
+    difficultyLevel,
     chunks: Array.isArray(item.chunks) && item.chunks.length ? item.chunks : chunkWord(word),
     phonetic: '',
-    pattern: repaired.pattern,
-    sentence: repaired.sentence,
-    sentenceZh: repaired.sentenceZh,
+    pattern: finalPattern,
+    sentence: finalSentence,
+    sentenceZh: finalSentenceZh,
   }
 }
 
