@@ -895,9 +895,14 @@
 
       try {
         var pendingClassCode = sessionStorage.getItem('pendingClassCode')
-        var redirectUrl = /^\d{6}$/.test(pendingClassCode || '')
-          ? 'app.html?mode=class&code=' + encodeURIComponent(pendingClassCode)
-          : 'app.html'
+        var authRedirectUrl = sessionStorage.getItem('authRedirectUrl')
+        var redirectUrl = 'app.html'
+        if (/^\d{6}$/.test(pendingClassCode || '')) {
+          redirectUrl = 'app.html?mode=class&code=' + encodeURIComponent(pendingClassCode)
+        } else if (authRedirectUrl) {
+          redirectUrl = authRedirectUrl
+          sessionStorage.removeItem('authRedirectUrl')
+        }
         var roster = await window.SupabaseConfig.ensureStudentProfile(user)
         var selectedSchool = schoolSelect.value
         sessionStorage.setItem('selectedSchool', roster.school || selectedSchool)
@@ -979,6 +984,14 @@
 
     /* ── Page init ────────────────────────────────────────── */
     async function init() {
+      // Parse redirect parameter and save to sessionStorage
+      if (window.location.search) {
+        var params = new URLSearchParams(window.location.search)
+        var redirectParam = params.get('redirect')
+        if (redirectParam) {
+          sessionStorage.setItem('authRedirectUrl', redirectParam)
+        }
+      }
       // Wait for config.js deferred script to execute and expose SupabaseConfig
       var attempts = 0
       while (!window.SupabaseConfig && attempts < 50) {

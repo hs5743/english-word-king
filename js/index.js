@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnCta   = document.getElementById('btn-cta')
     if (btnStart) { btnStart.textContent = '🚀 繼續今日挑戰'; btnStart.href = 'app.html' }
     if (btnCta)   { btnCta.textContent   = '繼續挑戰'; btnCta.href = 'app.html' }
+    const btnLoginLobby = document.getElementById('btn-login-lobby')
+    if (btnLoginLobby) btnLoginLobby.style.display = 'none'
 
     // 立即顯示基本登入狀態
     const navbarNav = document.getElementById('navbar-nav')

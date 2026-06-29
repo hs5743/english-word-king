@@ -29,6 +29,7 @@
         <a href="index.html" class="navbar__logo">⭐ 英語單字王</a>
         <ul class="navbar__nav" id="navbar-nav">
           <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
+          <li><a href="join.html?redirect=index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; margin-right: 8px;">學生登入</a></li>
           <li><a href="join.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">開始挑戰</a></li>
         </ul>
       </div>
@@ -59,13 +60,16 @@
           鳳岡・豐田・新港三校學生同台競技<br>
           每日挑戰 · AI 出題 · 口說評分 · 跨校排名
         </p>
-        <div class="flex gap-md justify-center" style="flex-wrap:wrap;">
-          <a href="join.html" class="btn btn--primary btn--lg" id="btn-start">
-            🚀 開始今日挑戰
-          </a>
-          <a href="#leaderboard" class="btn btn--ghost btn--lg">
-            🏅 查看排行榜
-          </a>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 1rem; width: 100%;">
+          <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%;">
+            <a href="join.html" class="btn btn--primary btn--lg" id="btn-start">
+              🚀 開始今日挑戰
+            </a>
+            <a href="#leaderboard" class="btn btn--ghost btn--lg">
+              🏅 查看排行榜
+            </a>
+          </div>
+          <a href="join.html?redirect=index.html" id="btn-login-lobby" style="color:var(--clr-gold-1); font-size:0.85rem; font-weight:bold; margin-top:6px; display:inline-block; text-decoration:underline;">已有帳號？直接登入大廳</a>
         </div>
 
         <!-- 設備檢測助手卡片 -->
