@@ -490,6 +490,17 @@
     document.getElementById('sentenceSpeechPrompt').style.display = 'none'
     document.getElementById('sentenceFollowUpSpeech').style.display = 'none'
 
+    // 重置即時語音辨識字框與口說狀態
+    const liveBox = document.getElementById('speechLiveBox')
+    const liveText = document.getElementById('speechLiveText')
+    if (liveBox) liveBox.style.display = 'none'
+    if (liveText) {
+      liveText.textContent = '（請開口說話...）'
+      liveText.className = 'speech-live-text placeholder'
+    }
+    const sentenceMicStatus = document.getElementById('sentenceMicStatus')
+    if (sentenceMicStatus) sentenceMicStatus.textContent = '按麥克風開始'
+
     // 重設輸入框與 feedback
     document.getElementById('typeInput').value = ''
     document.getElementById('wordleFeedback').innerHTML = ''
