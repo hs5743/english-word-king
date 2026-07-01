@@ -311,6 +311,11 @@ serve(async (req) => {
   }
 
   try {
+    const startTime = Date.now()
+    const steps: any[] = []
+    let apiCallsCount = 0
+    let user: any = null
+
     // 1. 初始化 Supabase（使用 Service Role 以讀取 system_config）
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? ''
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
@@ -328,6 +333,33 @@ serve(async (req) => {
       packageSessionCode = '',
       packageExpiresAt = ''
     } = body
+
+    async function saveLog(successSource: string, questionsCount: number) {
+      const totalDuration = Date.now() - startTime
+      try {
+        const { error: logError } = await supabase
+          .from('generation_logs')
+          .insert({
+            student_uid: user?.id || null,
+            session_id: (packageSessionId && packageSessionId.match(/^[0-9a-fA-F-]{36}$/)) ? packageSessionId : null,
+            session_code: packageSessionCode || null,
+            mode: isPractice ? 'practice' : (packageSessionId ? 'class' : 'daily'),
+            total_duration_ms: totalDuration,
+            api_calls_count: apiCallsCount,
+            success_source: successSource,
+            questions_count: questionsCount,
+            steps: steps
+          })
+        if (logError) {
+          console.error('儲存 generation_logs 失敗:', logError)
+        } else {
+          console.log(`📊 Log saved: source=${successSource}, duration=${totalDuration}ms, api_calls=${apiCallsCount}`)
+        }
+      } catch (err) {
+        console.error('儲存 generation_logs 發生例外:', err instanceof Error ? err.message : String(err))
+      }
+    }
+
     const normalizedTeacherConfig = normalizeTeacherConfig(teacherConfig)
     const requestedQuestionCount = normalizedTeacherConfig
       ? normalizeQuestionCount(normalizedTeacherConfig.questionCount)
@@ -340,7 +372,7 @@ serve(async (req) => {
     // 2. 驗證學生身份 (支援 X-Developer-Secret 測試通道)
     const authHeader = req.headers.get('Authorization')
     const devSecret = req.headers.get('X-Developer-Secret')
-    let user = null
+    user = null
 
     if (devSecret === 'super-secret-test-token-2026' && testUid) {
       user = { id: testUid, email: 'tester@gapp.hcc.edu.tw' }
@@ -472,7 +504,16 @@ serve(async (req) => {
 
     // 7. 載入題庫與過濾符合適性上限的單字
     // 優先用 difficultyLevel 做 16 階精細篩選；舊資料若無 difficultyLevel 欄位則降級用 grade
+    const loadStart = Date.now()
     const fallbackBankBase = await loadPublicFallbackWords(adaptiveMaxGrade, adaptiveMaxDifficultyLevel)
+    const loadDuration = Date.now() - loadStart
+    steps.push({
+      step: 'load_public_fallback_data',
+      attempt: 1,
+      status: 'success',
+      duration_ms: loadDuration,
+      response_size_chars: JSON.stringify(fallbackBankBase).length
+    })
     const customWords = normalizedTeacherConfig ? resolveTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
     const fallbackBank = mergeFallbackWords(customWords, fallbackBankBase)
     const candidatePoolBase = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
@@ -644,18 +685,55 @@ ${JSON.stringify(candidatesJson, null, 2)}
 
     // 重試輔助函數：執行出題，出錯時等待後重試
     async function executeWithRetry<T>(
+      providerName: string,
       fn: () => Promise<T>,
       retries = 2,
       delayMs = 1500
     ): Promise<T> {
       let lastErr: any = null;
       for (let i = 0; i < retries; i++) {
+        const stepStart = Date.now()
+        apiCallsCount++
         try {
-          return await fn();
+          const result = await fn();
+          const stepDuration = Date.now() - stepStart;
+          let responseSize = 0;
+          if (result) {
+            responseSize = JSON.stringify(result).length;
+          }
+          steps.push({
+            step: providerName,
+            attempt: i + 1,
+            status: 'success',
+            duration_ms: stepDuration,
+            response_size_chars: responseSize
+          });
+          return result;
         } catch (err) {
           lastErr = err;
           const errMsg = getErrorMessage(err);
+          const stepDuration = Date.now() - stepStart;
+          
+          const isSyntaxError = err instanceof SyntaxError || 
+                                errMsg.includes('JSON') || 
+                                errMsg.includes('SyntaxError') ||
+                                errMsg.includes('unexpected');
+          
+          steps.push({
+            step: providerName,
+            attempt: i + 1,
+            status: 'error',
+            duration_ms: stepDuration,
+            error: errMsg + (isSyntaxError ? ' (Fast-Aborted)' : '')
+          });
+          
           console.warn(`⚠️ AI 呼叫失敗 (嘗試 ${i + 1}/${retries}): ${errMsg}`);
+          
+          if (isSyntaxError) {
+            console.log('🛑 偵測到 JSON 解析語法錯誤，跳過後續重試。');
+            break;
+          }
+          
           if (i < retries - 1) {
             console.log(`⏳ 等待 ${delayMs} 毫秒後重新嘗試...`);
             await new Promise(resolve => setTimeout(resolve, delayMs));
@@ -669,11 +747,13 @@ ${JSON.stringify(candidatesJson, null, 2)}
     if (keys.gemini_api_key && keys.gemini_api_key !== 'REPLACE_WITH_YOUR_GEMINI_KEY') {
       try {
         challengeData = await executeWithRetry(
+          'gemini_primary',
           () => callGemini(keys.gemini_api_key, prompt),
           2, // 最多嘗試 2 次
           1500 // 失敗後等待 1.5 秒
         )
         console.log('✅ Gemini 主金鑰出題成功')
+        challengeSource = 'gemini_primary'
       } catch (err) {
         console.warn('⚠️ Gemini 主金鑰失敗，準備備援...', getErrorMessage(err))
         lastError = err
@@ -686,11 +766,13 @@ ${JSON.stringify(candidatesJson, null, 2)}
     if (!challengeData && keys.gemini_api_key_backup) {
       try {
         challengeData = await executeWithRetry(
+          'gemini_backup',
           () => callGemini(keys.gemini_api_key_backup, prompt),
           2,
           1500
         )
         console.log('✅ Gemini 備援金鑰出題成功')
+        challengeSource = 'gemini_backup'
       } catch (err) {
         console.warn('⚠️ Gemini 備援失敗，準備 Groq...', getErrorMessage(err))
         lastError = err
@@ -702,11 +784,13 @@ ${JSON.stringify(candidatesJson, null, 2)}
     if (!challengeData && keys.groq_api_key) {
       try {
         challengeData = await executeWithRetry(
+          'groq',
           () => callGroq(keys.groq_api_key, prompt),
           2,
           1500
         )
         console.log('✅ Groq 備援出題成功')
+        challengeSource = 'groq'
       } catch (err) {
         console.error('❌ 所有 AI 提供商均失敗', getErrorMessage(err))
         lastError = err
@@ -714,9 +798,18 @@ ${JSON.stringify(candidatesJson, null, 2)}
     }
 
     if (!challengeData) {
+      const fallbackStart = Date.now()
       console.warn(`AI 出題失敗，改用內建題庫 fallback：${lastError ? getErrorMessage(lastError) : '無可用金鑰'}`)
       challengeSource = 'fallback'
       challengeData = buildFallbackChallenge(adaptiveMaxGrade, wrongWords, candidatePool, fallbackBank, requestedQuestionCount)
+      const fallbackDuration = Date.now() - fallbackStart
+      steps.push({
+        step: 'fallback',
+        attempt: 1,
+        status: 'success',
+        duration_ms: fallbackDuration,
+        response_size_chars: JSON.stringify(challengeData).length
+      })
     }
 
     // 10. 驗證與過濾回傳資料格式
@@ -756,6 +849,8 @@ ${JSON.stringify(candidatesJson, null, 2)}
       }
     }
 
+    await saveLog(challengeSource, finalChallenge.length)
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -774,6 +869,11 @@ ${JSON.stringify(candidatesJson, null, 2)}
 
   } catch (err) {
     console.error('Edge Function 錯誤：', err)
+    try {
+      await saveLog('error', 0)
+    } catch (logErr) {
+      console.error('Failed to log error inside catch:', logErr)
+    }
     return errorResponse(500, 'server_error', getErrorMessage(err) || '伺服器發生錯誤，請稍後再試。')
   }
 })
@@ -1793,6 +1893,14 @@ function shuffle<T>(items: T[]): T[] {
   return [...items].sort(() => Math.random() - 0.5)
 }
 
+function cleanJsonString(str: string): string {
+  let cleaned = str.trim()
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim()
+  }
+  return cleaned
+}
+
 async function callGemini(key: string, prompt: string): Promise<any[]> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`
   const res = await fetch(url, {
@@ -1814,7 +1922,7 @@ async function callGemini(key: string, prompt: string): Promise<any[]> {
   const data = await res.json()
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text
   if (!text) throw new Error('Gemini 回傳內容為空')
-  return JSON.parse(text)
+  return JSON.parse(cleanJsonString(text))
 }
 
 async function callGroq(key: string, prompt: string): Promise<any[]> {
@@ -1844,7 +1952,7 @@ async function callGroq(key: string, prompt: string): Promise<any[]> {
   const data = await res.json()
   const rawText = data.choices?.[0]?.message?.content
   if (!rawText) throw new Error('Groq 回傳內容為空')
-  const parsed = JSON.parse(rawText)
+  const parsed = JSON.parse(cleanJsonString(rawText))
   // Groq 有時將陣列包在物件中
   return Array.isArray(parsed) ? parsed : (parsed.questions || parsed.words || parsed.data || [])
 }
