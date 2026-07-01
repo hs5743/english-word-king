@@ -888,8 +888,6 @@
       const card = document.createElement('div')
       card.className = 'matching-card'
       
-      // 設定樣式與文字
-      card.style.cssText = 'background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:18px 8px; text-align:center; cursor:pointer; font-weight:600; font-size:0.95rem; transition:all 0.2s; min-height:58px; display:flex; align-items:center; justify-content:center; word-break:break-all;'
       card.textContent = cardData.val
       card.dataset.matchId = cardData.matchId
       card.dataset.type = cardData.type
@@ -907,16 +905,10 @@
           // 選擇第一張
           selectedMatchingCard = card
           card.classList.add('selected')
-          card.style.background = 'rgba(245,200,66,0.15)'
-          card.style.borderColor = 'var(--clr-gold-1)'
-          card.style.boxShadow = '0 0 10px rgba(245,200,66,0.2)'
         } else {
           // 選擇第二張
           if (selectedMatchingCard === card) {
             // 重複點選，取消選擇
-            card.style.background = 'rgba(255,255,255,0.04)'
-            card.style.borderColor = 'rgba(255,255,255,0.1)'
-            card.style.boxShadow = 'none'
             card.classList.remove('selected')
             selectedMatchingCard = null
             return
@@ -928,16 +920,10 @@
           // 必須是一中一英配對
           if (card1.dataset.type === card2.dataset.type) {
             // 同類型，更換選取目標
-            card1.style.background = 'rgba(255,255,255,0.04)'
-            card1.style.borderColor = 'rgba(255,255,255,0.1)'
-            card1.style.boxShadow = 'none'
             card1.classList.remove('selected')
 
             selectedMatchingCard = card2
             card2.classList.add('selected')
-            card2.style.background = 'rgba(245,200,66,0.15)'
-            card2.style.borderColor = 'var(--clr-gold-1)'
-            card2.style.boxShadow = '0 0 10px rgba(245,200,66,0.2)'
             return
           }
 
@@ -947,10 +933,6 @@
             card1.classList.remove('selected')
             card1.classList.add('matched')
             card2.classList.add('matched')
-            
-            const successStyle = 'background:rgba(105,240,174,0.12); border-color:var(--clr-green-1); color:var(--clr-green-1); opacity:0.65; cursor:default; pointer-events:none;'
-            card1.style.cssText += successStyle
-            card2.style.cssText += successStyle
             
             // 播放答對音效
             if (window.AudioContext || window.webkitAudioContext) {
@@ -982,16 +964,6 @@
             card1.classList.add('wrong-temp')
             card2.classList.add('wrong-temp')
 
-            card1.style.background = 'rgba(255,107,107,0.18)'
-            card1.style.borderColor = 'var(--clr-red-1)'
-            card1.style.boxShadow = '0 0 10px rgba(255,107,107,0.2)'
-            card2.style.background = 'rgba(255,107,107,0.18)'
-            card2.style.borderColor = 'var(--clr-red-1)'
-            card2.style.boxShadow = '0 0 10px rgba(255,107,107,0.2)'
-
-            card1.style.animation = 'wrongShake 0.4s ease'
-            card2.style.animation = 'wrongShake 0.4s ease'
-
             // 播放錯誤音效
             if (window.AudioContext || window.webkitAudioContext) {
               try {
@@ -1010,14 +982,6 @@
             setTimeout(() => {
               card1.classList.remove('wrong-temp')
               card2.classList.remove('wrong-temp')
-              card1.style.animation = ''
-              card2.style.animation = ''
-              card1.style.background = 'rgba(255,255,255,0.04)'
-              card1.style.borderColor = 'rgba(255,255,255,0.1)'
-              card1.style.boxShadow = 'none'
-              card2.style.background = 'rgba(255,255,255,0.04)'
-              card2.style.borderColor = 'rgba(255,255,255,0.1)'
-              card2.style.boxShadow = 'none'
             }, 600)
 
             selectedMatchingCard = null
@@ -1045,12 +1009,12 @@
     } else {
       isSpellingRecording = true
       btn.classList.add('listening')
-      statusLabel.textContent = '語音辨識中，請朗讀單字...'
+      statusLabel.textContent = '正在聽，請開始朗讀單字...'
 
       window.SpeechEngine.startListening(
         expectedWord,
         (interim, isFinal) => {
-          statusLabel.textContent = isFinal ? `辨識結果: ${interim}` : `聽到了: ${interim}`
+          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
         },
         (err) => {
           statusLabel.textContent = `錯誤: ${err.message || err}`
@@ -1207,7 +1171,7 @@
       updateSpeechMicStatus()
     } else {
       micBtn.classList.add('listening')
-      statusLabel.textContent = '本機錄音中，請朗讀...'
+      statusLabel.textContent = '正在聽，請開始朗讀...'
       window.SpeechEngine.startWaveform()
       try {
         await window.SpeechEngine.startLocalRecording?.()
@@ -1222,7 +1186,7 @@
       window.SpeechEngine.startListening(
         recognitionText,
         (interim, isFinal) => {
-          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `聽到了：${interim}`
+          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
         },
         (err) => {
           statusLabel.textContent = `錯誤：${err.message || err}`
@@ -1306,6 +1270,7 @@
   // Sentence read-aloud bonus recording
   window.SpeechEngine.toggleSentenceRecording = function () {
     const btn = document.getElementById('sentenceMicBtn')
+    const statusLabel = document.getElementById('sentenceMicStatus')
     const sentence = currentChallenge[currentIndex].exampleSentence
 
     if (!window.SpeechEngine) return
@@ -1313,19 +1278,27 @@
     if (window.SpeechEngine.isListening) {
       window.SpeechEngine.stopListening()
       btn.classList.remove('listening')
+      if (statusLabel) statusLabel.textContent = '按麥克風開始'
     } else {
       btn.classList.add('listening')
+      if (statusLabel) statusLabel.textContent = '正在聽，請開始朗讀例句...'
       window.SpeechEngine.startListening(
         sentence,
-        null,
+        (interim, isFinal) => {
+          if (statusLabel) {
+            statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
+          }
+        },
         (err) => {
           showToast(`錯誤: ${err.message || err}`, 'error')
           btn.classList.remove('listening')
+          if (statusLabel) statusLabel.textContent = `錯誤：${err.message || err}`
         }
       ).then(transcript => {
         btn.classList.remove('listening')
         if (transcript) {
           const res = window.SpeechEngine.scoreTranscript(sentence, transcript)
+          if (statusLabel) statusLabel.textContent = `朗讀分數：${res.score}分！`
           showToast(`句子分數: ${res.score}分!`, res.score >= 80 ? 'success' : 'info')
           if (res.score >= 80) {
             triggerConfetti()
@@ -1333,8 +1306,13 @@
               hasBonusAwarded[currentIndex] = true
               speechBonusPoints += 2
               showToast('🎉 口說挑戰成功，獲得額外加 2 分！', 'success')
+              if (statusLabel) statusLabel.textContent = `🌟 朗讀分數：${res.score}分！挑戰成功！`
             }
+          } else {
+            if (statusLabel) statusLabel.textContent = `朗讀分數：${res.score}分！(未達80分，請重試)`
           }
+        } else {
+          if (statusLabel) statusLabel.textContent = '未偵測到聲音，請再試一次。'
         }
       }).catch(err => {
         console.error(err)
@@ -1442,12 +1420,12 @@
       statusLabel.textContent = '按麥克風開始'
     } else {
       btn.classList.add('listening')
-      statusLabel.textContent = '語音辨識中，請朗讀句子...'
+      statusLabel.textContent = '正在聽，請開始朗讀句子...'
 
       window.SpeechEngine.startListening(
         sentence,
         (interim, isFinal) => {
-          statusLabel.textContent = isFinal ? `辨識結果: ${interim}` : `聽到了: ${interim}`
+          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
         },
         (err) => {
           statusLabel.textContent = `錯誤: ${err.message || err}`

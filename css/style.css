@@ -1301,3 +1301,69 @@ input:checked + .slider {
   background: #cbd5e1 !important;
 }
 
+/* ══ MATCHING GAME CARDS (配對連連看) ════════════ */
+.matching-card {
+  background-color: #ffffff !important;
+  border: 2.5px solid #cbd5e1 !important;
+  border-radius: var(--r-sm) !important;
+  padding: 16px 8px !important;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-all;
+  box-shadow: 0 5px 0px #cbd5e1 !important;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  position: relative;
+  user-select: none;
+}
+
+/* Hover state: float up and blue glow */
+.matching-card:hover:not(.matched):not(.selected):not(.wrong-temp) {
+  border-color: var(--clr-blue-1) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 0px var(--clr-blue-1) !important;
+}
+
+/* Active pressing state (before selection is locked) */
+.matching-card:active:not(.matched):not(.selected):not(.wrong-temp) {
+  transform: translateY(2px) !important;
+  box-shadow: 0 3px 0px #cbd5e1 !important;
+}
+
+/* Selected state: yellow/gold 3D pressed look */
+.matching-card.selected {
+  background-color: rgba(255, 209, 102, 0.1) !important;
+  border-color: var(--clr-gold-1) !important;
+  color: var(--clr-gold-text) !important;
+  transform: translateY(3px) !important;
+  box-shadow: 0 2px 0px var(--clr-gold-1) !important;
+}
+
+/* Matched state: green flat look */
+.matching-card.matched {
+  background-color: rgba(6, 214, 160, 0.08) !important;
+  border-color: var(--clr-green-1) !important;
+  color: var(--clr-green-text) !important;
+  opacity: 0.65;
+  cursor: default;
+  pointer-events: none;
+  transform: translateY(5px) !important;
+  box-shadow: 0 0 0px var(--clr-green-1) !important;
+}
+
+/* Wrong mismatch state: red 3D shaking look */
+.matching-card.wrong-temp {
+  background-color: rgba(239, 71, 111, 0.1) !important;
+  border-color: var(--clr-red-1) !important;
+  color: var(--clr-red-text) !important;
+  transform: translateY(2px) !important;
+  box-shadow: 0 3px 0px var(--clr-red-1) !important;
+  animation: wrongShake 0.4s ease !important;
+}
+
+
