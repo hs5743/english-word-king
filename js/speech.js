@@ -181,6 +181,116 @@
     }
   }
 
+  let _localRecorder = null
+  let _localRecordingStream = null
+  let _localRecordingChunks = []
+  let _localRecordingStartedAt = 0
+
+  function isLocalRecordingSupported() {
+    return Boolean(window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
+  }
+
+  async function startLocalRecording() {
+    if (!isLocalRecordingSupported()) return null
+
+    await stopLocalRecording().catch(() => null)
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    _localRecordingStream = stream
+    _localRecordingChunks = []
+    _localRecordingStartedAt = Date.now()
+
+    const options = {}
+    if (window.MediaRecorder.isTypeSupported && window.MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+      options.mimeType = 'audio/webm;codecs=opus'
+    }
+
+    _localRecorder = new MediaRecorder(stream, options)
+    _localRecorder.ondataavailable = (event) => {
+      if (event.data && event.data.size > 0) _localRecordingChunks.push(event.data)
+    }
+    _localRecorder.start()
+    return true
+  }
+
+  function stopLocalRecording() {
+    return new Promise((resolve) => {
+      if (!_localRecorder) {
+        stopLocalRecordingStream()
+        resolve(null)
+        return
+      }
+
+      const recorder = _localRecorder
+      const startedAt = _localRecordingStartedAt
+      const finish = () => {
+        const mimeType = recorder.mimeType || 'audio/webm'
+        const blob = _localRecordingChunks.length
+          ? new Blob(_localRecordingChunks, { type: mimeType })
+          : null
+        const record = blob
+          ? {
+              blob,
+              mimeType,
+              size: blob.size,
+              durationMs: Math.max(0, Date.now() - startedAt),
+              recordedAt: new Date().toISOString()
+            }
+          : null
+        _localRecorder = null
+        _localRecordingChunks = []
+        _localRecordingStartedAt = 0
+        stopLocalRecordingStream()
+        resolve(record)
+      }
+
+      recorder.onstop = finish
+      if (recorder.state === 'inactive') finish()
+      else {
+        try { recorder.stop() } catch (_) { finish() }
+      }
+    })
+  }
+
+  function stopLocalRecordingStream() {
+    if (_localRecordingStream) {
+      _localRecordingStream.getTracks().forEach(track => track.stop())
+      _localRecordingStream = null
+    }
+  }
+
+  async function cancelLocalRecording() {
+    const record = await stopLocalRecording().catch(() => null)
+    return record
+  }
+
+  function analyzeLocalRecording(record, transcript = '', score = 0, target = null) {
+    const tips = []
+    const durationMs = record?.durationMs || 0
+    const size = record?.size || 0
+
+    if (!record) {
+      tips.push('沒有取得本機錄音，請允許麥克風權限後再試一次。')
+      return tips
+    }
+    if (durationMs > 0 && durationMs < 700) {
+      tips.push('錄音時間很短，請把單字稍微拉長一點再結束。')
+    }
+    if (target?.isShortWord && durationMs > 0 && durationMs < 1200) {
+      tips.push('短單字容易被瀏覽器漏判，請用完整練習句平順朗讀。')
+    }
+    if (size > 0 && size < 1800) {
+      tips.push('音量可能太小或錄音太短，請靠近麥克風再試一次。')
+    }
+    if (!transcript) {
+      tips.push('瀏覽器沒有偵測到清楚語音，請在安靜環境用正常音量重錄。')
+    }
+    if (score > 0 && score < 80 && target?.tips?.length) {
+      tips.push(...target.tips.slice(0, 2))
+    }
+    return [...new Set(tips)]
+  }
+
   /* ═══════════════════════════════════════════════════════════
    * 2. CANVAS WAVEFORM VISUALIZER (Siri-style)
    * ═══════════════════════════════════════════════════════════ */
@@ -774,6 +884,11 @@
     get isListening() { return _isListening },
     requestMicrophoneAccess,
     getMicrophoneHelpMessage,
+    isLocalRecordingSupported,
+    startLocalRecording,
+    stopLocalRecording,
+    cancelLocalRecording,
+    analyzeLocalRecording,
 
     /** 音波視覺化 */
     initWaveform,

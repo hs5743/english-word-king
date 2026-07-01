@@ -61,6 +61,10 @@
   let sessionSpeechScores = []
   let sessionQuestionResults = []
   let questionAnswered = new Array(12).fill(false)
+  let speechAttemptsByQuestion = []
+  let speechBestByQuestion = []
+  let speechAppliedByQuestion = []
+  let speechRecordingSeq = 0
   let startTime = 0
 
   // Tile 模式狀態
@@ -284,6 +288,7 @@
   }
 
   function resetChallengeState(count) {
+    cleanupLocalSpeechRecordings()
     currentIndex = 0
     correctCount = 0
     speechBonusPoints = 0
@@ -292,10 +297,21 @@
     sessionSpeechScores = new Array(count).fill(0)
     sessionQuestionResults = []
     questionAnswered = new Array(count).fill(false)
+    speechAttemptsByQuestion = new Array(count).fill(null).map(() => [])
+    speechBestByQuestion = new Array(count).fill(null)
+    speechAppliedByQuestion = new Array(count).fill(null)
+    speechRecordingSeq = 0
     hasBonusAwarded = new Array(count).fill(false)
     startTime = Date.now()
     const totalEl = document.getElementById('qTotal')
     if (totalEl) totalEl.textContent = count
+  }
+
+  function cleanupLocalSpeechRecordings() {
+    if (!Array.isArray(speechAttemptsByQuestion)) return
+    speechAttemptsByQuestion.flat().forEach(attempt => {
+      if (attempt?.url) URL.revokeObjectURL(attempt.url)
+    })
   }
 
   function inferQuestionType(index) {
@@ -314,11 +330,8 @@
     if (!currentChallenge[currentIndex]) return
     const q = currentChallenge[currentIndex]
     const questionId = q.id || `q${currentIndex + 1}_${q.word || currentIndex + 1}`
-    if (sessionQuestionResults.some(row => row.question_id === questionId)) return
-    
     const originalOrder = (q.original_index !== undefined) ? (q.original_index + 1) : (currentIndex + 1)
-    
-    sessionQuestionResults.push({
+    const row = {
       question_id: questionId,
       question_order: originalOrder,
       question_type: type || inferQuestionType(currentIndex),
@@ -327,7 +340,10 @@
       is_correct: Boolean(isCorrect),
       score,
       answered_at: new Date().toISOString()
-    })
+    }
+    const existingIndex = sessionQuestionResults.findIndex(item => item.question_id === questionId)
+    if (existingIndex >= 0) sessionQuestionResults[existingIndex] = row
+    else sessionQuestionResults.push(row)
   }
 
   async function loadSessionChallenge() {
@@ -1073,6 +1089,7 @@
    * 5. SPEECH CHALLENGE
    * ═══════════════════════════════════════════════════════════ */
 
+
   function renderSpeechQuestion(q) {
     currentSpeechPracticeTarget = window.SpeechEngine?.getSpeechPracticeTarget
       ? window.SpeechEngine.getSpeechPracticeTarget(q.word)
@@ -1085,84 +1102,165 @@
 
     const micBtn = document.getElementById('micBtn')
     micBtn.className = 'mic-btn'
-    document.getElementById('micStatus').textContent = '按麥克風開始朗讀'
+    updateSpeechMicStatus()
     document.getElementById('speechResult').style.display = 'none'
     const diagnosisBox = document.getElementById('speechDiagnosis')
     if (diagnosisBox) diagnosisBox.style.display = 'none'
 
-    // 檢查瀏覽器是否支援
     if (window.SpeechEngine && !window.SpeechEngine.isSupported) {
       document.getElementById('noSpeechWarning').style.display = 'block'
     } else {
       document.getElementById('noSpeechWarning').style.display = 'none'
     }
 
-    // 初始化 Waveform 畫布
     const canvas = document.getElementById('speechCanvas')
     if (window.SpeechEngine) {
       window.SpeechEngine.initWaveform(canvas)
     }
   }
 
-  // 麥克風切換 (單字朗讀)
-  window.SpeechEngine.toggleRecording = function () {
+  function getSpeechAttempts(index = currentIndex) {
+    if (!speechAttemptsByQuestion[index]) speechAttemptsByQuestion[index] = []
+    return speechAttemptsByQuestion[index]
+  }
+
+  function getSpeechAttemptsLeft(index = currentIndex) {
+    return Math.max(0, 3 - getSpeechAttempts(index).length)
+  }
+
+  function updateSpeechMicStatus(extra = '') {
+    const statusLabel = document.getElementById('micStatus')
+    if (!statusLabel) return
+    const left = getSpeechAttemptsLeft()
+    const best = speechBestByQuestion[currentIndex]
+    const suffix = best ? ` 最佳：${best.score}` : ''
+    statusLabel.textContent = extra || `按麥克風開始錄音，剩餘 ${left}/3 次。${suffix}`
+  }
+
+  function saveSpeechAttempt(expectedWord, transcript, scoreResult, localRecord) {
+    const attempts = getSpeechAttempts()
+    const url = localRecord?.blob ? URL.createObjectURL(localRecord.blob) : ''
+    const attempt = {
+      id: ++speechRecordingSeq,
+      questionIndex: currentIndex,
+      word: expectedWord,
+      transcript: transcript || '',
+      score: scoreResult.score,
+      url,
+      mimeType: localRecord?.mimeType || '',
+      size: localRecord?.size || 0,
+      durationMs: localRecord?.durationMs || 0,
+      recordedAt: localRecord?.recordedAt || new Date().toISOString(),
+      qualityTips: window.SpeechEngine?.analyzeLocalRecording
+        ? window.SpeechEngine.analyzeLocalRecording(localRecord, transcript, scoreResult.score, currentSpeechPracticeTarget)
+        : []
+    }
+
+    attempts.push(attempt)
+    const best = speechBestByQuestion[currentIndex]
+    if (!best || attempt.score > best.score) {
+      speechBestByQuestion[currentIndex] = attempt
+      sessionSpeechScores[currentIndex] = attempt.score
+    }
+    return attempt
+  }
+
+  function applyBestSpeechScore(expectedWord) {
+    const best = speechBestByQuestion[currentIndex]
+    if (!best) return
+
+    const wasApplied = speechAppliedByQuestion[currentIndex] || { correct: false, incorrect: false }
+    const isCorrect = best.score >= 80
+
+    if (isCorrect && !wasApplied.correct) {
+      triggerConfetti()
+      correctCount++
+      sessionStars++
+      updateMastery(expectedWord, true)
+      wasApplied.correct = true
+    } else if (!isCorrect && getSpeechAttemptsLeft() === 0 && !wasApplied.incorrect && !wasApplied.correct) {
+      updateMastery(expectedWord, false)
+      wasApplied.incorrect = true
+    }
+
+    speechAppliedByQuestion[currentIndex] = wasApplied
+    recordQuestionResult(isCorrect, best.score, 'speech')
+    updateMasteryItem(expectedWord, isCorrect, best.score)
+  }
+
+  window.SpeechEngine.toggleRecording = async function () {
     const micBtn = document.getElementById('micBtn')
     const statusLabel = document.getElementById('micStatus')
     const expectedWord = currentChallenge[currentIndex].word
 
     if (!window.SpeechEngine) return
+    if (!window.SpeechEngine.isListening && getSpeechAttemptsLeft() <= 0) {
+      updateSpeechMicStatus('本題已用完 3 次錄音，已保留最佳分數。')
+      return
+    }
 
     if (window.SpeechEngine.isListening) {
       window.SpeechEngine.stopListening()
+      await window.SpeechEngine.cancelLocalRecording?.()
       window.SpeechEngine.stopWaveform()
       micBtn.classList.remove('listening')
-      statusLabel.textContent = '按麥克風開始朗讀'
+      updateSpeechMicStatus()
     } else {
       micBtn.classList.add('listening')
-      statusLabel.textContent = '語音辨識中，請朗讀單字...'
+      statusLabel.textContent = '本機錄音中，請朗讀...'
       window.SpeechEngine.startWaveform()
+      try {
+        await window.SpeechEngine.startLocalRecording?.()
+      } catch (err) {
+        statusLabel.textContent = `錯誤：${err.message || err}`
+        micBtn.classList.remove('listening')
+        window.SpeechEngine.stopWaveform()
+        return
+      }
 
       const recognitionText = currentSpeechPracticeTarget?.recognitionText || expectedWord
       window.SpeechEngine.startListening(
         recognitionText,
         (interim, isFinal) => {
-          statusLabel.textContent = isFinal ? `辨識結果: ${interim}` : `聽到了: ${interim}`
+          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `聽到了：${interim}`
         },
         (err) => {
-          statusLabel.textContent = `錯誤: ${err.message || err}`
+          statusLabel.textContent = `錯誤：${err.message || err}`
           micBtn.classList.remove('listening')
           window.SpeechEngine.stopWaveform()
         }
       ).then(transcript => {
         micBtn.classList.remove('listening')
         window.SpeechEngine.stopWaveform()
-
-        if (transcript) {
-          handleSpeechScore(transcript, expectedWord)
+        return window.SpeechEngine.stopLocalRecording?.()
+          .then(localRecord => ({ transcript, localRecord }))
+      }).then(({ transcript, localRecord }) => {
+        if (transcript || localRecord) {
+          handleSpeechScore(transcript || '', expectedWord, localRecord)
         } else {
-          statusLabel.textContent = '未偵測到聲音，請再試一次。'
+          updateSpeechMicStatus('未偵測到清楚語音，請再試一次。')
         }
       }).catch(err => {
         console.error(err)
         micBtn.classList.remove('listening')
         window.SpeechEngine.stopWaveform()
+        window.SpeechEngine.cancelLocalRecording?.()
       })
     }
   }
 
-  function handleSpeechScore(transcript, expectedWord) {
+  function handleSpeechScore(transcript, expectedWord, localRecord = null) {
     if (!window.SpeechEngine) return
 
     const res = window.SpeechEngine.scoreTranscript(expectedWord, transcript)
-    sessionSpeechScores[currentIndex] = res.score
+    const attempt = saveSpeechAttempt(expectedWord, transcript, res, localRecord)
+    const best = speechBestByQuestion[currentIndex] || attempt
 
-    // 顯示分數
-    document.getElementById('scoreValue').textContent = res.score
+    document.getElementById('scoreValue').textContent = best.score
     const ringFill = document.getElementById('scoreArc')
-    const offset = 213.6 - (res.score / 100) * 213.6
+    const offset = 213.6 - (best.score / 100) * 213.6
     ringFill.style.strokeDashoffset = offset
 
-    // 顯示詞彙匹配
     const chips = document.getElementById('speechWordChips')
     chips.innerHTML = ''
     res.wordResults.forEach(r => {
@@ -1176,7 +1274,15 @@
     const diagnosisBody = document.getElementById('speechDiagnosisBody')
     if (diagnosisBox && diagnosisBody && window.SpeechEngine.diagnosePronunciation) {
       const diagnosis = window.SpeechEngine.diagnosePronunciation(expectedWord, transcript)
-      diagnosisBody.innerHTML = diagnosis.tips.map(tip => `<div>• ${tip}</div>`).join('')
+      const qualityTips = attempt.qualityTips || []
+      const bestText = best.id === attempt.id
+        ? `這是目前最佳分數，已使用 ${getSpeechAttempts().length}/3 次。`
+        : `已儲存本次錄音，目前最佳分數仍是 ${best.score}，已使用 ${getSpeechAttempts().length}/3 次。`
+      diagnosisBody.innerHTML = [
+        `<div>${bestText}</div>`,
+        ...diagnosis.tips.map(tip => `<div>• ${tip}</div>`),
+        ...qualityTips.map(tip => `<div>• ${tip}</div>`)
+      ].join('')
       diagnosisBox.style.display = 'block'
       diagnosisBox.style.borderColor = diagnosis.level === 'good'
         ? 'rgba(105,240,174,0.25)'
@@ -1185,29 +1291,19 @@
 
     document.getElementById('speechResult').style.display = 'block'
 
-    if (res.score >= 80) {
-      triggerConfetti()
-      correctCount++
-      sessionStars++
-      // 顯示挑戰句子 prompt
+    if (best.score >= 80) {
       const prompt = document.getElementById('sentenceSpeechPrompt')
       document.getElementById('sentenceReadAloud').textContent = currentChallenge[currentIndex].exampleSentence
       prompt.style.display = 'block'
-
-      updateMastery(expectedWord, true)
-    } else {
-      updateMastery(expectedWord, false)
     }
+    applyBestSpeechScore(expectedWord)
 
-    // 解鎖下一題
     document.getElementById('nextBtn').removeAttribute('disabled')
     questionAnswered[currentIndex] = true
-    recordQuestionResult(res.score >= 80, res.score, 'speech')
-
-    updateMasteryItem(expectedWord, res.score >= 80, res.score)
+    updateSpeechMicStatus()
   }
 
-  // 口說題附帶：朗讀整句
+  // Sentence read-aloud bonus recording
   window.SpeechEngine.toggleSentenceRecording = function () {
     const btn = document.getElementById('sentenceMicBtn')
     const sentence = currentChallenge[currentIndex].exampleSentence
@@ -1863,6 +1959,8 @@
     }
 
     // 動態星星等級
+    renderSpeechRecordingReview()
+
     const stars = document.getElementById('completionStars')
     stars.innerHTML = ''
     let starCount = 1
@@ -1911,6 +2009,63 @@
   }
 
   // 播放 Web Audio API 合成解鎖音效
+  function renderSpeechRecordingReview() {
+    const section = document.getElementById('speechRecordingReviewSection')
+    const list = document.getElementById('speechRecordingReviewList')
+    if (!section || !list) return
+
+    const bestAttempts = speechBestByQuestion
+      .map((attempt, index) => ({ attempt, index }))
+      .filter(item => item.attempt?.url)
+
+    list.innerHTML = ''
+    if (bestAttempts.length === 0) {
+      section.style.display = 'none'
+      return
+    }
+
+    section.style.display = 'block'
+    bestAttempts.forEach(({ attempt, index }) => {
+      const attemptsUsed = getSpeechAttempts(index).length
+      const card = document.createElement('div')
+      card.className = 'speech-recording-card'
+
+      const head = document.createElement('div')
+      head.className = 'speech-recording-card__head'
+
+      const word = document.createElement('div')
+      word.className = 'speech-recording-card__word'
+      word.textContent = `${index + 1}. ${attempt.word}`
+
+      const meta = document.createElement('div')
+      meta.className = 'speech-recording-card__meta'
+      meta.textContent = `最佳 ${attempt.score} 分 / 已錄 ${attemptsUsed}/3 次`
+
+      head.appendChild(word)
+      head.appendChild(meta)
+
+      const audio = document.createElement('audio')
+      audio.controls = true
+      audio.src = attempt.url
+      if (attempt.mimeType) audio.type = attempt.mimeType
+
+      card.appendChild(head)
+      card.appendChild(audio)
+
+      const details = []
+      if (attempt.transcript) details.push(`辨識結果：${attempt.transcript}`)
+      if (attempt.qualityTips?.length) details.push(...attempt.qualityTips.slice(0, 2))
+      if (details.length) {
+        const tips = document.createElement('div')
+        tips.className = 'speech-recording-card__tips'
+        tips.textContent = details.join(' / ')
+        card.appendChild(tips)
+      }
+
+      list.appendChild(card)
+    })
+  }
+
   function playUnlockSound() {
     try {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
@@ -2055,5 +2210,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     init()
   })
+  window.addEventListener('beforeunload', cleanupLocalSpeechRecordings)
 
 })()
