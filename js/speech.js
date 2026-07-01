@@ -392,12 +392,94 @@
    * @returns {{ score: number, wordResults: Array<{word:string, status:string}> }}
    *   status: 'correct' | 'close' | 'wrong'
    */
+  const SHORT_WORD_MAX_LEN = 4
+  const SHORT_WORD_OVERRIDES = {
+    ok: {
+      practiceText: 'I am OK.',
+      accepted: ['ok', 'okay', 'o k'],
+      close: [],
+      tips: ['OK can be heard as okay. Please say both sounds clearly: O-K.'],
+    },
+    well: {
+      practiceText: 'I feel well.',
+      accepted: ['well'],
+      close: ['will'],
+      tips: ['If the browser hears will, open your mouth a little more for the /e/ sound in well, and finish the /l/.'],
+    },
+  }
+
+  function _speechKey(value) {
+    return String(value || '').toLowerCase().replace(/[^a-z]/g, '')
+  }
+
+  function _normalizeVariantWords(value) {
+    return _normalizeText(value).join(' ')
+  }
+
+  function getSpeechPracticeTarget(expected) {
+    const raw = String(expected || '').trim()
+    const key = _speechKey(raw)
+    const override = SHORT_WORD_OVERRIDES[key]
+    const isShortWord = Boolean(key) && key.length <= SHORT_WORD_MAX_LEN
+    const practiceText = override?.practiceText || (isShortWord ? `I say ${raw}.` : raw)
+    const accepted = [raw, ...(override?.accepted || [])].map(_normalizeVariantWords).filter(Boolean)
+    const close = (override?.close || []).map(_normalizeVariantWords).filter(Boolean)
+
+    return {
+      word: key || raw.toLowerCase(),
+      displayWord: raw,
+      isShortWord,
+      practiceText,
+      recognitionText: isShortWord ? practiceText : raw,
+      accepted: [...new Set(accepted)],
+      close: [...new Set(close)],
+      tips: override?.tips || [],
+    }
+  }
+
+  function _transcriptHasPhrase(transWords, phrase) {
+    const phraseWords = String(phrase || '').split(/\s+/).filter(Boolean)
+    if (!phraseWords.length) return false
+    if (phraseWords.length === 1) return transWords.includes(phraseWords[0])
+    return transWords.join(' ').includes(phraseWords.join(' '))
+  }
+
   function scoreTranscript(expected, transcript) {
+    const target = getSpeechPracticeTarget(expected)
     const expWords   = _normalizeText(expected)
     const transWords = _normalizeText(transcript)
 
     if (expWords.length === 0) {
       return { score: 0, wordResults: [] }
+    }
+
+    if (target.isShortWord && expWords.length === 1) {
+      const heardWord = transWords[0] || ''
+      const acceptedHit = target.accepted.some(phrase => _transcriptHasPhrase(transWords, phrase))
+      const closeHit = target.close.some(phrase => _transcriptHasPhrase(transWords, phrase))
+      const fuzzyClose = !acceptedHit && target.word && transWords.some(word => _levenshtein(target.word, word) === 1)
+
+      if (acceptedHit) {
+        return {
+          score: 100,
+          wordResults: [{ word: target.displayWord.toLowerCase(), status: 'correct' }],
+          speechTarget: target,
+        }
+      }
+
+      if (closeHit || fuzzyClose) {
+        return {
+          score: 70,
+          wordResults: [{ word: target.displayWord.toLowerCase(), status: 'close', heard: heardWord }],
+          speechTarget: target,
+        }
+      }
+
+      return {
+        score: 0,
+        wordResults: [{ word: target.displayWord.toLowerCase(), status: 'wrong', heard: heardWord }],
+        speechTarget: target,
+      }
     }
 
     // Greedy alignment: 對每個 expected word 找最近的 transcript word
@@ -441,15 +523,32 @@
       Math.round(((correctWords + 0.5 * closeWords) / expWords.length) * 100)
     )
 
-    return { score, wordResults }
+    return { score, wordResults, speechTarget: target }
   }
 
   function diagnosePronunciation(expected, transcript) {
+    const speechTarget = getSpeechPracticeTarget(expected)
     const expWords = _normalizeText(expected)
     const transWords = _normalizeText(transcript)
     const target = expWords[0] || ''
     const heard = transWords[0] || ''
     const tips = []
+
+    if (speechTarget.isShortWord && speechTarget.close.includes(heard)) {
+      return {
+        level: 'practice',
+        tips: speechTarget.tips.length
+          ? speechTarget.tips
+          : ['This short word is close. Try the full practice sentence and make the vowel clear.'],
+      }
+    }
+
+    if (speechTarget.isShortWord && !heard) {
+      return {
+        level: 'warning',
+        tips: ['This is a short word, so the browser may miss it. Try the full practice sentence and speak a little longer.'],
+      }
+    }
 
     if (!target) {
       return { level: 'info', tips: ['請先完成一次朗讀，系統會依辨識結果給建議。'] }
@@ -684,6 +783,7 @@
     /** DP 評分 */
     scoreTranscript,
     diagnosePronunciation,
+    getSpeechPracticeTarget,
 
     /** TTS */
     speak,

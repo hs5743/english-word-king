@@ -12,6 +12,7 @@
     "check:json": "node tools/check-json.mjs",
     "test:spiral": "node tools/test-spiral-selection.mjs",
     "audit:vocab": "node tools/audit-vocabulary-topics.mjs",
+    "audit:speech-short": "node tools/audit-short-speech-words.mjs",
     "fix:vocab": "node tools/audit-vocabulary-topics.mjs --fix",
     "check": "npm run check:js && npm run check:inline && npm run check:json"
   }

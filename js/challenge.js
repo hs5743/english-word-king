@@ -44,6 +44,7 @@
   let currentMode = 'daily'        // daily (每日計分) | free (自由練習) | class (課堂挑戰)
   let currentType = 'spelling'     // spelling | speech | sentence
   let currentChallenge = []        // 12題題目資料
+  let currentSpeechPracticeTarget = null
   let currentIndex = 0
   let isDoneToday = false          // 今天是否已挑戰過計分模式
   let currentSessionId = null      // 當前加入的課堂場次 UUID
@@ -1073,9 +1074,14 @@
    * ═══════════════════════════════════════════════════════════ */
 
   function renderSpeechQuestion(q) {
+    currentSpeechPracticeTarget = window.SpeechEngine?.getSpeechPracticeTarget
+      ? window.SpeechEngine.getSpeechPracticeTarget(q.word)
+      : null
     document.getElementById('speechWord').textContent = q.word
     document.getElementById('speechPhonetic').textContent = q.phonetic
-    document.getElementById('speechExample').textContent = q.exampleSentence
+    document.getElementById('speechExample').textContent = currentSpeechPracticeTarget?.isShortWord
+      ? `Short word practice: ${currentSpeechPracticeTarget.practiceText}`
+      : q.exampleSentence
 
     const micBtn = document.getElementById('micBtn')
     micBtn.className = 'mic-btn'
@@ -1116,8 +1122,9 @@
       statusLabel.textContent = '語音辨識中，請朗讀單字...'
       window.SpeechEngine.startWaveform()
 
+      const recognitionText = currentSpeechPracticeTarget?.recognitionText || expectedWord
       window.SpeechEngine.startListening(
-        expectedWord,
+        recognitionText,
         (interim, isFinal) => {
           statusLabel.textContent = isFinal ? `辨識結果: ${interim}` : `聽到了: ${interim}`
         },
