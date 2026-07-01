@@ -1163,15 +1163,25 @@
       return
     }
 
+    // 取得即時語音辨識文字顯示框
+    const liveBox = document.getElementById('speechLiveBox')
+    const liveText = document.getElementById('speechLiveText')
+
     if (window.SpeechEngine.isListening) {
       window.SpeechEngine.stopListening()
       await window.SpeechEngine.cancelLocalRecording?.()
       window.SpeechEngine.stopWaveform()
       micBtn.classList.remove('listening')
       updateSpeechMicStatus()
+      if (liveBox) liveBox.style.display = 'none'
     } else {
       micBtn.classList.add('listening')
       statusLabel.textContent = '正在聽，請開始朗讀...'
+      if (liveBox && liveText) {
+        liveBox.style.display = 'block'
+        liveText.textContent = '（請開口說話...）'
+        liveText.className = 'speech-live-text placeholder'
+      }
       window.SpeechEngine.startWaveform()
       try {
         await window.SpeechEngine.startLocalRecording?.()
@@ -1179,6 +1189,7 @@
         statusLabel.textContent = `錯誤：${err.message || err}`
         micBtn.classList.remove('listening')
         window.SpeechEngine.stopWaveform()
+        if (liveBox) liveBox.style.display = 'none'
         return
       }
 
@@ -1187,15 +1198,21 @@
         recognitionText,
         (interim, isFinal) => {
           statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
+          if (liveText && interim) {
+            liveText.textContent = interim
+            liveText.className = 'speech-live-text'
+          }
         },
         (err) => {
           statusLabel.textContent = `錯誤：${err.message || err}`
           micBtn.classList.remove('listening')
           window.SpeechEngine.stopWaveform()
+          if (liveBox) liveBox.style.display = 'none'
         }
       ).then(transcript => {
         micBtn.classList.remove('listening')
         window.SpeechEngine.stopWaveform()
+        if (liveBox) liveBox.style.display = 'none'
         return window.SpeechEngine.stopLocalRecording?.()
           .then(localRecord => ({ transcript, localRecord }))
       }).then(({ transcript, localRecord }) => {
@@ -1209,6 +1226,7 @@
         micBtn.classList.remove('listening')
         window.SpeechEngine.stopWaveform()
         window.SpeechEngine.cancelLocalRecording?.()
+        if (liveBox) liveBox.style.display = 'none'
       })
     }
   }

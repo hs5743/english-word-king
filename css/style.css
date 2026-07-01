@@ -1366,4 +1366,42 @@ input:checked + .slider {
   animation: wrongShake 0.4s ease !important;
 }
 
+/* ══ SPEECH REAL-TIME TRANSCRIPT GLOW BOX (即時語音辨識文字顯示) ════ */
+.speech-live-box {
+  margin: var(--sp-md) auto 0;
+  padding: var(--sp-md);
+  background-color: #ffffff !important;
+  border: 2.5px solid #cbd5e1 !important;
+  border-radius: var(--r-sm) !important;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 5px 0px rgba(78, 195, 228, 0.15) !important;
+  border-color: var(--clr-blue-1) !important;
+  animation: fadeInUp 0.3s ease both;
+}
+
+.speech-live-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--clr-blue-text);
+  margin-bottom: 6px;
+  font-family: var(--font-zh);
+  letter-spacing: 0.05em;
+}
+
+.speech-live-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--clr-blue-2);
+  font-family: var(--font-en);
+  word-break: break-word;
+  line-height: 1.5;
+}
+.speech-live-text.placeholder {
+  color: var(--clr-text-muted);
+  font-weight: 500;
+  font-family: var(--font-zh);
+  font-size: 0.95rem;
+}
+
 
