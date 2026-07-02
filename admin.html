@@ -761,6 +761,9 @@
     }
 
     async function loadConfigStatus() {
+      // 先用預設值渲染，避免載入期間或錯誤時畫面顯示空白
+      renderApiOrderList();
+
       const box = document.getElementById('configStatusContent');
       if (!box) return;
       box.textContent = '檢查中...';
@@ -803,6 +806,7 @@
       } catch (err) {
         console.error(err);
         box.textContent = '狀態檢查失敗：' + err.message;
+        renderApiOrderList();
       }
     }
 

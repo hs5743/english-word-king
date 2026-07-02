@@ -91,22 +91,24 @@ async function getConfigStatus(supabase: any) {
 
   const status = Object.fromEntries(
     (data || []).map((row: ConfigRow) => {
+      const valStr = String(row.value || '').trim()
       if (row.key === 'api_calling_order') {
         return [
           row.key,
           {
             configured: true,
             updated_at: row.updated_at,
-            value: row.value
+            value: valStr
           }
         ]
       }
+      const isConfig = isConfiguredSecret(row.value)
       return [
         row.key,
         {
-          configured: isConfiguredSecret(row.value),
+          configured: isConfig,
           updated_at: row.updated_at,
-          masked_hint: isConfiguredSecret(row.value) && row.value.length > 3 ? '...' + row.value.slice(-3) : null
+          masked_hint: isConfig && valStr.length > 3 ? '...' + valStr.slice(-3) : null
         }
       ]
     })
