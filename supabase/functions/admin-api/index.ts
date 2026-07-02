@@ -76,24 +76,50 @@ serve(async (req) => {
 })
 
 async function getConfigStatus(supabase: any) {
+  const keysToQuery = [
+    'gemini_api_key',
+    'gemini_api_key_backup',
+    'groq_api_key',
+    'groq_api_key_backup',
+    'api_calling_order'
+  ]
   const { data, error } = await supabase
     .from('system_config')
     .select('key,value,updated_at')
-    .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key'])
+    .in('key', keysToQuery)
   if (error) throw error
 
   const status = Object.fromEntries(
-    (data || []).map((row: ConfigRow) => [
-      row.key,
-      {
-        configured: isConfiguredSecret(row.value),
-        updated_at: row.updated_at,
-      },
-    ]),
+    (data || []).map((row: ConfigRow) => {
+      if (row.key === 'api_calling_order') {
+        return [
+          row.key,
+          {
+            configured: true,
+            updated_at: row.updated_at,
+            value: row.value
+          }
+        ]
+      }
+      return [
+        row.key,
+        {
+          configured: isConfiguredSecret(row.value),
+          updated_at: row.updated_at,
+          masked_hint: isConfiguredSecret(row.value) && row.value.length > 3 ? '...' + row.value.slice(-3) : null
+        }
+      ]
+    })
   )
 
-  for (const key of ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key']) {
-    if (!status[key]) status[key] = { configured: false, updated_at: null }
+  for (const key of keysToQuery) {
+    if (!status[key]) {
+      if (key === 'api_calling_order') {
+        status[key] = { configured: false, updated_at: null, value: '' }
+      } else {
+        status[key] = { configured: false, updated_at: null, masked_hint: null }
+      }
+    }
   }
 
   return jsonOk({ status })
@@ -103,7 +129,7 @@ async function testAiConfig(supabase: any) {
   const { data, error } = await supabase
     .from('system_config')
     .select('key,value,updated_at')
-    .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key'])
+    .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key', 'groq_api_key_backup'])
   if (error) throw error
 
   const keys = Object.fromEntries((data || []).map((row: ConfigRow) => [row.key, row.value])) as Record<string, string>
@@ -123,8 +149,14 @@ async function testAiConfig(supabase: any) {
 
   if (isConfiguredSecret(keys.groq_api_key)) {
     const result = await testGroq(keys.groq_api_key)
-    attempts.push({ provider: 'Groq', ...result })
-    if (result.ok) return jsonOk({ ok: true, provider: 'Groq', attempts })
+    attempts.push({ provider: 'Groq primary', ...result })
+    if (result.ok) return jsonOk({ ok: true, provider: 'Groq primary', attempts })
+  }
+
+  if (isConfiguredSecret(keys.groq_api_key_backup)) {
+    const result = await testGroq(keys.groq_api_key_backup)
+    attempts.push({ provider: 'Groq backup', ...result })
+    if (result.ok) return jsonOk({ ok: true, provider: 'Groq backup', attempts })
   }
 
   return jsonOk({
@@ -138,9 +170,12 @@ async function testAiConfig(supabase: any) {
 async function saveConfig(supabase: any, body: any) {
   const rows: ConfigRow[] = []
   const updated_at = new Date().toISOString()
-  if (body.gemini_api_key) rows.push({ key: 'gemini_api_key', value: String(body.gemini_api_key), updated_at })
-  if (body.gemini_api_key_backup) rows.push({ key: 'gemini_api_key_backup', value: String(body.gemini_api_key_backup), updated_at })
-  if (body.groq_api_key) rows.push({ key: 'groq_api_key', value: String(body.groq_api_key), updated_at })
+  if (body.gemini_api_key !== undefined) rows.push({ key: 'gemini_api_key', value: String(body.gemini_api_key), updated_at })
+  if (body.gemini_api_key_backup !== undefined) rows.push({ key: 'gemini_api_key_backup', value: String(body.gemini_api_key_backup), updated_at })
+  if (body.groq_api_key !== undefined) rows.push({ key: 'groq_api_key', value: String(body.groq_api_key), updated_at })
+  if (body.groq_api_key_backup !== undefined) rows.push({ key: 'groq_api_key_backup', value: String(body.groq_api_key_backup), updated_at })
+  if (body.api_calling_order !== undefined) rows.push({ key: 'api_calling_order', value: String(body.api_calling_order), updated_at })
+  
   if (rows.length === 0) return jsonError(400, 'no_changes', '沒有可儲存的設定。')
 
   const { error } = await supabase.from('system_config').upsert(rows)
@@ -198,15 +233,19 @@ async function getRoles(supabase: any) {
   return jsonOk({ roles: data || [] })
 }
 
+
+
 async function addRole(supabase: any, body: any, isSuperAdmin: boolean) {
   const email = normalizeEmail(body.email)
   const role = String(body.role || '')
+  const name = String(body.name || '').trim()
+  if (!name) return jsonError(400, 'invalid_name', '教職員姓名不能為空。')
   if (!['admin', 'teacher'].includes(role)) return jsonError(400, 'invalid_role', '角色必須是 admin 或 teacher。')
   if (role === 'admin' && !isSuperAdmin) return jsonError(403, 'forbidden', '只有系統管理者可新增管理者。')
 
-  const { error } = await supabase.from('user_roles').upsert({ email, role })
+  const { error } = await supabase.from('user_roles').upsert({ email, role, name })
   if (error) throw error
-  return jsonOk({ email, role })
+  return jsonOk({ email, role, name })
 }
 
 async function deleteRole(supabase: any, body: any, isSuperAdmin: boolean) {

@@ -43,8 +43,10 @@ ALTER TABLE students ADD COLUMN IF NOT EXISTS mastery JSONB DEFAULT '{}'::jsonb 
 CREATE TABLE IF NOT EXISTS user_roles (
   email      VARCHAR PRIMARY KEY,
   role       VARCHAR NOT NULL CHECK (role IN ('admin', 'teacher')),
+  name       VARCHAR DEFAULT '' NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
+ALTER TABLE user_roles ADD COLUMN IF NOT EXISTS name VARCHAR DEFAULT '' NOT NULL;
 
 CREATE TABLE IF NOT EXISTS challenge_sessions (
   id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),

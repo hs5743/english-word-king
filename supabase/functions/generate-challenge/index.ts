@@ -493,10 +493,12 @@ serve(async (req) => {
     }
 
     // 6. 讀取 AI 金鑰（從 system_config，前端永遠看不到）
+
+
     const { data: configRows, error: configError } = await supabase
       .from('system_config')
       .select('key, value')
-      .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key'])
+      .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key', 'groq_api_key_backup', 'api_calling_order'])
 
     if (configError) console.warn('讀取 AI 設定失敗，改用內建題庫 fallback:', configError.message)
 
@@ -743,57 +745,113 @@ ${JSON.stringify(candidatesJson, null, 2)}
       throw lastErr;
     }
 
-    // 嘗試 1：主要 Gemini 金鑰
-    if (keys.gemini_api_key && keys.gemini_api_key !== 'REPLACE_WITH_YOUR_GEMINI_KEY') {
-      try {
-        challengeData = await executeWithRetry(
-          'gemini_primary',
-          () => callGemini(keys.gemini_api_key, prompt),
-          2, // 最多嘗試 2 次
-          1500 // 失敗後等待 1.5 秒
-        )
-        console.log('✅ Gemini 主金鑰出題成功')
-        challengeSource = 'gemini_primary'
-      } catch (err) {
-        console.warn('⚠️ Gemini 主金鑰失敗，準備備援...', getErrorMessage(err))
-        lastError = err
-        // 進入備援前稍微停頓 800 毫秒以分散流量
-        await new Promise(resolve => setTimeout(resolve, 800))
-      }
-    }
+    // 解析自訂 API 優先順序
+    const rawOrder = keys.api_calling_order
+      ? keys.api_calling_order.split(',').map(s => s.trim().toLowerCase())
+      : ['gemini_primary', 'gemini_backup', 'groq_primary', 'groq_backup']
 
-    // 嘗試 2：備用 Gemini 金鑰
-    if (!challengeData && keys.gemini_api_key_backup) {
-      try {
-        challengeData = await executeWithRetry(
-          'gemini_backup',
-          () => callGemini(keys.gemini_api_key_backup, prompt),
-          2,
-          1500
-        )
-        console.log('✅ Gemini 備援金鑰出題成功')
-        challengeSource = 'gemini_backup'
-      } catch (err) {
-        console.warn('⚠️ Gemini 備援失敗，準備 Groq...', getErrorMessage(err))
-        lastError = err
-        await new Promise(resolve => setTimeout(resolve, 800))
-      }
-    }
+    const order = rawOrder.filter(item => [
+      'gemini_primary', 'gemini_api_key',
+      'gemini_backup', 'gemini_api_key_backup',
+      'groq_primary', 'groq_api_key',
+      'groq_backup', 'groq_api_key_backup'
+    ].includes(item))
 
-    // 嘗試 3：Groq Llama 3 備援
-    if (!challengeData && keys.groq_api_key) {
-      try {
-        challengeData = await executeWithRetry(
-          'groq',
-          () => callGroq(keys.groq_api_key, prompt),
-          2,
-          1500
-        )
-        console.log('✅ Groq 備援出題成功')
-        challengeSource = 'groq'
-      } catch (err) {
-        console.error('❌ 所有 AI 提供商均失敗', getErrorMessage(err))
-        lastError = err
+    // 自動補上缺少的金鑰（以確保穩健性）
+    const allProviders = ['gemini_primary', 'gemini_backup', 'groq_primary', 'groq_backup']
+    allProviders.forEach(p => {
+      const hasGeminiPrimary = order.some(o => o === 'gemini_primary' || o === 'gemini_api_key')
+      const hasGeminiBackup = order.some(o => o === 'gemini_backup' || o === 'gemini_api_key_backup')
+      const hasGroqPrimary = order.some(o => o === 'groq_primary' || o === 'groq_api_key')
+      const hasGroqBackup = order.some(o => o === 'groq_backup' || o === 'groq_api_key_backup')
+      
+      if (p === 'gemini_primary' && !hasGeminiPrimary) order.push('gemini_primary')
+      if (p === 'gemini_backup' && !hasGeminiBackup) order.push('gemini_backup')
+      if (p === 'groq_primary' && !hasGroqPrimary) order.push('groq_primary')
+      if (p === 'groq_backup' && !hasGroqBackup) order.push('groq_backup')
+    })
+
+    console.log(`📡 AI 呼叫順序：${order.join(' -> ')}`)
+
+    let lastError: any = null
+    for (const provider of order) {
+      if (challengeData) break;
+
+      if (provider === 'gemini_primary' || provider === 'gemini_api_key') {
+        const keyVal = keys.gemini_api_key
+        if (keyVal && keyVal !== 'REPLACE_WITH_YOUR_GEMINI_KEY') {
+          try {
+            challengeData = await executeWithRetry(
+              'gemini_primary',
+              () => callGemini(keyVal, prompt),
+              2,
+              1500
+            )
+            console.log('✅ Gemini 主金鑰出題成功')
+            challengeSource = 'gemini_primary'
+          } catch (err) {
+            console.warn('⚠️ Gemini 主金鑰失敗，準備下一順位...', getErrorMessage(err))
+            lastError = err
+            await new Promise(resolve => setTimeout(resolve, 800))
+          }
+        }
+      }
+      else if (provider === 'gemini_backup' || provider === 'gemini_api_key_backup') {
+        const keyVal = keys.gemini_api_key_backup
+        if (keyVal) {
+          try {
+            challengeData = await executeWithRetry(
+              'gemini_backup',
+              () => callGemini(keyVal, prompt),
+              2,
+              1500
+            )
+            console.log('✅ Gemini 備援金鑰出題成功')
+            challengeSource = 'gemini_backup'
+          } catch (err) {
+            console.warn('⚠️ Gemini 備援失敗，準備下一順位...', getErrorMessage(err))
+            lastError = err
+            await new Promise(resolve => setTimeout(resolve, 800))
+          }
+        }
+      }
+      else if (provider === 'groq_primary' || provider === 'groq_api_key') {
+        const keyVal = keys.groq_api_key
+        if (keyVal && keyVal !== 'REPLACE_WITH_YOUR_GROQ_KEY') {
+          try {
+            challengeData = await executeWithRetry(
+              'groq_primary',
+              () => callGroq(keyVal, prompt),
+              2,
+              1500
+            )
+            console.log('✅ Groq 主要金鑰出題成功')
+            challengeSource = 'groq_primary'
+          } catch (err) {
+            console.warn('⚠️ Groq 主要金鑰失敗，準備下一順位...', getErrorMessage(err))
+            lastError = err
+            await new Promise(resolve => setTimeout(resolve, 800))
+          }
+        }
+      }
+      else if (provider === 'groq_backup' || provider === 'groq_api_key_backup') {
+        const keyVal = keys.groq_api_key_backup
+        if (keyVal) {
+          try {
+            challengeData = await executeWithRetry(
+              'groq_backup',
+              () => callGroq(keyVal, prompt),
+              2,
+              1500
+            )
+            console.log('✅ Groq 備用金鑰出題成功')
+            challengeSource = 'groq_backup'
+          } catch (err) {
+            console.warn('⚠️ Groq 備用金鑰失敗，準備下一順位...', getErrorMessage(err))
+            lastError = err
+            await new Promise(resolve => setTimeout(resolve, 800))
+          }
+        }
       }
     }
 

@@ -215,8 +215,26 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="groqKey">Groq Llama 3 備援 API 金鑰</label>
+            <label class="form-label" for="groqKey">Groq Llama 3 主要 API 金鑰</label>
             <input class="form-input" id="groqKey" type="password" placeholder="輸入 Groq API 金鑰 (若不修改請留空)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="groqKeyBackup">Groq Llama 3 備用 API 金鑰</label>
+            <input class="form-input" id="groqKeyBackup" type="password" placeholder="輸入 Groq 備用 API 金鑰 (若不修改請留空)" />
+          </div>
+
+          <!-- 優先呼叫順序調整 -->
+          <div class="form-group" style="margin-top:var(--sp-lg);border-top:1px solid rgba(148,163,184,0.15);padding-top:var(--sp-md);">
+            <label class="form-label" style="font-weight:700;display:flex;align-items:center;gap:var(--sp-xs);">
+              📶 AI 出題呼叫順序調整 (配合現況即時調整)
+            </label>
+            <p style="font-size:0.8rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm);">
+              使用右側的 ⬆️ 上移 與 ⬇️ 下移 按鈕調整出題時金鑰的嘗試順序。第一個成功的金鑰將負責產出題目。
+            </p>
+            <div id="apiOrderList" style="display:flex;flex-direction:column;gap:var(--sp-xs);max-width:480px;background:rgba(255,255,255,0.55);padding:var(--sp-sm);border-radius:12px;border:1px solid rgba(148,163,184,0.15);">
+              <!-- 動態載入順序 -->
+            </div>
           </div>
 
           <div class="form-group" style="margin-top:var(--sp-lg);">
@@ -282,9 +300,14 @@
         <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-red-1);">新增教職員授權</h2>
         
         <form id="roleForm" onsubmit="addUserRole(event)" style="display:flex;flex-wrap:wrap;gap:var(--sp-md);align-items:flex-end;">
-          <div class="form-group" style="flex:2;min-width:240px;margin-bottom:0;">
+          <div class="form-group" style="flex:1.5;min-width:180px;margin-bottom:0;">
             <label class="form-label" for="roleEmail">教職員 Email (限定 @gapp.hcc.edu.tw)</label>
             <input class="form-input" id="roleEmail" type="email" placeholder="example@gapp.hcc.edu.tw" required />
+          </div>
+
+          <div class="form-group" style="flex:1;min-width:120px;margin-bottom:0;">
+            <label class="form-label" for="roleName">人員姓名</label>
+            <input class="form-input" id="roleName" type="text" placeholder="輸入姓名 (例如：李老師)" required />
           </div>
 
           <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;">
@@ -306,13 +329,14 @@
           <thead>
             <tr>
               <th>人員信箱</th>
+              <th>姓名</th>
               <th>角色等級</th>
               <th style="text-align:center;">操作</th>
             </tr>
           </thead>
           <tbody id="rolesTableBody">
             <tr>
-              <td colspan="3" style="text-align:center;color:var(--clr-text-muted);">載入中…</td>
+              <td colspan="4" style="text-align:center;color:var(--clr-text-muted);">載入中…</td>
             </tr>
           </tbody>
         </table>
@@ -666,31 +690,68 @@
      * 1. SYSTEM CONFIG MODULE
      * ═══════════════════════════════════════════════════════════ */
 
+    function renderApiOrderList() {
+      const container = document.getElementById('apiOrderList');
+      if (!container) return;
+      container.innerHTML = currentApiOrder.map((key, idx) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:white;border-radius:8px;border:1px solid rgba(148,163,184,0.15);box-shadow:0 1px 2px rgba(0,0,0,0.05);" data-key="${key}">
+          <span style="font-size:0.9rem;font-weight:600;color:var(--clr-text-primary);">${PROVIDER_NAMES[key] || key}</span>
+          <div style="display:flex;gap:4px;">
+            <button class="btn" type="button" style="padding:4px 8px;font-size:0.8rem;background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;" onclick="moveApiOrder(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>⬆️</button>
+            <button class="btn" type="button" style="padding:4px 8px;font-size:0.8rem;background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;" onclick="moveApiOrder(${idx}, 1)" ${idx === currentApiOrder.length - 1 ? 'disabled' : ''}>⬇️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.moveApiOrder = function(index, direction) {
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= currentApiOrder.length) return;
+      const temp = currentApiOrder[index];
+      currentApiOrder[index] = currentApiOrder[newIndex];
+      currentApiOrder[newIndex] = temp;
+      renderApiOrderList();
+    };
+
+    window.clearApiKey = async function(key) {
+      if (!confirm(`確定要清空/刪除該 API 金鑰設定嗎？`)) return;
+      showLoading(true, '正在清除金鑰...');
+      try {
+        await invokeAdminApi('save-config', { [key]: "" });
+        showLoading(false);
+        alert('金鑰已成功清除，回到空白狀態。');
+        await loadConfigStatus();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('清除失敗：' + err.message);
+      }
+    };
+
     async function saveSystemConfig(e) {
       e.preventDefault();
       const gemini = document.getElementById('geminiKey').value.trim();
       const backup = document.getElementById('geminiKeyBackup').value.trim();
       const groq = document.getElementById('groqKey').value.trim();
+      const groqBackup = document.getElementById('groqKeyBackup').value.trim();
 
-      showLoading(true, '正在寫入 AI 設定...');
+      showLoading(true, '正在儲存 AI 設定與優先順序...');
       try {
         const payload = {};
         if (gemini) payload.gemini_api_key = gemini;
         if (backup) payload.gemini_api_key_backup = backup;
         if (groq) payload.groq_api_key = groq;
-
-        if (Object.keys(payload).length === 0) {
-          showLoading(false);
-          alert('沒有輸入任何變更。');
-          return;
-        }
+        if (groqBackup) payload.groq_api_key_backup = groqBackup;
+        
+        payload.api_calling_order = currentApiOrder.join(',');
 
         await invokeAdminApi('save-config', payload);
         showLoading(false);
-        alert('系統 AI 金鑰設定儲存成功！');
+        alert('系統 AI 金鑰與呼叫順序設定儲存成功！');
         document.getElementById('geminiKey').value = '';
         document.getElementById('geminiKeyBackup').value = '';
         document.getElementById('groqKey').value = '';
+        document.getElementById('groqKeyBackup').value = '';
         await loadConfigStatus();
       } catch (err) {
         console.error(err);
@@ -698,10 +759,6 @@
         alert('儲存失敗：' + err.message);
       }
     }
-
-    /* ═══════════════════════════════════════════════════════════
-     * 2. STUDENT ROSTER MODULE
-     * ═══════════════════════════════════════════════════════════ */
 
     async function loadConfigStatus() {
       const box = document.getElementById('configStatusContent');
@@ -713,16 +770,36 @@
         const labels = {
           gemini_api_key: 'Gemini 主要金鑰',
           gemini_api_key_backup: 'Gemini 備用金鑰',
-          groq_api_key: 'Groq 備援金鑰',
+          groq_api_key: 'Groq Llama 3 主要金鑰',
+          groq_api_key_backup: 'Groq Llama 3 備用金鑰',
         };
+        
         box.innerHTML = Object.keys(labels).map(function (key) {
           const item = status[key] || {};
+          const hint = item.masked_hint ? ` (尾碼: ${item.masked_hint})` : '';
           const badge = item.configured
-            ? '<span style="color:#047857;font-weight:700;">已設定</span>'
+            ? `<span style="color:#047857;font-weight:700;">已設定${hint}</span>`
             : '<span style="color:#b45309;font-weight:700;">未設定</span>';
+          
+          const clearBtn = item.configured
+            ? `<button class="btn btn--logout" style="padding:2px 8px;font-size:0.75rem;margin-left:8px;line-height:1.2;vertical-align:middle;" type="button" onclick="clearApiKey('${key}')">🗑️ 清空</button>`
+            : '';
+            
           const updated = item.updated_at ? '，更新時間：' + formatDateTime(item.updated_at) : '';
-          return '<div style="margin-top:6px;">' + labels[key] + '：' + badge + updated + '</div>';
+          return '<div style="margin-top:8px; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">' + 
+            labels[key] + '：' + badge + updated + clearBtn + 
+            '</div>';
         }).join('');
+
+        if (status.api_calling_order && status.api_calling_order.value) {
+          const savedOrder = status.api_calling_order.value.split(',').map(s => s.trim());
+          const validOrder = savedOrder.filter(k => PROVIDER_NAMES[k]);
+          Object.keys(PROVIDER_NAMES).forEach(k => {
+            if (!validOrder.includes(k)) validOrder.push(k);
+          });
+          currentApiOrder = validOrder;
+        }
+        renderApiOrderList();
       } catch (err) {
         console.error(err);
         box.textContent = '狀態檢查失敗：' + err.message;
@@ -963,11 +1040,14 @@
       }
     }
 
+
+
     function renderRolesTable(items) {
       const tbody = document.getElementById('rolesTableBody');
       tbody.innerHTML = items.map(item => `
         <tr>
           <td class="font-en" style="font-weight:700;">${item.email}</td>
+          <td style="font-weight:500;">${item.name || '（未登錄）'}</td>
           <td>
             <span class="role-badge role-badge--${item.role}">
               ${item.role === 'admin' ? '管理者' : '教師'}
@@ -985,6 +1065,7 @@
     async function addUserRole(e) {
       e.preventDefault();
       const email = document.getElementById('roleEmail').value.trim();
+      const name = document.getElementById('roleName').value.trim();
       const role = document.getElementById('roleSelect').value;
 
       if (role === 'admin' && userRole !== 'super_admin') {
@@ -997,11 +1078,17 @@
         return;
       }
 
+      if (!name) {
+        alert('請填寫人員姓名。');
+        return;
+      }
+
       showLoading(true, '正在建立角色授權...');
       try {
-        await invokeAdminApi('add-role', { email, role });
+        await invokeAdminApi('add-role', { email, role, name });
         showLoading(false);
         document.getElementById('roleEmail').value = '';
+        document.getElementById('roleName').value = '';
         loadUserRoles();
       } catch (err) {
         console.error(err);
