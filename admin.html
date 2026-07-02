@@ -649,8 +649,10 @@
             sourceBadge = '<span class="role-badge role-badge--teacher">Gemini主</span>';
           } else if (log.success_source === 'gemini_backup') {
             sourceBadge = '<span class="role-badge role-badge--teacher" style="background:rgba(255,209,102,0.15);color:var(--clr-gold-1);border:1px solid rgba(255,209,102,0.3);">Gemini備</span>';
-          } else if (log.success_source === 'groq') {
-            sourceBadge = '<span class="role-badge role-badge--admin">Groq (Llama)</span>';
+          } else if (log.success_source === 'groq_primary' || log.success_source === 'groq') {
+            sourceBadge = '<span class="role-badge role-badge--admin">Groq主 (Llama)</span>';
+          } else if (log.success_source === 'groq_backup') {
+            sourceBadge = '<span class="role-badge role-badge--admin" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.3);">Groq備 (Llama)</span>';
           } else if (log.success_source === 'fallback') {
             sourceBadge = '<span class="role-badge" style="background:rgba(255,255,255,0.1);color:var(--clr-text-muted);border:1px solid rgba(255,255,255,0.2);">本地 Fallback</span>';
           } else {
