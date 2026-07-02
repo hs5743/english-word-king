@@ -682,7 +682,6 @@ ${JSON.stringify(candidatesJson, null, 2)}
 
     // 9. AI 出題（三段 Failover + 失敗重試 + 延遲分流）
     let challengeData: any[] | null = null
-    let lastError: unknown = null
     let challengeSource = 'ai'
 
     // 重試輔助函數：執行出題，出錯時等待後重試
