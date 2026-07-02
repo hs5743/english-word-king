@@ -462,6 +462,15 @@
     let userRole = null;             // null | 'admin' | 'super_admin'
     let fullRoster = [];             // 暫存完整名冊以進行前端過濾
 
+    // AI 金鑰呼叫順序（全域狀態）
+    const PROVIDER_NAMES = {
+      gemini_api_key:        '🤖 Gemini 3.5 Flash 主要',
+      gemini_api_key_backup: '🤖 Gemini 3.5 Flash 備用',
+      groq_api_key:          '⚡ Groq Llama 3 主要',
+      groq_api_key_backup:   '⚡ Groq Llama 3 備用',
+    };
+    let currentApiOrder = Object.keys(PROVIDER_NAMES);
+
     async function invokeAdminApi(action, payload = {}) {
       const session = (await supabaseClient.auth.getSession()).data.session;
       if (!session) throw new Error('登入狀態已失效，請重新登入。');
