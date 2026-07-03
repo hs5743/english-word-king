@@ -1009,22 +1009,29 @@
     const btn = document.getElementById('spellingMicBtn')
     const statusLabel = document.getElementById('spellingMicStatus')
     const expectedWord = currentChallenge[currentIndex].word
+    const speechTarget = window.SpeechEngine?.getSpeechPracticeTarget
+      ? window.SpeechEngine.getSpeechPracticeTarget(expectedWord)
+      : null
 
     if (!window.SpeechEngine) return
 
     if (isSpellingRecording) {
       window.SpeechEngine.stopListening()
-      btn.classList.remove('listening')
-      statusLabel.textContent = '按麥克風開始'
-      isSpellingRecording = false
+      statusLabel.textContent = '正在整理辨識結果...'
     } else {
       isSpellingRecording = true
       btn.classList.add('listening')
-      statusLabel.textContent = '正在聽，請開始朗讀單字...'
+      statusLabel.textContent = speechTarget?.isShortWord
+        ? `正在聽，請唸：${speechTarget.practiceText}`
+        : '正在聽，請開始朗讀單字...'
 
       window.SpeechEngine.startListening(
-        expectedWord,
-        (interim, isFinal) => {
+        speechTarget?.recognitionText || expectedWord,
+        (interim, isFinal, meta) => {
+          if (meta?.type === 'sound' && !interim) {
+            statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+            return
+          }
           statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
         },
         (err) => {
@@ -1056,6 +1063,7 @@
         console.error(err)
         btn.classList.remove('listening')
         isSpellingRecording = false
+        statusLabel.textContent = `辨識中斷：${err.message || err}`
       })
     }
   }
@@ -1180,11 +1188,7 @@
 
     if (window.SpeechEngine.isListening) {
       window.SpeechEngine.stopListening()
-      await window.SpeechEngine.cancelLocalRecording?.()
-      window.SpeechEngine.stopWaveform()
-      micBtn.classList.remove('listening')
-      updateSpeechMicStatus()
-      if (liveBox) liveBox.style.display = 'none'
+      statusLabel.textContent = '正在整理辨識結果...'
     } else {
       micBtn.classList.add('listening')
       statusLabel.textContent = '正在聽，請開始朗讀...'
@@ -1207,7 +1211,15 @@
       const recognitionText = currentSpeechPracticeTarget?.recognitionText || expectedWord
       window.SpeechEngine.startListening(
         recognitionText,
-        (interim, isFinal) => {
+        (interim, isFinal, meta) => {
+          if (meta?.type === 'sound' && !interim) {
+            statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+            if (liveText) {
+              liveText.textContent = '已收到聲音，正在轉成文字...'
+              liveText.className = 'speech-live-text placeholder'
+            }
+            return
+          }
           statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
           if (liveText && interim) {
             liveText.textContent = interim
@@ -1238,6 +1250,7 @@
         window.SpeechEngine.stopWaveform()
         window.SpeechEngine.cancelLocalRecording?.()
         if (liveBox) liveBox.style.display = 'none'
+        updateSpeechMicStatus(`辨識中斷：${err.message || err}`)
       })
     }
   }
@@ -1306,15 +1319,18 @@
 
     if (window.SpeechEngine.isListening) {
       window.SpeechEngine.stopListening()
-      btn.classList.remove('listening')
-      if (statusLabel) statusLabel.textContent = '按麥克風開始'
+      if (statusLabel) statusLabel.textContent = '正在整理辨識結果...'
     } else {
       btn.classList.add('listening')
       if (statusLabel) statusLabel.textContent = '正在聽，請開始朗讀例句...'
       window.SpeechEngine.startListening(
         sentence,
-        (interim, isFinal) => {
+        (interim, isFinal, meta) => {
           if (statusLabel) {
+            if (meta?.type === 'sound' && !interim) {
+              statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+              return
+            }
             statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
           }
         },
@@ -1346,6 +1362,7 @@
       }).catch(err => {
         console.error(err)
         btn.classList.remove('listening')
+        if (statusLabel) statusLabel.textContent = `辨識中斷：${err.message || err}`
       })
     }
   }
@@ -1445,15 +1462,18 @@
 
     if (window.SpeechEngine.isListening) {
       window.SpeechEngine.stopListening()
-      btn.classList.remove('listening')
-      statusLabel.textContent = '按麥克風開始'
+      statusLabel.textContent = '正在整理辨識結果...'
     } else {
       btn.classList.add('listening')
       statusLabel.textContent = '正在聽，請開始朗讀句子...'
 
       window.SpeechEngine.startListening(
         sentence,
-        (interim, isFinal) => {
+        (interim, isFinal, meta) => {
+          if (meta?.type === 'sound' && !interim) {
+            statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+            return
+          }
           statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
         },
         (err) => {
@@ -1479,6 +1499,7 @@
       }).catch(err => {
         console.error(err)
         btn.classList.remove('listening')
+        statusLabel.textContent = `辨識中斷：${err.message || err}`
       })
     }
   }

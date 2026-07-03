@@ -42,6 +42,11 @@
   let _recognition = null      // active SpeechRecognition instance
   let _silenceTimer = null     // auto-stop timer
   let _isListening  = false
+  let _activeSession = null
+  let _activityStream = null
+  let _activityAudioCtx = null
+  let _activityFrameId = null
+  let _lastActivityNoticeAt = 0
 
   /**
    * 啟動語音辨識
@@ -76,21 +81,64 @@
       // 若已有辨識實例，先停止
       stopListening()
 
-      _recognition = new SpeechRecognitionAPI()
-      _recognition.lang            = 'en-US'
-      _recognition.continuous      = false
-      _recognition.interimResults  = true
-      _recognition.maxAlternatives = 3
+      const recognition = new SpeechRecognitionAPI()
+      recognition.lang            = 'en-US'
+      recognition.continuous      = false
+      recognition.interimResults  = true
+      recognition.maxAlternatives = 3
+
+      let settled = false
+      let finalTranscript = ''
+      let lastTranscript = ''
+
+      const cleanup = () => {
+        const ownsCurrentState = _recognition === recognition || _activeSession?.recognition === recognition
+        if (ownsCurrentState) _clearSilenceTimer()
+        if (ownsCurrentState) stopSpeechActivityMonitor()
+        if (_recognition === recognition) _recognition = null
+        if (_activeSession?.recognition === recognition) _activeSession = null
+        if (ownsCurrentState) _isListening = false
+      }
+
+      const settleResolve = (value = '') => {
+        if (settled) return
+        settled = true
+        cleanup()
+        resolve(String(value || '').trim())
+      }
+
+      const settleReject = (error) => {
+        if (settled) return
+        settled = true
+        cleanup()
+        reject(error)
+      }
+
+      _recognition = recognition
+      _activeSession = {
+        recognition,
+        finish: () => {
+          try { recognition.stop() } catch (_) {}
+          _resetSilenceTimer(() => settleResolve(finalTranscript || lastTranscript), 1200)
+        }
+      }
 
       _isListening = true
+      startSpeechActivityMonitor((level) => {
+        if (!settled && !lastTranscript && onResult) {
+          onResult('', false, { type: 'sound', level })
+        }
+      })
 
       /* ── 處理辨識結果 ── */
-      _recognition.onresult = (event) => {
+      recognition.onresult = (event) => {
         // 重設靜音計時器
-        _resetSilenceTimer(() => stopListening())
+        _resetSilenceTimer(() => {
+          try { recognition.stop() } catch (_) {}
+          settleResolve(finalTranscript || lastTranscript)
+        }, 4500)
 
         let interimTranscript = ''
-        let finalTranscript   = ''
 
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const result = event.results[i]
@@ -102,25 +150,23 @@
           }
         }
 
+        const visibleTranscript = `${finalTranscript} ${interimTranscript}`.trim()
+        if (visibleTranscript) lastTranscript = visibleTranscript
+
         // 即時顯示interim結果
-        if (interimTranscript && onResult) {
-          onResult(interimTranscript, false)
+        if (visibleTranscript && onResult) {
+          onResult(visibleTranscript, !interimTranscript)
         }
 
         // 最終結果
         if (finalTranscript) {
-          if (onResult) onResult(finalTranscript, true)
-          _clearSilenceTimer()
-          _isListening = false
-          resolve(finalTranscript.trim())
+          if (onResult) onResult(finalTranscript.trim(), true)
+          settleResolve(finalTranscript)
         }
       }
 
       /* ── 錯誤處理 ── */
-      _recognition.onerror = (event) => {
-        _isListening = false
-        _clearSilenceTimer()
-
+      recognition.onerror = (event) => {
         const errorMessages = {
           'not-allowed'        : '麥克風存取被拒絕，請在瀏覽器設定中允許麥克風權限',
           'no-speech'          : '未偵測到語音，請再試一次',
@@ -131,30 +177,31 @@
         }
         const msg = errorMessages[event.error] || `語音辨識錯誤：${event.error}`
         console.error('[SpeechEngine] 辨識錯誤:', event.error)
+        if ((event.error === 'aborted' || event.error === 'no-speech') && (finalTranscript || lastTranscript)) {
+          settleResolve(finalTranscript || lastTranscript)
+          return
+        }
         if (onError) onError(msg)
-        reject(new Error(msg))
+        settleReject(new Error(msg))
       }
 
       /* ── 辨識結束 ── */
-      _recognition.onend = () => {
-        _isListening = false
-        _clearSilenceTimer()
-        // 若已透過 onresult resolve，此處無需再 resolve
+      recognition.onend = () => {
+        settleResolve(finalTranscript || lastTranscript)
       }
 
       /* ── 啟動靜音計時器（3秒後自動停止）── */
       _resetSilenceTimer(() => {
-        stopListening()
-        resolve('') // 無結果時以空字串結束
-      })
+        try { recognition.stop() } catch (_) {}
+        settleResolve(finalTranscript || lastTranscript)
+      }, 4500)
 
       try {
-        _recognition.start()
+        recognition.start()
       } catch (err) {
-        _isListening = false
         const msg = '無法啟動語音辨識：' + err.message
         if (onError) onError(msg)
-        reject(new Error(msg))
+        settleReject(new Error(msg))
       }
     })
   }
@@ -162,10 +209,14 @@
   /** 停止語音辨識 */
   function stopListening() {
     _clearSilenceTimer()
+    if (_activeSession) {
+      _activeSession.finish()
+      return
+    }
     if (_recognition) {
       try { _recognition.stop() } catch (_) {}
-      _recognition = null
     }
+    _recognition = null
     _isListening = false
   }
 
@@ -179,6 +230,62 @@
       clearTimeout(_silenceTimer)
       _silenceTimer = null
     }
+  }
+
+  async function startSpeechActivityMonitor(onSound = null) {
+    stopSpeechActivityMonitor()
+    _lastActivityNoticeAt = 0
+
+    try {
+      let analyser = _analyser
+      let audioCtx = _audioCtx
+
+      if (!analyser) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+        _activityAudioCtx = audioCtx
+        analyser = audioCtx.createAnalyser()
+        analyser.fftSize = 256
+        analyser.smoothingTimeConstant = 0.65
+        _activityStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+        const source = audioCtx.createMediaStreamSource(_activityStream)
+        source.connect(analyser)
+      }
+
+      const samples = new Uint8Array(analyser.fftSize)
+      const tick = () => {
+        analyser.getByteTimeDomainData(samples)
+        let sum = 0
+        for (let i = 0; i < samples.length; i++) {
+          const centered = (samples[i] - 128) / 128
+          sum += centered * centered
+        }
+        const level = Math.sqrt(sum / samples.length)
+        const now = Date.now()
+        if (level > 0.025 && now - _lastActivityNoticeAt > 650) {
+          _lastActivityNoticeAt = now
+          if (onSound) onSound(level)
+        }
+        _activityFrameId = requestAnimationFrame(tick)
+      }
+      tick()
+    } catch (err) {
+      console.warn('[SpeechEngine] 聲音活動偵測啟動失敗:', err.message)
+    }
+  }
+
+  function stopSpeechActivityMonitor() {
+    if (_activityFrameId) {
+      cancelAnimationFrame(_activityFrameId)
+      _activityFrameId = null
+    }
+    if (_activityStream) {
+      _activityStream.getTracks().forEach(track => track.stop())
+      _activityStream = null
+    }
+    if (_activityAudioCtx && _activityAudioCtx.state !== 'closed') {
+      _activityAudioCtx.close().catch(() => {})
+    }
+    _activityAudioCtx = null
   }
 
   let _localRecorder = null
@@ -340,6 +447,13 @@
     _waveCanvas = canvasEl
     _waveCtx2d  = canvasEl.getContext('2d')
 
+    if (_analyser && _micStream && _audioCtx && _audioCtx.state !== 'closed') {
+      _drawIdle()
+      return
+    }
+
+    releaseWaveformInput()
+
     try {
       _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
       _analyser = _audioCtx.createAnalyser()
@@ -357,6 +471,22 @@
 
     // 開始 idle 動畫
     _drawIdle()
+  }
+
+  function releaseWaveformInput() {
+    if (_animFrameId) {
+      cancelAnimationFrame(_animFrameId)
+      _animFrameId = null
+    }
+    if (_micStream) {
+      _micStream.getTracks().forEach(track => track.stop())
+      _micStream = null
+    }
+    if (_audioCtx && _audioCtx.state !== 'closed') {
+      _audioCtx.close().catch(() => {})
+    }
+    _audioCtx = null
+    _analyser = null
   }
 
   /** 開始錄音音波動畫 */
@@ -504,11 +634,35 @@
    */
   const SHORT_WORD_MAX_LEN = 4
   const SHORT_WORD_OVERRIDES = {
+    i: {
+      practiceText: 'I say I.',
+      accepted: ['i', 'eye', 'hi'],
+      close: [],
+      tips: ['I is a very short sound. Say it a little longer, like eye.'],
+    },
+    her: {
+      practiceText: 'I say her.',
+      accepted: ['her'],
+      close: ['here', 'hair', 'huh'],
+      tips: ['Keep the /h/ sound soft and finish the /r/ sound.'],
+    },
     ok: {
       practiceText: 'I am OK.',
       accepted: ['ok', 'okay', 'o k'],
       close: [],
       tips: ['OK can be heard as okay. Please say both sounds clearly: O-K.'],
+    },
+    son: {
+      practiceText: 'I say son.',
+      accepted: ['son', 'sun'],
+      close: [],
+      tips: ['Son and sun sound the same, so either recognition is accepted.'],
+    },
+    bag: {
+      practiceText: 'I say bag.',
+      accepted: ['bag'],
+      close: ['back', 'bug', 'beg'],
+      tips: ['Open your mouth for the short /a/ sound, then finish with /g/.'],
     },
     well: {
       practiceText: 'I feel well.',
@@ -579,7 +733,7 @@
 
       if (closeHit || fuzzyClose) {
         return {
-          score: 70,
+          score: closeHit ? 85 : 70,
           wordResults: [{ word: target.displayWord.toLowerCase(), status: 'close', heard: heardWord }],
           speechTarget: target,
         }
