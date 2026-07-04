@@ -1084,9 +1084,17 @@
       : null
     document.getElementById('speechWord').textContent = q.word
     document.getElementById('speechPhonetic').textContent = q.phonetic
-    document.getElementById('speechExample').textContent = currentSpeechPracticeTarget?.isShortWord
-      ? `Short word practice: ${currentSpeechPracticeTarget.practiceText}`
-      : q.exampleSentence
+    
+    const speechExampleEl = document.getElementById('speechExample')
+    if (currentSpeechPracticeTarget?.isShortWord) {
+      speechExampleEl.innerHTML = `💡 <span style="font-weight:bold;color:var(--clr-gold-1);font-family:var(--font-zh);">短音輔助唸法：</span><span style="font-size:1.1rem;font-weight:800;color:#ffffff;font-style:normal;">${currentSpeechPracticeTarget.practiceText}</span>`
+      speechExampleEl.style.borderColor = 'var(--clr-gold-1)'
+      speechExampleEl.style.background = 'rgba(245,200,66,0.06)'
+    } else {
+      speechExampleEl.textContent = q.exampleSentence
+      speechExampleEl.style.borderColor = 'rgba(79,195,247,0.4)'
+      speechExampleEl.style.background = 'rgba(255,255,255,0.04)'
+    }
 
     const micBtn = document.getElementById('micBtn')
     micBtn.className = 'mic-btn'
@@ -1277,7 +1285,7 @@
     res.wordResults.forEach(r => {
       const chip = document.createElement('span')
       chip.className = `speech-chip speech-chip--${r.status}`
-      chip.textContent = r.word
+      chip.textContent = r.status === 'correct' ? r.word : `${r.word} (聽成: ${r.heard || '無聲音'})`
       chips.appendChild(chip)
     })
 
@@ -1290,7 +1298,9 @@
         ? `這是目前最佳分數，已使用 ${getSpeechAttempts().length}/3 次。`
         : `已儲存本次錄音，目前最佳分數仍是 ${best.score}，已使用 ${getSpeechAttempts().length}/3 次。`
       
+      const heardText = transcript ? `「${transcript}」` : '（未偵測到聲音）'
       let html = [
+        `<div style="margin-bottom: 8px; font-weight: bold; color: var(--clr-text-secondary); font-family: var(--font-zh); font-size: 0.85rem;">系統聽成：<span style="color: var(--clr-blue-1); font-family: var(--font-en); font-size: 1rem; font-weight: 800;">${heardText}</span></div>`,
         `<div>${bestText}</div>`,
         ...diagnosis.tips.map(tip => `<div>• ${tip}</div>`),
         ...qualityTips.map(tip => `<div>• ${tip}</div>`)
