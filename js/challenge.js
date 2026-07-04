@@ -1034,10 +1034,10 @@
         speechTarget?.recognitionText || expectedWord,
         (interim, isFinal, meta) => {
           if (meta?.type === 'sound' && !interim) {
-            statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+            statusLabel.textContent = '有收到聲音，正在辨識中...'
             return
           }
-          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
+          statusLabel.textContent = isFinal ? '已收到聲音，正在評分...' : '正在收音，請繼續...'
         },
         (err) => {
           statusLabel.textContent = `錯誤: ${err.message || err}`
@@ -1226,14 +1226,14 @@
         recognitionText,
         (interim, isFinal, meta) => {
           if (meta?.type === 'sound' && !interim) {
-            statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+            statusLabel.textContent = '有收到聲音，正在辨識中...'
             if (liveText) {
               liveText.textContent = '已收到聲音，正在轉成文字...'
               liveText.className = 'speech-live-text placeholder'
             }
             return
           }
-          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
+          statusLabel.textContent = isFinal ? '已收到聲音，正在評分...' : '正在收音，請繼續...'
           if (liveText && interim) {
             liveText.textContent = interim
             liveText.className = 'speech-live-text'
@@ -1345,10 +1345,10 @@
         (interim, isFinal, meta) => {
           if (statusLabel) {
             if (meta?.type === 'sound' && !interim) {
-              statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+              statusLabel.textContent = '有收到聲音，正在辨識中...'
               return
             }
-            statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
+            statusLabel.textContent = isFinal ? '已收到聲音，正在評分...' : '正在收音，請繼續...'
           }
         },
         (err) => {
@@ -1492,10 +1492,10 @@
         sentence,
         (interim, isFinal, meta) => {
           if (meta?.type === 'sound' && !interim) {
-            statusLabel.textContent = '有收到聲音，正在辨識成文字...'
+            statusLabel.textContent = '有收到聲音，正在辨識中...'
             return
           }
-          statusLabel.textContent = isFinal ? `辨識結果：${interim}` : `正在聽：${interim}`
+          statusLabel.textContent = isFinal ? '已收到聲音，正在評分...' : '正在收音，請繼續...'
         },
         (err) => {
           statusLabel.textContent = `錯誤: ${err.message || err}`
