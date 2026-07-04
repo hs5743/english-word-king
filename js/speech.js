@@ -55,7 +55,7 @@
    * @param {Function} onError       — 回呼：(errorMessage: string) => void
    * @returns {Promise<string>}      — resolves with final transcript
    */
-  async function startListening(expectedText = '', onResult = null, onError = null) {
+  async function startListening(expectedText = '', onResult = null, onError = null, silenceTimeoutMs = null) {
     if (!isSupported) {
       const msg = '此瀏覽器不支援語音辨識。請改用 Chrome 或 Edge，或先略過口說題。'
       if (onError) onError(msg)
@@ -80,6 +80,9 @@
 
       // 若已有辨識實例，先停止
       stopListening()
+
+      const wordCount = expectedText.trim().split(/\s+/).filter(Boolean).length
+      const timeout = silenceTimeoutMs || (wordCount > 3 ? 4500 : 2000)
 
       const recognition = new SpeechRecognitionAPI()
       recognition.lang            = 'en-US'
@@ -136,7 +139,7 @@
         _resetSilenceTimer(() => {
           try { recognition.stop() } catch (_) {}
           settleResolve(finalTranscript || lastTranscript)
-        }, 4500)
+        }, timeout)
 
         let interimTranscript = ''
 
@@ -190,11 +193,11 @@
         settleResolve(finalTranscript || lastTranscript)
       }
 
-      /* ── 啟動靜音計時器（3秒後自動停止）── */
+      /* ── 啟動靜音計時器 ── */
       _resetSilenceTimer(() => {
         try { recognition.stop() } catch (_) {}
         settleResolve(finalTranscript || lastTranscript)
-      }, 4500)
+      }, timeout)
 
       try {
         recognition.start()

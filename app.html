@@ -402,6 +402,15 @@
       color: #1a0f00; border: none; box-shadow: 0 4px 16px rgba(245,200,66,0.3);
     }
     .nav-btn--next:hover { box-shadow: 0 6px 24px rgba(245,200,66,0.5); transform: translateY(-1px); }
+    @keyframes btnPulse {
+      0% { transform: scale(1); box-shadow: 0 4px 16px rgba(245,200,66,0.3); }
+      50% { transform: scale(1.04); box-shadow: 0 8px 24px rgba(245,200,66,0.7); }
+      100% { transform: scale(1); box-shadow: 0 4px 16px rgba(245,200,66,0.3); }
+    }
+    .nav-btn--next-pulse {
+      animation: btnPulse 1.6s infinite ease-in-out !important;
+      border: 2px solid #ffffff !important;
+    }
     .nav-btn--skip {
       background: transparent; border: none;
       color: var(--clr-text-muted); font-size: 0.8rem; text-decoration: underline;
@@ -968,7 +977,7 @@
           
           <!-- Spelling 口說額外加分挑戰 -->
           <div style="margin-top:16px; padding:12px; background:rgba(245,200,66,0.05); border:1px dashed rgba(245,200,66,0.3); border-radius:12px; text-align:center;">
-            <div style="font-size:0.82rem; color:var(--clr-gold-1); font-weight:bold; margin-bottom:8px; font-family:var(--font-zh);">🎤 朗讀單字挑戰 (口說 >= 80 分可額外獲得 +2 分)</div>
+            <div style="font-size:0.85rem; color:#f5c842; font-weight:bold; margin-bottom:8px; font-family:var(--font-zh);">🌟 朗讀單字額外加分區 (選填，可直接按下一步繼續)</div>
             <div style="display:flex; justify-content:center; align-items:center; gap:10px;">
               <button class="mic-btn" id="spellingMicBtn" onclick="toggleSpellingRecording()" style="width:44px; height:44px; border-radius:50%; border:none; background:linear-gradient(135deg, #f5c842, #eab308); color:#000; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition:all 0.2s;">🎙️</button>
               <div id="spellingMicStatus" style="font-size:0.82rem; color:var(--clr-text-secondary); text-align:left; line-height:1.4; font-family:var(--font-zh);">點擊按鈕，開始朗讀單字</div>
@@ -1057,9 +1066,8 @@
           </div>
         </div>
 
-        <!-- Read-aloud follow-up -->
         <div class="sentence-speech-prompt" id="sentenceFollowUpSpeech" style="margin-top:var(--sp-md)">
-          <p>挑戰：把整個句子大聲朗讀出來！</p>
+          <p style="font-size:0.85rem; color:#f5c842; font-weight:bold; margin-bottom:8px; font-family:var(--font-zh);">🌟 朗讀句子額外加分區 (選填，可直接按下一步繼續)</p>
           <div style="font-family:var(--font-en);font-size:0.95rem;font-weight:600;color:var(--clr-text-primary);margin-bottom:var(--sp-sm)" id="sentenceFollowUpText"></div>
           <button class="mic-btn" style="width:52px;height:52px;font-size:1.4rem;margin:0 auto" id="sentenceFollowMic" onclick="toggleFollowUpRecording()">🎤</button>
           <div class="mic-status-label" id="followMicStatus">按麥克風開始</div>

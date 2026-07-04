@@ -559,6 +559,7 @@
       nextBtn.removeAttribute('disabled')
     } else {
       nextBtn.setAttribute('disabled', 'true')
+      nextBtn.classList.remove('nav-btn--next-pulse')
     }
   }
 
@@ -853,7 +854,11 @@
     }
 
     // 解鎖下一題
-    document.getElementById('nextBtn').removeAttribute('disabled')
+    const nextBtn = document.getElementById('nextBtn')
+    if (nextBtn) {
+      nextBtn.removeAttribute('disabled')
+      nextBtn.classList.add('nav-btn--next-pulse')
+    }
     questionAnswered[currentIndex] = true
     recordQuestionResult(isCorrect, isCorrect ? 100 : 0, 'spelling')
 
@@ -1284,11 +1289,18 @@
       const bestText = best.id === attempt.id
         ? `這是目前最佳分數，已使用 ${getSpeechAttempts().length}/3 次。`
         : `已儲存本次錄音，目前最佳分數仍是 ${best.score}，已使用 ${getSpeechAttempts().length}/3 次。`
-      diagnosisBody.innerHTML = [
+      
+      let html = [
         `<div>${bestText}</div>`,
         ...diagnosis.tips.map(tip => `<div>• ${tip}</div>`),
         ...qualityTips.map(tip => `<div>• ${tip}</div>`)
       ].join('')
+
+      if (best.score < 80 && currentSpeechPracticeTarget?.isShortWord) {
+        html += `<div style="margin-top: 8px; padding: 8px; background: rgba(245,200,66,0.1); border-radius: 8px; border: 1px solid rgba(245,200,66,0.3); color: var(--clr-gold-1); font-weight: bold; font-family: var(--font-zh); font-size: 0.82rem; text-align: left;">💡 如果單字唸不出來，可以試著朗讀整句：<span style="font-family: var(--font-en); text-decoration: underline; font-size: 0.95rem;">${currentSpeechPracticeTarget.practiceText}</span></div>`
+      }
+      diagnosisBody.innerHTML = html
+
       diagnosisBox.style.display = 'block'
       diagnosisBox.style.borderColor = diagnosis.level === 'good'
         ? 'rgba(105,240,174,0.25)'
@@ -1297,11 +1309,6 @@
 
     document.getElementById('speechResult').style.display = 'block'
 
-    if (best.score >= 80) {
-      const prompt = document.getElementById('sentenceSpeechPrompt')
-      document.getElementById('sentenceReadAloud').textContent = currentChallenge[currentIndex].exampleSentence
-      prompt.style.display = 'block'
-    }
     applyBestSpeechScore(expectedWord)
 
     document.getElementById('nextBtn').removeAttribute('disabled')
@@ -1445,7 +1452,11 @@
     document.getElementById('sentenceFollowUpText').textContent = q.exampleSentence
     speechPrompt.style.display = 'block'
 
-    document.getElementById('nextBtn').removeAttribute('disabled')
+    const nextBtn = document.getElementById('nextBtn')
+    if (nextBtn) {
+      nextBtn.removeAttribute('disabled')
+      nextBtn.classList.add('nav-btn--next-pulse')
+    }
     questionAnswered[currentIndex] = true
     recordQuestionResult(isCorrect, isCorrect ? 100 : 0, 'sentence')
 
