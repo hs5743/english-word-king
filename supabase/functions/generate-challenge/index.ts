@@ -543,8 +543,20 @@ serve(async (req) => {
 若指定單字不在候選題庫，仍可使用，但需以 teacher_custom 題目處理，句子要自然、適合國小學生。
 ` : ''
 
+    const generationQualityRules = `
+Quality rules:
+- Use natural, simple English for Taiwan elementary school students.
+- The target word must be used in its correct part of speech.
+- Avoid strange commercial, logo, brand, abstract, or adult contexts.
+- sentenceZh must be Taiwan Traditional Chinese only.
+- Do not use Simplified Chinese characters or Mainland terms.
+- Prefer short, clear translations with Taiwan wording, such as 裡 instead of 里 when meaning inside.
+- If the target word is an object pronoun, do not use it as a possessive determiner.
+`
+
     const prompt = `你是一位專業的台灣小學英語老師。請為${gradeLabel}學生出 ${requestedQuestionCount} 題英語單字挑戰題，融入生活/校園情境「${randomContext}」。
 ${teacherPromptBlock}
+${generationQualityRules}
 
 【第一約束 — 只能從候選清單選字】：
 你只能從以下【候選單字清單】（共 10 個單字）中，挑選單字來出 ${requestedQuestionCount} 題。絕對不能使用清單之外的單字！
@@ -1820,6 +1832,14 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
 }
 
 // P3 後端語法自我檢查：驗證 AI 生成的句子是否符合品質標準
+const simplifiedChineseChars = new Set(Array.from(
+  '\u4e2a\u4eec\u4e60\u4e66\u4e70\u4e8f\u4e91\u4e9a\u4ea7\u4eb2\u4ebf\u4ec5\u4ece\u4ed3\u4eea\u4ef7\u4f17\u4f18\u4f1a\u4f24\u4f26\u4f53\u4f59\u4fa7\u4fa8\u4fac\u4fed\u503a\u503e\u507f\u50a8\u513f\u515a\u5170\u5173\u5174\u517b\u5185\u519b\u519c\u51b2\u51b3\u51b5\u51c6\u51fb\u5218\u5219\u521a\u521b\u5220\u522b\u5236\u5239\u5242\u5267\u529d\u529e\u52a1\u52a8\u52b1\u52bf\u52cb\u533a\u533b\u534e\u534f\u5355\u5356\u536b\u5374\u5382\u5385\u5386\u5389\u538b\u53bf\u53c2\u53cc\u53d1\u53d8\u53e0\u53f6\u53f7\u53f9\u542c\u5458\u54cd\u56e2\u56ed\u56f0\u56f4\u56fe\u5706\u5723\u573a\u574f\u5757\u575a\u575b\u575f\u5760\u5784\u5792\u57a6\u57ab\u5811\u5815\u5899\u58ee\u58f0\u58f3\u5904\u5907\u590d\u591f\u5934\u5939\u593a\u594b\u5956\u5965\u5986\u5987\u5988\u5a74\u5b59\u5b66\u5b81\u5b9d\u5b9e\u5ba0\u5ba1\u5bbd\u5bbe\u5bf9\u5bfb\u5bfc\u5bff\u5c06\u5c14\u5c18\u5c1d\u5c3d\u5c42\u5c5e\u5c81\u5c82\u5c9b\u5cad\u5cb3\u5ce1\u5ce6\u5de9\u5e01\u5e05\u5e08\u5e10\u5e26\u5e2e\u5e93\u5e94\u5e99\u5e9f\u5e7f\u5e84\u5e86\u5f00\u5f02\u5f03\u5f20\u5f2f\u5f39\u5f3a\u5f52\u5f53\u5f55\u5f84\u5fc6\u5fe7\u603b\u604b\u6076\u607c\u60a6\u60ac\u60ef\u60e8\u61d2\u620f\u6218\u6237\u6251\u6267\u6269\u626b\u626c\u6270\u629a\u629b\u62a2\u62a4\u62a5\u62c5\u62df\u62e2\u62e3\u62e5\u62e6\u62e7\u62e8\u62e9\u6321\u6325\u635e\u635f\u6362\u636e\u6444\u6446\u6447\u644a\u654c\u6570\u65ad\u65e7\u65f6\u65f7\u663e\u6653\u6682\u672f\u673a\u6740\u6742\u6743\u6761\u6765\u6781\u6784\u6807\u6808\u680b\u680f\u6811\u6837\u6863\u6865\u68c0\u697c\u6b22\u6b27\u6b8b\u6bc1\u6c14\u6c49\u6c64\u6c9f\u6ca1\u6cea\u6d01\u6d43\u6d45\u6d46\u6d47\u6d4b\u6d4e\u6d51\u6d53\u6d9b\u6da6\u6da8\u6e10\u6e14\u6e29\u6e7e\u6e7f\u6ee1\u6ee4\u6ee5\u706d\u706f\u7075\u707e\u7089\u70b9\u70bc\u70c2\u70df\u70e6\u70e7\u70eb\u70ed\u7231\u7237\u7275\u72b6\u72b9\u72ec\u72ee\u72f1\u732a\u732e\u73af\u73b0\u7535\u753b\u7545\u7597\u75af\u75c7\u765e\u76d1\u76d8\u77eb\u77ff\u7801\u7816\u786e\u793c\u79bb\u79cd\u79ef\u79f0\u7a33\u7a77\u7a83\u7b14\u7b51\u7b5b\u7b79\u7b7e\u7b80\u7c7b\u7cae\u7cfb\u7eaf\u7eb2\u7eb3\u7eb5\u7eb7\u7eb8\u7ec5\u7ec6\u7ec7\u7ec8\u7ecf\u7ed1\u7ed3\u7ed9\u7edc\u7edd\u7edf\u7ee3\u7ee7\u7eed\u7ef4\u7eff\u7f16\u7f18\u7f51\u7f57\u7f5a\u7f8a\u7fa4\u804c\u8054\u806a\u80a0\u80a4\u80bf\u80c0\u80dc\u80f6\u810f\u8111\u811a\u8131\u8138\u8230\u8270\u8273\u827a\u8282\u82cf\u82f9\u8303\u8361\u8363\u836f\u83b7\u8425\u8427\u84dd\u85cf\u8651\u865a\u866b\u867d\u867e\u8681\u86cb\u884c\u8865\u88c5\u88e4\u89c1\u89c2\u89c4\u89c6\u89c9\u89c8\u89e6\u8ba1\u8ba2\u8ba4\u8ba8\u8ba9\u8bad\u8bae\u8baf\u8bb0\u8bb2\u8bb8\u8bba\u8bc1\u8bc4\u8bc6\u8bc9\u8bcd\u8bd1\u8bd5\u8bd7\u8bdd\u8be5\u8be6\u8bed\u8bf4\u8bf7\u8bfb\u8bfe\u8c01\u8c03\u8c08\u8c22\u8c37\u8d1d\u8d1f\u8d22\u8d23\u8d25\u8d27\u8d28\u8d2d\u8d35\u8d39\u8d5b\u8d5e\u8d60\u8d62\u8d75\u8d8b\u8dc3\u8df5\u8e2a\u8eab\u8f66\u8f68\u8f6c\u8f6e\u8f6f\u8f7b\u8f7d\u8f83\u8f91\u8f93\u8fb9\u8fbe\u8fc1\u8fc7\u8fd0\u8fd8\u8fd9\u8fdb\u8fdc\u8fde\u9002\u9009\u9012\u9057\u9093\u90bb\u90d1\u9152\u91ca\u91cc\u9488\u949f\u94a5\u94b1\u94c1\u94dc\u94dd\u94f6\u94fe\u9500\u9519\u957f\u95e8\u95ea\u95ed\u95ee\u95f2\u95f4\u95f7\u95f9\u95fb\u9605\u961f\u9633\u9634\u9635\u9636\u9645\u9646\u9648\u9669\u968f\u9690\u96be\u9759\u9875\u9876\u9879\u987a\u987b\u987e\u9884\u9886\u9898\u989c\u98ce\u98de\u996d\u996e\u9970\u9971\u997c\u9986\u9a6c\u9a8c\u9a91\u9c7c\u9c9c\u9e1f\u9e21\u9e2d\u9e45\u9ec4\u9ed1\u9f50\u9f7f\u9f99'
+))
+
+function hasDisallowedSimplifiedChinese(text: string): boolean {
+  return Array.from(String(text || '')).some(ch => simplifiedChineseChars.has(ch))
+}
+
 function validateAISentence(sentence: string, word: string, topic = ''): { ok: boolean; reason: string } {
   if (!sentence || sentence.trim().length === 0) {
     return { ok: false, reason: 'empty' }
@@ -1904,6 +1924,21 @@ function validateAISentence(sentence: string, word: string, topic = ''): { ok: b
     return { ok: false, reason: 'gender_mismatch:male_word_with_she' }
   }
 
+  const unnaturalContextPatterns = [
+    /\bbrand of\b/i,
+    /\blogo on\b/i,
+    /\btrademark\b/i,
+    /\badvertisement\b/i,
+    /\bcompany slogan\b/i,
+  ]
+  for (const pat of unnaturalContextPatterns) {
+    if (pat.test(s)) return { ok: false, reason: 'unnatural_context' }
+  }
+
+  if (word === 'her' && /\bher\s+(favorite|book|bag|pencil|pen|desk|school|class|friend|mom|mother|father|brother|sister)\b/i.test(s)) {
+    return { ok: false, reason: 'object_pronoun_used_as_possessive' }
+  }
+
   return { ok: true, reason: '' }
 }
 
@@ -1913,6 +1948,7 @@ function validateSentenceZh(sentenceZh: string): boolean {
   if (zh.length > 80) return false
   if (!/[\u4e00-\u9fff]/.test(zh)) return false
   if (/[。！？,.，]{4,}/.test(zh)) return false
+  if (hasDisallowedSimplifiedChinese(zh)) return false
 
   // Groq/Llama 偶爾會輸出簡體亂碼或語料碎片；偵測到明顯簡體雜訊時回退題庫中譯。
   const simplifiedNoiseMatches = zh.match(/[给个们这车仅请觉过会园当纵]/g) || []
