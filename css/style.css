@@ -7,47 +7,65 @@
 
 /* ─── CSS 設計 Token ─────────────────────────────────────── */
 :root {
-  /* 主色系：清新粉白與馬卡龍色 */
-  --clr-bg-deep:      #f5fafd;
-  --clr-bg-mid:       #ffffff;
-  --clr-bg-card:      #ffffff;
-  --clr-bg-card-hover:#ffffff;
+  /* 背景與基底色 */
+  --clr-bg-deep:       hsl(200, 60%, 97%);  /* 清亮天青藍 */
+  --clr-bg-mid:        hsl(0, 0%, 100%);
+  --clr-bg-card:       rgba(255, 255, 255, 0.72);
+  --clr-bg-card-hover: rgba(255, 255, 255, 0.82);
 
-  /* 兒童友善可愛馬卡龍色與其高對比文字色 */
-  --clr-gold-1:       #ffd166;   /* 活潑亮黃 */
-  --clr-gold-2:       #f7a072;   /* 溫暖珊瑚 */
-  --clr-gold-text:    #b57a00;
-  
-  --clr-blue-1:       #4ec3e4;   /* 晴天天空藍 */
-  --clr-blue-2:       #118ab2;   /* 沉穩深藍 */
-  --clr-blue-text:    #007fa5;
-  
-  --clr-purple-1:     #f15bb5;   /* 甜美泡泡糖粉 */
-  --clr-purple-2:     #9b5de5;   /* 奇幻紫 */
-  --clr-purple-text:  #702eb0;
-  
-  --clr-green-1:      #06d6a0;   /* 清新薄荷綠 */
-  --clr-green-2:      #05a87e;   /* 翠綠 */
-  --clr-green-text:   #048765;
-  
-  --clr-red-1:        #ef476f;   /* 可愛糖果紅 */
-  --clr-red-2:        #d33e5c;   /* 櫻桃紅 */
-  --clr-red-text:     #b81d40;
+  /* 金黃色系 (新港) */
+  --clr-gold-1:        hsl(42, 100%, 70%);   /* 亮金黃 */
+  --clr-gold-2:        hsl(19, 90%, 71%);    /* 溫暖珊瑚 */
+  --clr-gold-text:     hsl(38, 100%, 35%);
+  --clr-gold-light:    hsla(42, 100%, 70%, 0.1);
+  --clr-gold-border:   hsla(42, 100%, 70%, 0.35);
 
-  /* 文字色（使用柔和深灰色，比純黑更舒服） */
-  --clr-text-primary:   #2b2d42;
-  --clr-text-secondary: #5c677d;
-  --clr-text-muted:     #8d99ae;
+  /* 藍色系 (鳳岡) */
+  --clr-blue-1:        hsl(194, 76%, 60%);   /* 天空藍 */
+  --clr-blue-2:        hsl(196, 83%, 38%);   /* 沉穩深藍 */
+  --clr-blue-text:     hsl(194, 85%, 32%);
+  --clr-blue-light:    hsla(194, 76%, 60%, 0.08);
+  --clr-blue-border:   hsla(194, 76%, 60%, 0.3);
 
-  /* 三校代表色（搭配清新風格微調） */
-  --clr-school-fenggong: #4ec3e4;   /* 鳳岡：清澈藍 */
-  --clr-school-fengtiaan: #06d6a0;  /* 豐田：翠綠 */
-  --clr-school-xingang:  #ffd166;   /* 新港：金黃 */
+  /* 紫色與泡泡糖粉色系 */
+  --clr-purple-1:      hsl(328, 88%, 65%);   /* 甜粉 */
+  --clr-purple-2:      hsl(268, 75%, 63%);   /* 奇幻紫 */
+  --clr-purple-text:   hsl(268, 65%, 44%);
+  --clr-purple-light:  hsla(268, 75%, 63%, 0.08);
+  --clr-purple-border: hsla(268, 75%, 63%, 0.3);
 
-  /* 卡片與陰影 */
-  --glass-bg:      #ffffff;
-  --glass-border:  #e4e7eb;
-  --glass-shadow:  0 8px 0px rgba(17, 138, 178, 0.04);
+  /* 綠色系 (豐田) */
+  --clr-green-1:       hsl(165, 95%, 43%);   /* 清新薄荷綠 */
+  --clr-green-2:       hsl(165, 94%, 34%);   /* 翠綠 */
+  --clr-green-text:    hsl(165, 94%, 27%);
+  --clr-green-light:   hsla(165, 95%, 43%, 0.08);
+  --clr-green-border:  hsla(165, 95%, 43%, 0.3);
+
+  /* 紅色系 */
+  --clr-red-1:         hsl(346, 84%, 61%);   /* 糖果紅 */
+  --clr-red-2:         hsl(346, 62%, 53%);   /* 櫻桃紅 */
+  --clr-red-text:      hsl(346, 73%, 41%);
+  --clr-red-light:     hsla(346, 84%, 61%, 0.08);
+  --clr-red-border:    hsla(346, 84%, 61%, 0.3);
+
+  /* 文字 */
+  --clr-text-primary:   hsl(233, 21%, 21%);   /* 柔和深藍灰 */
+  --clr-text-secondary: hsl(223, 15%, 43%);   /* 中灰 */
+  --clr-text-muted:     hsl(218, 17%, 62%);   /* 淺灰 */
+
+  /* 三校代表色 */
+  --clr-school-fenggong: var(--clr-blue-1);
+  --clr-school-fengtiaan: var(--clr-green-1);
+  --clr-school-xingang:  var(--clr-gold-1);
+
+  /* 毛玻璃與發光質感定義 */
+  --glass-bg:          rgba(255, 255, 255, 0.72);
+  --glass-border:      rgba(255, 255, 255, 0.6);
+  --glass-shadow:      0 8px 32px 0 rgba(31, 38, 135, 0.04), 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  --glass-shadow-hover:0 12px 40px 0 rgba(31, 38, 135, 0.08), 0 6px 12px -1px rgba(0, 0, 0, 0.03);
+
+  /* 物理回彈過渡定義 (可愛彈簧效果) */
+  --spring-transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 
   /* 字型 */
   --font-en: 'Outfit', sans-serif;
@@ -173,18 +191,20 @@ h1, h2, h3, h4 {
 
 /* ─── 活潑軟萌卡片 ─── */
 .glass-card, .challenge-main {
-  background: #ffffff !important;
-  border: 2.5px solid #cbd5e1 !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid var(--glass-border) !important;
   border-radius: var(--r-md) !important;
-  box-shadow: 0 8px 0px rgba(78, 195, 228, 0.08) !important;
-  transition: transform var(--dur-normal) cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow var(--dur-normal), border-color var(--dur-normal) !important;
+  box-shadow: var(--glass-shadow) !important;
+  transition: var(--spring-transition) !important;
   position: relative;
 }
 
 .glass-card:hover, .challenge-main:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 12px 0px rgba(78, 195, 228, 0.12) !important;
-  border-color: #94a3b8 !important;
+  transform: translateY(-5px) scale(1.005) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* ─── 彈性Q彈按鈕 ─── */
@@ -199,63 +219,63 @@ h1, h2, h3, h4 {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  transition: all var(--dur-normal) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: var(--spring-transition);
   position: relative;
   overflow: hidden;
   user-select: none;
   border: none;
 }
 
-.btn:active { transform: scale(0.92); }
+.btn:active { transform: scale(0.95) !important; }
 
 /* 金色活潑按鈕 */
 .btn--primary {
-  background: linear-gradient(135deg, var(--clr-gold-1), #ffb703) !important;
-  color: #5c3d00 !important;
-  border: 2.5px solid #ffb703 !important;
-  box-shadow: 0 6px 0px rgba(255, 183, 3, 0.3) !important;
+  background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-gold-2)) !important;
+  color: hsl(38, 100%, 15%) !important;
+  box-shadow: 0 4px 14px hsla(42, 100%, 70%, 0.35) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
 }
 .btn--primary:hover {
-  box-shadow: 0 8px 0px rgba(255, 183, 3, 0.4) !important;
+  box-shadow: 0 8px 24px hsla(42, 100%, 70%, 0.5) !important;
   transform: translateY(-2px) scale(1.02) !important;
 }
 
 /* 藍色可愛按鈕 */
 .btn--secondary {
-  background: linear-gradient(135deg, var(--clr-blue-1), #38bdf8) !important;
-  color: #fff !important;
-  border: 2.5px solid #0284c7 !important;
-  box-shadow: 0 6px 0px rgba(2, 132, 199, 0.25) !important;
+  background: linear-gradient(135deg, var(--clr-blue-1), var(--clr-blue-2)) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px hsla(194, 76%, 60%, 0.3) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
 }
 .btn--secondary:hover {
-  box-shadow: 0 8px 0px rgba(2, 132, 199, 0.35) !important;
+  box-shadow: 0 8px 24px hsla(194, 76%, 60%, 0.45) !important;
   transform: translateY(-2px) scale(1.02) !important;
 }
 
 /* 白/灰色軟角按鈕 */
 .btn--ghost {
-  background: #ffffff !important;
-  border: 2.5px solid #cbd5e1 !important;
+  background: var(--clr-bg-mid) !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
   color: var(--clr-text-secondary) !important;
-  box-shadow: 0 4px 0px #cbd5e1 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 .btn--ghost:hover {
-  border-color: #94a3b8 !important;
-  box-shadow: 0 6px 0px #94a3b8 !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
   color: var(--clr-blue-2) !important;
   transform: translateY(-2px) !important;
 }
 
 .btn--google {
   background: #ffffff !important;
-  color: #333333 !important;
+  color: var(--clr-text-primary) !important;
   font-weight: 700;
-  border: 2.5px solid #cbd5e1 !important;
-  box-shadow: 0 4px 0px #cbd5e1 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 .btn--google:hover {
-  border-color: #94a3b8 !important;
-  box-shadow: 0 6px 0px #94a3b8 !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
   transform: translateY(-2px) scale(1.01) !important;
 }
 
@@ -1039,16 +1059,16 @@ h1, h2, h3, h4 {
 
 /* Speech Visualizer Canvas Container */
 .waveform-container {
-  background: #f8fafc !important;
-  border: 2px solid #cbd5e1 !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
 }
 
 /* Speech score visual ring */
 .speech-score-ring {
-  border: 4px solid #f1f5f9 !important;
+  border: 4px solid rgba(0, 0, 0, 0.06) !important;
 }
 .speech-score-ring__bg {
-  stroke: #f1f5f9 !important;
+  stroke: rgba(0, 0, 0, 0.04) !important;
 }
 .speech-score-ring__fill {
   stroke: var(--clr-blue-1) !important;
@@ -1059,20 +1079,25 @@ h1, h2, h3, h4 {
 
 /* Mastery Sidebar & Drawer */
 .mastery-sidebar {
-  background: #ffffff !important;
-  border: 2px solid #e4e7eb !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.02) !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
 }
 .mastery-sidebar__title {
-  border-bottom: 2.5px solid #e4e7eb !important;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.08) !important;
   color: var(--clr-text-secondary) !important;
 }
 .mastery-drawer {
-  background: #ffffff !important;
-  border-top: 2px solid #e4e7eb !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-top: 1.5px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
 }
 .mastery-drawer__handle {
-  background: #cbd5e1 !important;
+  background: rgba(0, 0, 0, 0.15) !important;
 }
 .mastery-item {
   border-bottom: 1px solid #f1f5f9 !important;
@@ -1109,15 +1134,27 @@ h1, h2, h3, h4 {
 
 /* Completion elements */
 .completion-trophy {
-  filter: drop-shadow(0 8px 18px rgba(255, 209, 102, 0.4)) !important;
+  filter: drop-shadow(0 12px 24px hsla(42, 100%, 70%, 0.4)) !important;
+  animation: trophyBounce 1.5s cubic-bezier(.34,1.56,.64,1) infinite alternate !important;
+}
+@keyframes trophyBounce {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.04); }
 }
 .completion-stat {
-  background: #f8fafc !important;
-  border: 2px solid #e4e7eb !important;
+  background: var(--glass-bg) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  transition: var(--spring-transition) !important;
+}
+.completion-stat:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
 }
 .review-words {
-  background: #f8fafc !important;
-  border: 2px solid #e4e7eb !important;
+  background: var(--glass-bg) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
 }
 
 /* Admin / Teacher Panel */
