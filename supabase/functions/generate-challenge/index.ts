@@ -19,6 +19,8 @@ type FallbackWord = {
   pattern?: string
   sentence: string
   sentenceZh: string
+  sentence2?: string
+  sentence2Zh?: string
 }
 
 type PublicVocabularyItem = {
@@ -31,8 +33,11 @@ type PublicVocabularyItem = {
   difficultyLevel?: number  // 新增：1-16 階難度
   chunks?: string[]
   patterns?: string[]
+  phonetic?: string         // 新增：音標
   sentence?: string         // 新增：預載例句
   sentenceZh?: string       // 新增：預載中譯
+  sentence2?: string        // 新增：預載例句2
+  sentence2Zh?: string      // 新增：預載中譯2
   enabled?: boolean
 }
 
@@ -1418,6 +1423,8 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
   // 優先使用 vocabulary.json 預載的高品質例句（由 upgrade-vocabulary.mjs 生成）
   const preloadedSentence   = String(item.sentence   || '').trim()
   const preloadedSentenceZh = String(item.sentenceZh || '').trim()
+  const preloadedSentence2   = String(item.sentence2   || '').trim()
+  const preloadedSentence2Zh = String(item.sentence2Zh || '').trim()
 
   let finalSentence   = preloadedSentence
   let finalSentenceZh = preloadedSentenceZh
@@ -1445,10 +1452,12 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
     grade,
     difficultyLevel,
     chunks: Array.isArray(item.chunks) && item.chunks.length ? item.chunks : chunkWord(word),
-    phonetic: '',
+    phonetic: item.phonetic || '',
     pattern: finalPattern,
     sentence: finalSentence,
     sentenceZh: finalSentenceZh,
+    sentence2: preloadedSentence2 || undefined,
+    sentence2Zh: preloadedSentence2Zh || undefined,
   }
 }
 
@@ -1816,6 +1825,11 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     distractorZhs[d] = found ? found.zh : d
   })
 
+  // 隨機選用例句 1 或例句 2
+  const useSentence2 = item.sentence2 && Math.random() < 0.5
+  const sentence = useSentence2 ? item.sentence2 : item.sentence
+  const sentenceZh = useSentence2 ? (item.sentence2Zh || item.sentenceZh) : item.sentenceZh
+
   return {
     word: item.word,
     zh: item.zh,
@@ -1823,9 +1837,9 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     chunks: item.chunks,
     phonetic: item.phonetic,
     pattern: item.pattern || 'Practice sentence',
-    exampleSentence: item.sentence,
-    sentenceZh: item.sentenceZh,
-    fillBlank: makeFillBlank(item.sentence, item.word),
+    exampleSentence: sentence,
+    sentenceZh: sentenceZh,
+    fillBlank: makeFillBlank(sentence, item.word),
     distractors,
     distractorZhs,
   }
