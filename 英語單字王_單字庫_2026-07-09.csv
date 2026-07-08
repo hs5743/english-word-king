@@ -1,0 +1,707 @@
+﻿單字(Word),中文(Chinese),主題(Topic),音標(Phonetic),難度年級(Grade),拼字音節(Chunks),例句(Sentence),例句中譯(Translation)
+apple,蘋果,Food,,3,ap/ple,I have a red apple in my schoolbag.,我的書包裡有一個紅蘋果。
+banana,香蕉,Food,,3,ba/na/na,The yellow banana is very sweet and delicious.,黃色的香蕉非常甜而且美味。
+rabbit,兔子,Animals,,3,rab/bit,Look at that cute rabbit hopping in the grass.,看那隻可愛的兔子在草地上蹦蹦跳跳。
+tiger,老虎,Animals,,3,ti/ger,The tiger is a very strong animal in the zoo.,老虎是動物園裡非常強壯的動物。
+father,爸爸,Family,,4,fa/ther,My father goes to work by bus every morning.,我爸爸每天早上坐公車去上班。
+mother,媽媽,Family,,4,mo/ther,My mother cooks delicious food for the family.,我媽媽為全家人做美味的食物。
+sister,姊妹,Family,,4,sis/ter,My sister likes to draw pictures in her notebook.,我妹妹喜歡在筆記本上畫畫。
+brother,兄弟,Family,,4,bro/ther,My big brother teaches me how to play soccer.,我哥哥教我怎麼踢足球。
+sunny,晴朗的,Weather,,4,sun/ny,We can go for a picnic on a sunny day.,我們可以在晴天去野餐。
+rainy,下雨的,Weather,,4,rain/y,I stay at home and read books on rainy days.,下雨天我待在家裡看書。
+teacher,老師,School,,5,tea/cher,Our English teacher is very kind and patient.,我們的英文老師非常親切且有檢心。
+student,學生,School,,5,stu/dent,Every student in the class likes the new storybook.,班上的每個學生都喜歡這本新的故事書。
+bathroom,浴室,House,,5,bath/room,You should wash your hands in the bathroom.,你應該在浴室洗手。
+kitchen,廚房,House,,5,kitch/en,Mom is baking a delicious chocolate cake in the kitchen.,媽媽正在廚房烤美味的巧克力蛋糕。
+doctor,醫生,Occupations,,5,doc/tor,The doctor tells me to drink more warm water.,醫生叫我多喝溫開水。
+nurse,護理師,Occupations,,5,nurse,The kind nurse helps take care of sick children.,這位親切的護理師幫忙照顧生病的孩子。
+homework,回家作業,School,,6,home/work,Remember to finish your English homework before dinner.,記得在晚餐前完成你的英文作業。
+supermarket,超級市場,Place,,6,su/per/mar/ket,We bought some fresh juice at the supermarket.,我們在超市買了一些新鮮果汁。
+beautiful,漂亮的,Adjectives,,7,beau/ti/ful,The sunset over the beach is really beautiful.,海灘上的落日真的很美麗。
+weekend,週末,Time,,7,week/end,What are you going to do this weekend?,你這週末打算做什麼？
+book,書,School,,3,book,I like reading this interesting book about animals.,我喜歡讀這本關於動物的有趣書籍。
+pencil,鉛筆,School,,3,pen/cil,Can I borrow a pencil to write my name?,我可以借一支鉛筆來寫我的名字嗎？
+desk,書桌,School,,3,desk,Please put your books back onto your desk.,請把你的書放回你的課桌上。
+chair,椅子,School,,3,chair,Tim sits on the wooden chair next to the window.,提姆坐在靠窗的木椅上。
+dog,狗,Animals,,3,dog,The friendly dog is wagging its tail at us.,那隻友好的狗正在向我們搖尾巴。
+cat,貓,Animals,,3,cat,A small black cat is sleeping under the table.,一隻黑色的小貓正在桌子底下睡覺。
+bird,鳥,Animals,,3,bird,A beautiful blue bird is singing in the tree.,一隻美麗的藍鳥正在樹上唱歌。
+fish,魚,Animals,,3,fish,There are many colorful fish swimming in the pond.,池塘裡有許多色彩繽紛的魚在游泳。
+milk,牛奶,Food,,3,milk,Drinking a glass of hot milk before bed helps you sleep.,睡前喝一杯熱牛奶有助於睡眠。
+water,水,Food,,3,wa/ter,"Please give me a glass of cold water, please.",請給我一杯冰水，謝謝。
+rice,飯,Food,,4,rice,We usually eat rice and vegetables for dinner.,我們晚餐通常吃米飯和蔬菜。
+noodles,麵,Food,,4,noo/dles,Grandpa likes to eat hot beef noodles for lunch.,爺爺中午喜歡吃熱牛肉麵。
+red,紅色,Colors,,3,red,She wore a pretty red dress to the party.,她穿著一件漂亮的紅洋裝去參加派對。
+blue,藍色,Colors,,3,blue,The sky is very clear and blue today.,今天的晴空非常清澈且蔚藍。
+green,綠色,Colors,,3,green,The frogs are sitting on a big green leaf.,青蛙正坐在一個綠色的大葉子上。
+yellow,黃色,Colors,,3,yel/low,The yellow school bus stops in front of my house.,黃色的校車停在我家前面。
+one,一,Numbers,,3,one,I have only one apple left in my bag.,我的包包裡只剩下一個蘋果。
+two,二,Numbers,,3,two,There are two birds flying in the sky.,天上有兩隻鳥在飛。
+three,三,Numbers,,3,three,He has three storybooks in his desk drawer.,他的書桌抽屜裡有三本故事書。
+four,四,Numbers,,3,four,A year is divided into four different seasons.,一年被分為四個不同的季節。
+head,頭,Body,,4,head,You should wear a helmet to protect your head.,你應該戴安全帽來保護你的頭部。
+hand,手,Body,,4,hand,Please raise your hand if you know the answer.,如果你知道答案，請舉手。
+eye,眼睛,Body,,4,eye,Keep your eyes open and look at the screen.,張開眼睛看著螢幕。
+foot,腳,Body,,4,foot,He hurt his left foot while playing soccer.,他在踢足球時弄傷了左腳。
+run,跑,Actions,,4,run,Do not run in the hallway; it is dangerous.,不要在走廊上奔跑，那很危險。
+jump,跳,Actions,,4,jump,The energetic children love to jump on the trampoline.,精力充沛的孩子們喜歡在彈簧床上跳躍。
+read,閱讀,Actions,,4,read,We read English stories in class every Tuesday.,我們每個星期二在課堂上讀英文故事。
+write,書寫,Actions,,4,write,You need to write your name on this paper.,你需要這張紙上寫下你的名字。
+morning,早上,Time,,5,morn/ing,We say good morning to our teachers at school.,我們在學校跟老師們說早安。
+afternoon,下午,Time,,5,af/ter/noon,Let us play basketball in the playground this afternoon.,我們今天下午去操場打籃球吧。
+today,今天,Time,,5,to/day,What is the weather like in Taipei today?,今天台北的天氣怎麼樣？
+happy,快樂的,Adjectives,,7,hap/py,We are very happy to hear the good news.,我們聽到這個好消息感到非常高興。
+difficult,困難的,Adjectives,,7,dif/fi/cult,This math question is too difficult for me to solve.,這道數學題對我來說太難解了。
+bee,蜜蜂,Animals,,3,bee,A busy bee is flying around the colorful flowers.,一隻忙碌的蜜蜂正在繽紛的花朵旁飛舞。
+cow,乳牛,Animals,,3,cow,The cow eats green grass on the beautiful farm.,母牛在美麗的農場上吃綠草。
+pet,寵物,Animals,,3,pet,A rabbit can be a wonderful pet for children.,兔子可以是孩子們極佳的寵物。
+pig,豬,Animals,,3,pig,The pink pig is playing happily in the mud.,這隻粉紅色的豬正在泥巴裡玩得很高興。
+bear,熊,Animals,,3,bear,We saw a big brown bear sleeping in the cave.,我們看到一隻大棕熊在洞穴裡睡覺。
+duck,鴨子,Animals,,3,duck,The little duck swims behind its mother in the pond.,小鴨在池塘裡跟在牠媽媽後面游泳。
+frog,⻘蛙,Animals,,3,frog,A green frog jumped out of the clean water.,一隻綠色的青蛙從乾淨的水中跳了出來。
+lion,獅子,Animals,,3,li/on,The lion is known as the king of the forest.,獅子被稱為森林之王。
+mice,老鼠(複數),Animals,,3,mice,Our cat caught three small mice last night.,我們的小貓昨晚抓到了三隻小老鼠。
+hippo,河馬,Animals,,3,hip/po,The hippo stays in the water to keep cool.,河馬待在水裡以保持涼爽。
+horse,馬,Animals,,3,horse,The cowboy rode a fast black horse yesterday.,牛仔昨天騎著一隻跑得很快的黑馬。
+koala,無尾熊,Animals,,3,koala,A cute koala is hugging the eucalyptus tree.,一隻可愛的無尾熊正抱著尤加利樹。
+mouse,老鼠,Animals,,3,mouse,The clever little mouse escaped from the cat.,聰明的小老鼠從貓咪手裡逃脫了。
+panda,大熊貓,Animals,,3,pan/da,The giant panda is eating fresh bamboo leaves.,大貓熊正在吃新鮮的竹葉。
+sheep,綿羊,Animals,,3,sheep,A group of white sheep are grazing on the hill.,一群白羊正在山丘上吃草。
+snake,蛇,Animals,,3,snake,Be careful! There is a long snake in the grass.,小心！草叢裡有一條長蛇。
+whale,鯨魚,Animals,,3,whale,The blue whale is the largest animal in the ocean.,藍鯨是海洋中最大的動物。
+zebra,斑馬,Animals,,3,ze/bra,The zebra has beautiful black and white stripes.,斑馬有美麗的黑白條紋。
+animal,動物,Animals,,3,an/i/mal,We should protect wild animals and their forests.,我們應該保護野生動物和牠們的森林。
+monkey,猴子,Animals,,3,mon/key,The funny monkey is climbing the tall banana tree.,這隻有趣的猴子正在爬高高的香蕉樹。
+spider,蜘蛛,Animals,,3,spi/der,A spider is spinning a web in the corner.,一隻蜘蛛正角落裡織網。
+turtle,烏龜,Animals,,3,tur/tle,The turtle walks very slowly but can swim fast.,烏龜爬得很慢但是游得很快。
+chicken,雞,Animals,,3,chick/en,The farmer feeds the hungry chickens every morning.,農夫每天早上餵飢餓的雞。
+elephant,大象,Animals,,3,ele/phant,The giant elephant is spraying water with its long nose.,大象正用牠的長鼻子噴水。
+butterfly,蝴蝶,Animals,,3,but/ter/fly,A beautiful butterfly is sitting on the yellow flower.,一隻美麗的蝴蝶停在黃花上。
+bag,袋子,Clothing,,3,bag,Put your pencil box and textbooks into your bag.,把你的鉛筆盒和教科書放進包包裡。
+cap,棒球帽,Clothing,,3,cap,You should wear a cap to block the hot sun.,你應該戴一頂棒球帽來遮擋炎熱的太陽。
+hat,帽子,Clothing,,3,hat,The magician pulled a cute rabbit out of his hat.,魔術師從他的帽子裡拉出一隻可愛的兔子。
+coat,外套,Clothing,,3,coat,Put on your warm coat before going outside.,出去之前穿上你溫暖的大衣。
+wear,穿、戴,Actions,,3,wear,I like to wear comfortable T-shirts on weekends.,我週末喜歡穿舒適的T恤。
+dress,洋裝,Clothing,,3,dress,She chose a beautiful blue dress for her birthday.,她為她的生日選了一件美麗的藍色洋裝。
+pants,長褲,Clothing,,9,pants,My father bought a new pair of black pants.,我爸爸買了一條新的黑長褲。
+shirt,襯衫,Clothing,,7,shirt,He wore a clean white shirt to school today.,他今天穿著乾淨的白襯衫去學校。
+T-shirt,T恤,Clothing,,5,T/shirt,We all wear yellow T-shirts for the school sports day.,我們在學校運動會那天都穿黃色T恤。
+skirt,裙子,Clothing,,3,skirt,The school girls wear navy blue skirts as uniforms.,學校的女學生穿深藍色的裙子作為制服。
+socks,襪子,Clothing,,3,socks,I need to buy some warm socks for winter.,我需要為冬天買一些溫暖的襪子。
+jacket,夾克、外套,Clothing,,3,jack/et,"It is cool today, so you should bring a jacket.",今天很涼爽，所以你應該帶件外套。
+pocket,口袋,Clothing,,3,pock/et,He put the keys into his coat pocket.,他把鑰匙放進大衣口袋裡。
+shorts,短褲,Clothing,,3,shorts,We like to wear cool shorts during summer vacation.,我們暑假喜歡穿涼爽的短褲。
+shoes,鞋子,Clothing,,3,shoes,Take off your shoes before entering the living room.,進客廳前請先脫鞋。
+clothes,衣服,Clothing,,3,clothes,Please help me fold and put away the clean clothes.,請幫我摺疊並收好乾淨的衣服。
+glasses,眼鏡,Clothing,,3,glass/es,Grandpa needs his reading glasses to read the newspaper.,爺爺需要他的老花眼鏡來讀報紙。
+sweater,毛衣,Clothing,,3,sweater,My grandma knitted a warm red sweater for me.,我奶奶為我織了一件溫暖的紅毛衣。
+umbrella,傘,Clothing,,3,um/brel/la,"Do not forget your umbrella, it is going to rain.",別忘了你的雨傘，要下雨了。
+color,顏色,Colors,,3,col/or,"What is your favorite color, blue or green?",你最喜歡什麼顏色，藍色還是綠色？
+gray,灰色的,Colors,,3,gray,The sky turned gray before the heavy rain started.,在大雨開始前，天空變成了灰色。
+pink,粉紅色的,Colors,,3,pink,Her room is decorated with pink curtains and toys.,她的房間裝飾著粉紅色的窗簾和玩具。
+black,黑色的,Colors,,3,black,The blackboard in our classroom is very clean now.,我們教室的黑板現在非常乾淨。
+brown,咖啡色的,Colors,,3,brown,A cute brown squirrel is eating a nut in the tree.,一隻可愛的棕色松鼠正在樹上吃堅果。
+white,白色的,Colors,,3,white,A white fluffy cloud is floating in the blue sky.,一朵白色的蓬鬆雲朵正浮在藍天中。
+orange,橘子,Food,,3,or/ange,The orange juice we drank yesterday was sweet.,我們昨天喝的橘子汁很甜。
+purple,紫色的,Colors,,3,pur/ple,My mother bought some sweet purple grapes.,我媽媽買了一些甜甜的紫葡萄。
+dad,爸爸,Family,,3,dad,My dad took me to the library last Sunday.,我爸爸上星期天帶我去圖書館。
+daddy,爸爸,Family,,3,dad/dy,"Goodnight, daddy, sleep well and have a good dream.",晚安，爸爸，睡個好覺，做個好夢。
+mom,媽媽,Family,,3,mom,My mom cooks healthy vegetables for us every day.,我媽媽每天為我們做健康的蔬菜。
+mommy,媽媽,Family,,3,mom/my,"Mommy, can you read this bedtime story for me?",媽媽，你可以讀這個床邊故事給我聽嗎？
+parent,父親或⺟親,Family,,3,par/ent,My parents went to the school meeting yesterday.,我父母昨天去參加了學校的會議。
+son,兒子,Family,,3,son,Mr. Wang is very proud of his hard-working son.,王先生對他勤奮的兒子感到非常驕傲。
+daughter,女兒,Family,,3,daugh/ter,They have a young daughter who goes to elementary school.,他們有一個讀國小的小女兒。
+family,家庭;家人,Family,,3,fam/i/ly,We are a happy family and support each other.,我們是一個快樂的家庭，互相支持。
+grandfather,外公;爺爺,Family,,3,grand/fa/ther,My grandfather likes to practice Tai Chi in the park.,我祖父喜歡在公園裡練太極拳。
+grandpa,外公;爺爺,Family,,3,grand/pa,Grandpa tells us exciting stories from his childhood.,爺爺跟我們講他童年時的精彩故事。
+grandmother,外婆;奶奶,Family,,3,grand/moth/er,My grandmother grows beautiful roses in her small garden.,我祖母在她的花園裡種植美麗的玫瑰。
+grandma,外婆;奶奶,Family,,3,grand/ma,My grandma knitted a pair of wool socks for me.,我奶奶為我織了一雙羊毛襪。
+aunt,阿姨;姑姑;伯⺟;舅媽,Family,,3,aunt,My aunt bought me a new schoolbag for my birthday.,我姑姑買了一個新書包送我當生日禮物。
+uncle,叔叔;舅舅;姑丈;姨丈,Family,,3,un/cle,My uncle lives in New York and works in a bank.,我叔叔住在紐約，在銀行工作。
+grow,成長;長大,Actions,,3,grow,Vegetables need clean water and sunshine to grow.,蔬菜需要乾淨的水和陽光才能生長。
+cousin,堂兄(弟、姊、妹),Family,,3,cousin,My cousin is coming to stay with us next week.,我表哥下週要來和我們一起住。
+live,居住,Actions,,3,live,Polar bears live in the cold Arctic region.,北極熊居住在寒冷的北極地區。
+fruit,水果,Food,,3,fruit,Eating fresh fruit is very good for your health.,吃新鮮水果對你的健康非常有益。
+peach,桃子,Food,,3,peach,"The pink peach is soft, juicy and very sweet.",粉紅色的桃子又軟、又多汁而且非常甜。
+lemon,檸檬,Food,,3,lemon,Lemon juice tastes sour but smells very fresh.,檸檬汁吃起來酸，但是聞起來非常清香。
+grape,葡萄,Food,,3,grape,She washed a bowl of purple grapes for her guests.,她為客人洗了一碗紫葡萄。
+strawberry,草莓,Food,,3,straw/ber/ry,I like to eat strawberry ice cream in summer.,我夏天喜歡吃草莓冰淇淋。
+watermelon,西瓜,Food,,3,wa/ter/mel/on,Watermelon is the best fruit for hot summer days.,西瓜是炎熱夏天裡最好的水果。
+breakfast,早餐,Food,,3,break/fast,What did you have for your breakfast this morning?,你今天早上早餐吃了什麼？
+lunch,午餐,Food,,3,lunch,We usually have lunch at the school cafeteria.,我們通常在學校食堂吃午餐。
+dinner,晚餐,Food,,3,din/ner,The family sits together to enjoy their dinner.,全家人坐在一起享受他們的晚餐。
+drink,喝,Actions,,3,drink,You should drink a cup of warm water first.,你應該先喝一杯溫開水。
+tea,茶,Food,,3,tea,My grandmother likes to drink hot black tea.,我祖母喜歡喝熱紅茶。
+egg,蛋,Food,,3,egg,I eat a boiled egg every morning for breakfast.,我每天早上吃一個水煮蛋當早餐。
+bread,麵包,Food,,3,bread,The baker makes delicious fresh bread every morning.,麵包師每天早上做出美味的新鮮麵包。
+pie,派,Food,,3,pie,Grandma baked an apple pie for our family dinner.,阿嬤為我們的家庭晚餐烤了一個蘋果派。
+eat,吃,Food,,3,eat,Remember to wash your hands before you eat.,吃東西前記得先洗手。
+cook,做飯,Actions,,3,cook,My father likes to cook spaghetti on weekends.,我爸爸週末喜歡煮義大利麵。
+soup,湯,Food,,3,soup,The hot corn soup is perfect for cold winter days.,熱玉米濃湯在寒冷的冬日裡再適合不過了。
+food,食物,Food,,3,food,Taiwan is famous for its delicious street food.,台灣以美味的街頭小吃聞名。
+beef,牛肉,Food,,3,beef,We ordered some beef noodles at the restaurant.,我們在餐廳點了一些牛肉麵。
+pork,豬肉,Food,,3,pork,Pork dumplings are very popular in this restaurant.,豬肉餃子在這家餐廳非常受歡迎。
+cake,蛋糕,Food,,3,cake,She blew out the candles on her birthday cake.,她吹熄了生日蛋糕上的蠟燭。
+Coke,可樂,Food,,3,Coke,Drinking too much sweet coke is bad for your teeth.,喝太多甜可樂對你的牙齒不好。
+meal,餐,Food,,3,meal,Breakfast is the most important meal of the day.,早餐是一天中最重要的一餐。
+juice,果汁,Food,,3,juice,Fresh orange juice is full of vitamins.,新鮮的柳橙汁富含維他命。
+candy,糖果,Food,,3,can/dy,Do not eat too much sweet candy before bed.,睡前不要吃太多甜的糖果。
+salad,沙拉,Food,,3,sal/ad,She prepared a fresh vegetable salad for lunch.,她午餐準備了一份新鮮的蔬菜沙拉。
+pizza,披薩,Food,,3,piz/za,We ordered a large cheese pizza for the party.,我們為派對點了一個大起司披薩。
+full,飽,Adjectives,,3,full,I am full after eating three plates of rice.,吃了三盤飯後我已經飽了。
+dumpling,水餃,Food,,3,dumpling,My mom makes delicious pork dumplings on weekends.,我媽媽週末會包美味的豬肉水餃。
+hungry,餓的,Adjectives,,3,hun/gry,"If you are hungry, you can eat these biscuits.",如果你餓了，你可以吃這些餅乾。
+taste,嚐起來,Actions,,3,taste,The soup tastes delicious but a little bit salty.,這湯喝起來很美味，但有一點鹹。
+thirsty,渴的,Adjectives,,3,thirsty,"After playing soccer, the boys were very thirsty.",踢完足球後，男孩子們都非常口渴。
+yummy,美味好吃的,Adjectives,,3,yum/my,The chocolate cake Grandma made was very yummy.,阿嬤做的巧克力蛋糕非常美味。
+pumpkin,南瓜,Food,,3,pump/kin,We carved a funny face on the Halloween pumpkin.,我們在萬聖節南瓜上雕刻了一個有趣的臉。
+ice cream,冰淇淋,Food,,3,ice/cream,Children love to eat sweet vanilla ice cream in summer.,孩子們夏天喜歡吃甜香草冰淇淋。
+sweet,甜的,Adjectives,,3,sweet,These ripe strawberries are very red and sweet.,這些熟透的草莓又紅又甜。
+sandwich,三明治,Food,,3,sand/wich,I made a ham and cheese sandwich for my lunch.,我為我的午餐做了一個火腿起司三明治。
+chocolate,巧克力,Food,,3,choco/late,She bought a box of dark chocolate from Belgium.,她買了一盒比利時黑巧克力。
+hamburger,漢堡,Food,,3,ham/burg/er,He ordered a beef hamburger and some french fries.,他點了一個牛肉漢堡和一些薯條。
+French,薯條,Food,,3,French,We ordered some hot french fries at the fast-food shop.,我們在速食店點了一些熱薯條。
+fries,你最喜歡的食物是？,Food,,3,fries,The crispy fries taste great with tomato sauce.,脆脆的薯條搭配番茄醬味道很棒。
+name,名字,Forms,,3,name,Please write down your name and phone number here.,請在這裡寫下您的名字和電話號碼。
+Miss/Ms,小姐,Forms,,3,Mis/s/Ms,Ms. Lin is our new school principal this year.,林女士是我們今年新來的學校校長。
+Mr,先生,Forms,,3,Mr,Mr. Brown teaches us math and is very funny.,布朗先生教我們數學而且非常幽默。
+Mrs,太太(已婚),Forms,,3,Mrs,Mrs. Green gave us some sweet cookies yesterday.,格林太太昨天給了我們一些甜餅乾。
+sea,海,Geographical,,3,sea,We saw a big ship sailing on the blue sea.,我們看到一隻大船在藍色的大海上航行。
+lake,湖,Geographical,,3,lake,The water in the lake is clear and calm.,湖水非常清澈而且平靜。
+beach,海灘,Geographical,,3,beach,We built a tall sandcastle on the sandy beach.,我們在沙灘上建了一座高高的沙堡。
+river,河流,Geographical,,3,riv/er,Many fish are swimming in this clean mountain river.,許多魚在這條乾淨的山區河流中游泳。
+mountain,山,Geographical,,3,moun/tain,They plan to climb the highest mountain in Taiwan.,他們計劃攀登台灣最高的山。
+forest,森林,Geographical,,3,for/est,There are many tall green trees in the forest.,森林裡有許多高大的綠樹。
+volcano,火山,Geographical,,3,vol/cano,The volcano has not erupted for a thousand years.,這座火山已經一千年沒有噴發了。
+desert,沙漠,Geographical,,3,desert,Camels can walk in the hot desert without water.,駱駝可以在炎熱的沙漠中行走而不需要水。
+island,島嶼,Geographical,,3,is/land,They spent their summer vacation on a tropical island.,他們在一個熱帶島嶼上度過了暑假。
+Easter,復活節,Holidays,,3,East/er,Children love to search for colorful Easter eggs.,孩子們喜歡尋找色彩繽紛的復活節彩蛋。
+Halloween,萬聖節,Holidays,,3,Hal/loween,We dressed up in scary clothes for Halloween.,我們在萬聖節穿上了可怕的衣服裝扮。
+Christmas,聖誕節,Holidays,,3,Christ/mas,We decorated the big Christmas tree with sparkling lights.,我們用閃閃發光的燈飾裝飾了大聖誕樹。
+Moon,月亮,Weather & nature,,3,Moon,The moon shines brightly in the clear night sky.,月亮在晴朗的夜空中明亮地照耀著。
+Festival,端午節,Holidays,,3,Fes/ti/val,The Mid-Autumn Festival is a time for family reunion.,中秋節是家人團圓的時刻。
+well,好的、健康的,Health,,3,well,My grandmother feels well after resting in bed.,我奶奶在床上休息後感覺好多了。
+sick,生病的,Health,,3,sick,He did not go to school because he was sick.,他因為生病而沒有去上學。
+cold,感冒,Health,,3,cold,Drink hot soup when you have a bad cold.,當你感冒嚴重時，多喝熱湯。
+strong,強壯的,Health,,3,strong,He is strong enough to lift the heavy box.,他足夠強壯以搬起這個重箱子。
+tired,疲累的,Health,,3,tired,I was tired after riding my bike for two hours.,騎了兩小時腳踏車後，我感到很累。
+toothache,牙痛,Health,,3,toothache,The little girl cried because she had a toothache.,小女孩哭了，因為她牙痛。
+headache,頭痛,Health,,3,headache,My mother has a bad headache today.,我媽媽今天頭痛得很厲害。
+key,鑰匙,House,,3,key,I cannot find the key to my bedroom door.,我找不到我臥室門的鑰匙。
+fan,電扇,House,,3,fan,"Please turn on the fan, the classroom is hot.",請打開電風扇，教室很熱。
+bed,床,House,,3,bed,"It is time to go to bed; goodnight, children.",該去睡覺了；晚安，孩子們。
+house,家,House,,3,house,They live in a beautiful house with a garden.,他們住在一棟帶花園的美麗房子裡。
+wall,牆壁,House,,3,wall,We hung a big map of Taiwan on the classroom wall.,我們在教室的牆上掛了一幅台灣大地圖。
+mop,用拖把拖地,House,,3,mop,Use the clean mop to clean the kitchen floor.,用乾淨的拖把來清潔廚房地板。
+door,門,House,,3,door,Please close the door behind you when you leave.,你離開時請隨手關門。
+lamp,燈,House,,3,lamp,He reads a book under the bright desk lamp.,他在明亮的檯燈下看書。
+sweep,掃,Actions,,3,sweep,Please help me sweep the leaves on the ground.,請幫我掃地上的樹葉。
+wash,洗,Actions,,3,wash,You should wash your hands before eating dinner.,你在吃晚餐前應該要洗手。
+home,家庭,House,,3,home,I will stay at home and watch TV tonight.,我今天晚上會待在家裡看電視。
+table,桌子,House,,3,ta/ble,We put the vase of flowers on the wooden table.,我們把花瓶放在木桌上。
+towel,毛巾,House,,3,tow/el,Dry your face with a clean and soft towel.,用乾淨又柔軟的毛巾擦乾你的臉。
+floor,地板,House,,3,floor,The clean floor is too slippery; walk carefully.,乾淨的地板太滑了，走路請小心。
+shelf,架子,House,,3,shelf,I put my new books back onto the bookshelf.,我把我的新書放回書架上。
+garden,院子、花園,House,,3,gar/den,Grandpa grows sweet red strawberries in his garden.,爺爺在他的花園裡種植甜甜的紅草莓。
+shower,淋浴,House,,3,show/er,I take a warm shower after playing basketball.,我打完籃球後會洗個熱水澡。
+TV,電視,House,,5,TV,We watched an interesting science show on TV.,我們在電視上觀看了一個有趣的科學節目。
+computer,電腦,House,,3,com/put/er,We use the computer to look up English words.,我們使用電腦來查詢英文單字。
+refrigerator,電冰箱,House,,3,re/frig/er/a/tor,Keep the fresh milk and cheese in the refrigerator.,把新鮮牛奶和起司保存在冰箱裡。
+clean,乾淨的,Adjectives,,3,clean,Please help me clean the dirty windows this afternoon.,今天下午請幫我清潔髒窗戶。
+bedroom,臥室,House,,3,bed/room,My bedroom has a small desk and a warm bed.,我的臥室有一張小書桌和一張溫暖的床。
+dining,(家裡的)餐廳,House,,3,din/ing,The family had dinner together in the dining room.,全家人在餐廳一起吃晚餐。
+room,客廳,House,,3,room,Our living room is very bright and cozy.,我們的客廳非常明亮而且溫馨。
+buy,買,Actions,,3,buy,I want to buy a new box of crayons.,我想買一盒新的蠟筆。
+free,免費,Money,,3,free,Children under six can enter the zoo for free.,六歲以下的孩子可以免費進入動物園。
+money,錢,Money,,3,mon/ey,She saved some money to buy a storybook.,她存了一些錢來買一本故事書。
+dollar,美元,Money,,3,dol/lar,A cup of bubble tea costs fifty New Taiwan dollars.,一杯珍珠奶茶要五十元新台幣。
+new,新的,Adjectives,,3,new,He has a new blue schoolbag for the school year.,他新學年有一個新的藍色書包。
+number,數字,Numbers,,3,num/ber,Seven is my sister's favorite and lucky number.,七是我妹妹最喜歡且幸運的數字。
+all,全部,Numbers,,3,all,The students in the classroom were all quiet.,教室裡的學生們全都非常安靜。
+both,兩個都,Numbers,,3,both,Both of my brothers like to play basketball.,我的兩個哥哥都喜歡打籃球。
+much,許多,Numbers,,3,much,How much water should we drink every day?,我們每天應該喝多少水？
+many,許多,Numbers,,3,many,How many students are there in your class?,你們班上有多少位學生？
+more,更多、較多,Numbers,,3,more,I want to read more books during the holiday.,我希望在假期期間讀更多的書。
+some,一些,Numbers,,3,some,My mom prepared some fresh fruits for us.,我媽媽為我們準備了一些新鮮水果。
+first,第一,Numbers,,3,first,He won the first prize in the English speaking contest.,他在英語演講比賽中贏得了一等獎。
+second,第二,Numbers,,3,sec/ond,This is the second time I visit this beautiful museum.,這是我第二次造訪這座美麗的博物館。
+third,第三,Numbers,,3,third,Her classroom is on the third floor of the school.,她的教室在學校的三樓。
+last,最後的,Numbers,,3,last,December is the last month of the year.,十二月是一年中的最後一個月。
+job,工作、職業,Occupations,,3,job,A teacher's job is to help students learn.,老師的工作是幫助學生學習。
+work,工作,Occupations,,3,work,Our parents work hard to take care of the family.,我們的父母努力工作以照顧家庭。
+worker,工作者,Occupations,,3,work/er,The factory workers wear blue uniforms and helmets.,工廠工人穿著藍色制服戴安全帽。
+actor,男演員,Occupations,,3,ac/tor,He wants to be a famous movie actor when he grows up.,他長大後想成為一名著名的電影演員。
+actress,女演員,Occupations,,3,ac/tress,The actress wore a beautiful red dress on stage.,這位女演員在舞台上穿著一件美麗的紅洋裝。
+singer,歌手,Occupations,,3,singer,The young singer has a very beautiful voice.,這位年輕的歌手擁有非常美麗的嗓音。
+driver,司機駕駛員,Occupations,,3,driv/er,The bus driver is very polite and always smiles.,這位公車司機非常禮貌而且總是微笑。
+farmer,農夫,Occupations,,3,farmer,The farmer grows fresh vegetables and rice on his farm.,農夫在他的農場上種植新鮮蔬菜和稻米。
+mailman,郵差,Occupations,,3,mail/man,The mailman delivered a package to our house yesterday.,郵差昨天送了一個包裹到我們家。
+waiter,男服務生,Occupations,,3,wait/er,The waiter in the restaurant is very helpful.,這家餐廳的服務生非常熱心。
+waitress,女服務生,Occupations,,3,wait/ress,The waitress served us hot corn soup and bread.,女服務生為我們端來熱玉米濃湯和麵包。
+soldier,軍人,Occupations,,3,sol/dier,The brave soldiers protect their country and people.,勇敢的士兵們保護他們的國家和人民。
+police officer,警察,Occupations,,3,po/lice/of/fi/cer,The police officer helped the lost boy find his mother.,警察幫助迷路的小男孩找到了他的媽媽。
+hair,頭髮,Body,,3,hair,Her sister has long black hair and big eyes.,她姐姐有長長的黑髮和大眼睛。
+face,臉,Body,,3,face,Remember to wash your face every morning.,記得每天早上洗臉。
+nose,鼻,Body,,3,nose,My nose is red because I have a cold.,因為感冒，我的鼻子紅紅的。
+ear,耳朵,Body,,3,ear,We have two ears to listen to beautiful music.,我們有兩隻耳朵來聽美妙的音樂。
+mouth,嘴巴,Body,,3,mouth,Open your mouth and show me your white teeth.,張開你的嘴，讓我看看你白白的牙齒。
+tooth,牙齒,Body,,3,tooth,He lost a baby tooth and put it under his pillow.,他掉了一顆乳牙，把它放在枕頭底下。
+leg,腿,Body,,3,leg,Flamingos stand on one leg when they sleep.,紅鶴睡覺時只用一隻腳站立。
+teeth,牙齒(複數),Body,,3,teeth,You should brush your teeth at least twice a day.,你每天應該至少刷牙兩次。
+feet,腳(複數),Body,,3,feet,He washed his dirty feet after playing in the mud.,他在泥巴裡玩耍後洗了乾淨髒腳。
+back,背,Body,,3,back,Please write your name on the back of the paper.,請在紙的背面寫下你的名字。
+person,人(單數),People,,3,per/son,Each person in our class must prepare a short story.,我們班上的每個人都必須準備一個短篇故事。
+people,人(複數),People,,3,peo/ple,Many people go to the park to practice Tai Chi.,許多人去公園練習太極拳。
+baby,嬰兒,People,,3,ba/by,The sweet baby fell asleep in her mother's arms.,可愛的嬰兒在媽媽的懷抱裡睡著了。
+kid,小孩,People,,3,kid,The kids are playing hide-and-seek under the tree.,孩子們正樹底下玩捉迷藏。
+boy,男孩,People,,3,boy,The boy over there is my brother's classmate.,那邊那個男孩是我哥哥的同學。
+girl,女孩,People,,3,girl,The young girl wore a pink hat to school.,這個年輕的女孩戴著粉紅色的帽子去上學。
+woman,女人,People,,3,wom/an,A kind woman helped me find the train station.,一位好心的女士幫我找到了火車站。
+women,女人(複數),People,,3,wom/en,The two women are talking near the flower shop.,這兩位女士正在花店附近說話。
+bad,不好的,Personal,,3,bad,Eating too much candy is bad for your teeth.,吃太多糖果對你的牙齒不好。
+good,好的,Personal,,3,good,It is a good habit to wash hands before meals.,飯前洗手是個好習慣。
+nice,宜人的,Personal,,3,nice,We had a very nice trip to the zoo yesterday.,我們昨天去動物園玩得很愉快。
+lazy,懶惰的,Personal,,3,lazy,The lazy dog did not want to go out for a walk.,這隻懶惰的狗不想出去散步。
+cute,可愛的,Personal,,3,cute,Look at that cute rabbit eating a fresh carrot.,看那隻正在吃新鮮胡蘿蔔的可愛兔子。
+smart,聰明的,Personal,,3,smart,The smart dolphin can do tricks with a ball.,這隻聰明的海豚會用球做特技。
+old,老的,Personal,,3,old,Our school has a very old eucalypt tree.,我們學校有一棵非常古老的尤加利樹。
+tall,高的,Personal,,3,tall,He is very tall and plays basketball very well.,他很高，而且籃球打得很好。
+short,短的,Sizes & measurements,,3,short,She wrote a short story about her friendly pet.,她寫了一個關於她友好寵物的短篇故事。
+thin,瘦的,Personal,,3,thin,"The cat looks thin, so we should feed it.",這隻貓看起來很瘦，我們應該餵牠。
+heavy,重的,Personal,,3,heavy,The heavy box is full of English textbooks.,這個重箱子裝滿了英文教科書。
+pretty,漂亮的,Personal,,3,pret/ty,She bought a pretty pink dress for the party.,她為派對買了一件漂亮的粉紅色洋裝。
+angry,生氣的,Personal,,3,an/gry,My mom was angry because I broke the window.,我媽媽很生氣，因為我打破了窗戶。
+mad,氣憤地,Personal,,3,mad,Dad got mad when he saw the dirty kitchen floor.,爸爸看到髒亂的廚房地板時變得很生氣。
+excited,覺得興奮的,Personal,,3,ex/cit/ed,The students are excited about the school trip.,學生們對學校旅行感到很興奮。
+bored,覺得無聊的,Personal,,3,bored,I felt bored because the movie was too long.,我感到很無聊，因為電影太長了。
+there,那裡,Place,,3,there,Look! There is a beautiful rainbow in the sky.,看！天空有一道美麗的彩虹。
+left,左邊(的),Place,,3,left,Please turn left at the next street corner.,請在下一個路口往左轉。
+right,右邊(的),Place,,3,right,He wrote down the answer with his right hand.,他用右手寫下答案。
+here,這裡,Place,,3,here,Come here and look at this funny picture.,過來這裡看這張有趣的圖片。
+bank,銀行,Place,,3,bank,My mother works as a teller in a bank.,我媽媽在銀行擔任櫃檯人員。
+park,公園,Place,,3,park,We love to play soccer in the park on weekends.,我們週末喜歡在公園踢足球。
+zoo,動物園,Place,,3,zoo,We saw many wild animals at the Taipei zoo.,我們在台北動物園看到了許多野生動物。
+shop,商店,Place,,3,shop,She bought some cute pencil cases in the shop.,她在商店裡買了一些可愛的筆袋。
+store,商店,Place,,3,store,The toy store is closed on Monday morning.,這家玩具店在星期一早上休息。
+bookstore,書店,Place,,3,book/store,I bought this English dictionary from the bookstore.,我從書店買了這本英文字典。
+market,市場,Place,,3,mar/ket,Grandma bought fresh vegetables at the morning market.,阿嬤在早市買了新鮮蔬菜。
+office,辦公室,Place,,3,of/fice,The principal is working in his school office.,校長正在他的學校辦公室裡工作。
+post office,郵局,Places,,3,post/of/fice,He went to the post office to mail a letter.,他去郵局寄信。
+restroom,廁所,Places,,3,re/stroom,"Excuse me, where is the restroom in this library?",不好意思，這家圖書館的廁所在哪裡？
+restaurant,餐廳,Places,,3,restau/rant,We had a delicious dinner at the Italian restaurant.,我們在義大利餐廳吃了一頓美味的晚餐。
+museum,博物館,Places,,3,mu/se/um,We learned about dinosaurs at the science museum.,我們在自然科學博物館學習了關於恐龍的知識。
+hospital,醫院,Places,,3,hos/pi/tal,The sick boy had to stay in the hospital.,生病的小男孩必須住在醫院裡。
+fire station,消防站,Places,,3,fire/sta/tion,A red fire engine left the fire station quickly.,一輛紅色的消防車迅速離開了消防局。
+movie theater,電影院,Places,,3,movie/the/ater,We watched a fun animation in the movie theater.,我們在電影院看了一部有趣的動畫片。
+police station,警察局,Places,,3,po/lice/sta/tion,The police station is next to the post office.,警察局在郵局旁邊。
+department store,百貨公司,Places,,3,de/part/ment/store,Mom bought a new bag at the department store.,媽媽在百貨公司買了一個新皮包。
+Taiwan,臺灣,Places,,3,Tai/wan,Taiwan is a beautiful island with friendly people.,台灣是一個有著友善人民的美麗島嶼。
+the UK,英國,Places,,3,the/UK,London is the capital city of the UK.,倫敦是英國的首都。
+the USA,美國,Places,,3,the/USA,My uncle lives in California in the USA.,我叔叔住在美國的加州。
+Germany,德國,Place,,3,Ger/many,Germany is famous for its fast cars and forests.,德國以跑車和森林聞名。
+France,法國,Place,,3,France,They plan to visit Paris in France next summer.,他們計劃明年夏天訪問法國的巴黎。
+Japan,日本,Place,,3,Japan,We ate delicious sushi during our trip to Japan.,我們在日本旅行期間吃了美味的壽司。
+Korea,韓國、南韓,Place,,3,Ko/rea,K-pop music is very popular in Korea and Taiwan.,韓國流行音樂在韓國和台灣非常流行。
+Philippines,菲律賓,Place,,3,Philip/pines,The Philippines consists of many beautiful tropical islands.,菲律賓由許多美麗的熱帶島嶼組成。
+Vietnam,越南,Place,,3,Viet/nam,Vietnamese noodle soup tastes very fresh and delicious.,越南河粉湯喝起來非常清鮮美味。
+India,印度,Place,,3,In/dia,Taj Mahal is a very famous monument in India.,泰姬瑪哈陵是印度非常著名的古蹟。
+Singapore,新加坡,Place,,3,Sin/ga/pore,Singapore is a clean and green city-state.,新加坡是一個乾淨且綠意盎然的城市國家。
+Uganda,烏干達,Place,,3,Ugan/da,Uganda is a beautiful country in East Africa.,烏達蘭是東非一個美麗的國家。
+Thailand,泰國,Place,,3,Thai/land,We saw many elephants during our visit to Thailand.,我們在泰國旅行期間看到了許多大象。
+Canada,加拿大,Place,,3,Cana/da,Niagara Falls is located on the border of Canada.,尼加拉瀑布位於加拿大的邊界。
+Italy,義大利,Place,,3,Italy,Pizza and spaghetti are famous foods from Italy.,披薩和義大利麵是來自義大利的著名食物。
+school,學校,School,,3,school,We go to school from Monday to Friday.,我們星期一到星期五去上學。
+class,課,School,,3,class,Please be quiet because the English class has started.,請安靜，因為英文課已經開始了。
+PE,體育課,School,,3,PE,We played basketball in our PE class today.,我們今天在體育課打了籃球。
+art,美術、藝術,School,,3,art,I like art class because I can draw animals.,我喜歡美術課，因為我可以畫動物。
+draw,畫,Actions,,3,draw,She loves to draw pictures of flowers and trees.,她熱愛畫花草樹木的圖片。
+math,數學,School,,3,math,We learned how to add numbers in math class.,我們在數學課學習了如何做數字加法。
+music,音樂,School,,3,mu/sic,We learned to play the recorder in music class.,我們在音樂課學習了吹直笛。
+English,英文,School,,3,Eng/lish,We practice speaking English with our teacher every day.,我們每天和老師練習說英文。
+Chinese,中文,School,,3,Chi/nese,Chinese characters have a very long and interesting history.,中文字有著非常悠久且有趣的歷史。
+ask,問,Actions,,3,ask,Do not be afraid to ask questions in class.,在課堂上不要害怕發問。
+answer,回答,Actions,,3,an/swer,Who knows the correct answer to this question?,誰知道這個問題的正確答案？
+say,說,Actions,,3,say,What did the teacher say about the homework?,老師對作業說了些什麼？
+speak,說說,Actions,,3,speak,Our English teacher can speak three different languages.,我們的英文老師會說三種不同的語言。
+talk,說話、談話,Actions,,3,talk,Please do not talk when the teacher is speaking.,老師說話時請不要交談。
+spell,拚寫,Actions,,3,spell,Can you spell the word 'elephant' for me?,你能幫我拚寫 'elephant' 這個字嗎？
+listen,聽,Actions,,3,lis/ten,Listen carefully to the recording and write down answers.,仔細聽錄音並寫下答案。
+study,學習,School,,3,study,We need to study hard for the English test.,我們需要為英文考試努力學習。
+test,考試,School,,3,test,We have a spelling test every Friday morning.,我們每個星期五早上都有拼字測驗。
+question,問題,School,,3,ques/tion,"If you have any question, please raise your hand.",如果您有任何問題，請舉手。
+glue,膠水,School,,3,glue,Use the glue to stick the picture onto paper.,用膠水將圖片貼在紙上。
+pen,筆,School,,3,pen,Can I borrow a blue pen to write notes?,我可以借一支藍色原子筆來寫筆記嗎？
+marker,麥克筆,School,,3,mark/er,The teacher wrote the sentences with a black marker.,老師用黑色麥克筆寫下了句子。
+eraser,橡皮擦,School,,3,eras/er,I used my eraser to rub out the mistake.,我用我的橡皮擦擦掉了錯誤。
+paper,紙張,School,,3,pa/per,He drew a beautiful map on a sheet of paper.,他在一張紙上畫了一幅美麗的地圖。
+ruler,尺,School,,3,ruler,Use a ruler to draw a straight line here.,在這裡用直尺畫一條直線。
+friend,朋友,School,,3,friend,We should be friendly to our classmates and friends.,我們應該對我們的同學和朋友友善。
+story,故事,School,,3,sto/ry,My grandfather told us a funny story last night.,我爺爺昨晚跟我們講了一個有趣的故事。
+picture,圖片、照片,School,,3,pic/ture,She hung a beautiful picture of a forest here.,她在這裡掛了一幅美麗的森林圖片。
+blackboard,黑板,School,,3,black/board,Please look at the blackboard and read the sentences.,請看黑板並朗讀句子。
+classroom,教室,School,,3,class/room,The students are cleaning their classroom after school today.,學生們今天放學後正在打掃他們的教室。
+vacation,假期,School,,3,va/ca/tion,We plan to go to the beach during summer vacation.,我們計劃暑假期間去海灘。
+holiday,節日、假日,School,,3,hol/i/day,Christmas is my favorite holiday of the whole year.,聖誕節是我整年中最適愛的節日。
+big,大的,Sizes & measurements,,3,big,The elephant is a very big animal with long nose.,大象是有著長鼻子的龐大動物。
+small,小的,Sizes & measurements,,3,small,A small ant is carrying a bread crumb slowly.,一隻小螞蟻正在緩慢地搬運麵包屑。
+long,長的,Sizes & measurements,,3,long,Giraffes have a very long neck to eat leaves.,長頸鹿有很長的脖子以吃樹葉。
+light,輕的,Sizes & measurements,,3,light,"The feather is very light, but the rock is heavy.",羽毛很輕，但石頭很重。
+high,高的,Sizes & measurements,,3,high,The eagle is flying high above the green mountains.,老鷹正飛在高高的青山之上。
+pair,一雙、一對,Sizes & measurements,,3,pair,He bought a new pair of sports shoes yesterday.,他昨天買了一雙新的運動鞋。
+play,玩,Sports,,3,play,Children love to play games on the school playground.,孩子們喜歡在學校操場上玩遊戲。
+sing,唱,Sports,,3,sing,The students sing songs happily in the music class.,學生們在音樂課上快樂地唱歌。
+dance,跳舞,Sports,,3,dance,She likes to dance to the lively pop music.,她喜歡隨著輕快的流行音樂跳舞。
+paint,用顏料畫、油漆刷,Sports,,3,paint,He wants to paint the bird cage yellow tomorrow.,他明天想把鳥籠漆成黃色。
+hike,健行,Sports,,3,hike,We love to hike in the mountains on sunny weekends.,我們喜歡在晴朗的週末去山上健行。
+swim,游泳,Sports,,3,swim,Polar bears can swim very fast in the cold ocean.,北極熊可以在寒冷的海洋中游得很快。
+climb,爬、攀爬,Sports,,3,climb,The monkeys like to climb trees and jump around.,猴子們喜歡爬樹並跳來跳去。
+ball,球,Sports,,3,ball,Throw the ball to me and I will catch it.,把球丟給我，我會接住它。
+baseball,棒球,Sports,,3,base/ball,Baseball is one of the most popular sports in Taiwan.,棒球是台灣最受歡迎的運動之一。
+basketball,籃球,Sports,,3,bas/ket/ball,They practice playing basketball after school every Tuesday afternoon.,他們每個星期二下午放學後練習打籃球。
+football,足球(英式),Sports,,3,foot/ball,"In the UK, people call soccer football.",在英國，人們把 soccer 叫做 football。
+soccer,足球(美式),Sports,,3,soc/cer,We have a friendly soccer game with another school.,我們和另一所學校有一場友誼足球賽。
+sport,運動,Sports,,3,sport,Running and swimming are very good sports for health.,跑步和游泳是對健康非常好得運動。
+toy,玩具,Other nouns,,9,toy,He shared his new toy car with his little brother.,他和弟弟分享了他的新玩具車。
+doll,玩偶,Sports,,3,doll,My little sister put her cute doll to bed.,我妹妹把她可愛的玩偶放上床睡覺。
+yo-yo,溜溜球,Sports,,3,yo/yo,He showed us a cool trick with his red yo-yo.,他用他的紅溜溜球向我們展示了一個炫酷的特技。
+win,贏,Sports,,3,win,Our school team hopes to win the soccer game.,我們校隊希望能贏得這場足球賽。
+trip,旅行(短程的),Sports,,3,trip,We are planning a short day trip to Yilan.,我們正在計劃去宜蘭的短途一日遊。
+card,卡片,Sports,,3,card,She sent a handmade birthday card to her teacher.,她寄了一張手工製作的生日卡片給老師。
+drum,鼓,Sports,,3,drum,He plays the drum loudly in the school band.,他在學校樂隊裡大聲地敲鼓。
+game,遊戲,Sports,,3,game,Let us play an interesting board game together tonight.,我們今天晚上一起玩一個有趣的桌遊吧。
+kite,風箏,Sports,,3,kite,A strong wind makes the colorful kite fly high.,強風讓色彩繽紛的風箏飛得很高。
+song,歌曲,Sports,,3,song,Let us sing a traditional English song together now.,我們現在一起唱一首傳統的英文歌曲吧。
+movie,電影,Sports,,3,movie,We watched a funny animation movie last night.,我們昨晚看了一部有趣的動畫電影。
+piano,鋼琴,Sports,,3,pi/ano,She practices playing the piano for one hour daily.,她每天練習彈鋼琴一個小時。
+cup,杯子,Tableware,,3,cup,He drank a cup of warm water this morning.,他今天早上喝了一杯溫開水。
+dish,碟子、盤子,Tableware,,3,dish,Please help me wash the dirty dishes after dinner.,晚餐後請幫我清洗髒盤子。
+glass,玻璃杯,Tableware,,3,glass,A glass of fresh orange juice tastes very good.,一杯新鮮的柳橙汁味道非常好。
+fork,叉子,Tableware,,3,fork,We use a fork and spoon to eat spaghetti.,我們使用叉子和湯匙來吃義大利麵。
+spoon,湯匙,Tableware,,3,spoon,Give me a small spoon to eat the pudding.,給我一個小湯匙來吃布丁。
+knife,刀子,Tableware,,3,knife,Be careful! Do not play with the sharp knife.,小心！不要玩鋒利的刀子。
+chopsticks,筷子,Tableware,,3,chop/sticks,"In Taiwan, we use chopsticks to eat rice and noodles.",在台灣，我們使用筷子來吃米飯和麵條。
+mug,馬克杯,Tableware,,3,mug,Grandpa made a mug of hot coffee for himself.,爺爺給自己泡了一馬克杯的熱咖啡。
+evening,傍晚,Time,,3,evening,We usually do our homework in the early evening.,我們通常在傍晚做功課。
+night,晚上,Time,,3,night,The stars shine brightly in the dark sky at night.,夜裡星星在黑暗的天空中明亮地照耀著。
+now,現在,Time,,3,now,Please come into the classroom and sit down now.,現在請進教室坐好。
+tomorrow,明天,Time,,3,to/mor/row,"Tomorrow is Sunday, so we do not go to school.",明天是星期天，所以我們不上學。
+day,天,Time,,3,day,We went to the beach on a warm sunny day.,我們在一個溫暖的晴天去了海灘。
+yesterday,昨天,Time,,3,yes/ter/day,I finished reading the whole book yesterday afternoon.,我昨天下午讀完了整本書。
+early,早到(的),Time,,3,ear/ly,The diligent student always arrives at school very early.,勤奮的學生總是早早就到學校。
+late,晚到(的),Time,,3,late,Hurry up! We are going to be late for class.,快一點！我們上課要遲到了。
+time,時間,Time,,3,time,What time does the school library open on weekdays?,學校圖書館在工作日幾點開放？
+watch,手錶,Time,,3,watch,My dad bought me a nice watch for my birthday.,我爸爸買了一隻漂亮的手錶送我當生日禮物。
+year,年,Time,,3,year,We are looking forward to a wonderful new year.,我們正期待著美好的一年。
+clock,時鐘,Time,,3,clock,The clock on the wall shows it is eight o'clock.,牆上的時鐘顯示現在是八點鐘。
+o'clock,...點鐘,Time,,3,o'/clock,The school sports day starts at nine o'clock sharp.,學校運動會在九點整準時開始。
+spring,春天,Time,,3,spring,Many beautiful flowers bloom in the warm spring.,許多美麗的花朵在溫暖的春天盛開。
+summer,夏天,Time,,3,sum/mer,We love to eat cold watermelon in the hot summer.,我們在炎熱的夏天熱愛吃冰西瓜。
+fall,秋天,Time,,3,fall,Leaves turn yellow and fall from trees in autumn.,秋天時葉子變黃並從樹上落下。
+winter,冬天,Time,,3,win/ter,It is very cold and sometimes snows in winter.,冬天非常冷，有時候還會下雪。
+season,季節,Time,,3,sea/son,My favorite season of the year is cool autumn.,我一年中最喜歡的季節是涼爽的秋天。
+Monday,星期一,Time,,3,Mon/day,Monday is the first school day of the week.,星期一是這一週的第一個上學日。
+Tuesday,星期二,Time,,3,Tues/day,We have a music class every Tuesday afternoon.,我們每個星期二下午有一節音樂課。
+Wednesday,星期三,Time,,3,Wednes/day,Wednesday afternoon is our sports and club time.,星期三下午是我們的運動和社團時間。
+Thursday,星期四,Time,,3,Thurs/day,We will visit the science museum next Thursday morning.,我們下星期四早上將造訪自然科學博物館。
+Friday,星期五,Time,,3,Fri/day,Friday is the last school day before the weekend.,星期五是週末前的最後一個上學日。
+Saturday,星期六,Time,,3,Sat/ur/day,I like to go hiking with my family on Saturday.,我星期六喜歡和家人一起去健行。
+Sunday,星期日,Time,,3,Sun/day,"Sunday is a holiday, and we can rest at home.",星期天是假日，我們可以留在家裡休息。
+week,星期,Time,,3,week,There are seven days in a single week.,單單一週內就有七天。
+January,一月,Time,,3,Jan/u/ary,January is the very first month of the year.,一月是一年當中的第一個月份。
+February,二月,Time,,3,Feb/ru/ary,February usually has twenty-eight days in a year.,二月份在一年中通常只有二十八天。
+March,三月,Time,,3,March,The weather starts to turn warm in March here.,這裡的天氣在三月份開始轉暖。
+April,四月,Time,,3,April,April showers bring beautiful flowers in spring.,四月的雨水在春天帶來了美麗的花朵。
+May,五月,Time,,3,May,Mother's Day is celebrated on the second Sunday of May.,母親節在五月的第二個星期日慶祝。
+June,六月,Time,,3,June,Summer vacation usually begins in the late June.,暑假通常在六月下旬開始。
+July,七月,Time,,3,Ju/ly,July is a very hot month of the summer holiday.,七月是暑假中一個非常炎熱的月份。
+August,八月,Time,,3,Au/gust,Father's Day in Taiwan is on the eighth of August.,台灣的父親節是在八月八日。
+September,九月,Time,,3,Sep/tem/ber,Students go back to school in September in Taiwan.,台灣的學生在九月份返校上課。
+October,十月,Time,,3,Oc/to/ber,Halloween is celebrated on the last day of October.,萬聖節在十月的最後一天慶祝。
+November,十一月,Time,,3,No/vem/ber,The weather turns cool and pleasant in November.,天氣在十一月份變得涼爽宜人。
+December,十二月,Time,,3,De/cem/ber,Christmas is celebrated on the twenty-fifth of December.,聖誕節在十二月二十五日慶祝。
+ride,騎(機車、腳踏車),Transportation,,3,ride,I want to learn how to ride a bike.,我想學習如何騎腳踏車。
+fly,飛、飛行,Transportation,,3,fly,Many birds fly to warm places in winter.,許多鳥在冬天飛往溫暖的地方。
+drive,開車,Transportation,,3,drive,My mother drives a blue car to work daily.,我媽媽每天開著藍色車子去上班。
+turn,轉彎,Transportation,,3,turn,Please turn right when you see the post office.,當你看到郵局時請右轉。
+car,車子,Transportation,,3,car,My father parked the red car near our house.,我爸爸把紅色的車子停在我們家附近。
+bus,公車,Transportation,,3,bus,We take the school bus to school every morning.,我們每天早上搭校車去上學。
+bus stop,公車站,Transportation,,3,bus/stop,The students are waiting patiently at the bus stop.,學生們正在公車站耐心等待。
+taxi,計程車,Transportation,,3,taxi,We took a taxi because we were very late.,我們搭了計程車，因為我們遲到了。
+airport,機場,Transportation,,3,air/port,The airplane landed safely at the Taoyuan airport.,飛機安全降落在桃園機場。
+ship,船(大),Transportation,,3,ship,A large cargo ship is sailing across the ocean.,一艘大型貨輪正在橫渡大洋。
+boat,船,Transportation,,3,boat,We rode a small wooden boat on the lake.,我們在湖上划了一艘木製小船。
+station,車站,Transportation,,3,sta/tion,The train arrived at the station on time.,火車準時抵達了車站。
+motorcycle,摩托車,Transportation,,3,mo/tor/cy/cle,Riding a motorcycle in Taiwan is very common.,在台灣騎機車是非常普遍的。
+MRT,捷運,Transportation,,3,MRT,The Taipei MRT is very clean and convenient.,台北捷運非常乾淨且方便。
+scooter,輕型機車,Transportation,,3,scoot/er,She rides a light scooter to the local market.,她騎著輕型機車去當地的市場。
+fast,快的,Adjectives,,3,fast,Cheetahs can run very fast in the wild grass.,獵豹可以在野生草叢中跑得很快。
+slow,慢的,Adjectives,,3,slow,The slow turtle finally finished the long race.,慢吞吞的烏龜終於完成了這場長途比賽。
+truck,卡車,Transportation,,3,truck,A large blue truck is carrying heavy boxes.,一輛藍色大卡車正載運著重重的箱子。
+weather,天氣,Weather,,3,weath/er,What is the weather like in New York today?,今天紐約的天氣怎麼樣？
+sky,天空,Weather,,3,sky,The sky is clear and full of bright stars.,天空非常清朗，而且佈滿了明亮的星星。
+sun,太陽,Weather,,3,sun,The sun is shining brightly in the sky today.,今天太陽在天空中明亮地照耀著。
+star,星星,Weather,,3,star,The little star is twinkling in the dark sky.,小星星在漆黑的天空中閃爍。
+wind,風,Weather,,3,wind,The strong wind blew away my favorite paper hat.,強風吹走了我最愛的紙帽子。
+windy,風大的,Weather,,3,windy,"It is very windy today, so let us fly kites.",今天風很大，我們去放風箏吧。
+typhoon,颱風,Weather,,3,ty/phoon,Schools were closed yesterday because of the strong typhoon.,學校昨天因為強烈颱風停課。
+rain,"雨水,下雨",Weather,,3,rain,I love the fresh smell of grass after rain.,我喜歡雨後草地清新的味道。
+rainbow,彩虹,Weather,,3,rain/bow,A colorful rainbow appeared in the sky after rain.,雨後天空出現了一道色彩繽紛的彩虹。
+snow,"雪,下雪",Weather,,3,snow,The white snow covered the mountains like a blanket.,白雪像毯子一樣覆蓋了山脈。
+snowy,下雪的、多雪的,Weather,,3,snowy,We wore warm gloves on that cold snowy day.,我們在那個寒冷的下雪天戴了溫暖的手套。
+wet,潮濕的,Weather,,3,wet,My shoes got completely wet in the heavy rain.,我的鞋子在大雨中完全濕透了。
+cloudy,多雲的,Weather,,3,cloudy,"It is cloudy today, so the sun is hidden.",今天是陰天，所以太陽躲起來了。
+hot,熱的,Weather,,3,hot,Drink plenty of water on hot summer days.,在炎熱的夏天要喝充足的水。
+warm,溫暖的,Weather,,3,warm,The spring weather is very warm and pleasant here.,這裡春天的天氣非常溫暖且宜人。
+cool,涼爽的,Weather,,3,cool,The autumn breeze is very cool and refreshing.,秋天的微風非常涼爽而且提神。
+a,一個,Articles,,3,a,I saw a small squirrel eating a nut yesterday.,我昨天看到一隻小松鼠在吃堅果。
+an,一個,Articles,,3,an,She brought an orange and an apple for lunch.,她帶了一個橘子和一個蘋果當午餐。
+every,每一個,Articles,,3,ev/ery,He practices speaking English every single day.,他每一天都練習說英文。
+the,這,Articles,,3,the,The dog in the garden belongs to our neighbor.,花園裡的那隻狗是我們鄰居的。
+this,這個,Articles,,3,this,This storybook is very interesting and has nice pictures.,這本故事書非常有趣，而且有漂亮的圖片。
+that,那個,Articles,,3,that,That tall tree in the park is a banyan.,公園裡那棵高大的樹是一棵榕樹。
+those,那些,Articles,,3,those,Those sweet grapes in the kitchen are for you.,廚房裡的那些甜葡萄是給你的。
+these,這些,Articles,,3,these,These colorful markers on the desk are mine.,書桌上的這些彩色麥克筆是我的。
+I,我,Pronouns,,3,I,I want to learn how to play the piano.,我想學習如何彈鋼琴。
+he,他,Pronouns,,3,he,He is the tallest boy in our school team.,他是我們校隊裡最高挑的男孩。
+she,她,Pronouns,,3,she,She wrote a beautiful poem for her kind mother.,她為她親切的母親寫了一首美麗的詩。
+me,我(受詞),Pronouns,,3,me,Please give me the English book on the table.,請把桌上的英文書給我。
+him,他(受詞),Pronouns,,3,him,I sent him an email to invite him today.,我今天給他發了一封電子郵件邀請他。
+her,她(受詞),Pronouns,,3,her,We gave her a birthday gift to surprise her.,我們給了她一份生日禮物以給她驚喜。
+you,你;你們,Pronouns,,3,you,You should wash your hands before eating dinner.,你在吃晚餐前應該要洗手。
+we,我們,Pronouns,,3,we,We walked to the park and played games together.,我們走路去公園並一起玩遊戲。
+us,我們(受詞),Pronouns,,3,us,The teacher read us an interesting story in class.,老師在課堂上給我們讀了一個有趣的故事。
+it,它、牠,Pronouns,,3,it,"The cat is sleeping, so please do not wake it.",貓咪正在睡覺，所以請不要喚醒牠。
+they,他們,Pronouns,,3,they,They went to the library to study together yesterday.,他們昨天去圖書館一起學習。
+them,他們(受詞),Pronouns,,3,them,We invited them to join our English club tomorrow.,我們邀請他們明天加入我們的英文社團。
+nothing,什麼都沒有,Pronouns,,3,noth/ing,There is nothing in the box; it is empty.,箱子裡什麼都沒有，它是空的。
+be,是,Be & Auxiliaries,,3,be,Please be quiet when the teacher is speaking.,老師說話時請保持安靜。
+do,助動詞,Be & Auxiliaries,,3,do,What do you want to do after class today?,你今天下課後想要做什麼？
+can,可以,Be & Auxiliaries,,3,can,I can play the recorder very well now.,我現在直笛可以吹得非常好了。
+will,將會,Be & Auxiliaries,,3,will,I will go to the zoo with my family.,我將會和我的家人一起去動物園。
+and,和,Conjunctions,,3,and,I bought a blue pen and a red pencil.,我買了一支藍色筆和一支紅色鉛筆。
+but,但是,Conjunctions,,3,but,He ran fast but still missed the school bus.,他跑得很快，但還是錯過了校車。
+because,因為,Conjunctions,,3,be/cause,We stayed home because the weather was very rainy.,我們待在家裡，因為天氣下大雨。
+hi,嗨,Interjections,,3,hi,"Hi, Tim! How are you doing today?",嗨，提姆！你今天好嗎？
+hello,哈囉,Interjections,,3,hel/lo,Say hello to your grandparents when you see them.,看到爺爺奶奶時要跟他們問好。
+please,請,Interjections,,3,please,Please pass me the salt on the dining table.,請把餐桌上的鹽遞給我。
+excuse me,不好意思、對不起,Other,,3,ex/cuse/me,"Excuse me, where is the nearest MRT station?",不好意思，請問最近的捷運站在哪裡？
+at,在(某處),Prepositions,,3,at,We arrived at the zoo at ten o'clock.,我們在十點鐘抵達了動物園。
+in,在...裡面,Prepositions,,3,in,The keys are in the pocket of my coat.,鑰匙在我大衣的口袋裡。
+of,...的,Prepositions,,3,of,The color of the school bag is navy blue.,書包的顏色是深藍色。
+out,在外地,Prepositions,,3,out,He looked out the window and saw a bird.,他向窗外看去，看到了一隻鳥。
+for,給、為了(某人),Prepositions,,3,for,This blue bicycle is a birthday gift for you.,這輛藍色腳踏車是送給你的生日禮物。
+near,靠近、接近,Prepositions,,3,near,The convenience store is located near our school.,這家便利商店位於我們學校附近。
+by,在..旁邊,Prepositions,,3,by,We went to the beautiful beach by train yesterday.,我們昨天坐火車去美麗的海灘。
+on,在....上面,Prepositions,,3,on,The book is on the desk next to computer.,書在電腦旁邊的書桌上。
+behind,在...後面,Prepositions,,3,be/hind,The cat is hiding behind the bedroom door.,貓咪正躲在臥室門的後面。
+from,從(某處、某時刻、某人),Prepositions,,3,from,"Where are you from, Taiwan or the USA?",你來自哪裡，台灣還是美國？
+off,離開、從...去掉,Prepositions,,3,off,Remember to turn off the lights before you leave.,離開前記得關燈。
+to,向、朝、對著,Prepositions,,3,to,I walked to the library to borrow some books.,我走路去圖書館借一些書。
+up,向上,Prepositions,,3,up,He woke up early and washed his face quickly.,他早早醒來，迅速地洗了臉。
+over,在...上方,Prepositions,,3,over,The white bird is flying over the calm lake.,那隻白鳥正飛越平靜的湖面上方。
+than,比,Prepositions,,3,than,An elephant is much bigger than a tiger.,大象比老虎大得多。
+with,和...一起,Prepositions,,3,with,I went to the library with my classmates yesterday.,我昨天和同學們一起去圖書館。
+under,在...下方,Prepositions,,3,un/der,The small puppy is sleeping under the wooden chair.,小狗正坐在木椅底下睡覺。
+next to,在...旁邊,Prepositions,,3,next/to,The school bookstore is next to the post office.,學校書店在郵局旁邊。
+about,大約、關於,Prepositions,,3,about,She told us an interesting story about a brave monkey.,她跟我們講了一個關於勇敢猴子的有趣故事。
+inside,在..裡面,Prepositions,,3,in/side,"It is raining, so please play inside the classroom.",外面在下雨，所以請在教室裡面玩。
+outside,在...外面,Prepositions,,3,out/side,The children are playing tag outside the house.,孩子們正在房子外面玩捉人遊戲。
+after,在...之後,Prepositions,,3,af/ter,Remember to wash your hands after using the restroom.,上完廁所後記得洗手。
+front,在...之前,Prepositions,,3,front,The bus stop is right in front of our school gate.,公車站就在我們學校大門口前面。
+box,箱子,Other,,3,box,He put all his colorful markers into the wooden box.,他把所有彩色麥克筆放進木箱裡。
+bottle,瓶子,Other,,3,bot/tle,Please bring a bottle of water to the playground.,請帶一瓶水去操場。
+gift,禮物,Other,,3,gift,This beautiful drawing is a birthday gift for my mom.,這幅美麗的圖畫是送給我媽媽的生日禮物。
+mail,信,Other,,3,mail,Did we receive any mail or packages this morning?,我們今天早上有收到任何信件或包裹嗎？
+email,電子郵件,Other,,3,email,I sent an email to invite my cousin to our house.,我寄了一封電子郵件邀請我表哥來我們家。
+tree,樹,Other,,3,tree,The boys are climbing the big banyan tree in the park.,男孩們正在爬公園裡的大榕樹。
+way,路、方向,Other,,3,way,"Excuse me, which is the correct way to the train station?",不好意思，請問去火車站的正確路向是哪一條？
+word,字,Other,,3,word,Try to write a new sentence with this English word.,嘗試用這個英文單字寫一個新句子。
+sale,拍賣、特價,Other,,3,sale,Those cool toys in the shop are on sale today.,店裡那些炫酷的玩具今天特價拍賣。
+fun,樂趣,Other,,3,fun,Playing card games with friends is always full of fun.,和朋友一起玩卡牌遊戲總是充滿樂趣。
+thing,東西、物,Other,,3,thing,Please put your personal things into your school bag.,請把你的個人東西放進你的書包裡。
+ticket,票,Other,,3,tick/et,We need to buy a train ticket to go to Hualien.,我們需要買一張火車票去花蓮。
+dream,夢,Other,,3,dream,I had a funny dream about flying in the sky last night.,我昨晚做了一個關於在天空中飛翔的有趣夢境。
+party,派對,Other,,3,par/ty,All the students wore funny hats to the birthday party.,所有的學生都戴著有趣的帽子去參加生日派對。
+photo,照片,Other,,3,pho/to,He showed me a group photo of his family.,他向我展示了一張他家人的合照。
+robot,機器人,Other,,3,ro/bot,He built a cool robot with some legos yesterday.,他昨天用樂高積木組裝了一個酷機器人。
+flower,花,Other,,3,flow/er,The sweet roses in the garden bloom in spring.,花園裡的甜美玫瑰在春天盛開。
+cellphone,手機,Other,,3,cell/phone,Please turn off your cellphone before the test starts.,請在考試開始前關閉手機。
+birthday,生日,Other,,3,birth/day,What do you want for your tenth birthday gift?,你十歲生日禮物想要什麼？
+go,走,Actions,,3,go,We will go for a hike in Yangmingshan this weekend.,我們這週末要去陽明山健行。
+get,得到,Actions,,3,get,I hope you can get good grades on the test.,我希望你考試能取得好成績。
+cry,哭、哭泣,Actions,,3,cry,The little baby started to cry because he was hungry.,小嬰兒開始哭泣，因為他餓了。
+hit,打、碰撞,Actions,,3,hit,He hit the baseball with his new bat yesterday.,他昨天用他的新球棒擊中了棒球。
+put,放,Actions,,3,put,Please put the dirty clothes into the laundry basket.,請把髒衣服放進洗衣籃裡。
+see,看,Actions,,3,see,I can see a beautiful rainbow over the mountain.,我能看到山那邊有一道美麗的彩虹。
+sit,坐,Actions,,3,sit,"Sit down and listen to the teacher carefully, please.",請坐好並仔細聽老師說話。
+try,嘗試,Actions,,3,try,You should try to practice speaking English every day.,你應該嘗試每天練習說英文。
+call,打電話給,Actions,,3,call,I will call you when I arrive at the station.,我抵達車站後會打電話給你。
+come,來,Actions,,3,come,Please come to my house and play games this Saturday.,這星期六請來我家玩遊戲。
+find,找到,Actions,,3,find,Did you find the key to your desk drawer?,你找到你的書桌抽屜鑰匙了嗎？
+feel,感覺,Actions,,3,feel,I feel very happy because tomorrow is my birthday.,我感到非常高興，因為明天是我的生日。
+have,有,Actions,,3,have,We have a fun art class every Wednesday morning.,我們每個星期三早上有一節有趣的美術課。
+help,幫助,Actions,,3,help,Can you help me clean the blackboard after class?,下課後你能幫我擦黑板嗎？
+hope,希望,Actions,,3,hope,I hope the weather turns sunny for our picnic tomorrow.,我希望明天的天氣放晴以便我們去野餐。
+hurt,受傷,Actions,,3,hurt,He fell off his bike and hurt his right knee.,他從腳踏車上摔下來，弄傷了右膝蓋。
+know,知道、認識,Actions,,3,know,Do you know how to write this difficult English word?,你知道怎麼寫這個難懂的英文單字嗎？
+like,喜歡,Actions,,3,like,I like reading interesting stories about space and stars.,我喜歡讀關於太空和星星的有趣故事。
+look,看、看起來,Actions,,3,look,Look at those fluffy white clouds floating in sky.,看天空中漂浮的那些蓬鬆白雲。
+love,愛、喜愛,Actions,,3,love,Children love to play in the cool water during summer.,孩子們夏天熱愛在涼爽的水中玩耍。
+meet,遇見、會面,Actions,,3,meet,We will meet at the park entrance at nine o'clock.,我們九點鐘在公園門口碰面。
+miss,想念,Actions,,3,miss,I will miss my friendly classmates during summer holiday.,暑假期間我會想念我的友善同學。
+need,需要,Actions,,3,need,We need to buy some fresh eggs to bake the cake.,我們需要買一些新鮮雞蛋來烤蛋糕。
+open,開,Actions,,3,open,Please open the window to let the fresh air in.,請打開窗戶讓新鮮空氣進來。
+stop,停,Actions,,3,stop,The yellow school bus stops in front of the gate.,黃色校車停在大門前面。
+tell,告訴、告知,Actions,,3,tell,Can you tell me the way to the school library?,你能告訴我前往學校圖書館的路嗎？
+wait,等、等待,Actions,,3,wait,Wait for me at the post office after school.,放學後在郵局等我。
+walk,走路,Actions,,3,walk,We walk to school together every morning.,我們每天早上一起走路去學校。
+want,想要,Actions,,3,want,I want to buy a box of chocolate cookies.,我想買一盒巧克力餅乾。
+give,給,Actions,,3,give,Please give me the red marker on the desk.,請把書桌上的紅色麥克筆給我。
+make,做、製造,Actions,,3,make,We will make a paper kite in art class tomorrow.,我們明天美術課要做一個紙風箏。
+brush,用刷子刷,Actions,,3,brush,Remember to brush your teeth before going to bed.,記得睡前要刷牙。
+hurry,趕快、急忙,Actions,,3,hur/ry,"Hurry up, the school bus is coming down the road.",快點，校車已經開過來了。
+laugh,笑,Actions,,3,laugh,The funny cartoon made all the children laugh out loud.,有趣的卡通讓所有的孩子大笑出聲。
+close,關,Actions,,3,close,Please close the bedroom door quietly when you leave.,離開時請輕輕地關上臥室門。
+show,給..看、展示,Actions,,3,show,Please show me your beautiful drawings after class.,下課後請展示你美麗的畫作給我看。
+sleep,睡覺,Actions,,3,sleep,Baby pandas sleep for many hours every single day.,貓熊寶寶每天都要睡很多個小時。
+smell,聞起來,Actions,,3,smell,These fresh flowers in the garden smell very sweet.,花園裡的這些鮮花聞起來非常香甜。
+stand,站、站立,Actions,,3,stand,Please stand up when the teacher enters the classroom.,當老師進入教室時請站起來。
+start,開始,Actions,,3,start,The English movie will start in five minutes.,這部英文電影將在五分鐘內開始。
+take,攜帶、拿取,Actions,,3,take,Remember to take your warm jacket with you today.,今天記得隨身帶上你溫暖的外套。
+thank,感謝(某人),Actions,,3,thank,I want to thank my teacher for helping me.,我要感謝老師對我的幫助。
+touch,觸碰,Actions,,3,touch,Please do not touch the clean glass window.,請不要觸碰乾淨的玻璃窗。
+wake,醒來、喚醒,Actions,,3,wake,My mom wakes me up at seven o'clock every morning.,我媽媽每天早上七點鐘喚醒我。
+worry,擔心,Actions,,3,wor/ry,"Do not worry, we still have enough time to finish.",不用擔心，我們仍有充足的時間來完成。
+enjoy,享受、喜歡,Actions,,3,en/joy,We enjoy reading English books in the library.,我們喜歡在圖書館讀英文書。
+welcome,歡迎,Interjections,,3,wel/come,You are always welcome to join our sports club.,非常歡迎你加入我們的體育社團。
+pick up,撿起、接(人)、接(電話),Actions,,3,pick/up,Please pick up the paper trash on the classroom floor.,請撿起教室地板上的紙屑垃圾。
+OK,好的,Interjections,,3,OK,Is it OK to play soccer on the grass?,在草地上踢足球可以嗎？
+easy,簡單的,Adjectives,,3,easy,"This spelling test is very easy, and I got ten points.",這個拼字測驗非常簡單，我拿了十分。
+fine,很好、不錯的,Adjectives,,3,fine,"The weather is fine today, let us go hiking.",今天天氣晴朗，我們去健行吧。
+hard,困難的,Adjectives,,3,hard,He works hard to practice playing the piano daily.,他每天努力練習彈鋼琴。
+only,僅有的,Adjectives,,3,on/ly,I have only one red pen in my pencil case.,我筆袋裡只有一支紅色原子筆。
+sure,確定的,Adjectives,,3,sure,Are you sure you put the keys in your pocket?,你確定有把鑰匙放在你的口袋裡嗎？
+dirty,髒的,Adjectives,,3,dirty,Wash your dirty hands with soap before dinner.,晚餐前用肥皂清洗你髒髒的手。
+great,很棒的,Adjectives,,3,great,Having a picnic in the park is a great idea.,在公園野餐是個極棒的主意。
+other,其他的,Adjectives,,3,oth/er,Where are the other students of our class?,我們班上的其他學生在哪裡？
+quiet,安靜的、平靜的,Adjectives,,3,qui/et,"The library is very quiet, so walk slowly.",圖書館非常安靜，所以請放輕腳步。
+ready,準備好的,Adjectives,,3,ready,Are you ready for the spelling contest tomorrow?,你為明天的拼字比賽準備好了嗎？
+wonderful,很棒的、精彩的,Adjectives,,3,won/der/ful,We had a wonderful time at the zoo yesterday.,我們昨天在動物園度過了美好的時光。
+favorite,最喜歡的,Adjectives,,3,fa/vorite,Benson's favorite sport is playing baseball with friends.,班森最喜愛的運動是和朋友打棒球。
+no,不,Interjections,,3,no,There is no milk left in the refrigerator.,冰箱裡沒有剩下任何牛奶了。
+so,所以,Other adverbs,,3,so,"It was raining, so we stayed home all day.",那時正下著雨，所以我們整天待在家。
+yes,是,Interjections,,3,yes,"Yes, I can speak English and Chinese very well.",是的，我會說英文和中文而且說得很好。
+too,1.也,Other adverbs,,3,too,"I bought a blue pen, and my brother bought one too.",我買了一支藍色原子筆，我哥哥也買了一支。
+very,非常,Other adverbs,,3,very,The weather in winter is very cold in Taipei.,台北冬天的天氣非常寒冷。
+then,然後、接著,Other adverbs,,3,then,We finished our homework and then went to play.,我們完成了功課，然後出去玩。
+still,仍然,Other adverbs,,3,still,The bird is still sitting on the tree branch.,那隻鳥仍然停在樹枝上。
+not,不、沒有,Other adverbs,,3,not,She is not at home; she went to the bookstore.,她不在家，她去書店了。
+never,不曾,Other adverbs,,3,nev/er,My sister has never ridden a bicycle before.,我妹妹以前從未騎過腳踏車。
+away,離開,Other adverbs,,3,away,Please put away your toys before going to bed.,睡覺前請收好你的玩具。
+always,總是、永遠,Other adverbs,,3,al/ways,He always washes his hands before eating lunch.,他吃午餐前總是洗手。
+together,一起,Other adverbs,,3,to/geth/er,We studied English together at the library yesterday.,我們昨天在圖書館一起學習英文。
+again,再一次,Other adverbs,,3,again,Can you read this interesting story for me again?,你能再為我讀一遍這個有趣的故事嗎？
+maybe,也許,Other adverbs,,3,maybe,Maybe we can visit the zoo next Saturday morning.,也許我們下星期六早上可以造訪動物園。
+really,真正地,Other adverbs,,3,re/al/ly,The chocolate cake Grandma made was really yummy.,阿嬤做的巧克力蛋糕真的非常美味。
+sometimes,有時候,Other adverbs,,3,some/times,Sometimes we go for a walk in park after dinner.,有時候我們晚餐後會去公園散步。
+usually,通常,Other adverbs,,3,usu/al/ly,I usually read storybooks before going to sleep.,我通常在睡覺前讀故事書。
+how,如何...,Wh-words,,3,how,How do you spell this long English word?,你怎麼拚寫這個長英文單字？
+who,誰...,Wh-words,,3,who,Who is the boy sitting next to the teacher?,坐在老師旁邊的那個男孩是誰？
+why,為什麼...,Wh-words,,3,why,Why are you late for class this morning?,你今天早上上課為什麼遲到？
+what,什麼...,Wh-words,,3,what,"What is your favorite color, blue or green?",你最喜歡什麼顏色，藍色還是綠色？
+when,何時...,Wh-words,,3,when,When does the school library open on weekends?,學校圖書館在週末幾點開放？
+where,在哪裡...,Wh-words,,3,where,Where did you buy this cute dog notebook?,你在哪裡買的這本可愛的狗筆記本？
+which,哪一個...,Wh-words,,3,which,Which book do you want to read tonight?,你今晚想讀哪一本書？
+whose,誰的...,Wh-words,,3,whose,Whose pencil case is this on the floor?,地板上的這個筆袋是誰的？
+o,自,Wh-words,,3,o,O is a letter in the alphabet.,O 是字母表中的一個字母。
+e,然,Wh-words,,3,e,E is the fifth letter of the alphabet.,E 是字母表中的第五個字母。
+phonics,均一教育平台,Wh-words,,3,phon/ics,Phonics helps us learn how to pronounce words.,自然拼讀幫助我們學習如何發音單字。
+Expansion,新竹縣鳳岡區,Wh-words,,3,Ex/pan/sion,This book is an expansion of the first story.,這本書是第一個故事的擴展。
+Page,國小英語護照,Wh-words,,3,Page,Please turn to page ten of the textbook.,請翻到教科書的第十頁。
+is,是,Be & Auxiliaries,,3,is,My brother is the tallest boy in his class.,我哥哥是他班上最高挑的男孩。
+am,是,Be & Auxiliaries,,4,am,I am very excited about the school trip tomorrow.,我對明天的學校旅行感到非常興奮。
+are,是,Be & Auxiliaries,,4,are,The children are playing tag in the park happily.,孩子們正在公園裡高興地玩捉人遊戲。
+eight,八,Numbers,,4,eight,We have eight classes in total every school day.,我們每個上學日總共有八節課。
+eleven,十一,Numbers,,4,eleven,There are eleven players on the soccer field.,足球場上有十一名球員。
+five,五,Numbers,,4,five,I bought five notebooks from the bookstore.,我從書店買了五本筆記本。
+nine,九,Numbers,,4,nine,The school library closes at nine o'clock sharp.,學校圖書館在九點整關閉。
+sad,悲傷的,Personal characteristics,,4,sad,She felt sad because she lost her pet rabbit.,她感到很悲傷，因為她弄丟了她的寵物兔。
+seven,七,Numbers,,4,sev/en,There are seven days in a single week.,一週總共有七天。
+six,六,Numbers,,4,six,He has six storybooks in his backpack.,他的背包裡有六本故事書。
+ten,十,Numbers,,4,ten,The test has ten questions in total today.,今天的測驗總共有十道題。
+twelve,十二,Numbers,,4,twelve,December is the twelfth and last month of the year.,十二月是一年中的第十二個也是最後一個月。
+bike,腳踏車,Transportation,,5,bike,He rides his red bike to school every morning.,他每天早上騎著他的紅色腳踏車去上學。
+living room,客廳,House,,5,liv/ing/room,We watched a fun movie together in the living room.,我們在客廳一起看了一部有趣的電影。
+any,任何的,Articles,,7,any,Do you have any questions about the English test?,關於英文測驗，你還有任何問題嗎？
+catch,接/抓住,Actions,,7,catch,Throw the ball to me and I will catch it.,把球丟給我，我會接住它。
+goodbye,再見,Interjections,,7,good/bye,He said goodbye to his friends at the gate.,他在大門口跟他的朋友們道別。
+handsome,英俊的,Personal characteristics,,7,hand/some,The movie actor looked very handsome in the film.,電影演員在影片中看起來非常英俊。
+hot dog,熱狗,Food,,7,hot/dog,He ate a hot dog and drank some cola for lunch.,他午餐吃了一個熱狗並喝了一些可樂。
+invite,邀請,Actions,,7,in/vite,I want to invite my classmates to my birthday party.,我想邀請我的同學們來參加我的生日派對。
+learn,學習,Actions,,7,learn,We learn how to speak English in school every day.,我們每天在學校學習如何說英文。
+library,圖書館,Places,,7,li/brary,The students are studying quietly in the school library.,學生們正在學校圖書館安靜地學習。
+month,月,Time,,7,month,December is the last month of the whole year.,十二月是整年當中的最後一個月。
+next,下一個,Time,,7,next,We will visit the zoo next Saturday morning.,我們下星期六早上將造訪動物園。
+man,男人,People,,7,man,A kind man helped the old lady cross the street.,一位好心的男子幫助老婦人過馬路。
+noodle,麵條,Food,,7,noo/dle,Grandpa likes to eat hot beef noodles for lunch.,爺爺中午喜歡吃熱牛肉麵。
+or,或者,Conjunctions,,7,or,Do you want to play soccer or basketball?,你想踢足球還是打籃球？
+place,地方,Places,,7,place,Taipei is a very busy and interesting place.,台北是一個非常忙碌且有趣的地方。
+plane,飛機,Transportation,,7,plane,The passenger plane is flying high in the blue sky.,客機正高高地飛在藍天中。
+post,郵件/張貼,Other verbs,,7,post,He went to the post office to mail a letter.,他去郵局寄信。
+my,我的,Pronouns,,7,my,This is my new blue backpack for school.,這是我的新藍色上學背包。
+practice,練習,Actions,,7,prac/tice,You should practice speaking English every single day.,你應該每一天都練習說英文。
+road,道路,Places,,7,road,Walk carefully because the road is very wet.,請小心行走，因為道路非常潮濕。
+our,我們的,Pronouns,,7,our,Our teacher gave us some sweet cookies yesterday.,我們的老師昨天給了我們一些甜餅乾。
+phone,電話,Other nouns,,7,phone,She used the phone to call her grandmother.,她用電話打給她的祖母。
+sofa,沙發,House,,7,so/fa,We sat on the comfortable sofa and watched TV.,我們坐在舒適的沙發上看電視。
+sorry,抱歉,Interjections,,7,sor/ry,I am sorry that I broke your green marker.,很抱歉我弄壞了你的綠色麥克筆。
+teach,教導,Actions,,7,teach,Our English teacher teaches us interesting songs.,我們的英文老師教我們有趣的歌曲。
+window,窗戶,House,,7,win/dow,Please open the window to let the fresh air in.,請打開窗戶讓新鮮空氣進來。
+young,年輕的,Personal characteristics,,7,young,A young girl is reading a book under the tree.,一個年輕的女孩正在樹下看書。
+your,你的,Pronouns,,7,your,Please write down your name on this paper.,請在這張紙上寫下你的名字。
+a lot of,許多,Articles,,8,a/lot/of,There are a lot of colorful fish in the pond.,池塘裡有許多色彩繽紛的魚。
+across,橫過,Prepositions,,8,across,The dog ran across the street to chase a ball.,狗跑過街道去追一個球。
+ago,以前,Time,,8,ago,He moved to New York three years ago.,他三年前搬到了紐約。
+along,沿著,Prepositions,,8,along,We walked along the river and saw a ship.,我們沿著河流散步並看到了一艘船。
+before,在...之前,Prepositions,,8,be/fore,Wash your hands before you eat the apple.,吃蘋果前請先洗手。
+between,在...之間,Prepositions,,8,be/tween,The bookstore is located between the post office and the bank.,書店位於郵局和銀行之間。
+coffee,咖啡,Food,,8,cof/fee,My father drank a cup of hot coffee this morning.,我爸爸今天早上喝了一杯熱咖啡。
+dry,乾的,Other adjectives,,8,dry,Hang your wet clothes outside to make them dry.,把濕衣服掛在外面讓它們變乾。
+everyone,每個人,Pronouns,,8,ev/ery/one,Everyone in our class likes the kind teacher.,我們班上的每個人都喜歡這位親切的老師。
+gym,體育館,Places,,8,gym,We played basketball in the school gym today.,我們今天在學校體育館打了籃球。
+street,街道,Places,,8,street,This busy street is full of cars and buses.,這條忙碌的街道擠滿了汽車和公車。
+train,火車,Transportation,,8,train,We took a fast train to go to Hualien.,我們搭乘火車前往花蓮。
+was,是(過去式),Be & Auxiliaries,,8,was,"He was sick yesterday, so he stayed home.",他昨天生病了，所以待在家。
+were,是(過去式複數),Be & Auxiliaries,,8,were,They were very excited about the school trip.,他們對學校旅行感到非常興奮。
+wore,穿(過去式),Actions,,8,wore,She wore a pretty blue dress to the party.,她穿著一件漂亮的藍色洋裝去參加派對。
+already,已經,Other adverbs,,9,al/ready,I have already finished all my homework today.,我今天已經完成了所有的作業。
+also,也,Other adverbs,,9,al/so,"He likes soccer, and he also plays baseball.",他喜歡足球，而且他也打棒球。
+been,是(過去分詞),Be & Auxiliaries,,9,been,Have you ever been to the Taipei zoo?,你曾去過台北動物園嗎？
+bring,帶來,Actions,,9,bring,Remember to bring your English dictionary tomorrow.,明天記得帶上你的英文字典。
+busy,忙碌的,Personal characteristics,,9,busy,Our teacher is very busy grading the papers.,我們的老師忙著批改考卷。
+cheese,起司,Food,,9,cheese,Put a slice of cheese on the hot hamburger.,在熱漢堡上放一片起司。
+expensive,昂貴的,Other adjectives,,9,ex/pen/sive,This computer is too expensive for me to buy.,這台電腦太昂貴了，我買不起。
+finish,完成,Actions,,9,fin/ish,We must finish our work before going home.,我們回家前必須完成我們的工作。
+hear,聽到,Actions,,9,hear,Did you hear the birds singing in the tree?,你聽到樹上鳥兒在唱歌了嗎？
+just,只是/剛剛,Other adverbs,,9,just,I just saw a cute squirrel in the garden.,我剛剛在花園裡看到一隻可愛的松鼠。
+large,大的,Sizes & measurements,,9,large,They live in a large house with a garden.,他們住在一棟帶花園的寬敞房子裡。
+lucky,幸運的,Personal characteristics,,9,lucky,You are very lucky to win the first prize.,你非常幸運能贏得一等獎。
+often,經常,Other adverbs,,9,of/ten,We often play games together on weekends.,我們週末經常一起玩遊戲。
+popular,受歡迎的,Personal characteristics,,9,pop/u/lar,Benson is a very popular student in our school.,班森是我們學校非常受歡迎的學生。
+since,自從,Prepositions,,9,since,I have studied English since I was seven.,我自從七歲起就學習英文。
+subject,學科,School,,9,sub/ject,"What is your favorite subject, math or science?",你最喜歡的學科是什麼，數學還是自然科學？
+think,認為,Actions,,9,think,I think reading books is a great hobby.,我認為閱讀書籍是一個極佳的嗜好。
+tomato,番茄,Food,,9,toma/to,We need some fresh tomatoes to make the salad.,我們需要一些新鮮番茄來製作沙拉。
+use,使用,Actions,,9,use,Do you know how to use this dictionary?,你知道如何使用這本字典嗎？
+caught,抓(過去式),Actions,,9,caught,The goalkeeper caught the soccer ball successfully.,守門員成功接住了足球。
+flown,飛(過去分詞),Actions,,9,flown,Many birds have flown to warm places in winter.,許多鳥在冬天已經飛往溫暖的地方。
+felt,感覺(過去式),Other verbs,,9,felt,He felt very happy when he won the game.,當他贏了比賽時感到非常高興。
+found,找到(過去式),Actions,,9,found,She found her lost key under the kitchen table.,她在廚房桌子底下找到了她遺失的鑰匙。
+grown,成長(過去分詞),Other verbs,,9,grown,The little tree has grown tall in the garden.,那棵小樹在花園裡已經長高了。
+grew,成長(過去式),Actions,,9,grew,The small puppy grew into a big strong dog.,小狗長大成了一隻強壯的大狗。
+heard,聽見(過去式),Actions,,9,heard,I heard someone knocking on the door yesterday.,我昨天聽到有人在敲門。
+known,知道(過去分詞),Actions,,9,known,He has been known as a kind doctor here.,他一直以來在這裡被知曉是一位親切的醫生。
+spoken,說(過去分詞),Actions,,9,spo/ken,English is spoken by many people in the world.,英語被世界上許多人所說。
+stood,站立(過去式),Actions,,9,stood,The students stood up when the teacher walked in.,當老師走進來時，學生們站了起來。
+thought,想(過去式),Actions,,9,thought,I thought the English test was very easy.,我本來以為英文測驗很簡單。
+written,寫(過去分詞),Actions,,9,writ/ten,She has written many interesting stories for kids.,她已經為孩子們寫了許多有趣的故事。
