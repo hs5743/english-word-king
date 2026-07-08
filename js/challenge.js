@@ -836,7 +836,7 @@
 
   function revealSpellingAnswer(word, isCorrect) {
     const q = currentChallenge[currentIndex]
-    document.getElementById('revealWord').textContent = `${word} ${q.phonetic}`
+    document.getElementById('revealWord').textContent = word
     document.getElementById('revealSentence').textContent = q.exampleSentence
     document.getElementById('revealMeaning').textContent = `${q.sentenceZh} (${q.zh})`
     document.getElementById('spellingReveal').style.display = 'block'
