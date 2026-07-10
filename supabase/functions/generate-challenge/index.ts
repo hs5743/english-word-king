@@ -1468,7 +1468,8 @@ function parseGradeBand(gradeBand?: string): number {
 
 function normalizeQuestionCount(value: unknown): number {
   const count = Number(value)
-  return [10, 12, 15, 20].includes(count) ? count : 12
+  if (isNaN(count)) return 12
+  return Math.min(50, Math.max(5, count))
 }
 
 function normalizeTeacherConfig(value: unknown): TeacherChallengeConfig | null {
@@ -1722,7 +1723,31 @@ function normalizeChallenge(
   let speechCount = 0
   let sentenceCount = 0
 
-  if (typeMix === 'spelling-heavy') {
+  if (typeMix.startsWith('custom-')) {
+    const parts = typeMix.replace('custom-', '').split('-')
+    const allowed = {
+      spelling: parts.includes('spelling'),
+      speech: parts.includes('speech'),
+      sentence: parts.includes('sentence')
+    }
+    const activeTypes = (['spelling', 'speech', 'sentence'] as const).filter(t => allowed[t])
+    
+    if (activeTypes.length > 0) {
+      const baseShare = Math.floor(questionCount / activeTypes.length)
+      let sum = 0
+      activeTypes.forEach((t, i) => {
+        const share = (i === activeTypes.length - 1) ? (questionCount - sum) : baseShare
+        sum += share
+        if (t === 'spelling') spellingCount = share
+        if (t === 'speech') speechCount = share
+        if (t === 'sentence') sentenceCount = share
+      })
+    } else {
+      spellingCount = Math.floor(questionCount / 3)
+      speechCount = Math.floor(questionCount / 3)
+      sentenceCount = questionCount - spellingCount - speechCount
+    }
+  } else if (typeMix === 'spelling-heavy') {
     spellingCount = Math.floor(questionCount * 0.5)
     const remaining = questionCount - spellingCount
     speechCount = Math.floor(remaining / 2)

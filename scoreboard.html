@@ -28,6 +28,66 @@
       --glass-card-dark: rgba(13, 17, 28, 0.65);
       --glass-border-dark: rgba(255, 255, 255, 0.05);
     }
+
+    /* Light Theme (v1.7.0-CP26 Bright Mode) */
+    body.light-theme {
+      background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+      color: #0f172a;
+      --glass-card-dark: rgba(255, 255, 255, 0.78);
+      --glass-border-dark: rgba(15, 23, 42, 0.08);
+      --clr-text-primary: #0f172a;
+    }
+    body.light-theme::before {
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.06), transparent 70%);
+    }
+    body.light-theme::after {
+      background: radial-gradient(circle, rgba(245, 200, 66, 0.05), transparent 70%);
+    }
+    body.light-theme .sb-header__logo {
+      background: linear-gradient(135deg, #1e293b, #475569);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    body.light-theme .sb-header__timer {
+      color: #475569;
+      background: rgba(0, 0, 0, 0.03);
+      border-color: rgba(0, 0, 0, 0.06);
+    }
+    body.light-theme .school-card__name { color: #0f172a; }
+    body.light-theme .school-card__meta { color: #475569; }
+    body.light-theme .school-card__meta strong { color: #0f172a; }
+    body.light-theme .leaderboard-panel__header { color: #0f172a; border-color: rgba(0,0,0,0.06); }
+    
+    body.light-theme .top3-podium {
+      background: rgba(255, 255, 255, 0.5);
+      border-color: rgba(0, 0, 0, 0.06);
+    }
+    body.light-theme .top3-podium__name { color: #0f172a; }
+    body.light-theme .top3-podium__school { color: #475569; }
+    
+    body.light-theme .top3-podium--1 { background: linear-gradient(180deg, rgba(245, 200, 66, 0.15), rgba(255, 255, 255, 0.5)); border-color: rgba(245, 200, 66, 0.4); }
+    body.light-theme .top3-podium--2 { background: linear-gradient(180deg, rgba(203, 213, 225, 0.15), rgba(255, 255, 255, 0.5)); border-color: rgba(203, 213, 225, 0.3); }
+    body.light-theme .top3-podium--3 { background: linear-gradient(180deg, rgba(205, 127, 50, 0.15), rgba(255, 255, 255, 0.5)); border-color: rgba(205, 127, 50, 0.3); }
+    
+    body.light-theme .rank-item {
+      background: rgba(255, 255, 255, 0.4);
+      border-color: rgba(0, 0, 0, 0.04);
+    }
+    body.light-theme .rank-item__num { color: #475569; }
+    body.light-theme .rank-item__name { color: #0f172a; }
+    body.light-theme .rank-item__school { color: #64748b; }
+    body.light-theme .rank-item__score { color: #0f172a; }
+    
+    body.light-theme .sb-ticker__item { color: #334155; }
+    body.light-theme .sb-ticker__item strong { color: #0f172a; }
+    body.light-theme #themeToggleBtn {
+      background: rgba(0, 0, 0, 0.03);
+      border-color: rgba(0, 0, 0, 0.08);
+      color: #475569;
+    }
+    body.light-theme #themeToggleBtn:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
     
     body {
       margin: 0;
@@ -608,7 +668,18 @@
         </div>
       </div>
       <div class="sb-header__info">
-        <span style="font-size: 0.88rem; color:#64748b; font-weight:700;">場次代碼：<strong id="sessionCodeText" style="color:var(--clr-gold-1); font-size:1.15rem; font-family:var(--font-en);">------</strong></span>
+        <!-- Theme Switcher Button -->
+        <button class="btn" id="themeToggleBtn" onclick="toggleTheme()" style="padding:6px 12px; font-size:0.8rem; font-weight:bold; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border-dark); color:#94a3b8; cursor:pointer; border-radius:8px; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;">
+          ☀️ 明亮模式
+        </button>
+        <!-- Join QR Trigger in Header -->
+        <div style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border-dark); padding:6px 12px; border-radius:8px; cursor:pointer;" onclick="openLargeQrModal()" title="點擊即可放大掃碼">
+          <span style="font-size: 0.88rem; color:#64748b; font-weight:700;">場次代碼：<strong id="sessionCodeText" style="color:var(--clr-gold-1); font-size:1.15rem; font-family:var(--font-en);">------</strong></span>
+          <div style="background:#fff; padding:2px; border-radius:4px; width:26px; height:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+            <img id="headerQrPreview" style="width:100%; height:100%;" src="" alt="QR" />
+          </div>
+          <span style="font-size:0.75rem; color:var(--clr-gold-1); font-weight:bold; text-decoration:underline;">[🔍 放大掃碼]</span>
+        </div>
         <div class="sb-header__timer" id="timerText">--:--</div>
         <div id="teacherControl" style="display:none;">
           <button class="btn btn--logout" onclick="endContestFromScoreboard()" style="padding:8px 16px; font-size:0.82rem; font-weight:bold; border-radius:6px;">🔴 結束比賽</button>
@@ -651,24 +722,6 @@
               <div><strong id="count-fengtian">0</strong> 人參賽</div>
               <div>平均 <strong id="avg-fengtian">0</strong> 分</div>
             </div>
-          </div>
-        </div>
-
-        <!-- Join QR Code Card (v1.7.0-CP26 QR Code feature) -->
-        <div class="school-card" style="flex:0.65; display:flex; flex-direction:row; align-items:center; gap:16px; border-color:rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); padding:16px; min-height:105px;">
-          <div style="flex:1;">
-            <div style="font-size:0.92rem; font-weight:800; color:var(--clr-gold-1); display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-              📱 掃碼加入對抗賽
-            </div>
-            <div style="font-size:0.75rem; color:#94a3b8; line-height:1.4;">
-              開啟手機/平板相機掃描，或連結：
-            </div>
-            <div style="font-size:0.75rem; color:#cbd5e1; font-weight:bold; margin-top:4px; word-break:break-all; font-family:var(--font-en);" id="joinUrlText">
-              class.html?classCode=------
-            </div>
-          </div>
-          <div style="background:#fff; padding:6px; border-radius:10px; display:flex; align-items:center; justify-content:center; width:92px; height:92px; flex-shrink:0; box-shadow:0 8px 24px rgba(0,0,0,0.3);">
-            <img id="joinQrImage" style="width:100%; height:100%;" src="" alt="QR Code" />
           </div>
         </div>
       </div>
@@ -764,6 +817,25 @@
     <button class="btn btn-return" onclick="window.close()">關閉視窗</button>
   </div>
 
+  <!-- Large QR Code Modal (v1.7.0-CP26 Zoom Feature) -->
+  <div id="qrModal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(7,9,15,0.85); backdrop-filter:blur(12px); align-items:center; justify-content:center; animation:fadeInUp 0.3s ease both;" onclick="closeLargeQrModal()">
+    <div class="glass-card" style="width:100%; max-width:440px; padding:30px; text-align:center; position:relative; border-color:var(--clr-gold-1); box-shadow:0 12px 48px rgba(245,200,66,0.25);" onclick="event.stopPropagation()">
+      <span style="font-size:2.8rem;">📱</span>
+      <h2 style="font-size:1.5rem; font-weight:900; color:var(--clr-gold-1); margin:12px 0 6px 0;">掃描 QR Code 立即參賽</h2>
+      <p style="font-size:0.85rem; color:#94a3b8; margin:0 0 20px 0;">請學生開啟相機/平板掃描下方二維碼加入對抗賽</p>
+      
+      <div style="background:#fff; padding:16px; border-radius:16px; width:260px; height:260px; margin:0 auto 20px auto; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+        <img id="modalQrImage" style="width:100%; height:100%;" src="" alt="Large QR Code" />
+      </div>
+      
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:12px; border-radius:8px; font-size:0.85rem; word-break:break-all; font-family:var(--font-en); color:#cbd5e1; margin-bottom:20px;" id="modalJoinUrlText">
+        載入中...
+      </div>
+      
+      <button class="btn btn-return" onclick="closeLargeQrModal()" style="width:100%;">關閉視窗</button>
+    </div>
+  </div>
+
   <!-- Client-side Logic script -->
   <script>
     let supabaseClient = null;
@@ -825,11 +897,17 @@
         // 5. 初始化載入已提交數據
         await loadInitialData();
 
+        // 讀取快取主題
+        const savedTheme = localStorage.getItem('scoreboard-theme');
+        if (savedTheme === 'light') {
+          document.body.classList.add('light-theme');
+          document.getElementById('themeToggleBtn').textContent = '🌙 暗黑模式';
+        }
+
         // 動態設定學生參賽 URL 與 QR Code
         const joinUrl = new URL('class.html', window.location.href);
         joinUrl.searchParams.set('classCode', sessionCode);
-        document.getElementById('joinUrlText').textContent = joinUrl.href.replace(/^https?:\/\//, '');
-        document.getElementById('joinQrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl.href)}`;
+        document.getElementById('headerQrPreview').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl.href)}`;
         
         // 6. 訂閱 Supabase Realtime 即時推播
         subscribeRealtime();
@@ -878,6 +956,7 @@
       
       attemptsList = data || [];
       renderAll();
+      populateTicker();
     }
 
     // 訂閱學生答題提交
@@ -906,7 +985,7 @@
             // 重新排序
             attemptsList.sort((a, b) => b.score - a.score || new Date(a.timestamp) - new Date(b.timestamp));
             renderAll();
-            updateTicker(record);
+            populateTicker();
           }
         )
         .subscribe();
@@ -1024,12 +1103,20 @@
       const rankListBody = document.getElementById('rankListBody');
       const restRank = attemptsList.slice(3, 30);
       
-      if (restRank.length === 0 && attemptsList.length <= 3) {
-        rankListBody.innerHTML = `
-          <div style="text-align: center; padding: 40px; color: #475569; font-size: 0.95rem;">
-            等待學生加入並提交答題紀錄… 🚀
-          </div>
-        `;
+      if (restRank.length === 0) {
+        if (attemptsList.length > 0) {
+          rankListBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem;">
+              （前三名已登榜，等待更多同學加入…） 🚀
+            </div>
+          `;
+        } else {
+          rankListBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem;">
+              等待學生加入並提交答題紀錄… 🚀
+            </div>
+          `;
+        }
         return;
       }
       
@@ -1313,6 +1400,67 @@
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+     * ☀️ 明亮主題與放大 QR Code 模組
+     * ═══════════════════════════════════════════════════════════ */
+
+    function toggleTheme() {
+      const body = document.body;
+      const btn = document.getElementById('themeToggleBtn');
+      if (body.classList.contains('light-theme')) {
+        body.classList.remove('light-theme');
+        btn.textContent = '☀️ 明亮模式';
+        localStorage.setItem('scoreboard-theme', 'dark');
+      } else {
+        body.classList.add('light-theme');
+        btn.textContent = '🌙 暗黑模式';
+        localStorage.setItem('scoreboard-theme', 'light');
+      }
+    }
+
+    function openLargeQrModal() {
+      const modal = document.getElementById('qrModal');
+      modal.style.display = 'flex';
+      
+      const joinUrl = new URL('class.html', window.location.href);
+      joinUrl.searchParams.set('classCode', sessionCode);
+      
+      document.getElementById('modalJoinUrlText').textContent = joinUrl.href;
+      document.getElementById('modalQrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(joinUrl.href)}`;
+    }
+    
+    function closeLargeQrModal() {
+      document.getElementById('qrModal').style.display = 'none';
+    }
+
+    function populateTicker() {
+      const tickerList = document.getElementById('tickerList');
+      if (!tickerList) return;
+      tickerList.innerHTML = '';
+      
+      if (attemptsList.length === 0) {
+        tickerList.innerHTML = `
+          <div class="sb-ticker__item">
+            <span class="sb-ticker__dot"></span>
+            <span>等待第一位勇士提交挑戰成績！</span>
+          </div>
+        `;
+        return;
+      }
+      
+      // 按時間降序排序（最新在最前面）
+      const sortedByTime = [...attemptsList].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      sortedByTime.slice(0, 10).forEach(record => {
+        const item = document.createElement('div');
+        item.className = 'sb-ticker__item';
+        item.innerHTML = `
+          <span class="sb-ticker__dot"></span>
+          <span>🎉 賀！<strong>${escHtml(record.school)} ${escHtml(record.student_name)}</strong> 完成挑戰，斬獲 <strong>${record.score}</strong> 分！</span>
+        `;
+        tickerList.appendChild(item);
+      });
     }
 
     // Boot
