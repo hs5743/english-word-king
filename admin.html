@@ -425,6 +425,16 @@
             <span style="color:var(--clr-text-muted);">目前三校參與狀況：</span>
             <span style="font-weight:700; color:var(--clr-gold-1);" id="activeContestSummary">載入中...</span>
           </div>
+          <!-- Join QR and Link for Admin Console -->
+          <div style="display:flex; align-items:center; gap:var(--sp-md); border-top:1px solid rgba(255,255,255,0.03); padding-top:12px; margin-top:8px;">
+            <div style="flex:1;">
+              <div style="font-weight:700; color:var(--clr-gold-1); margin-bottom:4px;">📱 學生參賽連結 (點擊複製)：</div>
+              <div id="contestJoinUrlDisplay" style="font-size:0.78rem; color:#cbd5e1; word-break:break-all; user-select:all; cursor:pointer; text-decoration:underline;" title="點擊即可複製" onclick="navigator.clipboard.writeText(this.textContent).then(() => alert('已複製參賽網址！'))">載入中...</div>
+            </div>
+            <div style="background:#fff; padding:4px; border-radius:6px; width:72px; height:72px; flex-shrink:0; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+              <img id="contestJoinQrDisplay" style="width:100%; height:100%;" src="" alt="QR Code" />
+            </div>
+          </div>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
@@ -1260,6 +1270,12 @@
           // 顯示對抗賽碼
           document.getElementById('contestCodeDisplay').textContent = activeContestSession.session_code.slice(0, 3) + ' ' + activeContestSession.session_code.slice(3);
           document.getElementById('activeContestGrade').textContent = activeContestSession.classes || '未指定年級';
+
+          // 顯示參賽連結與 QR Code
+          const joinUrl = new URL('class.html', window.location.href);
+          joinUrl.searchParams.set('classCode', activeContestSession.session_code);
+          document.getElementById('contestJoinUrlDisplay').textContent = joinUrl.href;
+          document.getElementById('contestJoinQrDisplay').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl.href)}`;
 
           // 載入指定單字
           const { data: pkgData } = await supabaseClient

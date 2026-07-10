@@ -653,6 +653,24 @@
             </div>
           </div>
         </div>
+
+        <!-- Join QR Code Card (v1.7.0-CP26 QR Code feature) -->
+        <div class="school-card" style="flex:0.65; display:flex; flex-direction:row; align-items:center; gap:16px; border-color:rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); padding:16px; min-height:105px;">
+          <div style="flex:1;">
+            <div style="font-size:0.92rem; font-weight:800; color:var(--clr-gold-1); display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+              📱 掃碼加入對抗賽
+            </div>
+            <div style="font-size:0.75rem; color:#94a3b8; line-height:1.4;">
+              開啟手機/平板相機掃描，或連結：
+            </div>
+            <div style="font-size:0.75rem; color:#cbd5e1; font-weight:bold; margin-top:4px; word-break:break-all; font-family:var(--font-en);" id="joinUrlText">
+              class.html?classCode=------
+            </div>
+          </div>
+          <div style="background:#fff; padding:6px; border-radius:10px; display:flex; align-items:center; justify-content:center; width:92px; height:92px; flex-shrink:0; box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+            <img id="joinQrImage" style="width:100%; height:100%;" src="" alt="QR Code" />
+          </div>
+        </div>
       </div>
 
       <!-- Right personal leaderboard -->
@@ -806,6 +824,12 @@
         
         // 5. 初始化載入已提交數據
         await loadInitialData();
+
+        // 動態設定學生參賽 URL 與 QR Code
+        const joinUrl = new URL('class.html', window.location.href);
+        joinUrl.searchParams.set('classCode', sessionCode);
+        document.getElementById('joinUrlText').textContent = joinUrl.href.replace(/^https?:\/\//, '');
+        document.getElementById('joinQrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl.href)}`;
         
         // 6. 訂閱 Supabase Realtime 即時推播
         subscribeRealtime();
