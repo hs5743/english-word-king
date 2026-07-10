@@ -181,6 +181,7 @@
       <button class="admin-tab" data-tab="roster" onclick="switchTab('roster')">🌾 學生名冊管理</button>
       <button class="admin-tab" data-tab="roles" id="rolesTabBtn" onclick="switchTab('roles')" style="display:none;">🔑 帳號授權管理</button>
       <button class="admin-tab" data-tab="perf" onclick="switchTab('perf')">📊 效能監控日誌</button>
+      <button class="admin-tab" data-tab="contest" onclick="switchTab('contest')">🏆 校際對抗賽管理</button>
     </div>
 
     <!-- ══ PANEL 1: SYSTEM CONFIG ══ -->
@@ -396,6 +397,90 @@
       </div>
     </div>
 
+    <!-- 🏆 校際對抗賽管理 Panel -->
+    <div class="admin-panel" id="panelContest">
+      <!-- Active Contest Card (進行中對抗賽) -->
+      <div class="glass-card" id="activeContestCard" style="padding:var(--sp-lg); display:none; border-color:var(--clr-gold-1); box-shadow:0 0 20px rgba(245,200,66,0.15);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--sp-md);">
+          <span style="font-size:0.85rem; font-weight:700; color:var(--clr-gold-1); display:flex; align-items:center; gap:6px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:var(--clr-gold-1); animation:pulse 1.5s infinite;"></span>
+            🔴 跨校對抗賽進行中
+          </span>
+          <span style="font-size:0.75rem; color:var(--clr-text-muted);" id="contestTimer">剩餘 --:--</span>
+        </div>
+
+        <div class="session-code-display" id="contestCodeDisplay" style="margin-bottom:var(--sp-md); font-size:3rem; text-align:center; font-weight:800; color:var(--clr-gold-1); font-family:var(--font-en); letter-spacing:0.1em; background:rgba(255,255,255,0.02); border-radius:8px; padding:12px 0;">000 000</div>
+
+        <!-- 資訊格欄排版 -->
+        <div style="padding:var(--sp-md); background:rgba(255,255,255,0.02); border-radius:var(--r-md); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.05); font-size:0.85rem; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--clr-text-muted);">難度級別：</span>
+            <span style="font-weight:700; color:var(--clr-text-primary);" id="activeContestGrade">-- 年級</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;">
+            <span style="color:var(--clr-text-muted);">指定單字：</span>
+            <span style="font-weight:700; color:var(--clr-text-primary);" id="activeContestWords">無</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;">
+            <span style="color:var(--clr-text-muted);">目前三校參與狀況：</span>
+            <span style="font-weight:700; color:var(--clr-gold-1);" id="activeContestSummary">載入中...</span>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <button class="btn btn--primary" id="btn-open-contest-scoreboard" onclick="openContestScoreboard()" style="padding:14px; font-weight:bold; font-size:0.9rem; background:linear-gradient(135deg, hsl(268,75%,55%), hsl(300,70%,55%)); border:none; box-shadow: 0 4px 20px hsla(268,75%,55%,0.35); cursor:pointer;">📺 開啟大螢幕看板</button>
+          <button class="btn btn--logout" onclick="handleCloseContest()" style="padding:14px; font-weight:bold; font-size:0.9rem; border-radius:var(--r-md); cursor:pointer;">🔴 結束校際對抗</button>
+        </div>
+      </div>
+
+      <!-- Create Contest Card (建立對抗賽) -->
+      <div class="glass-card" id="createContestCard" style="padding:var(--sp-lg); max-width:600px; margin:0 auto;">
+        <h2 style="font-size:1.25rem; font-weight:800; margin-bottom:var(--sp-sm); color:var(--clr-gold-1); display:flex; align-items:center; gap:8px;">
+          🏆 發起三校聯賽 / 校際對抗
+        </h2>
+        <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-bottom:var(--sp-lg); line-height:1.6;">
+          建立一場跨校英文對抗賽。此對抗賽將對三校（新港、鳳岡、豐田）全體學生開放，並在大廳首頁展示「🏆 Live 直播橫幅」進行推廣。
+        </p>
+
+        <form id="contestForm" onsubmit="handleCreateContest(event)">
+          <div class="form-group" style="margin-bottom:var(--sp-md);">
+            <label class="form-label" for="contestGrade" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">學生難度年級</label>
+            <select class="form-select" id="contestGrade" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-zh);">
+              <option value="3">國小三年級</option>
+              <option value="4">國小四年級</option>
+              <option value="5" selected>國小五年級</option>
+              <option value="6">國小六年級</option>
+              <option value="7">國中七年級</option>
+              <option value="8">國中八年級</option>
+              <option value="9">國中九年級</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--sp-md);">
+            <label class="form-label" for="contestDuration" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">比賽持續時間 (分鐘)</label>
+            <input class="form-input" id="contestDuration" type="number" min="5" max="300" value="60" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--sp-md);">
+            <label class="form-label" for="contestWords" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">指定單字 (可選，以逗號區隔)</label>
+            <input class="form-input" id="contestWords" type="text" placeholder="例如: apple, water, sunny (留空代表系統隨機出題)" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--sp-md);">
+            <label class="form-label" for="contestPatterns" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">指定句型 (可選，以斜線區隔)</label>
+            <input class="form-input" id="contestPatterns" type="text" placeholder="例如: I like __. / Do you have __? (留空由 AI 自由造句)" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--sp-lg);">
+            <label class="form-label" for="contestInstruction" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">補充指令 (可選，給 AI 模型的額外指示)</label>
+            <textarea class="form-input" id="contestInstruction" rows="3" placeholder="例如：主題聚焦在校園生活或運動..." style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-zh);"></textarea>
+          </div>
+
+          <button class="btn btn--primary btn--full" type="submit" style="width:100%; padding:14px; font-weight:bold; font-size:0.95rem; border-radius:8px; cursor:pointer;">🏆 建立校際對抗場次</button>
+        </form>
+      </div>
+    </div>
+
   </div>
 
   <!-- ── Manual Add Student Modal (HTML overlay) ── -->
@@ -461,6 +546,8 @@
     let currentUser = null;
     let userRole = null;             // null | 'admin' | 'super_admin'
     let fullRoster = [];             // 暫存完整名冊以進行前端過濾
+    let activeContestSession = null;
+    let contestCountdownInterval = null;
 
     // AI 金鑰呼叫順序（全域狀態）
     const PROVIDER_NAMES = {
@@ -552,6 +639,7 @@
 
         loadRoster();
         loadConfigStatus();
+        checkContestStatus();
 
       } catch (err) {
         console.error(err);
@@ -592,6 +680,8 @@
       });
       if (tabId === 'perf') {
         loadPerformanceLogs();
+      } else if (tabId === 'contest') {
+        checkContestStatus();
       }
     }
 
@@ -1139,6 +1229,239 @@
       } else {
         overlay.style.display = 'none';
       }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+     * 🏆 校際對抗賽管理邏輯
+     * ═══════════════════════════════════════════════════════════ */
+
+    async function checkContestStatus() {
+      if (!supabaseClient) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('challenge_sessions')
+          .select('*')
+          .eq('status', 'active')
+          .eq('session_type', 'contest')
+          .gt('expires_at', new Date().toISOString())
+          .limit(1);
+
+        if (error) throw error;
+
+        const cardActive = document.getElementById('activeContestCard');
+        const cardCreate = document.getElementById('createContestCard');
+
+        if (data && data.length > 0) {
+          activeContestSession = data[0];
+          cardCreate.style.display = 'none';
+          cardActive.style.display = 'block';
+
+          // 顯示對抗賽碼
+          document.getElementById('contestCodeDisplay').textContent = activeContestSession.session_code.slice(0, 3) + ' ' + activeContestSession.session_code.slice(3);
+          document.getElementById('activeContestGrade').textContent = activeContestSession.classes || '未指定年級';
+
+          // 載入指定單字
+          const { data: pkgData } = await supabaseClient
+            .from('challenge_packages')
+            .select('teacher_config')
+            .eq('session_id', activeContestSession.id)
+            .maybeSingle();
+
+          if (pkgData && pkgData.teacher_config) {
+            const words = pkgData.teacher_config.customWords || [];
+            document.getElementById('activeContestWords').textContent = words.length > 0 ? words.join(', ') : '系統隨機';
+          } else {
+            document.getElementById('activeContestWords').textContent = '無';
+          }
+
+          // 載入參與人數
+          const { data: attempts } = await supabaseClient
+            .from('daily_attempts')
+            .select('school')
+            .eq('session_id', activeContestSession.id);
+
+          const counts = { '新港國小': 0, '鳳岡國小': 0, '豐田國小': 0 };
+          if (attempts) {
+            attempts.forEach(a => {
+              if (counts[a.school] !== undefined) counts[a.school]++;
+            });
+          }
+          document.getElementById('activeContestSummary').textContent = `新港: ${counts['新港國小']}人 ｜ 鳳岡: ${counts['鳳岡國小']}人 ｜ 豐田: ${counts['豐田國小']}人`;
+
+          // 啟動倒數計時器
+          startContestTimer(activeContestSession.expires_at);
+        } else {
+          activeContestSession = null;
+          if (contestCountdownInterval) clearInterval(contestCountdownInterval);
+          cardActive.style.display = 'none';
+          cardCreate.style.display = 'block';
+        }
+      } catch (err) {
+        console.warn('檢查對抗賽狀態失敗:', err);
+      }
+    }
+
+    function startContestTimer(expiresAtStr) {
+      if (contestCountdownInterval) clearInterval(contestCountdownInterval);
+      const timerSpan = document.getElementById('contestTimer');
+      if (!timerSpan) return;
+
+      const target = new Date(expiresAtStr).getTime();
+
+      function updateTimer() {
+        const now = Date.now();
+        const diff = target - now;
+
+        if (diff <= 0) {
+          clearInterval(contestCountdownInterval);
+          timerSpan.textContent = '已結束';
+          checkContestStatus();
+          return;
+        }
+
+        const hrs = Math.floor(diff / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => n.toString().padStart(2, '0');
+        timerSpan.textContent = `剩餘 ${hrs > 0 ? pad(hrs) + ':' : ''}${pad(mins)}:${pad(secs)}`;
+      }
+
+      updateTimer();
+      contestCountdownInterval = setInterval(updateTimer, 1000);
+    }
+
+    async function handleCreateContest(e) {
+      e.preventDefault();
+      const grade = parseInt(document.getElementById('contestGrade').value);
+      const duration = parseInt(document.getElementById('contestDuration').value);
+      const wordsInput = document.getElementById('contestWords').value.trim();
+      const patternsInput = document.getElementById('contestPatterns').value.trim();
+      const instruction = document.getElementById('contestInstruction').value.trim();
+
+      const customWords = wordsInput ? wordsInput.split(',').map(w => w.trim()).filter(w => w) : [];
+      const customPatterns = patternsInput ? patternsInput.split('/').map(p => p.trim()).filter(p => p) : [];
+
+      showLoading(true, '[1/3] 正在建立跨校對抗場次...');
+      try {
+        const session = await insertContestSession(grade, duration);
+        
+        showLoading(true, '[2/3] 正在呼叫 AI 模型生成對抗賽題目包...');
+        await createContestPackage(session, {
+          difficultyGrade: grade,
+          customWords: customWords,
+          customPatterns: customPatterns,
+          extraInstruction: instruction
+        });
+
+        showLoading(true, '[3/3] 初始化看板設定...');
+        showLoading(false);
+        checkContestStatus();
+        
+        // 成功建立，自動在新分頁開啟大螢幕看板
+        const url = new URL('scoreboard.html', window.location.href);
+        url.searchParams.set('session', session.id);
+        url.searchParams.set('code', session.session_code);
+        window.open(url.toString(), '_blank');
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('建立對抗賽失敗：' + err.message);
+      }
+    }
+
+    async function insertContestSession(grade, duration, depth = 0) {
+      if (depth > 5) throw new Error('多次嘗試後無法產生唯一的對抗賽場次碼。');
+
+      const sessionCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + duration * 60 * 1000).toISOString();
+
+      const { data, error } = await supabaseClient
+        .from('challenge_sessions')
+        .insert({
+          teacher_uid: currentUser.id,
+          session_code: sessionCode,
+          school: null, // 對抗賽開放三校，不指定單一學校
+          classes: grade + '年級', // 用 classes 欄位記錄指定難度級別
+          status: 'active',
+          session_type: 'contest',
+          expires_at: expiresAt
+        })
+        .select('*');
+
+      if (error) {
+        if (error.code === '23505') { // unique code violation
+          return insertContestSession(grade, duration, depth + 1);
+        }
+        throw error;
+      }
+
+      return data[0];
+    }
+
+    async function createContestPackage(session, config) {
+      const authSession = (await supabaseClient.auth.getSession()).data.session;
+      if (!authSession) throw new Error('登入狀態已失效，請重新登入。');
+
+      const response = await fetch(`${window.SupabaseConfig.SUPABASE_URL}/functions/v1/generate-challenge`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authSession.access_token}`
+        },
+        body: JSON.stringify({
+          grade: config.difficultyGrade,
+          isPractice: true,
+          teacherConfig: config,
+          packageSessionId: session.id,
+          packageSessionCode: session.session_code,
+          packageExpiresAt: session.expires_at
+        })
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || '題目包產生失敗');
+      }
+
+      return data.package;
+    }
+
+    async function handleCloseContest() {
+      if (!activeContestSession) return;
+      if (!confirm('確定要結束校際對抗賽嗎？結束後學生將無法再作答，首頁直播橫幅也會關閉。')) return;
+
+      if (contestCountdownInterval) clearInterval(contestCountdownInterval);
+      showLoading(true, '正在結束對抗賽...');
+
+      try {
+        await supabaseClient
+          .from('challenge_sessions')
+          .update({ status: 'closed' })
+          .eq('id', activeContestSession.id);
+        
+        await supabaseClient
+          .from('challenge_packages')
+          .update({ status: 'closed' })
+          .eq('session_id', activeContestSession.id);
+
+        showLoading(false);
+        activeContestSession = null;
+        checkContestStatus();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('結束對抗賽失敗：' + err.message);
+      }
+    }
+
+    function openContestScoreboard() {
+      if (!activeContestSession) return;
+      const url = new URL('scoreboard.html', window.location.href);
+      url.searchParams.set('session', activeContestSession.id);
+      url.searchParams.set('code', activeContestSession.session_code);
+      window.open(url.toString(), '_blank');
     }
 
     // Bootstrap

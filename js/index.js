@@ -146,11 +146,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 載入跑馬燈動態
   loadActivityFeed(sb)
 
+  // 檢查是否有進行中的三校對抗賽
+  checkLiveContest(sb)
+
   // Realtime 訂閱：排行榜即時更新
   sb.channel('leaderboard-changes')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'daily_attempts' }, () => {
       loadSchoolScores(sb)
       loadLeaderboard(sb)
+      checkLiveContest(sb) // 學生提交時也重新整理對抗賽狀態
     })
     .subscribe()
 })
@@ -924,3 +928,49 @@ function triggerGemUnlockConfetti() {
     container.remove();
   }, 3500);
 }
+
+// ── CP26：檢查是否有進行中的三校對抗賽，若有則顯示首頁橫幅 ──
+async function checkLiveContest(sb) {
+  try {
+    if (!sb) return;
+
+    // 查詢進行中且未過期的對抗賽場次（anon 可讀，見 CP26 Migration）
+    const { data: sessions, error } = await sb
+      .from('challenge_sessions')
+      .select('id, session_code, school, expires_at')
+      .eq('status', 'active')
+      .eq('session_type', 'contest')
+      .gt('expires_at', new Date().toISOString())
+      .limit(1);
+
+    const banner = document.getElementById('live-contest-banner');
+    const link = document.getElementById('live-contest-link');
+    const text = document.getElementById('live-contest-text');
+
+    if (!banner || !link) return;
+
+    if (error || !sessions || sessions.length === 0) {
+      // 無進行中對抗賽，隱藏橫幅
+      banner.style.display = 'none';
+      return;
+    }
+
+    const session = sessions[0];
+
+    // 更新連結與文字
+    const scoreboardUrl = new URL('scoreboard.html', window.location.href);
+    scoreboardUrl.searchParams.set('session', session.id);
+    scoreboardUrl.searchParams.set('code', session.session_code);
+
+    link.href = scoreboardUrl.toString();
+    if (text) {
+      text.textContent = '三校即時對抗賽進行中！點擊觀看直播看板';
+    }
+
+    // 顯示橫幅
+    banner.style.display = 'block';
+  } catch (err) {
+    console.warn('[CP26] checkLiveContest error:', err);
+  }
+}
+

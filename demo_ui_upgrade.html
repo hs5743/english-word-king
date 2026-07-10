@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三校聯網・英語單字王 — 視覺重構大廳 DEMO</title>
+  
+  <!-- 引入 Outfit 英文字型與 Noto Sans TC 中文字型 -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================================
+       Premium Design Tokens & Variables
+       ============================================================ */
+    :root {
+      /* 基底背景 */
+      --clr-bg: #e0f2fe; /* 天青藍底色 */
+      
+      /* HSL 調和配色 */
+      --clr-primary: hsl(194, 76%, 60%);    /* 天空藍 (鳳岡) */
+      --clr-secondary: hsl(165, 95%, 43%);  /* 薄荷綠 (豐田) */
+      --clr-accent: hsl(42, 100%, 65%);     /* 陽光金 (新港) */
+      --clr-gold: hsl(42, 100%, 55%);
+      
+      --clr-text-main: hsl(233, 21%, 21%);  /* 深灰藍 */
+      --clr-text-muted: hsl(223, 15%, 43%); /* 中灰 */
+      --clr-text-light: hsl(218, 17%, 62%); /* 淺灰 */
+      
+      /* 玻璃質感與漫反射發光投影 */
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 10px 40px -10px rgba(31, 38, 135, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      --glass-shadow-hover: 0 20px 50px -10px rgba(31, 38, 135, 0.15), 0 8px 16px -2px rgba(0, 0, 0, 0.04);
+      
+      /* HSL 發光陰影 */
+      --shadow-primary-glow: 0 10px 30px -5px hsla(194, 76%, 60%, 0.3);
+      --shadow-secondary-glow: 0 10px 30px -5px hsla(165, 95%, 43%, 0.3);
+      --shadow-accent-glow: 0 10px 30px -5px hsla(42, 100%, 65%, 0.3);
+      
+      /* Q彈物理過渡 */
+      --spring-trans: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      
+      --font-en: 'Outfit', sans-serif;
+      --font-zh: 'Noto Sans TC', sans-serif;
+      
+      --sp-xs:  4px;
+      --sp-sm:  8px;
+      --sp-md:  16px;
+      --sp-lg:  24px;
+      --sp-xl:  40px;
+      --sp-2xl: 64px;
+    }
+
+    /* ============================================================
+       Layout & Reset
+       ============================================================ */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-zh);
+      background-color: var(--clr-bg);
+      color: var(--clr-text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-top: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── 氣氛營造背景光暈 (有機液態變形與緩慢色彩流動) ── */
+    .aura-blob {
+      position: absolute;
+      filter: blur(140px);
+      z-index: 0;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .aura-blob--1 {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, hsla(194, 76%, 60%, 0.45) 0%, transparent 70%);
+      top: -80px;
+      left: -80px;
+      animation: morphBlob1 25s infinite alternate ease-in-out;
+    }
+
+    .aura-blob--2 {
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, hsla(165, 95%, 43%, 0.35) 0%, transparent 70%);
+      bottom: -120px;
+      right: -80px;
+      animation: morphBlob2 30s infinite alternate ease-in-out;
+    }
+
+    .aura-blob--3 {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, hsla(42, 100%, 65%, 0.35) 0%, transparent 70%);
+      top: 30%;
+      right: 15%;
+      animation: morphBlob3 22s infinite alternate ease-in-out;
+    }
+
+    /* 有機液態變形動畫 */
+    @keyframes morphBlob1 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+      50% { transform: translate(80px, 50px) scale(1.1) rotate(90deg); border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%; }
+      100% { transform: translate(-30px, -80px) scale(0.9) rotate(180deg); border-radius: 50% 50% 35% 65% / 40% 60% 40% 60%; }
+    }
+    @keyframes morphBlob2 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%; }
+      50% { transform: translate(-70px, -40px) scale(1.05) rotate(-120deg); border-radius: 38% 62% 60% 40% / 43% 37% 63% 57%; }
+      100% { transform: translate(40px, 60px) scale(0.95) rotate(120deg); border-radius: 65% 35% 50% 50% / 55% 45% 55% 45%; }
+    }
+    @keyframes morphBlob3 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 60% 40% 60% 40% / 50% 50% 50% 50%; }
+      50% { transform: translate(50px, -60px) scale(1.1) rotate(60deg); border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%; }
+      100% { transform: translate(-50px, 30px) scale(0.9) rotate(-60deg); border-radius: 50% 50% 60% 40% / 40% 50% 50% 60%; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 0 16px 60px 16px;
+    }
+
+    /* ============================================================
+       Interactive State Switcher (Demo Only)
+       ============================================================ */
+    .state-switcher {
+      position: fixed;
+      top: 15px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 6px;
+      border-radius: 20px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .switch-btn {
+      padding: 8px 16px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      font-family: var(--font-zh);
+      transition: var(--spring-trans);
+      color: var(--clr-text-muted);
+      background: transparent;
+    }
+
+    .switch-btn--active {
+      background: var(--clr-text-main);
+      color: white;
+      box-shadow: var(--glass-shadow);
+    }
+
+    /* ============================================================
+       Redesigned Navigation Bar
+       ============================================================ */
+    .navbar {
+      width: 100%;
+      height: 70px;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 900;
+      background: rgba(224, 242, 254, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 800px;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--clr-text-main);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      list-style: none;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--clr-text-muted);
+      padding: 8px 14px;
+      border-radius: 12px;
+      transition: var(--spring-trans);
+    }
+    .nav-link:hover {
+      color: var(--clr-text-main);
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ============================================================
+       Hero Section
+       ============================================================ */
+    .hero {
+      text-align: center;
+      padding: 30px 10px 10px 10px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--glass-border);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--clr-text-main);
+      box-shadow: var(--glass-shadow);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, hsl(42, 100%, 55%), hsl(194, 76%, 50%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--clr-text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    /* 按鈕樣式 */
+    .btn {
+      padding: 14px 28px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--spring-trans);
+      border: none;
+      box-shadow: var(--glass-shadow);
+      font-family: var(--font-zh);
+    }
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn--primary {
+      background: linear-gradient(135deg, var(--clr-primary), hsl(194, 76%, 50%));
+      color: white;
+      box-shadow: var(--shadow-primary-glow);
+    }
+    .btn--primary:hover {
+      box-shadow: 0 15px 35px -5px hsla(194, 76%, 60%, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn--ghost {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--glass-border);
+      color: var(--clr-text-muted);
+    }
+    .btn--ghost:hover {
+      background: white;
+      color: var(--clr-text-main);
+      transform: translateY(-2px);
+    }
+
+    /* 模擬登入學生個人資訊卡 */
+    .student-badge-card {
+      display: none; /* 由 JS 切換 */
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 12px 20px;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--glass-shadow);
+      max-width: 420px;
+      margin: 15px auto 0 auto;
+      transition: var(--spring-trans);
+    }
+    .student-badge-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .student-avatar {
+      font-size: 2.2rem;
+    }
+
+    .student-meta {
+      text-align: left;
+      flex: 1;
+    }
+
+    .student-name {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--clr-text-main);
+    }
+
+    .student-level {
+      font-size: 0.8rem;
+      color: var(--clr-text-muted);
+      margin-top: 2px;
+    }
+
+    .student-handbook-btn {
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: var(--clr-accent);
+      color: var(--clr-text-main);
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-decoration: none;
+      box-shadow: var(--shadow-accent-glow);
+    }
+
+    /* ============================================================
+       Marquee 即時動態
+       ============================================================ */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .marquee-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 12px 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 40px;
+      width: max-content;
+      animation: marquee 25s infinite linear;
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--clr-text-muted);
+    }
+
+    .marquee-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--clr-secondary);
+      border-radius: 50%;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ============================================================
+       Glass Card System
+       ============================================================ */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--glass-shadow);
+      transition: var(--spring-trans);
+      position: relative;
+    }
+
+    .glass-card:hover {
+      box-shadow: var(--glass-shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    /* ============================================================
+       Component 1: Tug-of-war Scoreboard
+       ============================================================ */
+    .school-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .school-bar-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .school-name {
+      width: 80px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--clr-text-main);
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      width: 0; /* Dynamic loading */
+      transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shine 2.5s infinite linear;
+    }
+
+    .fg-bar {
+      background: linear-gradient(90deg, hsl(194, 76%, 50%), hsl(194, 76%, 60%));
+      box-shadow: var(--shadow-primary-glow);
+    }
+    .ft-bar {
+      background: linear-gradient(90deg, hsl(165, 95%, 35%), hsl(165, 95%, 45%));
+      box-shadow: var(--shadow-secondary-glow);
+    }
+    .xg-bar {
+      background: linear-gradient(90deg, hsl(42, 100%, 55%), hsl(42, 100%, 65%));
+      box-shadow: var(--shadow-accent-glow);
+    }
+
+    .school-score {
+      font-family: var(--font-en);
+      font-size: 1rem;
+      font-weight: 900;
+      width: 60px;
+      text-align: right;
+    }
+
+    .crown-wrapper {
+      position: relative;
+      display: inline-flex;
+    }
+    .crown-emoji {
+      position: absolute;
+      top: -15px;
+      left: -12px;
+      font-size: 1.2rem;
+      animation: floatCrown 1.8s infinite alternate ease-in-out;
+      z-index: 20;
+    }
+    @keyframes floatCrown {
+      0% { transform: translateY(0) rotate(-10deg); }
+      100% { transform: translateY(-5px) rotate(10deg); }
+    }
+
+    /* ============================================================
+       Component 2: Redesigned Leaderboard
+       ============================================================ */
+    .leaderboard-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.4);
+      color: var(--clr-text-muted);
+      font-family: var(--font-zh);
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--spring-trans);
+    }
+    .tab-btn:hover {
+      background: white;
+      color: var(--clr-text-main);
+    }
+    .tab-btn--active {
+      background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(79,195,247,0.08));
+      border-color: var(--clr-accent);
+      color: var(--clr-gold);
+    }
+
+    .leaderboard-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 18px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: var(--glass-shadow);
+      transition: var(--spring-trans);
+    }
+    .leaderboard-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glass-shadow-hover);
+    }
+
+    .rank-num {
+      width: 28px;
+      font-family: var(--font-en);
+      font-size: 1.15rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .rank-medal {
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: center;
+      width: 28px;
+    }
+
+    .student-school-tag {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.05);
+    }
+    .tag--fenggong { background: var(--clr-blue-light); color: var(--clr-blue-text); }
+    .tag--fengtian { background: var(--clr-green-light); color: var(--clr-green-text); }
+    .tag--xingang { background: var(--clr-gold-light); color: var(--clr-gold-text); }
+
+    .student-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+    }
+
+    .rank-score {
+      font-family: var(--font-en);
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--clr-primary);
+    }
+
+    /* 前三名高亮外觀 */
+    .leaderboard-item--first {
+      background: linear-gradient(135deg, white, hsla(42, 100%, 75%, 0.15));
+      border-color: var(--clr-accent);
+      box-shadow: var(--shadow-accent-glow);
+    }
+    .leaderboard-item--first .rank-score {
+      color: var(--clr-gold);
+    }
+
+    /* ============================================================
+       Component 3: 我的英語寶石手冊 (學生登入後可見)
+       ============================================================ */
+    .handbook-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .handbook-lock {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: var(--clr-text-muted);
+      border: 2px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    .handbook-grid {
+      display: none; /* JS 切換 */
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 16px;
+    }
+
+    .gem-card {
+      background: white;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 18px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: var(--glass-shadow);
+      transition: var(--spring-trans);
+    }
+
+    .gem-card:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: var(--glass-shadow-hover);
+    }
+
+    .gem-emoji {
+      font-size: 2.8rem;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .gem-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--clr-text-main);
+    }
+
+    .gem-hardness {
+      font-size: 0.72rem;
+      color: var(--clr-text-muted);
+      margin-top: 4px;
+    }
+
+    /* 鎖定灰階卡片 */
+    .gem-card--locked {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: transparent;
+      opacity: 0.65;
+    }
+    .gem-card--locked .gem-emoji {
+      filter: grayscale(100%) opacity(40%);
+    }
+    .gem-card--locked:hover {
+      transform: none;
+      box-shadow: var(--glass-shadow);
+      cursor: not-allowed;
+    }
+
+    /* ============================================================
+       Component 4: 平台特色卡片區
+       ============================================================ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 600px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: var(--glass-shadow);
+      transition: var(--spring-trans);
+    }
+    .feature-card:hover {
+      box-shadow: var(--glass-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      font-size: 0.85rem;
+      color: var(--clr-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       Platform Footer
+       ============================================================ */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 30px 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--clr-text-muted);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       Mineral Level Modal (Redesigned Light Theme)
+       ============================================================ */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+    }
+
+    .modal {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 90%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 25px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+      z-index: 1001;
+      display: none;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--clr-text-main);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--clr-text-muted);
+    }
+
+    .modal-body {
+      text-align: center;
+    }
+
+    .modal-gem-emoji {
+      font-size: 4.5rem;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.08));
+    }
+
+    .modal-gem-name {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--clr-text-main);
+      margin-bottom: 6px;
+    }
+
+    .modal-hardness-badge {
+      display: inline-block;
+      background: var(--clr-gold-light);
+      color: var(--clr-gold-text);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .modal-info-box {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: left;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--clr-text-muted);
+      margin-bottom: 20px;
+    }
+    
+    .modal-info-title {
+      font-weight: 800;
+      color: var(--clr-text-main);
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景光暈 -->
+  <div class="aura-blob aura-blob--1"></div>
+  <div class="aura-blob aura-blob--2"></div>
+  <div class="aura-blob aura-blob--3"></div>
+
+  <!-- 模擬狀態切換控制列 (僅用於此 DEMO 展示對照) -->
+  <div class="state-switcher">
+    <button class="switch-btn switch-btn--active" id="btn-visitor" onclick="toggleState('visitor')">
+      🌏 模擬訪客大廳
+    </button>
+    <button class="switch-btn" id="btn-student" onclick="toggleState('student')">
+      💎 模擬學生登入
+    </button>
+  </div>
+
+  <!-- ── 導覽列 ── -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">⭐ 英語單字王</a>
+      <ul class="nav-links" id="navbarNav">
+        <li><a href="#" class="nav-link">首頁</a></li>
+        <!-- 訪客按鈕 -->
+        <li class="visitor-item"><a href="#" class="nav-link">學生登入</a></li>
+        <li class="visitor-item"><a href="#" class="btn btn--primary" style="padding: 8px 18px; font-size: 0.85rem;">開始挑戰</a></li>
+        <!-- 學生頭像 (登入後顯示) -->
+        <li class="student-item" style="display: none; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--clr-primary); color: white; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 0.85rem; border: 2px solid white; box-shadow: var(--glass-shadow);">明</div>
+          <span style="font-size: 0.85rem; font-weight: 700;">陳小明</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <!-- ── Hero 區 ── -->
+    <section class="hero">
+      <div class="hero-badge">🏆 三校聯網英語大對抗</div>
+      <h1 class="hero-title" id="heroTitle">
+        <span class="text-gradient">英語單字王</span>
+      </h1>
+      <p class="hero-subtitle" id="heroSubtitle">
+        鳳岡・豐田・新港三校學生同台競技<br>
+        每日挑戰 · 智慧出題 · 口說評分 · 跨校排名
+      </p>
+      
+      <!-- 訪客挑戰按鈕 -->
+      <div class="hero-cta visitor-item" id="visitorCta">
+        <a href="#" class="btn btn--primary">
+          🚀 開始今日挑戰
+        </a>
+        <a href="#leaderboard" class="btn btn--ghost">
+          🏅 查看排行榜
+        </a>
+      </div>
+      
+      <!-- 學生挑戰按鈕 (登入後顯示) -->
+      <div class="hero-cta student-item" id="studentCta" style="display: none;">
+        <a href="#" class="btn btn--primary" style="background: linear-gradient(135deg, var(--clr-secondary), hsl(165, 95%, 35%)); box-shadow: var(--shadow-secondary-glow);">
+          ⚡ 進行今日挑戰 (剩餘 1 次)
+        </a>
+        <a href="#handbook-section" class="btn btn--ghost">
+          📖 點開寶石手冊
+        </a>
+      </div>
+
+      <!-- 設備檢測 -->
+      <div style="background: rgba(79,195,247,0.06); border: 1px solid rgba(79,195,247,0.15); border-radius: 16px; padding: 10px 18px; text-align: center; cursor: pointer; transition: all 0.2s; margin-left: auto; margin-right: auto; max-width: 320px;">
+        <div style="font-size: 0.8rem; color: #0284c7; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          🎙️ 麥克風與口說設備檢測
+        </div>
+      </div>
+
+      <!-- 登入學生個人資訊卡 (登入後顯示) -->
+      <div class="student-badge-card" id="studentCard">
+        <div class="student-avatar">🦕</div>
+        <div class="student-meta">
+          <div class="student-name">陳小明 · 新港國小 5 年級</div>
+          <div class="student-level">累計積分: 1,840 分 | 已熟練: 15 字</div>
+        </div>
+        <a href="#handbook-section" class="student-handbook-btn">💎 磷灰石</a>
+      </div>
+    </section>
+
+    <!-- ── 跑馬燈 ── -->
+    <section>
+      <div class="section-title">🔴 即時動態</div>
+      <div class="marquee-container">
+        <div class="marquee-track">
+          <div class="marquee-item"><span class="marquee-dot"></span>新港國小 陳小明 剛剛成功晉級了「💎 磷灰石」級！</div>
+          <div class="marquee-item"><span class="marquee-dot"></span>鳳岡國小 林阿寶 獲得了每日挑戰第一名 (95分) 🏆</div>
+          <div class="marquee-item"><span class="marquee-dot"></span>豐田國小 累計總積分已突破 3,500 分！</div>
+          <!-- 複製一組無縫循環 -->
+          <div class="marquee-item"><span class="marquee-dot"></span>新港國小 陳小明 剛剛成功晉級了「💎 磷灰石」級！</div>
+          <div class="marquee-item"><span class="marquee-dot"></span>鳳岡國小 林阿寶 獲得了每日挑戰第一名 (95分) 🏆</div>
+          <div class="marquee-item"><span class="marquee-dot"></span>豐田國小 累計總積分已突破 3,500 分！</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 模組 1: 三校積分狀況 (重構為動態拉鋸條) ── -->
+    <section class="glass-card">
+      <div class="section-title">
+        <span>🏫</span>
+        <span>三校積分競賽狀況</span>
+      </div>
+      
+      <div class="schools-container">
+        <!-- 鳳岡 (領先，帶冠冕) -->
+        <div class="school-bar-item">
+          <div class="school-name">
+            <span class="crown-wrapper">
+              <span class="crown-emoji">👑</span>
+              鳳岡國小
+            </span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fg-bar" id="fgFill" style="width: 42%;"></div>
+          </div>
+          <div class="school-score">4,250 分</div>
+        </div>
+        
+        <!-- 豐田 -->
+        <div class="school-bar-item">
+          <div class="school-name">豐田國小</div>
+          <div class="progress-track">
+            <div class="progress-fill ft-bar" id="ftFill" style="width: 35%;"></div>
+          </div>
+          <div class="school-score">3,540 分</div>
+        </div>
+        
+        <!-- 新港 -->
+        <div class="school-bar-item">
+          <div class="school-name">新港國小</div>
+          <div class="progress-track">
+            <div class="progress-fill xg-bar" id="xgFill" style="width: 23%;"></div>
+          </div>
+          <div class="school-score">2,300 分</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 模組 2: 英語寶石手冊 (學生登入前後狀態對比) ── -->
+    <section class="glass-card" id="handbook-section">
+      <div class="handbook-header">
+        <div class="section-title" style="margin-bottom:0;">
+          <span>💎</span>
+          <span>我的英語寶石手冊</span>
+        </div>
+      </div>
+
+      <!-- 訪客鎖定狀態 -->
+      <div class="handbook-lock" id="handbookLock">
+        <div style="font-size:2.8rem; margin-bottom:12px;">🔒</div>
+        <div style="font-weight:800; font-size:1.1rem; color:var(--clr-text-main); margin-bottom:6px;">登入解鎖您的寶石手冊</div>
+        <div style="font-size:0.85rem;">以 Google 帳號登入後，可在此查看您的單字開採進度，收集 10 種精美寶石！</div>
+      </div>
+
+      <!-- 學生解鎖狀態 -->
+      <div class="handbook-grid" id="handbookGrid">
+        <!-- 滑石 (已解鎖) -->
+        <div class="gem-card" onclick="openGem('🌱', '滑石 (Talc)', '1', '滑石是世界上最柔軟的礦物，指甲就能在上面留下刮痕。在單字挑戰中，這代表我們剛開始開採英語知識的幼苗，前進吧！')">
+          <div class="gem-emoji">🌱</div>
+          <div class="gem-name">滑石</div>
+          <div class="gem-hardness">硬度 1</div>
+        </div>
+        <!-- 石膏 (已解鎖) -->
+        <div class="gem-card" onclick="openGem('🪵', '石膏 (Gypsum)', '2', '石膏比滑石稍微堅硬，但依然可以用手指甲刻劃。常用於製作雕塑與牆壁。代表我們踏出了堅實的第二步！')">
+          <div class="gem-emoji">🪵</div>
+          <div class="gem-name">石膏</div>
+          <div class="gem-hardness">硬度 2</div>
+        </div>
+        <!-- 方解石 (已解鎖) -->
+        <div class="gem-card" onclick="openGem('🐚', '方解石 (Calcite)', '3', '方解石是貝殼的主要成分，常用於製作水泥。硬度為 3。代表您的英語基礎已經像貝殼般穩固！')">
+          <div class="gem-emoji">🐚</div>
+          <div class="gem-name">方解石</div>
+          <div class="gem-hardness">硬度 3</div>
+        </div>
+        <!-- 螢石 (已解鎖) -->
+        <div class="gem-card" onclick="openGem('🧪', '螢石 (Fluorite)', '4', '螢石在紫外線照射下會發出美麗的光芒，故稱螢石。代表您的英語能力已經開始閃耀出迷人的光彩！')">
+          <div class="gem-emoji">🧪</div>
+          <div class="gem-name">螢石</div>
+          <div class="gem-hardness">硬度 4</div>
+        </div>
+        <!-- 磷灰石 (已解鎖，也是陳小明目前等級) -->
+        <div class="gem-card" style="border-color:var(--clr-primary); box-shadow:var(--shadow-primary-glow);" onclick="openGem('🌟', '磷灰石 (Apatite)', '5', '磷灰石常呈現美麗的藍綠色，是骨骼與牙齒的重要成分。代表您的英語實力已經成為您不可或缺的堅固骨幹！')">
+          <div class="gem-emoji">🌟</div>
+          <div class="gem-name">磷灰石</div>
+          <div class="gem-hardness">硬度 5</div>
+        </div>
+        <!-- 長石 (未解鎖) -->
+        <div class="gem-card gem-card--locked">
+          <div class="gem-emoji">🦴</div>
+          <div class="gem-name">長石</div>
+          <div class="gem-hardness">硬度 6</div>
+        </div>
+        <!-- 石英 (未解鎖) -->
+        <div class="gem-card gem-card--locked">
+          <div class="gem-emoji">🔮</div>
+          <div class="gem-name">石英</div>
+          <div class="gem-hardness">硬度 7</div>
+        </div>
+        <!-- 黃玉 (未解鎖) -->
+        <div class="gem-card gem-card--locked">
+          <div class="gem-emoji">💛</div>
+          <div class="gem-name">黃玉</div>
+          <div class="gem-hardness">硬度 8</div>
+        </div>
+        <!-- 剛玉 (未解鎖) -->
+        <div class="gem-card gem-card--locked">
+          <div class="gem-emoji">💖</div>
+          <div class="gem-name">剛玉</div>
+          <div class="gem-hardness">硬度 9</div>
+        </div>
+        <!-- 金剛石 (未解鎖) -->
+        <div class="gem-card gem-card--locked">
+          <div class="gem-emoji">💎</div>
+          <div class="gem-name">金剛石</div>
+          <div class="gem-hardness">硬度 10</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 模組 3: 跨校聯合排行榜 ── -->
+    <section class="glass-card" id="leaderboard">
+      <div class="section-title">
+        <span>👑</span>
+        <span>跨校榮譽排行榜 Top 5</span>
+      </div>
+
+      <div class="leaderboard-tabs">
+        <div class="tab-btn tab-btn--active">🌏 跨校聯合榜</div>
+        <div class="tab-btn">🏫 新港國小</div>
+        <div class="tab-btn">🏫 鳳岡國小</div>
+        <div class="tab-btn">🏫 豐田國小</div>
+      </div>
+
+      <ul class="leaderboard-list">
+        <!-- 第一名 (高亮金色) -->
+        <li class="leaderboard-item leaderboard-item--first">
+          <div class="rank-medal">🥇</div>
+          <div class="student-info">
+            <span class="student-school-tag tag--fenggong">鳳岡國小</span>
+            <span>林阿寶 (六年級)</span>
+          </div>
+          <div class="rank-score">2,850 分</div>
+        </li>
+        <!-- 第二名 -->
+        <li class="leaderboard-item">
+          <div class="rank-medal">🥈</div>
+          <div class="student-info">
+            <span class="student-school-tag tag--fengtian">豐田國小</span>
+            <span>李小華 (四年級)</span>
+          </div>
+          <div class="rank-score">2,440 分</div>
+        </li>
+        <!-- 第三名 -->
+        <li class="leaderboard-item">
+          <div class="rank-medal">🥉</div>
+          <div class="student-info">
+            <span class="student-school-tag tag--xingang">新港國小</span>
+            <span>陳小明 (五年級)</span>
+          </div>
+          <div class="rank-score">1,840 分</div>
+        </li>
+        <!-- 第四名 -->
+        <li class="leaderboard-item">
+          <div class="rank-num">4</div>
+          <div class="student-info">
+            <span class="student-school-tag tag--xingang">新港國小</span>
+            <span>王大同 (三年級)</span>
+          </div>
+          <div class="rank-score">1,620 分</div>
+        </li>
+        <!-- 第五名 -->
+        <li class="leaderboard-item">
+          <div class="rank-num">5</div>
+          <div class="student-info">
+            <span class="student-school-tag tag--fenggong">鳳岡國小</span>
+            <span>張小芬 (五年級)</span>
+          </div>
+          <div class="rank-score">1,400 分</div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── 平台特色 ── -->
+    <section class="glass-card">
+      <div class="section-title">
+        <span>✨</span>
+        <span>平台特色</span>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">適性化智慧出題</div>
+          <div class="feature-desc">系統依年級與歷史錯題從題庫出題，每次提供最適合你的練習，補強弱點。</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎤</div>
+          <div class="feature-title">口說發音練習</div>
+          <div class="feature-desc">藉由語音辨識與對齊演算法，即時呈現發音結果，標示單字的正確程度。</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ── 頁腳 ── -->
+  <footer>
+    <div class="container">
+      <p>© 2026 三校聯網・英語單字王 ｜ 鳳岡國小・豐田國小・新港國小</p>
+      <p style="opacity:0.4; font-size:0.75rem; margin-top:4px;">網頁介面重構與美感升級演示版 (非正式上線環境)</p>
+    </div>
+  </footer>
+
+  <!-- ── 寶石科普 Modal ── -->
+  <div class="overlay" id="gemOverlay" onclick="closeGem()"></div>
+  <div class="modal" id="gemModal">
+    <div class="modal-header">
+      <h3 class="modal-title">💎 寶石等級與礦物科普</h3>
+      <button class="close-btn" onclick="closeGem()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-gem-emoji" id="modalGemEmoji">🌱</div>
+      <div class="modal-gem-name" id="modalGemName">滑石</div>
+      <div class="modal-hardness-badge" id="modalGemHardness">莫氏硬度: 1</div>
+      <div class="modal-info-box">
+        <div class="modal-info-title">💡 礦物科普介紹</div>
+        <p id="modalGemDesc">滑石介紹載入中...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 模擬登入狀態切換
+    function toggleState(state) {
+      const visitorBtns = document.getElementById('btn-visitor');
+      const studentBtns = document.getElementById('btn-student');
+      
+      const visitorItems = document.querySelectorAll('.visitor-item');
+      const studentItems = document.querySelectorAll('.student-item');
+      
+      const handbookLock = document.getElementById('handbookLock');
+      const handbookGrid = document.getElementById('handbookGrid');
+      const studentCard = document.getElementById('studentCard');
+
+      if (state === 'visitor') {
+        // 切換按鈕狀態
+        visitorBtns.classList.add('switch-btn--active');
+        studentBtns.classList.remove('switch-btn--active');
+        
+        // 顯示訪客 UI，隱藏學生 UI
+        visitorItems.forEach(el => el.style.display = 'flex');
+        studentItems.forEach(el => el.style.display = 'none');
+        
+        // 手冊鎖定
+        handbookLock.style.display = 'block';
+        handbookGrid.style.display = 'none';
+        studentCard.style.display = 'none';
+      } else {
+        // 切換按鈕狀態
+        visitorBtns.classList.remove('switch-btn--active');
+        studentBtns.classList.add('switch-btn--active');
+        
+        // 隱藏訪客 UI，顯示學生 UI
+        visitorItems.forEach(el => el.style.display = 'none');
+        studentItems.forEach(el => el.style.display = 'flex');
+        
+        // 手冊解鎖
+        handbookLock.style.display = 'none';
+        handbookGrid.style.display = 'grid';
+        studentCard.style.display = 'flex';
+      }
+    }
+
+    // 啟動進度條動畫
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.getElementById('fgFill').style.width = '42%';
+        document.getElementById('ftFill').style.width = '35%';
+        document.getElementById('xgFill').style.width = '23%';
+      }, 300);
+    });
+
+    // 寶石 Modal 開啟
+    function openGem(emoji, name, hardness, desc) {
+      document.getElementById('modalGemEmoji').textContent = emoji;
+      document.getElementById('modalGemName').textContent = name;
+      document.getElementById('modalGemHardness').textContent = `莫氏硬度: ${hardness}`;
+      document.getElementById('modalGemDesc').textContent = desc;
+
+      const modal = document.getElementById('gemModal');
+      const overlay = document.getElementById('gemOverlay');
+      
+      overlay.style.display = 'block';
+      modal.style.display = 'block';
+      
+      // 觸發放大回彈效果
+      setTimeout(() => {
+        modal.style.transform = 'translate(-50%, -50%) scale(1)';
+      }, 50);
+    }
+
+    // 寶石 Modal 關閉
+    function closeGem() {
+      const modal = document.getElementById('gemModal');
+      const overlay = document.getElementById('gemOverlay');
+      
+      modal.style.transform = 'translate(-50%, -50%) scale(0.9)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+      }, 200);
+    }
+  </script>
+</body>
+</html>

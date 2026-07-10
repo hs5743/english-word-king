@@ -19,6 +19,20 @@
   <script src="js/config.js" defer></script>
   <script src="js/speech.js" defer></script>
   <script src="js/index.js" defer></script>
+  <style>
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 4px 20px hsla(42,100%,55%,0.12); border-color: hsla(42,100%,65%,0.35); }
+      50%       { box-shadow: 0 4px 28px hsla(42,100%,55%,0.35); border-color: hsla(42,100%,65%,0.75); }
+    }
+    @keyframes bounce-emoji {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-4px); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+  </style>
 </head>
 <body>
 
@@ -61,6 +75,26 @@
           每日挑戰 · 智慧出題 · 口說評分 · 跨校排名
         </p>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 1rem; width: 100%;">
+          <!-- 三校即時對抗賽橫幅（對抗賽進行中時由 JS 顯示，預設隱藏） -->
+          <div id="live-contest-banner" style="display:none; width:100%; margin-bottom:0.8rem; text-align:center;">
+            <a id="live-contest-link" href="#" target="_blank"
+               style="display:inline-flex; align-items:center; justify-content:center; gap:10px;
+                      background:linear-gradient(135deg, hsla(42,100%,55%,0.12), hsla(268,75%,63%,0.1));
+                      border:1.5px solid hsla(42,100%,65%,0.35);
+                      border-radius:var(--r-full); padding:10px 24px; text-decoration:none;
+                      font-weight:800; font-size:0.95rem; color:var(--clr-gold-1);
+                      box-shadow:0 4px 20px hsla(42,100%,55%,0.12);
+                      animation: pulse-border 2s ease-in-out infinite; transition: var(--spring-transition);">
+              <span style="font-size:1.2rem; animation: bounce-emoji 1.2s ease-in-out infinite; display:inline-block;">🏆</span>
+              <span id="live-contest-text">三校即時對抗賽進行中！點擊觀看直播看板</span>
+              <span style="background:#ff4d4d; color:#fff; border-radius:var(--r-full);
+                           padding:2px 8px; font-size:0.7rem; font-weight:900; margin-left:4px;
+                           animation: blink 1.2s step-end infinite; display:inline-flex; align-items:center; gap:4px;">
+                <span style="width:6px; height:6px; background:#fff; border-radius:50%;"></span>LIVE
+              </span>
+            </a>
+          </div>
+
           <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%;">
             <a href="join.html" class="btn btn--primary btn--lg" id="btn-start">
               🚀 開始今日挑戰

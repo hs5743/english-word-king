@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏆 三校即時對抗賽直播看板 | 英語單字王</title>
+  <meta name="description" content="新港・鳳岡・豐田三校聯網英語大對抗即時大螢幕直播看板。" />
+  <meta name="theme-color" content="#07090f" />
+  
+  <!-- Google Fonts: Outfit & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Core stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Supabase SDK & config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/config.js" defer></script>
+  
+  <style>
+    /* Reset & Deep Dark Theme for Projector/Large Displays */
+    :root {
+      --font-en: 'Outfit', sans-serif;
+      --font-zh: 'Noto Sans TC', sans-serif;
+      --clr-bg-space: linear-gradient(135deg, hsl(225, 45%, 5%), hsl(220, 50%, 3%));
+      --glass-card-dark: rgba(13, 17, 28, 0.65);
+      --glass-border-dark: rgba(255, 255, 255, 0.05);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--clr-bg-space);
+      color: var(--clr-text-primary);
+      font-family: var(--font-zh);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Background cosmic glow effect */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -30%; left: -20%;
+      width: 80vw; height: 80vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.08), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 10s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: '';
+      position: absolute;
+      bottom: -30%; right: -20%;
+      width: 70vw; height: 70vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 200, 66, 0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 12s ease-in-out infinite alternate-reverse;
+    }
+    
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+      100% { transform: scale(1.15) translate(5%, 5%); opacity: 1; }
+    }
+    
+    /* Main Layout Grid */
+    .sb-container {
+      display: grid;
+      grid-template-rows: 80px 1fr 120px;
+      height: 100vh;
+      box-sizing: border-box;
+      padding: 0 var(--sp-lg) var(--sp-md);
+      position: relative;
+      z-index: 10;
+      gap: var(--sp-md);
+    }
+    
+    /* Header section */
+    .sb-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border-dark);
+      padding: 0 var(--sp-md);
+    }
+    .sb-header__title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sb-header__logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: var(--font-zh);
+    }
+    
+    /* LIVE Indicator blinking */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 77, 77, 0.12);
+      border: 1px solid rgba(255, 77, 77, 0.4);
+      color: #ff4d4d;
+      padding: 4px 10px;
+      border-radius: var(--r-full);
+      font-size: 0.75rem;
+      font-weight: 900;
+      font-family: var(--font-en);
+      letter-spacing: 0.05em;
+    }
+    .live-badge__dot {
+      width: 6px;
+      height: 6px;
+      background: #ff4d4d;
+      border-radius: 50%;
+      animation: blink 1.2s step-end infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    .sb-header__info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .sb-header__timer {
+      font-family: var(--font-en);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 16px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--glass-border-dark);
+      min-width: 110px;
+      text-align: center;
+    }
+    
+    /* Content Columns Grid */
+    .sb-body {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: var(--sp-lg);
+      min-height: 0; /* Important for scroll container inside grid */
+    }
+    
+    /* Left school score list */
+    .school-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+      justify-content: stretch;
+    }
+    
+    .school-card {
+      background: var(--glass-card-dark);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1.5px solid var(--glass-border-dark);
+      padding: var(--sp-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1);
+      flex: 1;
+    }
+    .school-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+    
+    /* Theme color variables for schools */
+    .school-card--xingang { border-color: rgba(245, 200, 66, 0.25); box-shadow: 0 8px 32px rgba(245, 200, 66, 0.04); }
+    .school-card--xingang::before { background: var(--clr-gold-1); }
+    .school-card--xingang .school-card__score { color: var(--clr-gold-1); text-shadow: 0 0 16px rgba(245, 200, 66, 0.2); }
+    
+    .school-card--fenggong { border-color: rgba(79, 195, 247, 0.25); box-shadow: 0 8px 32px rgba(79, 195, 247, 0.04); }
+    .school-card--fenggong::before { background: var(--clr-blue-1); }
+    .school-card--fenggong .school-card__score { color: var(--clr-blue-1); text-shadow: 0 0 16px rgba(79, 195, 247, 0.2); }
+    
+    .school-card--fengtian { border-color: rgba(82, 229, 164, 0.25); box-shadow: 0 8px 32px rgba(82, 229, 164, 0.04); }
+    .school-card--fengtian::before { background: #52e5a4; }
+    .school-card--fengtian .school-card__score { color: #52e5a4; text-shadow: 0 0 16px rgba(82, 229, 164, 0.2); }
+    
+    .school-card__name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .school-card__valrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: auto;
+    }
+    .school-card__score {
+      font-family: var(--font-en);
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .school-card__meta {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: right;
+      line-height: 1.5;
+    }
+    .school-card__meta strong {
+      color: #f1f5f9;
+    }
+    
+    /* Right personal leaderboard */
+    .leaderboard-panel {
+      background: var(--glass-card-dark);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border-dark);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: var(--sp-lg);
+    }
+    .leaderboard-panel__header {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: var(--sp-md);
+      padding-bottom: var(--sp-sm);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Top 3 rank presentation */
+    .top3-row {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr 1fr;
+      gap: 16px;
+      margin-bottom: var(--sp-lg);
+      align-items: flex-end;
+    }
+    .top3-podium {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 18px;
+      padding: 12px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.01);
+    }
+    .top3-podium--1 {
+      height: 125px;
+      background: linear-gradient(180deg, rgba(245, 200, 66, 0.08), rgba(255, 255, 255, 0.01));
+      border-color: rgba(245, 200, 66, 0.25);
+      box-shadow: 0 8px 32px rgba(245, 200, 66, 0.08);
+    }
+    .top3-podium--2 {
+      height: 105px;
+      background: linear-gradient(180deg, rgba(226, 232, 240, 0.06), rgba(255, 255, 255, 0.01));
+      border-color: rgba(226, 232, 240, 0.2);
+    }
+    .top3-podium--3 {
+      height: 95px;
+      background: linear-gradient(180deg, rgba(205, 127, 50, 0.06), rgba(255, 255, 255, 0.01));
+      border-color: rgba(205, 127, 50, 0.2);
+    }
+    
+    .top3-podium__crown {
+      font-size: 1.6rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .top3-podium__name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #f8fafc;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .top3-podium__school {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+    .top3-podium__score {
+      font-family: var(--font-en);
+      font-size: 1.15rem;
+      font-weight: 900;
+      margin-top: auto;
+    }
+    .top3-podium--1 .top3-podium__score { color: var(--clr-gold-1); }
+    .top3-podium--2 .top3-podium__score { color: #cbd5e1; }
+    .top3-podium--3 .top3-podium__score { color: #cd7f32; }
+    
+    /* Scrollable ranking list (ranks 4 to 30) */
+    .rank-list {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .rank-list::-webkit-scrollbar { width: 6px; }
+    .rank-list::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
+    .rank-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 3px; }
+    
+    .rank-item {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 10px 16px;
+      border-radius: 12px;
+      gap: 16px;
+      animation: slideInUp 0.3s ease both;
+    }
+    
+    /* School specific translucent tags */
+    .rank-item--xingang { background: rgba(245, 200, 66, 0.02); border-color: rgba(245, 200, 66, 0.08); }
+    .rank-item--fenggong { background: rgba(79, 195, 247, 0.02); border-color: rgba(79, 195, 247, 0.08); }
+    .rank-item--fengtian { background: rgba(82, 229, 164, 0.02); border-color: rgba(82, 229, 164, 0.08); }
+    
+    .rank-item__num {
+      font-family: var(--font-en);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #64748b;
+      min-width: 24px;
+    }
+    .rank-item__info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .rank-item__name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+    .rank-item__school {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+    .rank-item__score {
+      font-family: var(--font-en);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #f1f5f9;
+    }
+    
+    /* Bottom ticker wall */
+    .sb-ticker {
+      background: var(--glass-card-dark);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border-dark);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--sp-lg);
+      overflow: hidden;
+      position: relative;
+    }
+    .sb-ticker__label {
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: var(--clr-gold-1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      padding-right: 20px;
+      margin-right: 20px;
+      white-space: nowrap;
+      height: 40px;
+    }
+    .sb-ticker__container {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .sb-ticker__list {
+      display: flex;
+      gap: 30px;
+      animation: tickerLoop 30s linear infinite;
+      white-space: nowrap;
+      position: absolute;
+      left: 0;
+    }
+    .sb-ticker__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+    .sb-ticker__dot {
+      width: 6px; height: 6px;
+      background: var(--clr-gold-1);
+      border-radius: 50%;
+    }
+    
+    @keyframes tickerLoop {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+    
+    /* Confetti pieces container (WOW Factor) */
+    #upgradeConfettiContainer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+      overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-radius: 3px;
+      opacity: 0.9;
+      animation: fallAndSpin 3s linear forwards;
+    }
+    @keyframes fallAndSpin {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+    
+    /* Screen entry flash effect keyframe */
+    @keyframes flashEffect {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    /* Keyframes for sliding animation */
+    @keyframes slideInUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeOutDown {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(20px); opacity: 0; }
+    }
+    
+    /* Toast floating */
+    .toast-container {
+      position: fixed;
+      top: var(--sp-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    
+    /* Game Over Podium Screen overlay */
+    #gameOverOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 9, 15, 0.95);
+      z-index: 9999;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInUp 0.5s ease both;
+    }
+    .winner-podium {
+      display: flex;
+      align-items: flex-end;
+      gap: 30px;
+      margin-top: 40px;
+      margin-bottom: 50px;
+      height: 320px;
+    }
+    .winner-step {
+      width: 180px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px 20px 0 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .winner-step--1 {
+      height: 300px;
+      border-color: var(--clr-gold-1);
+      box-shadow: 0 12px 48px rgba(245, 200, 66, 0.15);
+      background: linear-gradient(180deg, rgba(245, 200, 66, 0.1), rgba(255, 255, 255, 0.01));
+    }
+    .winner-step--2 {
+      height: 240px;
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 32px rgba(203, 213, 225, 0.08);
+      background: linear-gradient(180deg, rgba(203, 213, 225, 0.06), rgba(255, 255, 255, 0.01));
+    }
+    .winner-step--3 {
+      height: 200px;
+      border-color: #cd7f32;
+      box-shadow: 0 8px 32px rgba(205, 127, 50, 0.08);
+      background: linear-gradient(180deg, rgba(205, 127, 50, 0.06), rgba(255, 255, 255, 0.01));
+    }
+    .winner-step__num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-en);
+      font-weight: 900;
+      font-size: 1.2rem;
+      margin-top: auto;
+    }
+    .winner-step--1 .winner-step__num { background: var(--clr-gold-1); color: #000; }
+    .winner-step--2 .winner-step__num { background: #cbd5e1; color: #000; }
+    .winner-step--3 .winner-step__num { background: #cd7f32; color: #fff; }
+    
+    .btn-return {
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: var(--r-full);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-return:hover {
+      background: #fff;
+      color: #000;
+      transform: translateY(-2px);
+    }
+    
+    /* Error indicator style */
+    .error-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #ff6b6b;
+      text-align: center;
+      padding: var(--sp-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti particle container -->
+  <div id="upgradeConfettiContainer"></div>
+  
+  <!-- Toasts notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scoreboard Main Container -->
+  <div class="sb-container" id="mainContainer">
+    <!-- Header -->
+    <header class="sb-header">
+      <div class="sb-header__title">
+        <span style="font-size: 1.8rem;">🏆</span>
+        <div class="sb-header__logo" id="headerTitle">三校聯網英語大對抗</div>
+        <div class="live-badge">
+          <span class="live-badge__dot"></span>LIVE
+        </div>
+      </div>
+      <div class="sb-header__info">
+        <span style="font-size: 0.88rem; color:#64748b; font-weight:700;">場次代碼：<strong id="sessionCodeText" style="color:var(--clr-gold-1); font-size:1.15rem; font-family:var(--font-en);">------</strong></span>
+        <div class="sb-header__timer" id="timerText">--:--</div>
+        <div id="teacherControl" style="display:none;">
+          <button class="btn btn--logout" onclick="endContestFromScoreboard()" style="padding:8px 16px; font-size:0.82rem; font-weight:bold; border-radius:6px;">🔴 結束比賽</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main columns -->
+    <div class="sb-body">
+      <!-- Left school total comparison -->
+      <div class="school-panel">
+        <!-- Xingang Card -->
+        <div class="school-card school-card--xingang">
+          <div class="school-card__name">🏫 新港國小</div>
+          <div class="school-card__valrow">
+            <div class="school-card__score" id="score-xingang">0</div>
+            <div class="school-card__meta">
+              <div><strong id="count-xingang">0</strong> 人參賽</div>
+              <div>平均 <strong id="avg-xingang">0</strong> 分</div>
+            </div>
+          </div>
+        </div>
+        <!-- Fenggong Card -->
+        <div class="school-card school-card--fenggong">
+          <div class="school-card__name">🏫 鳳岡國小</div>
+          <div class="school-card__valrow">
+            <div class="school-card__score" id="score-fenggong">0</div>
+            <div class="school-card__meta">
+              <div><strong id="count-fenggong">0</strong> 人參賽</div>
+              <div>平均 <strong id="avg-fenggong">0</strong> 分</div>
+            </div>
+          </div>
+        </div>
+        <!-- Fengtian Card -->
+        <div class="school-card school-card--fengtian">
+          <div class="school-card__name">🏫 豐田國小</div>
+          <div class="school-card__valrow">
+            <div class="school-card__score" id="score-fengtian">0</div>
+            <div class="school-card__meta">
+              <div><strong id="count-fengtian">0</strong> 人參賽</div>
+              <div>平均 <strong id="avg-fengtian">0</strong> 分</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right personal leaderboard -->
+      <div class="leaderboard-panel">
+        <div class="leaderboard-panel__header">
+          <span>🏅 個人即時排行榜</span>
+          <span style="font-size: 0.8rem; color: #64748b; font-weight: normal;" id="totalAttemptsLabel">已提交次數：0 次</span>
+        </div>
+        
+        <!-- Podium top 3 -->
+        <div class="top3-row">
+          <!-- Second place -->
+          <div class="top3-podium top3-podium--2">
+            <div class="top3-podium__crown">🥈</div>
+            <div class="top3-podium__name" id="podium2-name">等待中</div>
+            <div class="top3-podium__school" id="podium2-school">--</div>
+            <div class="top3-podium__score" id="podium2-score">0</div>
+          </div>
+          <!-- First place -->
+          <div class="top3-podium top3-podium--1">
+            <div class="top3-podium__crown" style="font-size: 2.2rem; transform: translateY(-4px);">👑</div>
+            <div class="top3-podium__name" id="podium1-name" style="font-size: 1.15rem;">等待中</div>
+            <div class="top3-podium__school" id="podium1-school">--</div>
+            <div class="top3-podium__score" id="podium1-score" style="font-size: 1.3rem;">0</div>
+          </div>
+          <!-- Third place -->
+          <div class="top3-podium top3-podium--3">
+            <div class="top3-podium__crown">🥉</div>
+            <div class="top3-podium__name" id="podium3-name">等待中</div>
+            <div class="top3-podium__school" id="podium3-school">--</div>
+            <div class="top3-podium__score" id="podium3-score">0</div>
+          </div>
+        </div>
+
+        <!-- Scroll list for ranks 4 to 30 -->
+        <div class="rank-list" id="rankListBody">
+          <div style="text-align: center; padding: 40px; color: #475569; font-size: 0.95rem;">
+            等待學生加入並提交答題紀錄… 🚀
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticker dynamic wall -->
+    <footer class="sb-ticker">
+      <div class="sb-ticker__label">🔴 即時提交動態</div>
+      <div class="sb-ticker__container">
+        <div class="sb-ticker__list" id="tickerList">
+          <div class="sb-ticker__item">
+            <span class="sb-ticker__dot"></span>
+            <span>等待第一位勇士提交挑戰成績！</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Game Over Podium Screen overlay (Hidden initially) -->
+  <div id="gameOverOverlay" style="display:none;">
+    <span style="font-size: 4rem; animation: bounce-emoji 1.2s ease-in-out infinite; display: inline-block;">🏆</span>
+    <h1 style="font-size: 3rem; font-weight:900; background: linear-gradient(135deg, var(--clr-gold-1), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0 0 0;">競賽時間結束！</h1>
+    <p style="font-size: 1.15rem; color: #94a3b8; margin: 8px 0 20px 0;" id="gameOverSub">本場三校對抗賽最終英雄榜</p>
+    
+    <div class="winner-podium">
+      <!-- Winner 2 -->
+      <div class="winner-step winner-step--2">
+        <span style="font-size: 2.2rem; margin-bottom: 8px;">🥈</span>
+        <div style="font-size: 1.15rem; font-weight:800; color:#cbd5e1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;" id="win2-name">--</div>
+        <div style="font-size: 0.75rem; color:#64748b; margin-top:2px;" id="win2-school">--</div>
+        <div style="font-size: 1.4rem; font-weight:900; color:#cbd5e1; font-family:var(--font-en); margin-top:10px;" id="win2-score">0</div>
+        <div class="winner-step__num">2</div>
+      </div>
+      <!-- Winner 1 -->
+      <div class="winner-step winner-step--1">
+        <span style="font-size: 3.5rem; margin-bottom: 2px; position:absolute; top:-40px; filter:drop-shadow(0 0 10px rgba(245,200,66,0.3));">👑</span>
+        <div style="font-size: 1.3rem; font-weight:900; color:var(--clr-gold-1); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%; margin-top: 15px;" id="win1-name">--</div>
+        <div style="font-size: 0.75rem; color:#94a3b8; margin-top:2px;" id="win1-school">--</div>
+        <div style="font-size: 1.6rem; font-weight:900; color:var(--clr-gold-1); font-family:var(--font-en); margin-top:10px;" id="win1-score">0</div>
+        <div class="winner-step__num">1</div>
+      </div>
+      <!-- Winner 3 -->
+      <div class="winner-step winner-step--3">
+        <span style="font-size: 2.2rem; margin-bottom: 8px;">🥉</span>
+        <div style="font-size: 1.15rem; font-weight:800; color:#cd7f32; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;" id="win3-name">--</div>
+        <div style="font-size: 0.75rem; color:#64748b; margin-top:2px;" id="win3-school">--</div>
+        <div style="font-size: 1.4rem; font-weight:900; color:#cd7f32; font-family:var(--font-en); margin-top:10px;" id="win3-score">0</div>
+        <div class="winner-step__num">3</div>
+      </div>
+    </div>
+    
+    <button class="btn btn-return" onclick="window.close()">關閉視窗</button>
+  </div>
+
+  <!-- Client-side Logic script -->
+  <script>
+    let supabaseClient = null;
+    let attemptsList = [];
+    let sessionCode = '';
+    let sessionId = '';
+    let activeSession = null;
+    let countdownInterval = null;
+    
+    // Audio Context
+    let audioCtx = null;
+
+    async function init() {
+      // 1. 解析 URL 參數
+      const params = new URLSearchParams(window.location.search);
+      sessionId = params.get('session');
+      sessionCode = params.get('code');
+      
+      if (!sessionId || !sessionCode) {
+        showErrorScreen('⚠️ 未提供有效的對抗賽場次參數！<br><span style="font-size:0.9rem; color:#64748b;">請從管理後台開啟正確連結。</span>');
+        return;
+      }
+      
+      document.getElementById('sessionCodeText').textContent = sessionCode.slice(0, 3) + ' ' + sessionCode.slice(3);
+
+      // 2. 等待 SupabaseConfig
+      let attemptsCount = 0;
+      while (!window.SupabaseConfig && attemptsCount < 50) {
+        await new Promise(r => setTimeout(r, 100));
+        attemptsCount++;
+      }
+
+      if (!window.SupabaseConfig) {
+        showErrorScreen('⚠️ 系統 SDK 載入超時，請重新整理頁面。');
+        return;
+      }
+
+      supabaseClient = window.SupabaseConfig.getSupabase();
+      
+      // 3. 獲取場次詳細資料
+      try {
+        const { data: session, error } = await supabaseClient
+          .from('challenge_sessions')
+          .select('*')
+          .eq('id', sessionId)
+          .single();
+          
+        if (error || !session) {
+          showErrorScreen('⚠️ 查無此對抗賽場次，或是該場次已被移除。');
+          return;
+        }
+        
+        activeSession = session;
+        document.getElementById('headerTitle').textContent = `${session.classes || ''} 三校即時對抗賽`;
+        
+        // 4. 檢查控制權限（僅建立對抗賽的管理員可看見結束按鈕）
+        checkAdminControl(session.teacher_uid);
+        
+        // 5. 初始化載入已提交數據
+        await loadInitialData();
+        
+        // 6. 訂閱 Supabase Realtime 即時推播
+        subscribeRealtime();
+        
+        // 7. 啟動計時器
+        startTimer(session.expires_at);
+
+        if (session.status === 'closed') {
+          showGameOverScreen();
+        }
+
+      } catch (err) {
+        console.error(err);
+        showErrorScreen('⚠️ 資料載入錯誤，連線資料庫失敗。');
+      }
+    }
+
+    function showErrorScreen(html) {
+      document.body.innerHTML = `
+        <div class="error-screen">
+          <div style="font-size:3rem; margin-bottom:15px;">❌</div>
+          <div style="font-size:1.4rem; font-weight:bold; line-height:1.6;">${html}</div>
+        </div>
+      `;
+    }
+
+    async function checkAdminControl(creatorUid) {
+      const user = await window.SupabaseConfig.getCurrentUser();
+      if (user && user.id === creatorUid) {
+        document.getElementById('teacherControl').style.display = 'block';
+      }
+    }
+
+    async function loadInitialData() {
+      const { data, error } = await supabaseClient
+        .from('daily_attempts')
+        .select('student_uid, student_name, school, class, score, timestamp')
+        .eq('session_id', sessionId)
+        .order('score', { ascending: false })
+        .order('timestamp', { ascending: true });
+        
+      if (error) {
+        console.error('載入初始數據失敗:', error);
+        return;
+      }
+      
+      attemptsList = data || [];
+      renderAll();
+    }
+
+    // 訂閱學生答題提交
+    function subscribeRealtime() {
+      // 1. 監聽 attempts
+      supabaseClient
+        .channel(`scoreboard-attempts-${sessionId}`)
+        .on('postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'daily_attempts', filter: `session_id=eq.${sessionId}` },
+          payload => {
+            const record = payload.new;
+            if (!record) return;
+            
+            // 處理學生成績重複提交 (只留最高分)
+            const idx = attemptsList.findIndex(a => a.student_uid === record.student_uid);
+            if (idx >= 0) {
+              if (record.score > attemptsList[idx].score) {
+                attemptsList[idx] = record;
+                triggerNewEntryEffects(record.student_name);
+              }
+            } else {
+              attemptsList.push(record);
+              triggerNewEntryEffects(record.student_name);
+            }
+            
+            // 重新排序
+            attemptsList.sort((a, b) => b.score - a.score || new Date(a.timestamp) - new Date(b.timestamp));
+            renderAll();
+            updateTicker(record);
+          }
+        )
+        .subscribe();
+        
+      // 2. 監聽 session 關閉狀態
+      supabaseClient
+        .channel(`scoreboard-session-${sessionId}`)
+        .on('postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'challenge_sessions', filter: `id=eq.${sessionId}` },
+          payload => {
+            const record = payload.new;
+            if (record && record.status === 'closed') {
+              showGameOverScreen();
+            }
+          }
+        )
+        .subscribe();
+    }
+
+    // 觸發入榜聲光特效
+    function triggerNewEntryEffects(name) {
+      playEntrySound();
+      
+      const flash = document.createElement('div');
+      flash.style.position = 'fixed';
+      flash.style.inset = '0';
+      flash.style.background = 'rgba(255, 215, 0, 0.1)';
+      flash.style.zIndex = '9999';
+      flash.style.pointerEvents = 'none';
+      flash.style.animation = 'flashEffect 0.5s ease-out forwards';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 600);
+      
+      showToast(`🎉 學生 ${name} 成功完成挑戰提交成績！`, 'success');
+    }
+
+    // 計算並渲染所有數據
+    function renderAll() {
+      // 1. 計算三校數據
+      const schools = {
+        '新港國小': { scoreEl: 'score-xingang', countEl: 'count-xingang', avgEl: 'avg-xingang', total: 0, count: 0 },
+        '鳳岡國小': { scoreEl: 'score-fenggong', countEl: 'count-fenggong', avgEl: 'avg-fenggong', total: 0, count: 0 },
+        '豐田國小': { scoreEl: 'score-fengtian', countEl: 'count-fengtian', avgEl: 'avg-fengtian', total: 0, count: 0 }
+      };
+      
+      attemptsList.forEach(a => {
+        if (schools[a.school]) {
+          schools[a.school].total += a.score;
+          schools[a.school].count++;
+        }
+      });
+      
+      // 更新學校卡片
+      for (const name in schools) {
+        const info = schools[name];
+        const scoreEl = document.getElementById(info.scoreEl);
+        const countEl = document.getElementById(info.countEl);
+        const avgEl = document.getElementById(info.avgEl);
+        
+        const prevTotal = parseInt(scoreEl.textContent) || 0;
+        
+        // 平滑滾動 Countup 動畫
+        if (prevTotal !== info.total) {
+          animateCount(scoreEl, prevTotal, info.total, 800);
+        } else {
+          scoreEl.textContent = info.total;
+        }
+        
+        countEl.textContent = info.count;
+        avgEl.textContent = info.count > 0 ? Math.round(info.total / info.count) : 0;
+      }
+      
+      // 2. 更新提交總數 Label
+      document.getElementById('totalAttemptsLabel').textContent = `已提交人數：${attemptsList.length} 人`;
+      
+      // 3. 渲染個人排行榜 (前 30 名)
+      // 前三名
+      const p1Name = document.getElementById('podium1-name');
+      const p1School = document.getElementById('podium1-school');
+      const p1Score = document.getElementById('podium1-score');
+      
+      const p2Name = document.getElementById('podium2-name');
+      const p2School = document.getElementById('podium2-school');
+      const p2Score = document.getElementById('podium2-score');
+      
+      const p3Name = document.getElementById('podium3-name');
+      const p3School = document.getElementById('podium3-school');
+      const p3Score = document.getElementById('podium3-score');
+      
+      if (attemptsList[0]) {
+        p1Name.textContent = attemptsList[0].student_name;
+        p1School.textContent = `${attemptsList[0].school} ${attemptsList[0].class}`;
+        p1Score.textContent = attemptsList[0].score;
+      } else {
+        p1Name.textContent = '等待中'; p1School.textContent = '--'; p1Score.textContent = '0';
+      }
+      
+      if (attemptsList[1]) {
+        p2Name.textContent = attemptsList[1].student_name;
+        p2School.textContent = `${attemptsList[1].school} ${attemptsList[1].class}`;
+        p2Score.textContent = attemptsList[1].score;
+      } else {
+        p2Name.textContent = '等待中'; p2School.textContent = '--'; p2Score.textContent = '0';
+      }
+      
+      if (attemptsList[2]) {
+        p3Name.textContent = attemptsList[2].student_name;
+        p3School.textContent = `${attemptsList[2].school} ${attemptsList[2].class}`;
+        p3Score.textContent = attemptsList[2].score;
+      } else {
+        p3Name.textContent = '等待中'; p3School.textContent = '--'; p3Score.textContent = '0';
+      }
+      
+      // 渲染 4 ~ 30 名列表
+      const rankListBody = document.getElementById('rankListBody');
+      const restRank = attemptsList.slice(3, 30);
+      
+      if (restRank.length === 0 && attemptsList.length <= 3) {
+        rankListBody.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: #475569; font-size: 0.95rem;">
+            等待學生加入並提交答題紀錄… 🚀
+          </div>
+        `;
+        return;
+      }
+      
+      rankListBody.innerHTML = restRank.map((a, idx) => {
+        const rank = idx + 4;
+        let schoolClass = 'rank-item';
+        if (a.school === '新港國小') schoolClass += ' rank-item--xingang';
+        else if (a.school === '鳳岡國小') schoolClass += ' rank-item--fenggong';
+        else if (a.school === '豐田國小') schoolClass += ' rank-item--fengtian';
+        
+        return `
+          <div class="${schoolClass}">
+            <div class="rank-item__num">#${rank}</div>
+            <div class="rank-item__info">
+              <div>
+                <span class="rank-item__name">${escHtml(a.student_name)}</span>
+                <div class="rank-item__school">${escHtml(a.school)} · ${escHtml(a.class)}</div>
+              </div>
+              <span class="rank-item__score">${a.score} 分</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 動態滾動數字
+    function animateCount(el, from, to, duration = 800) {
+      const start = performance.now();
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        el.textContent = Math.round(from + (to - from) * eased);
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    // 倒數計時器
+    function startTimer(expiresAtStr) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      const timerSpan = document.getElementById('timerText');
+      if (!timerSpan) return;
+
+      const target = new Date(expiresAtStr).getTime();
+
+      function updateTimer() {
+        const now = Date.now();
+        const diff = target - now;
+
+        if (diff <= 0) {
+          clearInterval(countdownInterval);
+          timerSpan.textContent = '已結束';
+          showGameOverScreen();
+          return;
+        }
+
+        const hrs = Math.floor(diff / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => n.toString().padStart(2, '0');
+        timerSpan.textContent = `${hrs > 0 ? pad(hrs) + ':' : ''}${pad(mins)}:${pad(secs)}`;
+      }
+
+      updateTimer();
+      countdownInterval = setInterval(updateTimer, 1000);
+    }
+
+    // 底部動態牆跑馬燈
+    function updateTicker(record) {
+      const tickerList = document.getElementById('tickerList');
+      if (!tickerList) return;
+      
+      const item = document.createElement('div');
+      item.className = 'sb-ticker__item';
+      item.innerHTML = `
+        <span class="sb-ticker__dot"></span>
+        <span>🎉 賀！<strong>${record.school} ${record.student_name}</strong> 完成挑戰，斬獲 <strong>${record.score}</strong> 分！</span>
+      `;
+      
+      // 插入最前
+      tickerList.insertBefore(item, tickerList.firstChild);
+      
+      // 限制跑馬燈條數
+      while (tickerList.children.length > 10) {
+        tickerList.lastChild.remove();
+      }
+    }
+
+    // 音效合成 C5 -> E5 -> G5
+    function playEntrySound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const now = audioCtx.currentTime;
+        const freqs = [523.25, 659.25, 783.99]; // Triplet C5 -> E5 -> G5
+        
+        freqs.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          
+          gain.gain.setValueAtTime(0, now + idx * 0.08);
+          gain.gain.linearRampToValueAtTime(0.15, now + idx * 0.08 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+          
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.35);
+        });
+      } catch (e) {
+        console.warn('Audio synthesis failed:', e);
+      }
+    }
+
+    // 結束音效
+    function playWinSound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.15);
+        osc.frequency.setValueAtTime(783.99, now + 0.3);
+        osc.frequency.linearRampToValueAtTime(1046.50, now + 0.45);
+        
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.setValueAtTime(0.2, now + 0.45);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start(now);
+        osc.stop(now + 1.25);
+      } catch (e) {
+        console.warn('Audio synthesis failed:', e);
+      }
+    }
+
+    // 關閉場次控制
+    async function endContestFromScoreboard() {
+      if (!confirm('確定要提前結束這場三校對抗賽嗎？學生將無法繼續作答。')) return;
+      
+      try {
+        await supabaseClient
+          .from('challenge_sessions')
+          .update({ status: 'closed' })
+          .eq('id', sessionId);
+          
+        await supabaseClient
+          .from('challenge_packages')
+          .update({ status: 'closed' })
+          .eq('session_id', sessionId);
+          
+        showToast('對抗賽已手動結束！', 'success');
+        showGameOverScreen();
+      } catch (e) {
+        alert('結束場次失敗，請重試: ' + e.message);
+      }
+    }
+
+    // 顯示遊戲結束頒獎台與彩帶
+    function showGameOverScreen() {
+      const overlay = document.getElementById('gameOverOverlay');
+      if (overlay.style.display === 'flex') return; // 已開啟
+      
+      overlay.style.display = 'flex';
+      
+      // 填入最終獲勝前三名
+      const win1 = document.getElementById('win1-name');
+      const win1School = document.getElementById('win1-school');
+      const win1Score = document.getElementById('win1-score');
+      
+      const win2 = document.getElementById('win2-name');
+      const win2School = document.getElementById('win2-school');
+      const win2Score = document.getElementById('win2-score');
+      
+      const win3 = document.getElementById('win3-name');
+      const win3School = document.getElementById('win3-school');
+      const win3Score = document.getElementById('win3-score');
+      
+      if (attemptsList[0]) {
+        win1.textContent = attemptsList[0].student_name;
+        win1School.textContent = `${attemptsList[0].school} ${attemptsList[0].class}`;
+        win1Score.textContent = attemptsList[0].score + ' 分';
+      } else {
+        win1.textContent = '從缺'; win1School.textContent = '--'; win1Score.textContent = '0分';
+      }
+      
+      if (attemptsList[1]) {
+        win2.textContent = attemptsList[1].student_name;
+        win2School.textContent = `${attemptsList[1].school} ${attemptsList[1].class}`;
+        win2Score.textContent = attemptsList[1].score + ' 分';
+      } else {
+        win2.textContent = '從缺'; win2School.textContent = '--'; win2Score.textContent = '0分';
+      }
+      
+      if (attemptsList[2]) {
+        win3.textContent = attemptsList[2].student_name;
+        win3School.textContent = `${attemptsList[2].school} ${attemptsList[2].class}`;
+        win3Score.textContent = attemptsList[2].score + ' 分';
+      } else {
+        win3.textContent = '從缺'; win3School.textContent = '--'; win3Score.textContent = '0分';
+      }
+
+      // 撥放結尾音效與 Confetti
+      playWinSound();
+      triggerConfettiRain();
+    }
+
+    // 漫天 Confetti 彩帶雨
+    function triggerConfettiRain() {
+      const container = document.getElementById('upgradeConfettiContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      const colors = ['#f5c842', '#4fc3f7', '#52e5a4', '#ce93d8', '#ff6b6b', '#ffd700'];
+      const shapes = ['3px', '50%'];
+      
+      // 生成 60 條彩帶
+      for (let i = 0; i < 60; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        
+        const left = Math.random() * 100;
+        const delay = Math.random() * 2.5;
+        const duration = 2.5 + Math.random() * 2.5;
+        const size = 8 + Math.random() * 12;
+        const bg = colors[Math.floor(Math.random() * colors.length)];
+        const radius = shapes[Math.floor(Math.random() * shapes.length)];
+        
+        piece.style.left = `${left}%`;
+        piece.style.animationDelay = `${delay}s`;
+        piece.style.animationDuration = `${duration}s`;
+        piece.style.width = `${size}px`;
+        piece.style.height = `${size}px`;
+        piece.style.background = bg;
+        piece.style.borderRadius = radius;
+        
+        container.appendChild(piece);
+      }
+    }
+
+    // Toasts helper
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const el = document.createElement('div');
+      el.style.background = type === 'success' ? 'rgba(82, 229, 164, 0.2)' : 'rgba(255, 215, 0, 0.15)';
+      el.style.border = type === 'success' ? '1.5px solid #52e5a4' : '1.5px solid var(--clr-gold-1)';
+      el.style.color = type === 'success' ? '#52e5a4' : 'var(--clr-gold-1)';
+      el.style.padding = '14px 28px';
+      el.style.borderRadius = '30px';
+      el.style.fontSize = '0.95rem';
+      el.style.fontWeight = '800';
+      el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+      el.style.backdropFilter = 'blur(10px)';
+      el.style.animation = 'slideInUp 0.3s ease both';
+      el.textContent = message;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.animation = 'fadeOutDown 0.3s ease both';
+        setTimeout(() => el.remove(), 350);
+      }, 3500);
+    }
+
+    function escHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Boot
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

@@ -12,6 +12,7 @@ const files = [
   'app.html',
   'teacher.html',
   'admin.html',
+  'scoreboard.html',
   '.nojekyll',
   '110年國民小學英語科基本學習內容.pdf',
   '110年國民中學英語科基本學習內容.pdf',

@@ -1682,8 +1682,8 @@
           return
         }
 
-        // 檢查學校/班級限制（若欄位有填寫）
-        if (sessionData.school && sessionData.school !== studentProfile.school) {
+        // 檢查學校/班級限制（若為一般課堂挑戰則維持限制，校際對抗賽則放開限制）
+        if (sessionData.session_type !== 'contest' && sessionData.school && sessionData.school !== studentProfile.school) {
           showLoading(false)
           alert(`此場次僅限 ${sessionData.school} 學生加入，即將退回大廳。`)
           window.location.href = 'index.html'
