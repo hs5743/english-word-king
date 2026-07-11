@@ -1603,9 +1603,11 @@ function normalizeChallenge(
       let finalSentence: string
       let finalSentenceZh: string
 
-      if (validation.ok) {
+      // 英文例句與中文翻譯必須成對採用。任一方未通過就整組回退，
+      // 避免保留 AI 英文句、卻拼上題庫另一個情境的中文翻譯。
+      if (validation.ok && validateSentenceZh(aiSentenceZh)) {
         finalSentence = aiSentence
-        finalSentenceZh = validateSentenceZh(aiSentenceZh) ? aiSentenceZh : candidate.sentenceZh
+        finalSentenceZh = aiSentenceZh
       } else {
         finalSentence = candidate.sentence
         finalSentenceZh = candidate.sentenceZh
@@ -1656,9 +1658,9 @@ function normalizeChallenge(
       const aiSentenceZh = String(dupItem.sentenceZh || '').trim()
       
       const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
-      if (validation.ok) {
+      if (validation.ok && validateSentenceZh(aiSentenceZh)) {
         const finalSentence = aiSentence
-        const finalSentenceZh = validateSentenceZh(aiSentenceZh) ? aiSentenceZh : candidate.sentenceZh
+        const finalSentenceZh = aiSentenceZh
         const distractors = buildDistractors(wordClean, available, dupItem.distractors, candidate.topic)
         const distractorZhs: Record<string, string> = {}
         distractors.forEach(d => {
