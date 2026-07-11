@@ -65,6 +65,29 @@ final result: passed
 
 ---
 
+# CP33 scoreboard design QA
+
+## Visual target
+
+- Source evidence: user-provided current scoreboard screenshot.
+- Target system: CP27–CP32 Gem Adventure Academy with projector-friendly contrast and large-distance readability.
+
+## Evidence and findings
+
+- Old gray generic header and washed-out cards were replaced by a branded navy arena header, crest, sapphire/gold live controls and academy scene.
+- Three school cards now use distinct real gem assets, 2px colored borders, 1.25rem school names and large score numerals.
+- Ranking, podium and ticker typography use white or dark navy according to theme, avoiding low-contrast gray as primary information.
+- Light mode retains the academy background and navy brand header instead of reverting to a generic gray dashboard.
+- Build, inline scripts, existing IDs and distribution assets passed validation.
+
+## Follow-up
+
+- A live contest session is required to visually capture populated Realtime scores, rankings and events; verify these states during the next active contest.
+
+final result: passed
+
+---
+
 # CP32 teacher, admin and handbook readability QA
 
 ## Visual target

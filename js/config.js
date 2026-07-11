@@ -140,7 +140,7 @@ window.SupabaseConfig = {
 }
 
 // 系統版本號
-const APP_VERSION = 'v1.13.0-CP32'
+const APP_VERSION = 'v1.14.0-CP33'
 
 function appendAppVersion() {
   const footers = document.getElementsByTagName('footer')

@@ -647,8 +647,40 @@
       padding: var(--sp-lg);
     }
   </style>
+  <style>
+    /* CP33：寶石學院競技場大螢幕 */
+    body.scoreboard-cp33 { --glass-card-dark:rgba(6,20,54,.94); --glass-border-dark:rgba(120,190,255,.25); --clr-text-primary:#fff; color:#fff; background-color:hsl(224,78%,10%); background-image:linear-gradient(rgba(3,12,36,.9),rgba(5,18,48,.94)),url('assets/gem-academy/hero-academy.png'); background-position:center bottom; background-size:cover; }
+    body.scoreboard-cp33::before,body.scoreboard-cp33::after{display:none}
+    .scoreboard-cp33 .sb-container{grid-template-rows:94px 1fr 112px;padding:0 28px 24px;gap:18px}
+    .scoreboard-cp33 .sb-header{margin-inline:-28px;padding:0 36px;border-bottom:3px solid hsl(210,96%,56%);background:rgba(3,12,36,.96);box-shadow:0 8px 28px rgba(0,0,0,.28)}
+    .scoreboard-cp33 .sb-header__title{gap:14px}.scoreboard-cp33 .sb-header__crest{width:54px;height:62px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.32))}
+    .scoreboard-cp33 .sb-header__logo{color:#fff;background:none;-webkit-text-fill-color:currentColor;font-size:clamp(1.45rem,2.1vw,2.15rem);letter-spacing:.02em;text-shadow:0 3px 12px rgba(0,0,0,.35)}
+    .scoreboard-cp33 .live-badge{padding:7px 13px;color:hsl(350,100%,80%);border:2px solid hsla(350,88%,70%,.55);background:hsla(350,82%,52%,.15)}
+    .scoreboard-cp33 .sb-header__info{gap:14px}.scoreboard-cp33 #themeToggleBtn,.scoreboard-cp33 .sb-header__info>div{color:hsl(210,55%,86%)!important;border:2px solid hsla(210,96%,70%,.22)!important;border-radius:13px!important;background:hsla(210,96%,56%,.08)!important}
+    .scoreboard-cp33 .sb-header__timer{min-width:118px;padding:8px 18px;color:hsl(47,100%,72%);border:2px solid hsla(42,98%,60%,.4)!important;background:hsla(42,98%,54%,.1)!important;font-size:1.65rem}
+    .scoreboard-cp33 .sb-body{grid-template-columns:390px 1fr;gap:20px}.scoreboard-cp33 .school-panel{gap:16px}
+    .scoreboard-cp33 .school-card{padding:20px 24px;border-width:2px;border-radius:20px;background:rgba(6,20,54,.95);box-shadow:0 16px 38px rgba(0,0,0,.26);backdrop-filter:none}.scoreboard-cp33 .school-card::before{width:7px}
+    .scoreboard-cp33 .school-card__name{display:flex;align-items:center;gap:10px;color:#fff;font-size:1.25rem;font-weight:900}.scoreboard-cp33 .school-card__emblem{width:42px;height:42px;object-fit:contain}
+    .scoreboard-cp33 .school-card__score{font-size:clamp(3rem,4vw,4.2rem);line-height:1}.scoreboard-cp33 .school-card__meta{color:hsl(210,36%,78%);font-size:.98rem;line-height:1.6}.scoreboard-cp33 .school-card__meta strong{color:#fff}
+    .scoreboard-cp33 .school-card--xingang{border-color:hsla(42,98%,60%,.58)}.scoreboard-cp33 .school-card--fenggong{border-color:hsla(199,95%,60%,.58)}.scoreboard-cp33 .school-card--fengtian{border-color:hsla(153,61%,52%,.58)}
+    .scoreboard-cp33 .leaderboard-panel{padding:24px 28px;border:2px solid hsla(210,96%,70%,.24);border-top:6px solid hsl(42,98%,54%);border-radius:22px;background:rgba(6,20,54,.95);box-shadow:0 18px 46px rgba(0,0,0,.3);backdrop-filter:none}
+    .scoreboard-cp33 .leaderboard-panel__header{color:#fff;border-bottom-color:hsla(210,96%,70%,.18);font-size:1.3rem;font-weight:900}.scoreboard-cp33 #totalAttemptsLabel{color:hsl(210,36%,76%)!important;font-size:.9rem!important}
+    .scoreboard-cp33 .top3-row{gap:16px}.scoreboard-cp33 .top3-podium{min-height:142px;border:2px solid hsla(210,60%,70%,.2);border-radius:18px;background:rgba(255,255,255,.055)}
+    .scoreboard-cp33 .top3-podium--1{min-height:170px;border-color:hsla(42,98%,60%,.62);background:linear-gradient(180deg,hsla(42,98%,54%,.18),rgba(255,255,255,.045));box-shadow:0 12px 34px hsla(42,98%,44%,.12)}
+    .scoreboard-cp33 .top3-podium__name{color:#fff;font-size:1rem}.scoreboard-cp33 .top3-podium__school{color:hsl(210,32%,74%);font-size:.82rem}.scoreboard-cp33 .top3-podium__score{font-size:1.35rem}
+    .scoreboard-cp33 .rank-item{border:1px solid hsla(210,60%,70%,.14);background:rgba(255,255,255,.045)}.scoreboard-cp33 .rank-item__num{color:hsl(210,36%,72%)}.scoreboard-cp33 .rank-item__name,.scoreboard-cp33 .rank-item__score{color:#fff}.scoreboard-cp33 .rank-item__school{color:hsl(210,32%,72%)}
+    .scoreboard-cp33 .sb-ticker{padding:18px 26px;border:2px solid hsla(210,96%,70%,.2);border-radius:18px;background:rgba(3,12,36,.94);box-shadow:0 12px 34px rgba(0,0,0,.25)}.scoreboard-cp33 .sb-ticker__label{color:hsl(47,100%,72%);font-size:1rem}.scoreboard-cp33 .sb-ticker__item{color:hsl(210,36%,84%);font-size:.98rem}.scoreboard-cp33 .sb-ticker__item strong{color:#fff}
+    body.scoreboard-cp33.light-theme{color:hsl(224,78%,12%);background-color:hsl(211,70%,95%);background-image:linear-gradient(rgba(242,250,255,.9),rgba(236,245,255,.94)),url('assets/gem-academy/hero-academy.png')}
+    body.scoreboard-cp33.light-theme .sb-header{background:hsl(224,78%,12%)}body.scoreboard-cp33.light-theme .sb-header__logo{color:#fff;background:none;-webkit-text-fill-color:currentColor}
+    body.scoreboard-cp33.light-theme .school-card,body.scoreboard-cp33.light-theme .leaderboard-panel{background:rgba(255,255,255,.95);box-shadow:0 16px 38px hsla(222,65%,20%,.14)}
+    body.scoreboard-cp33.light-theme .school-card__name,body.scoreboard-cp33.light-theme .school-card__meta strong,body.scoreboard-cp33.light-theme .leaderboard-panel__header,body.scoreboard-cp33.light-theme .top3-podium__name,body.scoreboard-cp33.light-theme .rank-item__name,body.scoreboard-cp33.light-theme .rank-item__score{color:hsl(224,78%,12%)}
+    body.scoreboard-cp33.light-theme .school-card__meta,body.scoreboard-cp33.light-theme .top3-podium__school,body.scoreboard-cp33.light-theme .rank-item__school{color:hsl(218,28%,38%)}body.scoreboard-cp33.light-theme .top3-podium,body.scoreboard-cp33.light-theme .rank-item{background:hsl(215,72%,98%)}
+    body.scoreboard-cp33.light-theme .sb-ticker{background:rgba(255,255,255,.96)}body.scoreboard-cp33.light-theme .sb-ticker__item{color:hsl(218,32%,30%)}body.scoreboard-cp33.light-theme .sb-ticker__item strong{color:hsl(224,78%,12%)}
+    @media(max-width:1200px){.scoreboard-cp33 .sb-body{grid-template-columns:330px 1fr}.scoreboard-cp33 .sb-header__info{gap:8px}.scoreboard-cp33 #themeToggleBtn{display:none!important}}
+    @media(prefers-reduced-motion:reduce){.scoreboard-cp33 *,.scoreboard-cp33 *::before,.scoreboard-cp33 *::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+  </style>
 </head>
-<body>
+<body class="scoreboard-cp33">
 
   <!-- Confetti particle container -->
   <div id="upgradeConfettiContainer"></div>
@@ -661,7 +693,7 @@
     <!-- Header -->
     <header class="sb-header">
       <div class="sb-header__title">
-        <span style="font-size: 1.8rem;">🏆</span>
+        <img class="sb-header__crest" src="assets/gem-academy/crest.png" alt="" width="54" height="62">
         <div class="sb-header__logo" id="headerTitle">三校聯網英語大對抗</div>
         <div class="live-badge">
           <span class="live-badge__dot"></span>LIVE
@@ -693,7 +725,7 @@
       <div class="school-panel">
         <!-- Xingang Card -->
         <div class="school-card school-card--xingang">
-          <div class="school-card__name">🏫 新港國小</div>
+          <div class="school-card__name"><img class="school-card__emblem" src="assets/gem-academy/feature-competition.png" alt="" width="42" height="42">新港國小</div>
           <div class="school-card__valrow">
             <div class="school-card__score" id="score-xingang">0</div>
             <div class="school-card__meta">
@@ -704,7 +736,7 @@
         </div>
         <!-- Fenggong Card -->
         <div class="school-card school-card--fenggong">
-          <div class="school-card__name">🏫 鳳岡國小</div>
+          <div class="school-card__name"><img class="school-card__emblem" src="assets/gem-academy/feature-speech.png" alt="" width="42" height="42">鳳岡國小</div>
           <div class="school-card__valrow">
             <div class="school-card__score" id="score-fenggong">0</div>
             <div class="school-card__meta">
@@ -715,7 +747,7 @@
         </div>
         <!-- Fengtian Card -->
         <div class="school-card school-card--fengtian">
-          <div class="school-card__name">🏫 豐田國小</div>
+          <div class="school-card__name"><img class="school-card__emblem" src="assets/gem-academy/feature-daily.png" alt="" width="42" height="42">豐田國小</div>
           <div class="school-card__valrow">
             <div class="school-card__score" id="score-fengtian">0</div>
             <div class="school-card__meta">
