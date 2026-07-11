@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>三校聯網・英語單字王 — 鳳岡・豐田・新港</title>
   <meta name="description" content="新竹縣三校聯網英語單字王挑戰平台，鳳岡國小、豐田國小、新港國小跨校英語學習大對抗。" />
-  <meta name="theme-color" content="#07090f" />
+  <meta name="theme-color" content="#071a4d" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="三校聯網・英語單字王" />
@@ -13,120 +13,70 @@
   <meta property="og:type" content="website" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,0&display=swap" />
 
   <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/config.js" defer></script>
   <script src="js/speech.js" defer></script>
   <script src="js/index.js" defer></script>
-  <style>
-    @keyframes pulse-border {
-      0%, 100% { box-shadow: 0 4px 20px hsla(42,100%,55%,0.12); border-color: hsla(42,100%,65%,0.35); }
-      50%       { box-shadow: 0 4px 28px hsla(42,100%,55%,0.35); border-color: hsla(42,100%,65%,0.75); }
-    }
-    @keyframes bounce-emoji {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-4px); }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-  </style>
 </head>
-<body>
+<body class="page-home page-home--cp27">
 
   <!-- ── 導覽列 ── -->
-  <nav class="navbar">
+  <nav class="navbar academy-navbar" aria-label="主要導覽">
     <div class="container">
       <div class="navbar__inner">
-        <a href="index.html" class="navbar__logo">⭐ 英語單字王</a>
+        <a href="index.html" class="navbar__logo academy-brand" aria-label="英語單字王首頁">
+          <img src="assets/gem-academy/crest.png" alt="" class="academy-brand__crest" />
+          <span>英語單字王</span>
+        </a>
         <ul class="navbar__nav" id="navbar-nav">
-          <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
-          <li><a href="join.html?redirect=index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; margin-right: 8px;">學生登入</a></li>
-          <li><a href="join.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">開始挑戰</a></li>
+          <li><a href="index.html" class="academy-nav-link"><span class="material-symbols-rounded" aria-hidden="true">home</span>首頁</a></li>
+          <li><a href="join.html?redirect=index.html" class="academy-nav-link"><span class="material-symbols-rounded" aria-hidden="true">person</span>學生登入</a></li>
+          <li><a href="join.html" class="academy-nav-link academy-nav-link--primary"><span class="material-symbols-rounded" aria-hidden="true">flag</span>開始挑戰</a></li>
         </ul>
       </div>
     </div>
   </nav>
+  <!-- ── 寶石學院首屏 ── -->
+  <section class="academy-hero animate-in" aria-labelledby="academy-title">
+    <div class="academy-hero__scrim"></div>
+    <div class="container academy-hero__content">
+      <div id="live-contest-banner" class="academy-live-banner" style="display:none;">
+        <a id="live-contest-link" href="#" target="_blank" rel="noopener" class="academy-live-banner__link">
+          <span class="material-symbols-rounded" aria-hidden="true">emoji_events</span>
+          <span id="live-contest-text">三校即時對抗賽進行中！點擊觀看直播看板</span>
+          <span class="academy-live-banner__status">LIVE</span>
+        </a>
+      </div>
+      <div class="academy-hero__badge"><span class="material-symbols-rounded" aria-hidden="true">emoji_events</span>三校聯網英語大對抗</div>
+      <h1 class="academy-hero__title" id="academy-title"><span>英語</span><strong>單字王</strong></h1>
+      <p class="academy-hero__subtitle">鳳岡・豐田・新港三校學生同台競技<br>每日挑戰 · 智慧出題 · 口說評分 · 跨校排名</p>
+      <div class="academy-hero__actions">
+        <a href="join.html" class="academy-action academy-action--primary" id="btn-start"><span class="material-symbols-rounded" aria-hidden="true">diamond</span><span>開始今日挑戰</span><span class="material-symbols-rounded academy-action__arrow" aria-hidden="true">arrow_forward</span></a>
+        <a href="#leaderboard" class="academy-action academy-action--secondary"><span class="material-symbols-rounded" aria-hidden="true">leaderboard</span><span>查看排行榜</span></a>
+      </div>
+      <a href="join.html?redirect=index.html" id="btn-login-lobby" class="academy-login-link">已有帳號？直接登入大廳 <span aria-hidden="true">→</span></a>
+      <button id="voice-helper-entry" class="academy-voice-check" type="button" onclick="showVoiceHelperModal()"><span class="material-symbols-rounded" aria-hidden="true">mic</span>麥克風與口說設備檢測</button>
+    </div>
+  </section>
 
-  <!-- ── 星空背景光暈 ── -->
-  <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;">
-    <div style="position:absolute;top:-20%;left:-10%;width:50vw;height:50vw;border-radius:50%;
-      background:radial-gradient(circle,rgba(79,195,247,0.08),transparent 70%);
-      animation:glow 6s ease-in-out infinite;"></div>
-    <div style="position:absolute;bottom:-10%;right:-5%;width:40vw;height:40vw;border-radius:50%;
-      background:radial-gradient(circle,rgba(206,147,216,0.07),transparent 70%);
-      animation:glow 8s ease-in-out infinite 2s;"></div>
-  </div>
-
-  <main class="page-wrapper" style="position:relative;z-index:1;">
+  <main class="academy-main">
     <div class="container">
 
-      <!-- ── Hero ── -->
-      <section class="hero animate-in">
-        <div class="hero__badge">🏆 三校聯網英語大對抗</div>
-        <h1 class="hero__title">
-          <span class="text-gradient-gold">英語</span>
-          <span style="color:var(--clr-text-primary);">單字王</span>
-        </h1>
-        <p class="hero__subtitle">
-          鳳岡・豐田・新港三校學生同台競技<br>
-          每日挑戰 · 智慧出題 · 口說評分 · 跨校排名
-        </p>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 1rem; width: 100%;">
-          <!-- 三校即時對抗賽橫幅（對抗賽進行中時由 JS 顯示，預設隱藏） -->
-          <div id="live-contest-banner" style="display:none; width:100%; margin-bottom:0.8rem; text-align:center;">
-            <a id="live-contest-link" href="#" target="_blank"
-               style="display:inline-flex; align-items:center; justify-content:center; gap:10px;
-                      background:linear-gradient(135deg, hsla(42,100%,55%,0.12), hsla(268,75%,63%,0.1));
-                      border:1.5px solid hsla(42,100%,65%,0.35);
-                      border-radius:var(--r-full); padding:10px 24px; text-decoration:none;
-                      font-weight:800; font-size:0.95rem; color:var(--clr-gold-1);
-                      box-shadow:0 4px 20px hsla(42,100%,55%,0.12);
-                      animation: pulse-border 2s ease-in-out infinite; transition: var(--spring-transition);">
-              <span style="font-size:1.2rem; animation: bounce-emoji 1.2s ease-in-out infinite; display:inline-block;">🏆</span>
-              <span id="live-contest-text">三校即時對抗賽進行中！點擊觀看直播看板</span>
-              <span style="background:#ff4d4d; color:#fff; border-radius:var(--r-full);
-                           padding:2px 8px; font-size:0.7rem; font-weight:900; margin-left:4px;
-                           animation: blink 1.2s step-end infinite; display:inline-flex; align-items:center; gap:4px;">
-                <span style="width:6px; height:6px; background:#fff; border-radius:50%;"></span>LIVE
-              </span>
-            </a>
-          </div>
-
-          <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%;">
-            <a href="join.html" class="btn btn--primary btn--lg" id="btn-start">
-              🚀 開始今日挑戰
-            </a>
-            <a href="#leaderboard" class="btn btn--ghost btn--lg">
-              🏅 查看排行榜
-            </a>
-          </div>
-          <a href="join.html?redirect=index.html" id="btn-login-lobby" style="color:var(--clr-gold-1); font-size:0.85rem; font-weight:bold; margin-top:6px; display:inline-block; text-decoration:underline;">已有帳號？直接登入大廳</a>
-        </div>
-
-        <!-- 設備檢測助手卡片 -->
-        <div id="voice-helper-entry" style="margin-top: 1.5rem; background: rgba(79,195,247,0.06); border: 1px solid rgba(79,195,247,0.15); border-radius: 16px; padding: 10px 18px; text-align: center; cursor: pointer; transition: all 0.2s; margin-left: auto; margin-right: auto; max-width: 320px;" onclick="showVoiceHelperModal()">
-          <div style="font-size: 0.8rem; color: #4fc3f7; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px;">
-            🎙️ 麥克風與口說設備檢測
-          </div>
-        </div>
-      </section>
-
       <!-- ── 活躍跑馬燈 ── -->
-      <section class="animate-in animate-in--delay-1" style="margin-bottom:var(--sp-xl);">
-        <div class="section-header">
-          <div class="section-header__line"></div>
-          <span class="section-title">🔴 即時動態</span>
-          <div class="section-header__line"></div>
+      <section class="academy-section academy-activity animate-in animate-in--delay-1" aria-labelledby="activity-title">
+        <div class="academy-section__header">
+          <span class="material-symbols-rounded academy-section__gem" aria-hidden="true">diamond</span>
+          <h2 id="activity-title">即時動態</h2>
         </div>
         <div class="marquee-wrapper">
           <div class="marquee-track" id="marqueeTrack">
             <!-- 動態由 JS 填入，以下為靜態預設 -->
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
-              <span>歡迎來到英語單字王！登入後開始你的第一次挑戰吧 ✨</span>
+              <span>歡迎來到英語單字王！登入後開始你的第一次挑戰吧</span>
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
@@ -134,12 +84,12 @@
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
-              <span>智慧出題、口說評分，讓英語學習更有趣 🎤</span>
+              <span>智慧出題、口說評分，讓英語學習更有趣</span>
             </div>
             <!-- 重複一組讓跑馬燈無縫循環 -->
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
-              <span>歡迎來到英語單字王！登入後開始你的第一次挑戰吧 ✨</span>
+              <span>歡迎來到英語單字王！登入後開始你的第一次挑戰吧</span>
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
@@ -147,70 +97,64 @@
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
-              <span>智慧出題、口說評分，讓英語學習更有趣 🎤</span>
+              <span>智慧出題、口說評分，讓英語學習更有趣</span>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ── 三校積分 ── -->
-      <section class="animate-in animate-in--delay-2" style="margin-bottom:var(--sp-xl);">
-        <div class="section-header">
-          <div class="section-header__line"></div>
-          <span class="section-title">🏫 三校積分</span>
-          <div class="section-header__line"></div>
+      <section class="academy-section animate-in animate-in--delay-2" aria-labelledby="school-score-title">
+        <div class="academy-section__header academy-section__header--framed">
+          <span class="material-symbols-rounded" aria-hidden="true">diamond</span>
+          <h2 id="school-score-title">三校積分</h2>
         </div>
         <div class="schools-grid">
-          <div class="glass-card school-card school-card--fenggong" id="school-fenggong">
-            <div class="school-card__icon" style="color:var(--clr-school-fenggong);">🌊</div>
-            <div class="school-card__name">鳳岡國小</div>
-            <div class="school-card__score text-gradient-blue" id="score-fenggong">—</div>
-            <div class="text-muted text-sm mt-sm" id="students-fenggong">載入中…</div>
-          </div>
-          <div class="glass-card school-card school-card--fengtian" id="school-fengtian">
-            <div class="school-card__icon" style="color:var(--clr-school-fengtiaan);">🍀</div>
-            <div class="school-card__name">豐田國小</div>
-            <div class="school-card__score text-gradient-green" id="score-fengtian">—</div>
-            <div class="text-muted text-sm mt-sm" id="students-fengtian">載入中…</div>
-          </div>
-          <div class="glass-card school-card school-card--xingang" id="school-xingang">
-            <div class="school-card__icon" style="color:var(--clr-school-xingang);">⭐</div>
-            <div class="school-card__name">新港國小</div>
-            <div class="school-card__score text-gradient-gold" id="score-xingang">—</div>
-            <div class="text-muted text-sm mt-sm" id="students-xingang">載入中…</div>
-          </div>
+          <article class="school-card school-card--xingang" id="school-xingang">
+            <div class="school-card__rank">—</div>
+            <span class="material-symbols-rounded school-card__icon" aria-hidden="true">shield</span>
+            <div class="school-card__identity"><div class="school-card__name">新港國小</div><div id="students-xingang">載入中…</div></div>
+            <div class="school-card__score" id="score-xingang">—</div>
+          </article>
+          <article class="school-card school-card--fenggong" id="school-fenggong">
+            <div class="school-card__rank">—</div>
+            <span class="material-symbols-rounded school-card__icon" aria-hidden="true">shield</span>
+            <div class="school-card__identity"><div class="school-card__name">鳳岡國小</div><div id="students-fenggong">載入中…</div></div>
+            <div class="school-card__score" id="score-fenggong">—</div>
+          </article>
+          <article class="school-card school-card--fengtian" id="school-fengtian">
+            <div class="school-card__rank">—</div>
+            <span class="material-symbols-rounded school-card__icon" aria-hidden="true">shield</span>
+            <div class="school-card__identity"><div class="school-card__name">豐田國小</div><div id="students-fengtian">載入中…</div></div>
+            <div class="school-card__score" id="score-fengtian">—</div>
+          </article>
         </div>
       </section>
 
       <!-- ── 個人排行榜 ── -->
-      <section class="animate-in animate-in--delay-3" id="leaderboard" style="margin-bottom:var(--sp-xl);">
-        <div class="section-header">
-          <div class="section-header__line"></div>
-          <span class="section-title">👑 個人積分排行榜 Top 10</span>
-          <div class="section-header__line"></div>
+      <section class="academy-section animate-in animate-in--delay-3" id="leaderboard" aria-labelledby="leaderboard-title">
+        <div class="academy-section__header academy-section__header--framed">
+          <span class="material-symbols-rounded" aria-hidden="true">leaderboard</span>
+          <h2 id="leaderboard-title">個人積分排行榜 Top 10</h2>
         </div>
 
         <!-- 學校頁籤 -->
-        <div id="leaderboardTabs" style="display:flex; gap:8px; justify-content:center; margin-bottom:1rem; flex-wrap:wrap;">
-          <button onclick="switchLeaderboardTab('all', this)" class="lb-tab lb-tab--active" id="lbTab-all"
-            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(245,200,66,0.5); background: linear-gradient(135deg,rgba(245,200,66,0.2),rgba(79,195,247,0.1)); color:var(--clr-gold-1); font-weight:bold; font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
-            🌏 跨校聯合榜
+        <div id="leaderboardTabs" class="academy-tabs" role="group" aria-label="排行榜範圍">
+          <button onclick="switchLeaderboardTab('all', this)" class="lb-tab lb-tab--active" id="lbTab-all" aria-pressed="true"
+            ><span class="material-symbols-rounded" aria-hidden="true">public</span>跨校聯合榜
           </button>
-          <button onclick="switchLeaderboardTab('新港國小', this)" class="lb-tab" id="lbTab-xingang"
-            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--clr-text-muted); font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
-            🏫 新港國小
+          <button onclick="switchLeaderboardTab('新港國小', this)" class="lb-tab" id="lbTab-xingang" aria-pressed="false"
+            ><span class="material-symbols-rounded" aria-hidden="true">school</span>新港國小
           </button>
-          <button onclick="switchLeaderboardTab('鳳岡國小', this)" class="lb-tab" id="lbTab-fenggang"
-            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--clr-text-muted); font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
-            🏫 鳳岡國小
+          <button onclick="switchLeaderboardTab('鳳岡國小', this)" class="lb-tab" id="lbTab-fenggang" aria-pressed="false"
+            ><span class="material-symbols-rounded" aria-hidden="true">school</span>鳳岡國小
           </button>
-          <button onclick="switchLeaderboardTab('豐田國小', this)" class="lb-tab" id="lbTab-fengtian"
-            style="padding:6px 16px; border-radius:20px; border: 1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--clr-text-muted); font-size:0.82rem; cursor:pointer; transition:all 0.2s;">
-            🏫 豐田國小
+          <button onclick="switchLeaderboardTab('豐田國小', this)" class="lb-tab" id="lbTab-fengtian" aria-pressed="false"
+            ><span class="material-symbols-rounded" aria-hidden="true">school</span>豐田國小
           </button>
         </div>
 
-        <div class="glass-card" style="padding:var(--sp-lg);">
+        <div class="academy-panel academy-leaderboard-panel">
           <ul class="leaderboard" id="leaderboardList">
             <!-- 骨架屏 loading -->
             <li style="padding:var(--sp-md);display:flex;gap:var(--sp-md);align-items:center;">
@@ -233,64 +177,61 @@
       </section>
 
       <!-- ── 功能介紹 ── -->
-      <section style="margin-bottom:var(--sp-xl);">
-        <div class="section-header">
-          <div class="section-header__line"></div>
-          <span class="section-title">✨ 平台特色</span>
-          <div class="section-header__line"></div>
+      <section class="academy-section" aria-labelledby="features-title">
+        <div class="academy-section__header academy-section__header--framed">
+          <span class="material-symbols-rounded" aria-hidden="true">auto_awesome</span>
+          <h2 id="features-title">平台特色</h2>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-md);">
-          <div class="glass-card" style="padding:var(--sp-lg);">
-            <div style="font-size:2rem;margin-bottom:var(--sp-sm);">🤖</div>
-            <h3 style="font-size:1rem;margin-bottom:var(--sp-xs);font-family:var(--font-zh);">適性化智慧出題</h3>
+        <div class="academy-feature-grid">
+          <article class="academy-feature">
+            <img class="academy-feature__icon" src="assets/gem-academy/feature-adaptive.png" alt="" width="72" height="72">
+            <h3>適性化智慧出題</h3>
             <p class="text-muted text-sm">系統依年級與歷史錯題從題庫出題，每次提供最適合你的練習，補強弱點。</p>
-          </div>
-          <div class="glass-card" style="padding:var(--sp-lg);">
-            <div style="font-size:2rem;margin-bottom:var(--sp-sm);">🎤</div>
-            <h3 style="font-size:1rem;margin-bottom:var(--sp-xs);font-family:var(--font-zh);">口說發音練習</h3>
+          </article>
+          <article class="academy-feature">
+            <img class="academy-feature__icon" src="assets/gem-academy/feature-speech.png" alt="" width="72" height="72">
+            <h3>口說發音練習</h3>
             <p class="text-muted text-sm">藉由語音辨識與對齊演算法，即時呈現發音結果，標示單字的正確程度。</p>
-          </div>
-          <div class="glass-card" style="padding:var(--sp-lg);">
-            <div style="font-size:2rem;margin-bottom:var(--sp-sm);">📅</div>
-            <h3 style="font-size:1rem;margin-bottom:var(--sp-xs);font-family:var(--font-zh);">每日限定挑戰</h3>
+          </article>
+          <article class="academy-feature">
+            <img class="academy-feature__icon" src="assets/gem-academy/feature-daily.png" alt="" width="72" height="72">
+            <h3>每日限定挑戰</h3>
             <p class="text-muted text-sm">每天一次計分挑戰，培養規律學習習慣，其餘時間可無限練習。</p>
-          </div>
-          <div class="glass-card" style="padding:var(--sp-lg);">
-            <div style="font-size:2rem;margin-bottom:var(--sp-sm);">🏆</div>
-            <h3 style="font-size:1rem;margin-bottom:var(--sp-xs);font-family:var(--font-zh);">三校跨校競技</h3>
+          </article>
+          <article class="academy-feature">
+            <img class="academy-feature__icon" src="assets/gem-academy/feature-competition.png" alt="" width="72" height="72">
+            <h3>三校跨校競技</h3>
             <p class="text-muted text-sm">鳳岡、豐田、新港三校同台較量，以校際總積分決定冠軍學校！</p>
-          </div>
+          </article>
         </div>
       </section>
 
       <!-- ── CTA ── -->
-      <section class="text-center" style="padding:var(--sp-xl) 0;">
-        <div class="glass-card" style="padding:var(--sp-2xl) var(--sp-xl);max-width:560px;margin:0 auto;">
-          <div style="font-size:3rem;margin-bottom:var(--sp-md);">🚀</div>
-          <h2 style="font-size:1.8rem;margin-bottom:var(--sp-sm);">準備好了嗎？</h2>
-          <p class="text-muted" style="margin-bottom:var(--sp-lg);">
+      <section class="academy-cta text-center">
+        <div class="academy-cta__crest"><img src="assets/gem-academy/crest.png" alt="" /></div>
+        <div>
+          <h2>準備好了嗎？</h2>
+          <p class="text-muted">
             以學校 Google 帳號登入，立即開始今天的英語挑戰！
           </p>
-          <a href="join.html" class="btn btn--primary btn--lg btn--full" id="btn-cta">
-            立即登入挑戰
-          </a>
         </div>
+        <a href="join.html" class="academy-action academy-action--primary" id="btn-cta"><span class="material-symbols-rounded" aria-hidden="true">login</span><span>立即登入挑戰</span></a>
       </section>
 
     </div>
   </main>
 
   <!-- ── 頁腳 ── -->
-  <footer style="border-top:1px solid var(--glass-border);padding:var(--sp-lg) 0;text-align:center;">
+  <footer class="academy-footer">
     <div class="container">
       <p class="text-muted text-sm">
         © 2026 三校聯網・英語單字王 ｜
         鳳岡國小・豐田國小・新港國小 ｜
-        <a href="teacher.html" style="opacity:0.4;font-size:0.75rem;">教師看板</a>
+        <a href="teacher.html">教師看板</a>
         ｜
-        <a href="admin.html" style="opacity:0.4;font-size:0.75rem;">管理員</a>
+        <a href="admin.html">管理員</a>
       </p>
-      <p style="opacity:0.3;font-size:0.7rem;margin-top:4px;font-family:var(--font-zh);">
+      <p class="academy-footer__credit">
         設計開發：新竹縣新港國小教學團隊
       </p>
     </div>
@@ -349,7 +290,9 @@
     document.getElementById('voiceHelperModalOverlay').style.display = 'none';
     if (window.stopVoiceHelperTest) window.stopVoiceHelperTest();
   }
-  document.getElementById('voiceHelperModalOverlay').addEventListener('click', closeVoiceHelperModal);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('voiceHelperModalOverlay')?.addEventListener('click', closeVoiceHelperModal);
+  });
   </script>
 
   <!-- Voice Helper Modal -->

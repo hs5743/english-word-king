@@ -18,7 +18,7 @@ const files = [
   '110年國民中學英語科基本學習內容.pdf',
 ]
 
-const dirs = ['css', 'js', 'data']
+const dirs = ['css', 'js', 'data', 'assets']
 
 await fs.rm(outDir, { recursive: true, force: true })
 await fs.mkdir(outDir, { recursive: true })

@@ -37,8 +37,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (user) {
     const btnStart = document.getElementById('btn-start')
     const btnCta   = document.getElementById('btn-cta')
-    if (btnStart) { btnStart.textContent = '🚀 繼續今日挑戰'; btnStart.href = 'app.html' }
-    if (btnCta)   { btnCta.textContent   = '繼續挑戰'; btnCta.href = 'app.html' }
+    if (btnStart) {
+      btnStart.innerHTML = '<span class="material-symbols-rounded" aria-hidden="true">diamond</span><span>繼續今日挑戰</span><span class="material-symbols-rounded academy-action__arrow" aria-hidden="true">arrow_forward</span>'
+      btnStart.href = 'app.html'
+    }
+    if (btnCta) {
+      btnCta.innerHTML = '<span class="material-symbols-rounded" aria-hidden="true">login</span><span>繼續挑戰</span>'
+      btnCta.href = 'app.html'
+    }
     const btnLoginLobby = document.getElementById('btn-login-lobby')
     if (btnLoginLobby) btnLoginLobby.style.display = 'none'
 
@@ -46,14 +52,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navbarNav = document.getElementById('navbar-nav')
     if (navbarNav) {
       navbarNav.innerHTML = `
-        <li style="display:flex; align-items:center; gap:8px; margin-right:12px;">
-          <span style="font-size:0.85rem; color:var(--clr-text-muted); background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.08)">
-            🧑‍🎓 <strong>${user.email.split('@')[0]}</strong>
-          </span>
+        <li class="academy-user-item">
+          <span class="academy-user-chip"><span class="material-symbols-rounded" aria-hidden="true">person</span><strong>${user.email.split('@')[0]}</strong></span>
         </li>
-        <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
-        <li><a href="app.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">進入挑戰</a></li>
-        <li><button onclick="window.SupabaseConfig.signOut()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; border:1px solid rgba(255,107,107,0.3); color:#ff6b6b; margin-left:8px; border-radius:8px; cursor:pointer;">登出</button></li>
+        <li><a href="index.html" class="academy-nav-link"><span class="material-symbols-rounded" aria-hidden="true">home</span>首頁</a></li>
+        <li><a href="app.html" class="academy-nav-link academy-nav-link--primary"><span class="material-symbols-rounded" aria-hidden="true">flag</span>進入挑戰</a></li>
+        <li><button onclick="window.SupabaseConfig.signOut()" class="academy-nav-link academy-nav-link--danger"><span class="material-symbols-rounded" aria-hidden="true">logout</span>登出</button></li>
       `
     }
 
@@ -94,15 +98,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 更新導覽列為詳細學校、姓名與寶石稱號
         if (navbarNav) {
           navbarNav.innerHTML = `
-            <li style="display:flex; align-items:center; gap:8px; margin-right:12px;">
-              <span onclick="window.showIndexLevelModal()" style="font-size:0.82rem; color:var(--clr-text-muted); background:rgba(255,255,255,0.06); padding:6px 12px; border-radius:12px; border:1px solid rgba(245,200,66,0.25); cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
-                🏫 ${profile.school || ''} · <strong>${profile.name || user.email.split('@')[0]}</strong> (${currentTier.emoji} ${currentTier.name})
-              </span>
+            <li class="academy-user-item">
+              <button onclick="window.showIndexLevelModal()" class="academy-user-chip academy-user-chip--button"><span class="material-symbols-rounded" aria-hidden="true">school</span>${profile.school || ''} · <strong>${profile.name || user.email.split('@')[0]}</strong><span class="academy-user-tier">${currentTier.name}</span></button>
             </li>
-            <li><a href="index.html" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem;">首頁</a></li>
-            <li><button onclick="openGemHandbook()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; color:var(--clr-gold-1); font-weight:bold; background:rgba(245,200,66,0.08); border:1px solid rgba(245,200,66,0.2); border-radius:8px; margin-right:8px; cursor:pointer;">💎 英語寶石手冊</button></li>
-            <li><a href="app.html" class="btn btn--primary" style="padding:8px 18px;font-size:0.9rem;">進入挑戰</a></li>
-            <li><button onclick="window.SupabaseConfig.signOut()" class="btn btn--ghost" style="padding:8px 18px;font-size:0.9rem; border:1px solid rgba(255,107,107,0.3); color:#ff6b6b; margin-left:8px; border-radius:8px; cursor:pointer;">登出</button></li>
+            <li><button onclick="openGemHandbook()" class="academy-nav-link"><span class="material-symbols-rounded" aria-hidden="true">diamond</span>英語寶石手冊</button></li>
+            <li><a href="app.html" class="academy-nav-link academy-nav-link--primary"><span class="material-symbols-rounded" aria-hidden="true">flag</span>進入挑戰</a></li>
+            <li><button onclick="window.SupabaseConfig.signOut()" class="academy-nav-link academy-nav-link--danger"><span class="material-symbols-rounded" aria-hidden="true">logout</span>登出</button></li>
           `
         }
 
@@ -165,9 +166,9 @@ async function loadSchoolScores(sb) {
   if (error || !data) return
 
   const schoolMap = {
-    '鳳岡國小': { scoreEl: 'score-fenggong', studentsEl: 'students-fenggong' },
-    '豐田國小': { scoreEl: 'score-fengtian', studentsEl: 'students-fengtian' },
-    '新港國小': { scoreEl: 'score-xingang',  studentsEl: 'students-xingang'  },
+    '鳳岡國小': { cardEl: 'school-fenggong', scoreEl: 'score-fenggong', studentsEl: 'students-fenggong' },
+    '豐田國小': { cardEl: 'school-fengtian', scoreEl: 'score-fengtian', studentsEl: 'students-fengtian' },
+    '新港國小': { cardEl: 'school-xingang', scoreEl: 'score-xingang', studentsEl: 'students-xingang' },
   }
 
   data.forEach(row => {
@@ -178,6 +179,19 @@ async function loadSchoolScores(sb) {
     if (scoreEl)    scoreEl.textContent    = Number(row.total_school_score).toLocaleString()
     if (studentsEl) studentsEl.textContent = `${row.active_students} 人參與・平均 ${row.avg_score} 分`
   })
+
+  const grid = document.querySelector('.schools-grid')
+  if (grid) {
+    [...data]
+      .filter(row => schoolMap[row.school])
+      .sort((a, b) => Number(b.total_school_score) - Number(a.total_school_score))
+      .forEach((row, index) => {
+        const card = document.getElementById(schoolMap[row.school].cardEl)
+        const rank = card?.querySelector('.school-card__rank')
+        if (rank) rank.textContent = String(index + 1)
+        if (card) grid.appendChild(card)
+      })
+  }
 }
 
 /* ── 個人排行榜 ────────────────────────────────────────── */
@@ -203,7 +217,11 @@ function renderLeaderboard(school) {
   const list = document.getElementById('leaderboardList')
   if (!list) return
 
-  const rankIcons = { 1: '🥇', 2: '🥈', 3: '🥉' }
+  const rankIcons = {
+    1: '<span class="material-symbols-rounded" aria-hidden="true">workspace_premium</span>',
+    2: '<span class="material-symbols-rounded" aria-hidden="true">workspace_premium</span>',
+    3: '<span class="material-symbols-rounded" aria-hidden="true">workspace_premium</span>'
+  }
 
   // 根據頁籤過濾，再重新排名
   let filtered = school === 'all'
@@ -231,7 +249,7 @@ function renderLeaderboard(school) {
           break
         }
       }
-      gemTag = ` <span style="font-size:0.75rem; padding: 2px 6px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; color: var(--clr-gold-1); margin-left: 6px; font-weight: bold; white-space: nowrap;">${currentTier.emoji} ${currentTier.name.split(' ')[0]}</span>`
+      gemTag = ` <span class="academy-gem-tag"><span class="material-symbols-rounded" aria-hidden="true">diamond</span>${currentTier.name.split(' ')[0]}</span>`
     }
 
     const rank = s.displayRank
@@ -242,7 +260,7 @@ function renderLeaderboard(school) {
         </span>
         <div style="flex:1;">
           <div class="leaderboard__name">${escHtml(s.name)}${gemTag}</div>
-          <div class="leaderboard__school">${escHtml(s.school)} · ${escHtml(s.class)} · ${s.streak > 0 ? `🔥 ${s.streak} 天連續` : ''}</div>
+          <div class="leaderboard__school">${escHtml(s.school)} · ${escHtml(s.class)} ${s.streak > 0 ? `· <span class="academy-streak"><span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span>${s.streak} 天連續</span>` : ''}</div>
         </div>
         <span class="leaderboard__score">${Number(s.total_score).toLocaleString()}</span>
       </li>
@@ -253,20 +271,16 @@ function renderLeaderboard(school) {
 function switchLeaderboardTab(school, el) {
   _currentTab = school
 
-  // 重設所有按鈕樣式
+  // 重設所有按鈕狀態
   document.querySelectorAll('.lb-tab').forEach(btn => {
-    btn.style.background = 'rgba(255,255,255,0.04)'
-    btn.style.border = '1px solid rgba(255,255,255,0.1)'
-    btn.style.color = 'var(--clr-text-muted)'
-    btn.style.fontWeight = 'normal'
+    btn.classList.remove('lb-tab--active')
+    btn.setAttribute('aria-pressed', 'false')
   })
 
-  // 設定選中按鈕樣式
+  // 設定選中按鈕狀態
   if (el) {
-    el.style.background = 'linear-gradient(135deg,rgba(245,200,66,0.2),rgba(79,195,247,0.1))'
-    el.style.border = '1px solid rgba(245,200,66,0.5)'
-    el.style.color = 'var(--clr-gold-1)'
-    el.style.fontWeight = 'bold'
+    el.classList.add('lb-tab--active')
+    el.setAttribute('aria-pressed', 'true')
   }
 
   renderLeaderboard(school)
@@ -973,4 +987,3 @@ async function checkLiveContest(sb) {
     console.warn('[CP26] checkLiveContest error:', err);
   }
 }
-
