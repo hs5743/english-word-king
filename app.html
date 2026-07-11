@@ -933,6 +933,40 @@
     .page-app--cp30 .loading-logo { color: hsl(218,76%,34%); }
     .page-app--cp30 .loading-spinner { border-color: hsla(218,60%,35%,0.15); border-top-color: hsl(42,98%,54%); }
 
+    /* CP31：挑戰中心學生 Modal */
+    .page-app--cp30 :is(#levelModalOverlay, #gemUpgradeModalOverlay) { background: rgba(3,12,36,0.64) !important; backdrop-filter: blur(7px); }
+    .page-app--cp30 #levelModal {
+      color: hsl(224,78%,12%) !important;
+      background: rgba(255,255,255,0.98) !important;
+      border: 2px solid hsla(218,72%,36%,0.2) !important;
+      border-top: 5px solid hsl(42,98%,54%) !important;
+      border-radius: 22px !important;
+      box-shadow: 0 30px 80px rgba(1,8,28,0.34) !important;
+      backdrop-filter: none !important;
+    }
+    .page-app--cp30 #levelModal > div:first-child { border-bottom-color: hsla(218,60%,35%,0.14) !important; }
+    .page-app--cp30 #levelModal h3,
+    .page-app--cp30 #modalGemName { color: hsl(224,78%,12%) !important; }
+    .page-app--cp30 #modalGemHardness { color: hsl(32,88%,34%) !important; background: hsl(47,100%,92%) !important; border-color: hsl(42,90%,76%) !important; }
+    .page-app--cp30 #modalGemDesc { color: hsl(218,24%,38%) !important; }
+    .page-app--cp30 #levelModal > div:nth-of-type(3),
+    .page-app--cp30 #levelModal > div:nth-of-type(4) { border: 1px solid hsla(218,60%,35%,0.13) !important; background: hsl(215,72%,97%) !important; }
+    .page-app--cp30 #modalMasteredCount { color: hsl(153,68%,32%) !important; }
+    .page-app--cp30 #modalNextLevelText { color: hsl(218,18%,46%) !important; }
+    .page-app--cp30 #levelModal button[onclick="closeLevelModal()"] { display: grid; width: 40px; height: 40px; place-items: center; padding: 0 !important; border: 2px solid hsla(218,60%,35%,0.16) !important; border-radius: 12px !important; color: hsl(224,78%,12%) !important; background: hsl(215,72%,97%) !important; }
+
+    .page-app--cp30 #gemUpgradeModal {
+      color: #fff !important;
+      border: 3px solid hsl(42,98%,58%) !important;
+      border-radius: 24px !important;
+      background: hsl(224,78%,12%) !important;
+      box-shadow: 0 30px 90px rgba(1,8,28,0.62), 0 0 42px hsla(42,98%,54%,0.24) !important;
+    }
+    .page-app--cp30 #gemUpgradeModal .glow-bg { opacity: 0.5; }
+    .page-app--cp30 #gemUpgradeModal button { min-height: 50px; color: hsl(224,78%,12%) !important; border: 2px solid hsl(47,100%,72%) !important; border-radius: 14px !important; background: hsl(42,98%,54%) !important; box-shadow: inset 0 -4px 0 hsla(32,100%,28%,0.2), 0 8px 18px hsla(42,98%,44%,0.24) !important; }
+
+    .page-app--cp30 :where(#levelModal, #gemUpgradeModal) :where(button,[tabindex]):focus-visible { outline: 3px solid hsl(47,100%,64%) !important; outline-offset: 3px; }
+
     @media (max-width: 1024px) { .page-app--cp30 .app-layout { grid-template-columns: 1fr; } }
     @media (max-width: 760px) {
       .page-app--cp30 .app-topbar { height: auto; min-height: 68px; padding: 10px 12px; }
@@ -946,6 +980,7 @@
       .page-app--cp30 .type-tab { font-size: 0.78rem; }
       .page-app--cp30 .challenge-panel { padding: 22px 14px; }
       .page-app--cp30 .challenge-progress { padding-inline: 16px; }
+      .page-app--cp30 :is(#levelModal, #gemUpgradeModal) { width: calc(100% - 20px) !important; max-height: calc(100vh - 24px) !important; padding: 22px 16px !important; overflow-y: auto; }
     }
     @media (prefers-reduced-motion: reduce) { .page-app--cp30 *, .page-app--cp30 *::before, .page-app--cp30 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
   </style>
@@ -1324,7 +1359,7 @@
 <div class="drawer-overlay" id="levelModalOverlay" style="z-index: 1000;"></div>
 <div class="level-modal" id="levelModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1.5px solid var(--clr-gold-1); border-radius: 16px; padding: 24px; z-index: 1001; box-shadow: 0 20px 50px rgba(0,0,0,0.12); color: var(--clr-text-primary); font-family: var(--font-zh);">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 12px;">
-    <h3 style="margin: 0; color: var(--clr-gold-text); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">💎 寶石等級與礦物科普</h3>
+    <h3 style="margin: 0; color: var(--clr-gold-text); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;"><span class="material-symbols-rounded" aria-hidden="true">diamond</span>寶石等級與礦物科普</h3>
     <button onclick="closeLevelModal()" style="background: none; border: none; color: var(--clr-text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
   </div>
   <div style="text-align: center; margin: 20px 0;">

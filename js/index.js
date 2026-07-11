@@ -564,6 +564,10 @@ window.switchIndexHandbookTab = function(type) {
   
   const tabMining = document.getElementById('tab-mining')
   const tabMined = document.getElementById('tab-mined')
+  tabMining.classList.toggle('is-active', type === 'mining')
+  tabMined.classList.toggle('is-active', type === 'mined')
+  tabMining.setAttribute('aria-selected', String(type === 'mining'))
+  tabMined.setAttribute('aria-selected', String(type === 'mined'))
   
   if (type === 'mining') {
     tabMining.style.background = 'rgba(245,200,66,0.1)'

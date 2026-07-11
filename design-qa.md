@@ -94,6 +94,30 @@ final result: blocked
 
 ---
 
+# CP31 student modal and handbook design QA
+
+## Visual target
+
+- Source system: CP27–CP30 Gem Adventure Academy design language.
+- Scope: homepage level, voice helper, handbook and mining modals; challenge-center level and upgrade modals.
+
+## Evidence and findings
+
+- Public voice-helper modal opened and closed successfully in the browser.
+- Captured modal uses the intended white academy card, sapphire action, navy heading, blue top accent and softened overlay.
+- Browser metrics: 450px modal width, no horizontal overflow and no console errors.
+- Handbook tab state now synchronizes visual `is-active` styling with `aria-selected`.
+- Build and static validation cover all protected modal markup and existing JavaScript IDs.
+
+## Follow-up
+
+- Authenticated handbook data cards, mining stages and gem-upgrade modal remain production follow-up checks because local OAuth returns to the cloud site.
+- The user requested direct publication and accepted follow-up visual correction on the deployed experience.
+
+final result: passed
+
+---
+
 # CP29 class.html design QA
 
 ## Visual target
