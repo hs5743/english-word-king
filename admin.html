@@ -126,13 +126,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/config.js" defer></script>
 </head>
-<body>
+<body class="page-staff--cp32 page-admin--cp32">
 
   <!-- ── 導覽列 ── -->
-  <nav class="navbar" style="position:relative;z-index:100;">
+  <nav class="navbar staff-navbar">
     <div class="container">
       <div class="navbar__inner">
-        <a href="index.html" class="navbar__logo">⚙️ 後台管理系統</a>
+        <a href="index.html" class="staff-brand"><img src="assets/gem-academy/crest.png" alt="" width="40" height="46">後台管理系統</a>
         <ul class="navbar__nav" style="align-items: center;">
           <li><span id="userEmailDisplay" style="font-size:0.8rem;color:var(--clr-text-muted);margin-right:12px;">載入中…</span></li>
           <li><button class="btn btn--ghost" style="padding:6px 14px;font-size:0.8rem;" onclick="handleLogout()">登出</button></li>
@@ -152,7 +152,7 @@
   <!-- ── Access Denied Screen ── -->
   <div class="container" id="loginScreen" style="display:none;">
     <div class="glass-card denied-card animate-in">
-      <div style="font-size:3rem;margin-bottom:var(--sp-md);">⚙️</div>
+      <img src="assets/gem-academy/feature-adaptive.png" alt="" width="76" height="76" style="object-fit:contain;margin-bottom:var(--sp-md);">
       <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:var(--sp-sm);">管理員登入</h2>
       <p style="font-size:0.9rem;color:var(--clr-text-muted);margin-bottom:var(--sp-lg);">
         請使用已授權的學校 Google 帳號登入後台。

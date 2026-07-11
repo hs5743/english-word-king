@@ -652,10 +652,10 @@ function renderIndexHandbook() {
       const percent = (masteryValue / 2) * 100
       const remaining = 2 - masteryValue
       return `
-        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; position: relative;">
+        <div class="handbook-card handbook-card--mining" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; position: relative;">
           <div style="font-size: 2.2rem; filter: grayscale(100%) opacity(50%); margin-bottom: 6px;">🪨</div>
-          <div style="font-size: 0.95rem; font-weight: 600; color: #cbd5e1; word-break: break-all;">${escHtml(w.word)}</div>
-          <div style="font-size: 0.72rem; color: #8892b0; margin-top: 4px;">開採進度: ${masteryValue}/2</div>
+          <div class="handbook-word" style="font-size: 0.95rem; font-weight: 600; color: #cbd5e1; word-break: break-all;">${escHtml(w.word)}</div>
+          <div class="handbook-card-meta" style="font-size: 0.72rem; color: #8892b0; margin-top: 4px;">開採進度: ${masteryValue}/2</div>
           <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-top: 4px; overflow: hidden;">
             <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #78716c, #a8a29e); border-radius: 3px;"></div>
           </div>
@@ -670,12 +670,12 @@ function renderIndexHandbook() {
       const emoji = gem ? gem.emoji : '💎'
       const gemName = gem ? gem.name.split(' ')[0] : '寶石'
       return `
-        <div style="background: rgba(245,200,66,0.04); border: 1px solid rgba(245,200,66,0.22); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s;">
+        <div class="handbook-card handbook-card--mined" style="background: rgba(245,200,66,0.04); border: 1px solid rgba(245,200,66,0.22); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s;">
           <div style="font-size: 2.2rem; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.2));" title="${escHtml(gem?.name || '')}">${emoji}</div>
-          <div style="font-size: 0.95rem; font-weight: bold; color: var(--clr-gold-1); word-break: break-all;">${escHtml(w.word)}</div>
-          <div style="font-size: 0.7rem; color: #8892b0; font-family: monospace; margin-top: 2px;">${escHtml(w.phonetic || '')}</div>
-          <div style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px; font-weight: 500;">${escHtml(w.zh)}</div>
-          <div style="font-size: 0.65rem; color: var(--clr-gold-1); opacity: 0.8; margin-top: 4px;">${gemName} (Lv.${level})</div>
+          <div class="handbook-word" style="font-size: 0.95rem; font-weight: bold; color: var(--clr-gold-1); word-break: break-all;">${escHtml(w.word)}</div>
+          <div class="handbook-phonetic" style="font-size: 0.7rem; color: #8892b0; font-family: monospace; margin-top: 2px;">${escHtml(w.phonetic || '')}</div>
+          <div class="handbook-translation" style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px; font-weight: 500;">${escHtml(w.zh)}</div>
+          <div class="handbook-tier" style="font-size: 0.65rem; color: var(--clr-gold-1); opacity: 0.8; margin-top: 4px;">${gemName} (Lv.${level})</div>
           <button onclick="window.SpeechEngine.speak('${w.word.replace(/'/g, "\\'")}')" style="background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--clr-gold-1); font-size: 0.85rem; margin-top: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.2)'" onmouseout="this.style.background='rgba(245,200,66,0.1)'">🔊</button>
         </div>
       `

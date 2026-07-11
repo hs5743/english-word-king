@@ -2110,6 +2110,11 @@ input:checked + .slider {
 .page-home--cp27 #handbook-grid > div > div:nth-child(3),
 .page-home--cp27 #handbook-grid > div > span { color: hsl(218, 18%, 46%) !important; }
 .page-home--cp27 #handbook-grid > div button { min-height: 36px; border-radius: 10px !important; }
+.page-home--cp27 .handbook-word { color: var(--academy-navy-950) !important; font-size: 1rem !important; font-weight: 800 !important; line-height: 1.35; }
+.page-home--cp27 .handbook-phonetic { color: hsl(218, 32%, 38%) !important; font-size: 0.84rem !important; line-height: 1.5; }
+.page-home--cp27 .handbook-translation { color: hsl(218, 52%, 22%) !important; font-size: 0.9rem !important; font-weight: 700 !important; line-height: 1.5; }
+.page-home--cp27 .handbook-tier { color: hsl(32, 82%, 36%) !important; font-size: 0.75rem !important; font-weight: 800 !important; opacity: 1 !important; }
+.page-home--cp27 .handbook-card-meta { color: hsl(218, 28%, 40%) !important; font-size: 0.78rem !important; }
 .page-home--cp27 #handbook-empty-state { color: hsl(218, 18%, 46%) !important; }
 .page-home--cp27 #handbook-empty-state p:first-of-type { color: var(--academy-navy-950) !important; }
 
@@ -2130,6 +2135,65 @@ input:checked + .slider {
   }
   .page-home--cp27 #handbookModal { height: calc(100vh - 24px) !important; }
   .page-home--cp27 #handbook-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 9px !important; }
+}
+
+/* CP32：教師與管理端共用寶石學院介面 */
+.page-staff--cp32 {
+  --clr-text-primary: hsl(224, 78%, 12%);
+  --clr-text-secondary: hsl(218, 26%, 34%);
+  --clr-text-muted: hsl(218, 18%, 43%);
+  --clr-bg-deep: hsl(211, 70%, 96%);
+  --clr-bg-mid: #fff;
+  --clr-blue-1: hsl(210, 86%, 46%);
+  --clr-gold-1: hsl(38, 92%, 44%);
+  --clr-green-1: hsl(153, 68%, 34%);
+  min-height: 100%;
+  color: var(--clr-text-primary);
+  background: hsl(211, 70%, 96%);
+}
+.page-staff--cp32::before { display: none; }
+.page-staff--cp32 .staff-navbar { position: relative; z-index: 100; min-height: 72px; border-bottom: 3px solid hsl(210, 96%, 56%) !important; background: hsl(224, 78%, 12%) !important; box-shadow: 0 8px 24px hsla(224,78%,8%,0.2) !important; }
+.page-staff--cp32 .staff-navbar .navbar__inner { min-height: 72px; }
+.page-staff--cp32 .staff-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff !important; background: none !important; -webkit-text-fill-color: currentColor !important; font-family: var(--font-zh); font-size: 1.12rem; font-weight: 900; }
+.page-staff--cp32 .staff-brand img { width: 40px; height: 46px; object-fit: contain; }
+.page-staff--cp32 .staff-navbar #userEmailDisplay { color: hsl(210, 42%, 76%) !important; }
+.page-staff--cp32 .staff-navbar .btn { min-height: 42px; color: #fff; border: 2px solid hsla(210,96%,66%,0.55); border-radius: 12px; background: hsla(210,96%,56%,0.08); }
+.page-staff--cp32 :is(.teacher-container,.admin-container) { max-width: 1280px; padding: 28px 24px 46px; }
+.page-staff--cp32 .glass-card { color: var(--clr-text-primary) !important; border: 2px solid hsla(218,60%,35%,0.14) !important; border-radius: 18px !important; background: rgba(255,255,255,0.97) !important; box-shadow: 0 14px 34px hsla(222,65%,20%,0.1) !important; backdrop-filter: none !important; }
+.page-staff--cp32 :is(h1,h2,h3,h4,.section-title,.mastery-header) { color: var(--clr-text-primary) !important; }
+.page-staff--cp32 :is(.form-input,.form-select,textarea,input[type="number"],input[type="text"],input[type="password"],input[type="email"]) { min-height: 44px; color: var(--clr-text-primary) !important; border: 2px solid hsla(218,55%,35%,0.2) !important; border-radius: 11px !important; background: hsl(215,72%,98%) !important; font-size: 0.92rem; }
+.page-staff--cp32 :is(.form-input,.form-select,textarea,input):focus { border-color: hsl(210,96%,52%) !important; box-shadow: 0 0 0 4px hsla(210,96%,52%,0.13) !important; }
+.page-staff--cp32 .form-label { color: hsl(218,44%,24%) !important; font-size: 0.88rem; font-weight: 800; }
+.page-staff--cp32 .btn--primary { color: #fff !important; border: 2px solid hsl(218,90%,32%) !important; border-radius: 11px !important; background: hsl(218,86%,42%) !important; box-shadow: inset 0 -3px 0 hsla(224,85%,18%,0.24), 0 7px 16px hsla(218,75%,30%,0.14) !important; }
+.page-staff--cp32 .btn--ghost, .page-staff--cp32 .btn--secondary, .page-staff--cp32 main .btn:not(.btn--primary):not(.btn--logout) { color: hsl(218,72%,32%) !important; border: 2px solid hsla(218,55%,35%,0.16) !important; background: hsl(210,75%,97%) !important; }
+.page-staff--cp32 .stat-card { border-top: 5px solid hsl(210,86%,53%) !important; }
+.page-staff--cp32 .stat-card:nth-child(2) { border-top-color: hsl(42,98%,54%) !important; }
+.page-staff--cp32 .stat-card:nth-child(3) { border-top-color: hsl(153,61%,45%) !important; }
+.page-staff--cp32 .stat-card__lbl { color: hsl(218,28%,36%) !important; font-size: 0.86rem; font-weight: 700; }
+.page-staff--cp32 .table-container { border: 2px solid hsla(218,55%,35%,0.14) !important; border-radius: 15px !important; background: #fff !important; box-shadow: 0 10px 24px hsla(222,55%,20%,0.08); }
+.page-staff--cp32 .admin-table { min-width: 680px; }
+.page-staff--cp32 .admin-table th { color: hsl(218,50%,24%) !important; background: hsl(214,65%,94%) !important; font-size: 0.82rem !important; font-weight: 900 !important; }
+.page-staff--cp32 .admin-table td { color: hsl(218,36%,23%) !important; border-bottom-color: hsla(218,55%,35%,0.11) !important; font-size: 0.88rem !important; line-height: 1.55; }
+.page-staff--cp32 .admin-table tr:hover td { background: hsl(205,88%,97%) !important; }
+.page-staff--cp32 .admin-tabs { gap: 8px; padding: 7px; border: 2px solid hsla(218,55%,35%,0.14); border-radius: 16px; background: rgba(255,255,255,0.94); overflow-x: auto; }
+.page-staff--cp32 .admin-tab { min-height: 46px; min-width: max-content; color: hsl(218,28%,36%); border-radius: 11px; font-size: 0.86rem; font-weight: 800; }
+.page-staff--cp32 .admin-tab.active { color: #fff; background: hsl(218,86%,42%); box-shadow: inset 0 -3px 0 hsla(224,85%,18%,0.24); }
+.page-staff--cp32 .session-code-display { color: hsl(218,76%,30%) !important; border: 2px solid hsl(42,88%,68%) !important; background: hsl(47,100%,94%) !important; }
+.page-staff--cp32 :is(#loadingOverlay,#addStudentModal,#adminQrModal) { background: rgba(3,12,36,0.64) !important; }
+.page-staff--cp32 #addStudentModal > .glass-card,
+.page-staff--cp32 #adminQrModal > .glass-card { border-top: 5px solid hsl(42,98%,54%) !important; }
+.page-staff--cp32 :where(a,button,input,select,textarea,[tabindex]):focus-visible { outline: 3px solid hsl(47,100%,58%) !important; outline-offset: 3px; }
+.page-staff--cp32 footer { color: hsl(214,25%,78%); background: hsl(224,78%,12%); }
+.page-staff--cp32 footer .text-muted { color: hsl(214,25%,78%); }
+@media (max-width: 760px) {
+  .page-staff--cp32 .staff-navbar .navbar__inner { min-height: 64px; }
+  .page-staff--cp32 .staff-brand { font-size: 0.94rem; }
+  .page-staff--cp32 .staff-brand img { width: 34px; height: 40px; }
+  .page-staff--cp32 .staff-navbar #userEmailDisplay { display: none; }
+  .page-staff--cp32 :is(.teacher-container,.admin-container) { padding: 20px 12px 40px; }
+  .page-staff--cp32 .stats-row { grid-template-columns: 1fr; }
+  .page-staff--cp32 .teacher-grid { grid-template-columns: 1fr; }
+  .page-staff--cp32 .admin-table { min-width: 640px; }
 }
 
 @keyframes academyLivePulse {

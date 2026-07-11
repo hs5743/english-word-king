@@ -65,6 +65,27 @@ final result: passed
 
 ---
 
+# CP32 teacher, admin and handbook readability QA
+
+## Visual target
+
+- Source system: CP27–CP31 Gem Adventure Academy design language.
+- Additional requirement: student-facing text must prioritize readable contrast, practical font size and comfortable line height.
+
+## Evidence and findings
+
+- Teacher and administrator login screens render with the same navy navigation, crest, white academy card and sapphire primary action.
+- Both public entry screens report no horizontal overflow at 1280px and no new browser console errors.
+- Shared staff CSS raises table body copy to `0.88rem`, uses dark navy text on white, differentiates headers with a light blue background and preserves horizontal scrolling rather than compressing columns.
+- Handbook mined-card Chinese translations now use `0.9rem`, 700 weight, 1.5 line height and dark blue text; phonetics, tier labels and secondary metadata also use stronger contrast.
+- Login-protected dashboards remain production follow-up checks because local OAuth returns to the cloud site; the user requested direct deployment and iterative correction.
+
+No P0, P1 or P2 issue is present in the publicly visible states or static accessibility rules.
+
+final result: passed
+
+---
+
 # CP30 app.html design QA
 
 ## Visual target
