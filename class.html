@@ -7,86 +7,102 @@
   <meta name="description" content="學生輸入教師提供的 6 位數課堂碼，登入後直接加入課堂挑戰。" />
   <meta name="theme-color" content="#07090f" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,0&display=swap" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/config.js" defer></script>
   <style>
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: var(--sp-lg);
-      background:
-        radial-gradient(circle at 15% 15%, rgba(79,195,247,0.14), transparent 30%),
-        radial-gradient(circle at 85% 25%, rgba(245,200,66,0.12), transparent 28%),
-        var(--clr-bg-deep);
-    }
+    .page-class--cp29 { min-height: 100%; color: hsl(224, 78%, 12%); background: hsl(211, 70%, 96%); }
+    .page-class--cp29::before { display: none; }
+    .material-symbols-rounded { font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24; font-size: 1.25em; line-height: 1; }
 
-    .class-entry {
-      width: min(100%, 520px);
-      padding: var(--sp-2xl) var(--sp-xl);
-      text-align: center;
-    }
+    .class-academy-nav { min-height: 72px; border-bottom: 3px solid hsl(210, 96%, 56%); background: hsl(224, 78%, 12%); box-shadow: 0 8px 24px hsla(224, 78%, 8%, 0.2); }
+    .class-academy-nav .navbar__inner { min-height: 72px; }
+    .class-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; font-size: 1.16rem; font-weight: 900; }
+    .class-brand img { width: 42px; height: 48px; object-fit: contain; }
+    .class-back-link { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 9px 17px; border: 2px solid hsla(210, 96%, 66%, 0.72); border-radius: 999px; color: #fff; font-size: 0.9rem; font-weight: 800; }
+    .class-back-link:hover, .class-back-link:focus-visible { color: #fff; border-color: #fff; background: hsla(210, 96%, 56%, 0.18); }
 
-    .class-entry__icon {
-      font-size: 3rem;
-      margin-bottom: var(--sp-md);
-    }
+    .class-stage { min-height: calc(100vh - 72px); padding: 54px 24px; background-color: hsl(199, 88%, 82%); background-image: linear-gradient(90deg, rgba(237,252,255,0.16), rgba(237,252,255,0.76)), url('assets/gem-academy/hero-academy.png'); background-position: center bottom; background-size: cover; }
+    .class-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, 500px); align-items: center; gap: clamp(42px, 7vw, 104px); width: min(1120px, 100%); min-height: 650px; margin: 0 auto; }
+    .class-intro { max-width: 540px; }
+    .class-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; padding: 9px 18px; border: 2px solid hsl(210, 96%, 56%); border-radius: 999px; color: hsl(218, 86%, 36%); background: rgba(255,255,255,0.93); box-shadow: 0 8px 22px hsla(221,75%,30%,0.12); font-size: 0.82rem; font-weight: 900; }
+    .class-intro h1 { margin-bottom: 18px; color: transparent; background: linear-gradient(180deg, hsl(199,95%,58%), hsl(217,86%,42%) 54%, hsl(224,82%,27%)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(3rem, 6vw, 5.4rem); line-height: 1.04; letter-spacing: -0.045em; filter: drop-shadow(0 7px 10px hsla(218,80%,20%,0.15)); }
+    .class-intro > p { max-width: 500px; margin-bottom: 26px; color: hsl(224,58%,20%); font-size: clamp(1rem,1.7vw,1.18rem); font-weight: 700; line-height: 1.8; text-shadow: 0 1px 8px rgba(255,255,255,0.95); }
+    .class-steps { display: grid; gap: 12px; }
+    .class-step { display: grid; grid-template-columns: 44px 1fr; align-items: center; gap: 12px; max-width: 430px; padding: 12px 16px; border: 2px solid hsla(218,60%,35%,0.14); border-radius: 15px; background: rgba(255,255,255,0.91); box-shadow: 0 9px 22px hsla(222,65%,20%,0.1); }
+    .class-step__number { display: grid; width: 40px; height: 40px; place-items: center; border-radius: 12px; color: #fff; background: hsl(218,86%,42%); font-family: var(--font-en); font-weight: 900; }
+    .class-step strong { display: block; color: hsl(224,70%,14%); }
+    .class-step span:last-child { color: hsl(218,19%,43%); font-size: 0.78rem; }
 
-    .class-entry h1 {
-      font-size: 1.8rem;
-      margin-bottom: var(--sp-sm);
-    }
+    .class-entry { width: 100%; padding: 32px; border: 2px solid hsla(218,70%,34%,0.18); border-top: 5px solid hsl(42,98%,54%); border-radius: 22px; color: hsl(224,78%,12%); background: rgba(255,255,255,0.96); box-shadow: 0 22px 52px hsla(222,72%,18%,0.2); text-align: center; }
+    .class-entry__icon { width: 88px; height: 88px; margin: 0 auto 12px; object-fit: contain; filter: drop-shadow(0 8px 10px hsla(218,70%,25%,0.18)); }
+    .class-entry h2 { margin-bottom: 8px; color: hsl(224,78%,12%); font-size: 1.65rem; }
+    .class-entry__desc { margin-bottom: 22px; color: hsl(218,24%,42%); line-height: 1.7; }
+    .class-code-label { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; color: hsl(218,24%,38%); font-size: 0.82rem; font-weight: 800; text-align: left; }
+    .class-code { width: 100%; height: 70px; margin-bottom: 14px; color: hsl(224,78%,15%); border: 2px solid hsla(218,70%,34%,0.24); border-radius: 15px; background: hsl(215,72%,98%); text-align: center; font-family: var(--font-en); font-size: clamp(1.65rem,5vw,2.2rem); font-weight: 900; letter-spacing: 0.2em; }
+    .class-code:focus { border-color: hsl(210,96%,52%); box-shadow: 0 0 0 4px hsla(210,96%,52%,0.14); }
+    .class-actions { display: grid; gap: 10px; }
+    .class-primary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 58px; border: 2px solid hsl(218,90%,32%); border-radius: 14px; color: #fff; background: hsl(218,86%,42%); box-shadow: inset 0 -4px 0 hsla(224,85%,18%,0.28), 0 9px 20px hsla(218,75%,30%,0.22); font-family: inherit; font-size: 1rem; font-weight: 900; cursor: pointer; }
+    .class-primary:hover, .class-primary:focus-visible { background: hsl(213,90%,49%); border-color: hsl(210,96%,62%); }
+    .class-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border: 2px solid hsla(218,65%,38%,0.18); border-radius: 14px; color: hsl(218,76%,34%); background: hsl(210,75%,97%); font-weight: 800; }
+    .class-error { display: none; align-items: flex-start; gap: 8px; margin: 0 0 14px; padding: 12px 14px; border: 2px solid hsl(350,72%,76%); border-radius: 12px; color: hsl(350,72%,34%); background: hsl(350,100%,97%); font-size: 0.88rem; font-weight: 800; text-align: left; }
+    .class-meta { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 18px; color: hsl(218,19%,46%); font-size: 0.78rem; }
+    .class-meta a { color: hsl(218,76%,36%); font-weight: 800; }
+    .class-footer { padding: 22px 0; color: hsl(214,25%,78%); background: hsl(224,78%,12%); text-align: center; }
 
-    .class-entry p {
-      color: var(--clr-text-secondary);
-      line-height: 1.7;
-      margin-bottom: var(--sp-lg);
+    @media (max-width: 800px) {
+      .class-stage { padding: 38px 18px; }
+      .class-layout { grid-template-columns: 1fr; min-height: auto; gap: 30px; }
+      .class-intro { justify-self: center; text-align: center; }
+      .class-steps { width: min(100%, 500px); margin-inline: auto; text-align: left; }
+      .class-entry { justify-self: center; max-width: 500px; }
     }
-
-    .class-code {
-      width: 100%;
-      height: 64px;
-      text-align: center;
-      font-size: 2rem;
-      letter-spacing: 0.18em;
-      font-weight: 800;
-      font-family: var(--font-en);
-      margin-bottom: var(--sp-md);
+    @media (max-width: 480px) {
+      .class-academy-nav .navbar__inner { min-height: 64px; }
+      .class-brand { font-size: 0.98rem; }
+      .class-brand img { width: 35px; height: 40px; }
+      .class-back-link { width: 44px; padding: 0; font-size: 0; }
+      .class-back-link .material-symbols-rounded { font-size: 1.4rem; }
+      .class-stage { min-height: calc(100vh - 64px); padding: 28px 12px 34px; background-position: 54% bottom; }
+      .class-layout { gap: 24px; }
+      .class-intro h1 { font-size: clamp(2.65rem,13vw,3.4rem); }
+      .class-intro > p { font-size: 0.92rem; }
+      .class-step { padding: 10px 12px; }
+      .class-entry { padding: 24px 18px; border-radius: 18px; }
+      .class-entry__icon { width: 72px; height: 72px; }
     }
-
-    .class-actions {
-      display: grid;
-      gap: var(--sp-sm);
-    }
-
-    .class-error {
-      display: none;
-      margin: var(--sp-md) 0;
-      padding: 12px 14px;
-      border: 1px solid rgba(255,107,107,0.28);
-      border-radius: var(--r-md);
-      color: #ffb3b3;
-      background: rgba(255,107,107,0.08);
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .class-meta {
-      margin-top: var(--sp-lg);
-      display: flex;
-      justify-content: center;
-      gap: var(--sp-md);
-      flex-wrap: wrap;
-      font-size: 0.78rem;
-      color: var(--clr-text-muted);
-    }
+    @media (prefers-reduced-motion: reduce) { .page-class--cp29 *, .page-class--cp29 *::before, .page-class--cp29 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
   </style>
 </head>
-<body>
-  <main class="glass-card class-entry">
-    <div class="class-entry__icon">🏫</div>
-    <h1>課堂挑戰入口</h1>
-    <p>請輸入老師畫面上的 6 位數課堂碼。登入後會直接進入課堂挑戰，不會先產生今日挑戰題目。</p>
+<body class="page-class--cp29">
+  <nav class="navbar class-academy-nav">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="class-brand"><img src="assets/gem-academy/crest.png" alt="" width="42" height="48">英語單字王</a>
+        <ul class="navbar__nav"><li><a href="index.html" class="class-back-link"><span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>返回大廳</a></li></ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="class-stage">
+    <div class="class-layout">
+      <section class="class-intro" aria-labelledby="class-page-title">
+        <div class="class-kicker"><span class="material-symbols-rounded" aria-hidden="true">groups</span>老師已開啟課堂任務</div>
+        <h1 id="class-page-title">加入課堂挑戰</h1>
+        <p>取得老師畫面上的六位數課堂碼，登入後就能和同學一起進入即時英語寶石競賽。</p>
+        <div class="class-steps" aria-label="加入課堂步驟">
+          <div class="class-step"><span class="class-step__number">1</span><span><strong>取得課堂碼</strong><span>查看老師投影或課堂看板</span></span></div>
+          <div class="class-step"><span class="class-step__number">2</span><span><strong>輸入六位數字</strong><span>系統會保留課堂碼完成登入</span></span></div>
+          <div class="class-step"><span class="class-step__number">3</span><span><strong>加入即時挑戰</strong><span>直接進入本次課堂競賽</span></span></div>
+        </div>
+      </section>
+
+      <section class="class-entry" aria-labelledby="class-card-title">
+        <img class="class-entry__icon" src="assets/gem-academy/feature-competition.png" alt="" width="88" height="88">
+        <h2 id="class-card-title">課堂任務通行證</h2>
+        <p class="class-entry__desc">請輸入老師提供的六位數課堂碼</p>
+
+        <label class="class-code-label" for="classCodeInput"><span class="material-symbols-rounded" aria-hidden="true">password</span>六位數課堂碼</label>
 
     <input
       id="classCodeInput"
@@ -98,18 +114,22 @@
       aria-label="6 位數課堂碼"
     />
 
-    <div id="classError" class="class-error"></div>
+        <div id="classError" class="class-error" role="alert"></div>
 
-    <div class="class-actions">
-      <button id="joinClassBtn" class="btn btn--primary btn--lg btn--full" type="button">加入課堂挑戰</button>
-      <a class="btn btn--ghost btn--full" href="join.html">改去每日挑戰</a>
-    </div>
+        <div class="class-actions">
+          <button id="joinClassBtn" class="class-primary" type="button"><span class="material-symbols-rounded" aria-hidden="true">login</span>加入課堂挑戰</button>
+          <a class="class-secondary" href="join.html">改去每日挑戰</a>
+        </div>
 
-    <div class="class-meta">
-      <a href="teacher.html">教師看板</a>
-      <span>只限 @gapp.hcc.edu.tw 帳號</span>
+        <div class="class-meta">
+          <a href="teacher.html">教師看板</a>
+          <span>只限 @gapp.hcc.edu.tw 帳號</span>
+        </div>
+      </section>
     </div>
   </main>
+
+  <footer class="class-footer">© 2026 三校聯網・英語單字王</footer>
 
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 

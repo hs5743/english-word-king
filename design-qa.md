@@ -65,6 +65,27 @@ final result: passed
 
 ---
 
+# CP29 class.html design QA
+
+## Visual target
+
+- Source system: published CP27 homepage and CP28 student join entry.
+- Page role: a focused classroom mission pass using the same academy environment, navy navigation, sapphire/gold hierarchy, white task card and competition gem asset.
+
+## Evidence and findings
+
+- Desktop browser capture shows the intended two-column hierarchy with three joining steps and a single dominant six-digit code task.
+- Crest and competition badge loaded successfully; no placeholder or Emoji asset remains in the primary interface.
+- Browser metrics: no horizontal overflow, 70px code input and 58px primary action.
+- Input filtering changed `12a3` to `123`; submitting it exposed the correct validation message without starting authentication.
+- Browser console reported no errors.
+
+No P0, P1 or P2 findings remain.
+
+final result: passed
+
+---
+
 # CP28 join.html design QA
 
 ## Visual target
