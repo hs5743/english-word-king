@@ -65,6 +65,35 @@ final result: passed
 
 ---
 
+# CP30 app.html design QA
+
+## Visual target
+
+- Source system: published CP27 homepage, CP28 student join entry and CP29 classroom entry.
+- Intended extension: navy academy top bar, bright high-contrast challenge card, sapphire/gold active states, gem imagery and readable learning-record sidebar.
+
+## Completed checks
+
+- Static source and inline JavaScript validation passed.
+- Production build passed and includes the updated `app.html` plus existing gem assets.
+- Unauthenticated browser navigation correctly redirects to `join.html`; the authentication guard remains intact.
+
+## Blocking visual check
+
+- The in-app browser has no authenticated student session, so the real challenge DOM redirects before it can be captured.
+- A script-free data URL preview was rejected by browser security policy and was not retried or bypassed.
+- Login-protected spelling, speech, sentence and completion states therefore still require visual capture in an authenticated local browser session.
+
+## Release decision
+
+- Local OAuth returns to the configured cloud page, so the authenticated local state cannot be retained for this QA pass.
+- The user explicitly accepted publishing CP30 before authenticated visual capture and requested that any remaining issues be corrected through follow-up iterations on the deployed site.
+- This is a release exception, not evidence that the protected states were visually verified.
+
+final result: blocked
+
+---
+
 # CP29 class.html design QA
 
 ## Visual target

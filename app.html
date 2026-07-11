@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,0&display=swap" />
 
 
   <!-- App-specific styles -->
@@ -851,8 +852,105 @@
     }
   </style>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* CP30：學生挑戰中心延伸寶石冒險學院設計 */
+    .page-app--cp30 {
+      --clr-text-primary: hsl(224, 78%, 12%);
+      --clr-text-secondary: hsl(218, 24%, 38%);
+      --clr-text-muted: hsl(218, 16%, 50%);
+      --clr-bg-deep: hsl(211, 70%, 96%);
+      --clr-bg-mid: #fff;
+      --clr-gold-1: hsl(42, 98%, 50%);
+      --clr-blue-1: hsl(210, 86%, 48%);
+      --clr-green-1: hsl(153, 61%, 41%);
+      min-height: 100%;
+      color: var(--clr-text-primary);
+      background-color: hsl(211, 70%, 96%);
+      background-image: linear-gradient(rgba(242,251,255,0.9), rgba(242,248,255,0.96)), url('assets/gem-academy/hero-academy.png');
+      background-position: center top;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+    .page-app--cp30::before { display: none; }
+    .page-app--cp30 .material-symbols-rounded { font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24; font-size: 1.2em; line-height: 1; }
+
+    .page-app--cp30 .app-topbar { height: 72px; padding-inline: clamp(14px,3vw,34px); border-bottom: 3px solid hsl(210,96%,56%) !important; background: hsl(224,78%,12%) !important; backdrop-filter: none !important; box-shadow: 0 8px 24px hsla(224,78%,8%,0.2) !important; }
+    .page-app--cp30 .topbar__logo { display: inline-flex; align-items: center; gap: 9px; color: #fff; background: none; -webkit-text-fill-color: currentColor; font-family: var(--font-zh); font-weight: 900; }
+    .page-app--cp30 .topbar__logo img { width: 36px; height: 42px; object-fit: contain; }
+    .page-app--cp30 .student-pill { color: #fff; border-color: hsla(210,96%,70%,0.28); background: hsla(210,96%,56%,0.09); }
+    .page-app--cp30 .student-pill__avatar { background: hsl(42,98%,54%); }
+    .page-app--cp30 .student-pill__school { color: hsl(210,45%,76%); }
+    .page-app--cp30 .speech-speed-selector { border: 1px solid hsla(210,96%,70%,0.26) !important; background: hsla(210,96%,56%,0.08) !important; }
+    .page-app--cp30 .stat-pill { border: 1px solid hsla(210,96%,70%,0.25); background: hsla(210,96%,56%,0.08); }
+    .page-app--cp30 .stat-pill--streak { color: hsl(35,100%,70%); }
+    .page-app--cp30 .stat-pill--score { color: hsl(47,100%,72%); }
+    .page-app--cp30 .btn--logout { color: hsl(350,100%,82%); border-color: hsla(350,88%,70%,0.48); }
+
+    .page-app--cp30 .app-layout { grid-template-columns: minmax(0,1fr) 290px; gap: 22px; max-width: 1240px; min-height: calc(100vh - 72px); padding: 28px 24px 42px; }
+    .page-app--cp30 .mode-tabs { gap: 10px; margin-bottom: 16px; }
+    .page-app--cp30 .mode-tab { min-height: 50px; border: 2px solid hsla(218,60%,35%,0.15); border-radius: 14px; color: hsl(218,30%,36%); background: rgba(255,255,255,0.9); box-shadow: 0 7px 18px hsla(222,65%,20%,0.08); font-weight: 800; }
+    .page-app--cp30 .mode-tab:hover { color: hsl(218,76%,34%); background: #fff; }
+    .page-app--cp30 .mode-tab.active { color: hsl(224,78%,12%); border-color: hsl(42,98%,54%); background: hsl(47,100%,94%); box-shadow: inset 0 -3px 0 hsla(35,90%,45%,0.14), 0 8px 20px hsla(42,80%,36%,0.1); }
+    .page-app--cp30 .type-tabs { gap: 6px; margin-bottom: 16px; padding: 6px; border: 2px solid hsla(218,60%,35%,0.14); border-radius: 15px; background: rgba(255,255,255,0.88); }
+    .page-app--cp30 .type-tab { min-height: 44px; color: hsl(218,18%,48%); border-radius: 11px; font-weight: 800; }
+    .page-app--cp30 .type-tab:hover { color: hsl(218,76%,34%); background: hsl(210,75%,96%); }
+    .page-app--cp30 .type-tab.active { color: #fff; background: hsl(218,86%,42%); box-shadow: inset 0 -3px 0 hsla(224,85%,18%,0.24), 0 6px 14px hsla(218,75%,30%,0.18); }
+
+    .page-app--cp30 .challenge-main { border: 2px solid hsla(218,60%,35%,0.16); border-top: 5px solid hsl(42,98%,54%); border-radius: 22px; background: rgba(255,255,255,0.96); box-shadow: 0 20px 46px hsla(222,72%,18%,0.16); backdrop-filter: none; }
+    .page-app--cp30 .challenge-progress { padding: 20px 24px 0; }
+    .page-app--cp30 .challenge-progress__label { color: hsl(218,24%,40%); font-weight: 800; }
+    .page-app--cp30 .challenge-progress__count { color: hsl(218,76%,34%); }
+    .page-app--cp30 .progress-bar { height: 10px; background: hsl(214,42%,90%); }
+    .page-app--cp30 .progress-bar__fill { background: linear-gradient(90deg,hsl(210,96%,56%),hsl(218,86%,42%),hsl(42,98%,54%)); }
+    .page-app--cp30 .challenge-panel { padding: 28px clamp(18px,4vw,42px); }
+    .page-app--cp30 .word-topic-tag { color: hsl(218,76%,34%); border: 1px solid hsla(210,85%,45%,0.25); background: hsl(205,88%,96%); }
+    .page-app--cp30 .word-meaning-zh { color: hsl(224,78%,12%); }
+    .page-app--cp30 .sub-mode-badge { font-weight: 800; }
+    .page-app--cp30 .tile-answer-zone { border-color: hsla(218,60%,35%,0.25); background: hsl(215,72%,98%); }
+    .page-app--cp30 .letter-tile { color: hsl(224,78%,12%); border: 2px solid hsla(218,60%,35%,0.18); background: #fff; box-shadow: 0 5px 12px hsla(222,50%,20%,0.1); }
+    .page-app--cp30 .type-input { color: hsl(224,78%,12%); border: 2px solid hsla(218,60%,35%,0.22); background: hsl(215,72%,98%); }
+    .page-app--cp30 .type-input:focus { border-color: hsl(210,96%,52%); box-shadow: 0 0 0 4px hsla(210,96%,52%,0.14); }
+    .page-app--cp30 .type-submit-btn, .page-app--cp30 .nav-btn--next { color: #fff; border-color: hsl(218,90%,32%); background: hsl(218,86%,42%); box-shadow: inset 0 -4px 0 hsla(224,85%,18%,0.24); }
+    .page-app--cp30 .speak-btn { color: hsl(218,76%,34%); border-color: hsla(210,85%,45%,0.28); background: hsl(205,88%,96%); }
+    .page-app--cp30 .answer-reveal, .page-app--cp30 .speech-result, .page-app--cp30 .sentence-speech-prompt { border-color: hsla(153,61%,41%,0.28); background: hsl(153,55%,96%); }
+    .page-app--cp30 .challenge-nav { border-top: 2px solid hsla(218,60%,35%,0.12); background: hsl(215,72%,98%); }
+    .page-app--cp30 .nav-btn { min-height: 46px; border-radius: 12px; }
+
+    .page-app--cp30 .mastery-sidebar { border: 2px solid hsla(218,60%,35%,0.15); border-top: 5px solid hsl(210,86%,53%); border-radius: 18px; background: rgba(255,255,255,0.94); box-shadow: 0 14px 32px hsla(222,65%,20%,0.12); backdrop-filter: none; }
+    .page-app--cp30 .mastery-header { color: hsl(224,78%,12%); border-bottom-color: hsla(218,60%,35%,0.12); }
+    .page-app--cp30 .mastery-item { border-color: hsla(218,60%,35%,0.12); background: hsl(215,72%,98%); }
+    .page-app--cp30 .mastery-placeholder { color: hsl(218,16%,50%); }
+    .page-app--cp30 .mastery-drawer { color: hsl(224,78%,12%); background: #fff; }
+    .page-app--cp30 .mastery-drawer-toggle { color: #fff; border: 2px solid hsl(42,98%,64%); background: hsl(218,86%,42%); }
+
+    .page-app--cp30 #completionScreen { color: hsl(224,78%,12%); }
+    .page-app--cp30 .completion-trophy img { width: 110px; height: 110px; object-fit: contain; filter: drop-shadow(0 8px 12px hsla(218,70%,25%,0.2)); }
+    .page-app--cp30 .completion-title { color: hsl(224,78%,12%); }
+    .page-app--cp30 .completion-stat { border: 2px solid hsla(218,60%,35%,0.14); background: hsl(215,72%,98%); }
+    .page-app--cp30 .completion-stat__icon { color: hsl(218,76%,38%); }
+
+    .page-app--cp30 #loadingScreen { color: hsl(224,78%,12%); background: hsl(205,88%,96%); }
+    .page-app--cp30 .loading-logo { color: hsl(218,76%,34%); }
+    .page-app--cp30 .loading-spinner { border-color: hsla(218,60%,35%,0.15); border-top-color: hsl(42,98%,54%); }
+
+    @media (max-width: 1024px) { .page-app--cp30 .app-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) {
+      .page-app--cp30 .app-topbar { height: auto; min-height: 68px; padding: 10px 12px; }
+      .page-app--cp30 .topbar__logo { font-size: 0; }
+      .page-app--cp30 .topbar__logo img { width: 34px; height: 40px; }
+      .page-app--cp30 .school-badge, .page-app--cp30 .level-badge, .page-app--cp30 .speech-speed-selector, .page-app--cp30 .stat-pill--streak { display: none !important; }
+      .page-app--cp30 .student-pill { max-width: 170px; }
+      .page-app--cp30 .app-layout { padding: 18px 12px 92px; }
+      .page-app--cp30 .mode-tabs { overflow-x: auto; }
+      .page-app--cp30 .mode-tab { min-width: 128px; padding-inline: 10px; }
+      .page-app--cp30 .type-tab { font-size: 0.78rem; }
+      .page-app--cp30 .challenge-panel { padding: 22px 14px; }
+      .page-app--cp30 .challenge-progress { padding-inline: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .page-app--cp30 *, .page-app--cp30 *::before, .page-app--cp30 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
+  </style>
 </head>
-<body>
+<body class="page-app--cp30">
 
 <!-- ═══════════════════════════════════════════════════════ -->
 <!-- Loading Screen                                          -->
@@ -876,7 +974,7 @@
 <!-- ═══════════════════════════════════════════════════════ -->
 <header class="app-topbar">
   <div class="topbar__left">
-    <a href="index.html" class="topbar__logo">🏆 單字王</a>
+    <a href="index.html" class="topbar__logo"><img src="assets/gem-academy/crest.png" alt="" width="36" height="42">英語單字王</a>
     <div class="divider" style="width:1px;height:28px;margin:0 4px;background:rgba(255,255,255,0.08)"></div>
     <div class="student-pill" id="studentPill">
       <div class="student-pill__avatar" id="studentAvatar">?</div>
@@ -898,10 +996,10 @@
       <button onclick="setSpeechSpeed(0.55, this)" class="speed-btn" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">慢</button>
     </div>
     <div class="stat-pill stat-pill--streak" id="streakPill">
-      🔥 <span id="streakCount">0</span> 天
+      <span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span><span id="streakCount">0</span> 天
     </div>
     <div class="stat-pill stat-pill--score" id="scorePill">
-      ✦ <span id="todayScore">0</span> pts
+      <span class="material-symbols-rounded" aria-hidden="true">diamond</span><span id="todayScore">0</span> pts
     </div>
     <button class="btn--logout" id="logoutBtn" onclick="handleLogout()">登出</button>
   </div>
@@ -918,14 +1016,14 @@
     <!-- Mode Selector -->
     <div class="mode-tabs">
       <button class="mode-tab active" data-mode="daily" onclick="switchMode('daily', this)">
-        📅 每日挑戰
+        <span class="material-symbols-rounded" aria-hidden="true">event_available</span>每日挑戰
         <span class="mode-tab__badge" id="dailyBadge" style="display:none">NEW</span>
       </button>
       <button class="mode-tab" data-mode="free" onclick="switchMode('free', this)">
-        ♾️ 自由練習
+        <span class="material-symbols-rounded" aria-hidden="true">all_inclusive</span>自由練習
       </button>
       <button class="mode-tab" data-mode="class" onclick="switchMode('class', this)">
-        🏫 課堂挑戰
+        <span class="material-symbols-rounded" aria-hidden="true">school</span>課堂挑戰
       </button>
     </div>
 
@@ -945,13 +1043,13 @@
     <!-- Challenge Type Tabs -->
     <div class="type-tabs">
       <button class="type-tab active" data-type="spelling" onclick="switchType('spelling', this)">
-        🔤 單字拼寫
+        <span class="material-symbols-rounded" aria-hidden="true">spellcheck</span>單字拼寫
       </button>
       <button class="type-tab" data-type="speech" onclick="switchType('speech', this)">
-        🎤 口說發音
+        <span class="material-symbols-rounded" aria-hidden="true">mic</span>口說發音
       </button>
       <button class="type-tab" data-type="sentence" onclick="switchType('sentence', this)">
-        📖 句型練習
+        <span class="material-symbols-rounded" aria-hidden="true">menu_book</span>句型練習
       </button>
     </div>
 
@@ -1135,7 +1233,7 @@
 
       <!-- ═══ COMPLETION SCREEN ════════════════════════════ -->
       <div id="completionScreen">
-        <div class="completion-trophy" id="completionTrophy">🏆</div>
+        <div class="completion-trophy" id="completionTrophy"><img src="assets/gem-academy/feature-competition.png" alt="" width="110" height="110"></div>
         <div class="completion-title">挑戰完成！</div>
         <div class="completion-stars" id="completionStars">
           <span>⭐</span><span>⭐</span><span>⭐</span>
@@ -1145,17 +1243,17 @@
         </div>
         <div class="completion-stats">
           <div class="completion-stat">
-            <div class="completion-stat__icon">🎯</div>
+            <div class="completion-stat__icon material-symbols-rounded" aria-hidden="true">track_changes</div>
             <div class="completion-stat__val" id="finalAccuracy">--</div>
             <div class="completion-stat__lbl">正確率</div>
           </div>
           <div class="completion-stat">
-            <div class="completion-stat__icon">✨</div>
+            <div class="completion-stat__icon material-symbols-rounded" aria-hidden="true">diamond</div>
             <div class="completion-stat__val" id="finalScore">--</div>
             <div class="completion-stat__lbl">得分</div>
           </div>
           <div class="completion-stat">
-            <div class="completion-stat__icon">🔥</div>
+            <div class="completion-stat__icon material-symbols-rounded" aria-hidden="true">local_fire_department</div>
             <div class="completion-stat__val" id="finalStreak">--</div>
             <div class="completion-stat__lbl">連續天數</div>
           </div>
@@ -1202,7 +1300,7 @@
 </div>
 
 <!-- Mobile Mastery Drawer -->
-<button class="mastery-drawer-toggle" id="masteryToggleBtn" onclick="toggleMasteryDrawer()">📊</button>
+<button class="mastery-drawer-toggle material-symbols-rounded" id="masteryToggleBtn" onclick="toggleMasteryDrawer()" aria-label="開啟本次練習紀錄">monitoring</button>
 <div class="mastery-drawer" id="masteryDrawer">
   <div class="mastery-drawer__handle"></div>
   <div class="mastery-header">本次練習紀錄</div>
