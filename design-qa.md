@@ -62,3 +62,29 @@ No P0, P1 or P2 findings were identified in the full-view and focused-region com
 - [P3] Small phones prioritize the central crystal and path; the right-side academy is mostly cropped, which is acceptable because the primary content remains clear.
 
 final result: passed
+
+---
+
+# CP28 join.html design QA
+
+## Visual target
+
+- Source system: the user-approved and published CP27 Gem Adventure Academy homepage.
+- Reused visual language: navy academy navigation, sapphire/gold title treatment, bright academy scene, white high-contrast task cards, gem badge imagery and three-school accent colors.
+
+## Evidence and findings
+
+- Desktop browser capture shows the intended two-column hierarchy: academy invitation and school identity on the left, focused student login task on the right, and three challenge previews below.
+- All crest and feature images loaded successfully; no placeholder, Emoji or broken image remains in the main entry experience.
+- The login card, school selector and Google CTA remain legible against the scene and retain clear focus/hover states.
+- Browser layout metrics report no horizontal overflow. CSS breakpoints at 800px and 480px convert the view to a single column and keep the primary CTA above 44px.
+- School selector interaction updated both `value` and `data-school` to `鳳岡國小`.
+- Browser console reported no errors.
+
+No P0, P1 or P2 findings remain.
+
+## Follow-up polish
+
+- [P3] Exact 390×844 screenshot capture was unavailable in the in-app browser viewport override during this pass; the 390px rules were verified structurally and will be rechecked visually if the browser override becomes available before publication.
+
+final result: passed
