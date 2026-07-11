@@ -48,6 +48,33 @@
   let _activityFrameId = null
   let _lastActivityNoticeAt = 0
 
+  /** 從瀏覽器提供的多個候選中，選出最接近題目的辨識文字。 */
+  function pickBestRecognitionAlternative(result, expectedText) {
+    const alternatives = Array.from(result || [])
+    if (!alternatives.length) return ''
+    const expectedWords = _normalizeText(expectedText)
+    const expectedPhrase = expectedWords.join(' ')
+    const targetWord = expectedWords[expectedWords.length - 1] || ''
+
+    const ranked = alternatives.map((alternative, index) => {
+      const transcript = String(alternative.transcript || '').trim()
+      const words = _normalizeText(transcript)
+      const phrase = words.join(' ')
+      const closestTargetDistance = targetWord && words.length
+        ? Math.min(...words.map(word => _levenshtein(targetWord, word)))
+        : targetWord.length
+      let score = Number(alternative.confidence || 0) * 10
+      if (phrase === expectedPhrase) score += 1000
+      if (targetWord && words.includes(targetWord)) score += 500
+      score -= _levenshtein(expectedPhrase, phrase) * 4
+      score -= closestTargetDistance * 25
+      return { transcript, score, index }
+    })
+
+    ranked.sort((a, b) => b.score - a.score || a.index - b.index)
+    return ranked[0].transcript
+  }
+
   /**
    * 啟動語音辨識
    * @param {string}   expectedText  — 預期的答案文字（用於即時顯示提示）
@@ -85,7 +112,7 @@
       const timeout = silenceTimeoutMs || (wordCount > 3 ? 4500 : 2000)
 
       const recognition = new SpeechRecognitionAPI()
-      recognition.lang            = 'en-US'
+      recognition.lang            = _speechPreferences?.locale || 'en-US'
       recognition.continuous      = false
       recognition.interimResults  = true
       recognition.maxAlternatives = 3
@@ -145,7 +172,7 @@
 
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const result = event.results[i]
-          const text   = result[0].transcript
+          const text   = pickBestRecognitionAlternative(result, expectedText)
           if (result.isFinal) {
             finalTranscript += text
           } else {
@@ -1136,6 +1163,7 @@
     /** 語音辨識 */
     startListening,
     stopListening,
+    selectRecognitionAlternative: pickBestRecognitionAlternative,
     get isListening() { return _isListening },
     requestMicrophoneAccess,
     getMicrophoneHelpMessage,

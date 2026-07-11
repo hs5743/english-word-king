@@ -1302,6 +1302,7 @@
       let html = [
         `<div style="margin-bottom: 8px; font-weight: bold; color: var(--clr-text-secondary); font-family: var(--font-zh); font-size: 0.85rem;">系統聽成：<span style="color: var(--clr-blue-1); font-family: var(--font-en); font-size: 1rem; font-weight: 800;">${heardText}</span></div>`,
         `<div>${bestText}</div>`,
+        `<div style="margin-top:6px;font-size:0.8rem;color:var(--clr-text-muted);">分數來自瀏覽器語音轉文字結果，會受裝置、網路與環境聲音影響，並非專業音標檢測。</div>`,
         ...diagnosis.tips.map(tip => `<div>• ${tip}</div>`),
         ...qualityTips.map(tip => `<div>• ${tip}</div>`)
       ].join('')
@@ -1545,7 +1546,7 @@
       })
       if (el) el.classList.add('active')
       const label = rate >= 1 ? '快速' : rate <= 0.65 ? '教學慢速' : '標準速度'
-      showToast(`語音已調整為${label}`, 'info')
+      showToast(`播放速度：${label}`, 'info')
     },
 
     // 切換模式（每日 / 練習 / 課堂）

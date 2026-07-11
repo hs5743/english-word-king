@@ -846,6 +846,10 @@
       color: #ffc107; font-size: 0.85rem; text-align: center; margin-bottom: var(--sp-md);
     }
     
+    .speed-btn {
+      background: transparent !important;
+      color: #a9b8d0 !important;
+    }
     .speed-btn.active {
       background: var(--clr-gold-1) !important;
       color: #000 !important;
@@ -1038,9 +1042,9 @@
     <!-- 全域語速調節器 -->
     <div class="speech-speed-selector" style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 2px; gap: 2px; margin-right: 8px;">
       <span style="font-size: 0.68rem; color: #8892b0; padding: 0 4px; font-weight: bold; white-space: nowrap;">語速</span>
-      <button onclick="setSpeechSpeed(1.05, this)" class="speed-btn" data-speech-mode="fast" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">快速</button>
-      <button onclick="setSpeechSpeed(0.88, this)" class="speed-btn active" data-speech-mode="normal" style="background: var(--clr-gold-1); border: none; color: #000; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">標準</button>
-      <button onclick="setSpeechSpeed(0.62, this)" class="speed-btn" data-speech-mode="slow" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">教學慢速</button>
+      <button onclick="setSpeechSpeed(1.05, this)" class="speed-btn" data-speech-mode="fast" style="border: none; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">快速</button>
+      <button onclick="setSpeechSpeed(0.88, this)" class="speed-btn active" data-speech-mode="normal" style="border: none; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">標準</button>
+      <button onclick="setSpeechSpeed(0.62, this)" class="speed-btn" data-speech-mode="slow" style="border: none; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">教學慢速</button>
     </div>
     <button class="speech-settings-trigger" type="button" onclick="openSpeechSettingsModal()" aria-label="開啟語音與口音設定" title="語音與口音設定"><span class="material-symbols-rounded" aria-hidden="true">record_voice_over</span></button>
     <div class="stat-pill stat-pill--streak" id="streakPill">
@@ -1226,10 +1230,10 @@
             </svg>
             <span class="speech-score-value" id="scoreValue">0</span>
           </div>
-          <div style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm)" id="scoreLabel">發音分數</div>
+          <div style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm)" id="scoreLabel">辨識參考分數</div>
           <div class="speech-word-chips" id="speechWordChips"></div>
           <div class="speech-diagnosis" id="speechDiagnosis">
-            <div class="speech-diagnosis__title">AI 音標弱項診斷</div>
+            <div class="speech-diagnosis__title">辨識結果與練習建議</div>
             <div class="speech-diagnosis__body" id="speechDiagnosisBody"></div>
           </div>
           <div style="margin-top:var(--sp-md)">
@@ -1407,8 +1411,7 @@
     <button type="button" onclick="closeSpeechSettingsModal()" aria-label="關閉語音設定" style="width:42px;height:42px;border:2px solid hsl(216,38%,84%);border-radius:12px;background:#fff;color:hsl(224,78%,12%);font-size:1.5rem;cursor:pointer;">&times;</button>
   </div>
   <div class="speech-settings-form">
-    <div class="speech-setting-field"><label for="speechLocaleSelect">英文口音</label><select id="speechLocaleSelect" onchange="saveSpeechSettings()"><option value="en-US">美式英文</option><option value="en-GB">英式英文</option></select></div>
-    <div class="speech-setting-field"><label for="speechProfileSelect">示範音色</label><select id="speechProfileSelect" onchange="saveSpeechSettings(true)"><option value="clear-us">清晰美式</option><option value="warm-us">溫和美式</option><option value="calm-uk">沉穩英式</option></select></div>
+    <div class="speech-setting-field"><label for="speechProfileSelect">口音與示範音色（三選一）</label><select id="speechProfileSelect" onchange="saveSpeechSettings()"><option value="clear-us">清晰美式</option><option value="warm-us">溫和美式</option><option value="calm-uk">沉穩英式</option></select></div>
     <p class="speech-setting-hint">系統會從此裝置現有的英文語音中，自動選出最接近的聲音。不同電腦或平板可用音色可能不同。</p>
     <div id="speechVoiceStatus" role="status">正在偵測裝置上的英文語音…</div>
     <div class="speech-preview-actions"><button type="button" onclick="previewSpeechVoice(false)"><span class="material-symbols-rounded" aria-hidden="true">volume_up</span> 試聽標準速度</button><button type="button" onclick="previewSpeechVoice(true)"><span class="material-symbols-rounded" aria-hidden="true">slow_motion_video</span> 試聽教學慢速</button></div>
@@ -1459,9 +1462,12 @@ function closeLevelModal() {
 let speechSettingsLastFocus = null;
 function syncSpeechSettingsUI() {
   if (!window.SpeechEngine) return;
-  const prefs = window.SpeechEngine.getSpeechPreferences();
-  document.getElementById('speechLocaleSelect').value = prefs.locale;
+  let prefs = window.SpeechEngine.getSpeechPreferences();
   document.getElementById('speechProfileSelect').value = prefs.voiceProfile;
+  const selectedProfile = window.SpeechEngine.getVoiceProfiles().find(item => item.id === prefs.voiceProfile);
+  if (selectedProfile && selectedProfile.locale !== prefs.locale) {
+    prefs = window.SpeechEngine.setSpeechPreferences({ locale: selectedProfile.locale });
+  }
   const voices = window.SpeechEngine.getAvailableVoices(prefs.locale);
   document.getElementById('speechVoiceStatus').textContent = voices.length
     ? `已偵測到 ${voices.length} 個${prefs.locale === 'en-GB' ? '英式' : '美式'}英文語音，系統會自動選擇最合適的音色。`
@@ -1472,7 +1478,7 @@ function openSpeechSettingsModal() {
   syncSpeechSettingsUI();
   document.getElementById('speechSettingsModal').style.display = 'block';
   document.getElementById('speechSettingsModalOverlay').style.display = 'block';
-  document.getElementById('speechLocaleSelect').focus();
+  document.getElementById('speechProfileSelect').focus();
 }
 function closeSpeechSettingsModal() {
   window.SpeechEngine?.stopSpeaking();
@@ -1480,13 +1486,12 @@ function closeSpeechSettingsModal() {
   document.getElementById('speechSettingsModalOverlay').style.display = 'none';
   speechSettingsLastFocus?.focus();
 }
-function saveSpeechSettings(fromProfile) {
+function saveSpeechSettings() {
   if (!window.SpeechEngine) return;
   const profileSelect = document.getElementById('speechProfileSelect');
-  const localeSelect = document.getElementById('speechLocaleSelect');
-  if (fromProfile) localeSelect.value = profileSelect.value === 'calm-uk' ? 'en-GB' : 'en-US';
+  const selectedProfile = window.SpeechEngine.getVoiceProfiles().find(item => item.id === profileSelect.value);
   window.SpeechEngine.setSpeechPreferences({
-    locale: localeSelect.value,
+    locale: selectedProfile?.locale || 'en-US',
     voiceProfile: profileSelect.value,
     voiceName: ''
   });
