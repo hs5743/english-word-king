@@ -349,6 +349,13 @@ window.openVoiceHelper = function() {
   document.getElementById('voiceHelperModal').style.display = 'block'
   document.getElementById('voiceHelperModalOverlay').style.display = 'block'
 
+  const prefs = window.SpeechEngine?.getSpeechPreferences?.()
+  const voiceCount = window.SpeechEngine?.getAvailableVoices?.(prefs?.locale)?.length || 0
+  const outputStatus = document.getElementById('voice-output-status')
+  if (outputStatus) outputStatus.textContent = voiceCount
+    ? `已找到 ${voiceCount} 個${prefs?.locale === 'en-GB' ? '英式' : '美式'}英文語音`
+    : '會使用裝置目前可用的英文語音'
+
   // Step 1: 瀏覽器口說相容性檢測
   const recognitionSupport = !!(window.SpeechRecognition || window.webkitSpeechRecognition)
   const stepCompat = document.getElementById('step-compat-status')
@@ -359,6 +366,13 @@ window.openVoiceHelper = function() {
     stepCompat.textContent = '❌ 不支援口說 (請用 Chrome)'
     stepCompat.style.color = '#ff6b6b'
   }
+}
+
+window.previewVoiceHelper = function(slow) {
+  if (!window.SpeechEngine) return
+  const prefs = window.SpeechEngine.getSpeechPreferences()
+  const text = 'Hello! Welcome to the Gem Adventure Academy. Let us learn English together!'
+  window.SpeechEngine.speak(text, '', slow ? prefs.slowRate : prefs.normalRate, { teachingSlow: slow }).catch(() => {})
 }
 
 // 2. 檢測麥克風權限與音頻輸入
@@ -423,6 +437,7 @@ window.testMicrophoneDevice = async function() {
 
 // 3. 停止與清理所有設備檢測資源 (防止佔用麥克風與紅燈亮)
 window.stopVoiceHelperTest = function() {
+  window.SpeechEngine?.stopSpeaking()
   if (window.voiceHelperAnimationId) {
     cancelAnimationFrame(window.voiceHelperAnimationId)
     window.voiceHelperAnimationId = null
@@ -753,7 +768,7 @@ function renderMiningStage() {
 
 window.playMiningSpeech = function() {
   if (!currentMiningWord || !window.SpeechEngine) return;
-  window.SpeechEngine.speak(currentMiningWord.word, 'en-US', 0.8);
+  window.SpeechEngine.speak(currentMiningWord.word, '', 0.8);
 };
 
 window.checkMiningSpelling = function() {

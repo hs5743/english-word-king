@@ -934,8 +934,8 @@
     .page-app--cp30 .loading-spinner { border-color: hsla(218,60%,35%,0.15); border-top-color: hsl(42,98%,54%); }
 
     /* CP31：挑戰中心學生 Modal */
-    .page-app--cp30 :is(#levelModalOverlay, #gemUpgradeModalOverlay) { background: rgba(3,12,36,0.64) !important; backdrop-filter: blur(7px); }
-    .page-app--cp30 #levelModal {
+    .page-app--cp30 :is(#levelModalOverlay, #gemUpgradeModalOverlay, #speechSettingsModalOverlay) { background: rgba(3,12,36,0.64) !important; backdrop-filter: blur(7px); }
+    .page-app--cp30 :is(#levelModal, #speechSettingsModal) {
       color: hsl(224,78%,12%) !important;
       background: rgba(255,255,255,0.98) !important;
       border: 2px solid hsla(218,72%,36%,0.2) !important;
@@ -954,6 +954,17 @@
     .page-app--cp30 #modalMasteredCount { color: hsl(153,68%,32%) !important; }
     .page-app--cp30 #modalNextLevelText { color: hsl(218,18%,46%) !important; }
     .page-app--cp30 #levelModal button[onclick="closeLevelModal()"] { display: grid; width: 40px; height: 40px; place-items: center; padding: 0 !important; border: 2px solid hsla(218,60%,35%,0.16) !important; border-radius: 12px !important; color: hsl(224,78%,12%) !important; background: hsl(215,72%,97%) !important; }
+    .speech-settings-trigger { display: inline-grid; width: 42px; height: 42px; place-items: center; color: #fff; border: 1px solid hsla(210,96%,70%,0.32); border-radius: 12px; background: hsla(210,96%,56%,0.16); cursor: pointer; }
+    .speech-settings-trigger:hover { background: hsla(210,96%,56%,0.28); }
+    .speech-settings-form { display: grid; gap: 18px; }
+    .speech-setting-field { display: grid; gap: 7px; }
+    .speech-setting-field label { color: hsl(224,78%,12%); font-size: 0.92rem; font-weight: 800; }
+    .speech-setting-field select { width: 100%; min-height: 48px; padding: 0 42px 0 13px; color: hsl(224,78%,12%); font: 700 1rem var(--font-zh); border: 2px solid hsl(216,38%,84%); border-radius: 13px; background: #fff; }
+    .speech-setting-hint { margin: 0; color: hsl(218,24%,38%); font-size: 0.84rem; line-height: 1.6; }
+    .speech-preview-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .speech-preview-actions button { min-height: 48px; padding: 10px 12px; color: #fff; font-weight: 800; border: 0; border-radius: 13px; background: hsl(218,76%,38%); cursor: pointer; }
+    .speech-preview-actions button:last-child { color: hsl(224,78%,12%); background: hsl(42,98%,54%); }
+    #speechVoiceStatus { padding: 10px 12px; color: hsl(218,30%,34%); font-size: 0.82rem; line-height: 1.5; border-radius: 11px; background: hsl(215,72%,96%); }
 
     .page-app--cp30 #gemUpgradeModal {
       color: #fff !important;
@@ -965,7 +976,7 @@
     .page-app--cp30 #gemUpgradeModal .glow-bg { opacity: 0.5; }
     .page-app--cp30 #gemUpgradeModal button { min-height: 50px; color: hsl(224,78%,12%) !important; border: 2px solid hsl(47,100%,72%) !important; border-radius: 14px !important; background: hsl(42,98%,54%) !important; box-shadow: inset 0 -4px 0 hsla(32,100%,28%,0.2), 0 8px 18px hsla(42,98%,44%,0.24) !important; }
 
-    .page-app--cp30 :where(#levelModal, #gemUpgradeModal) :where(button,[tabindex]):focus-visible { outline: 3px solid hsl(47,100%,64%) !important; outline-offset: 3px; }
+    .page-app--cp30 :where(#levelModal, #gemUpgradeModal, #speechSettingsModal) :where(button,select,[tabindex]):focus-visible, .speech-settings-trigger:focus-visible { outline: 3px solid hsl(47,100%,64%) !important; outline-offset: 3px; }
 
     @media (max-width: 1024px) { .page-app--cp30 .app-layout { grid-template-columns: 1fr; } }
     @media (max-width: 760px) {
@@ -980,7 +991,8 @@
       .page-app--cp30 .type-tab { font-size: 0.78rem; }
       .page-app--cp30 .challenge-panel { padding: 22px 14px; }
       .page-app--cp30 .challenge-progress { padding-inline: 16px; }
-      .page-app--cp30 :is(#levelModal, #gemUpgradeModal) { width: calc(100% - 20px) !important; max-height: calc(100vh - 24px) !important; padding: 22px 16px !important; overflow-y: auto; }
+      .page-app--cp30 :is(#levelModal, #gemUpgradeModal, #speechSettingsModal) { width: calc(100% - 20px) !important; max-height: calc(100vh - 24px) !important; padding: 22px 16px !important; overflow-y: auto; }
+      .speech-preview-actions { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) { .page-app--cp30 *, .page-app--cp30 *::before, .page-app--cp30 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
   </style>
@@ -1026,10 +1038,11 @@
     <!-- 全域語速調節器 -->
     <div class="speech-speed-selector" style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 2px; gap: 2px; margin-right: 8px;">
       <span style="font-size: 0.68rem; color: #8892b0; padding: 0 4px; font-weight: bold; white-space: nowrap;">語速</span>
-      <button onclick="setSpeechSpeed(1.2, this)" class="speed-btn" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">快</button>
-      <button onclick="setSpeechSpeed(0.85, this)" class="speed-btn active" style="background: var(--clr-gold-1); border: none; color: #000; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">中</button>
-      <button onclick="setSpeechSpeed(0.55, this)" class="speed-btn" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">慢</button>
+      <button onclick="setSpeechSpeed(1.05, this)" class="speed-btn" data-speech-mode="fast" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">快速</button>
+      <button onclick="setSpeechSpeed(0.88, this)" class="speed-btn active" data-speech-mode="normal" style="background: var(--clr-gold-1); border: none; color: #000; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">標準</button>
+      <button onclick="setSpeechSpeed(0.62, this)" class="speed-btn" data-speech-mode="slow" style="background: none; border: none; color: #8892b0; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">教學慢速</button>
     </div>
+    <button class="speech-settings-trigger" type="button" onclick="openSpeechSettingsModal()" aria-label="開啟語音與口音設定" title="語音與口音設定"><span class="material-symbols-rounded" aria-hidden="true">record_voice_over</span></button>
     <div class="stat-pill stat-pill--streak" id="streakPill">
       <span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span><span id="streakCount">0</span> 天
     </div>
@@ -1386,6 +1399,22 @@
   </div>
 </div>
 
+<!-- CP34 Voice and accent settings -->
+<div class="drawer-overlay" id="speechSettingsModalOverlay" style="z-index: 1100; display: none;"></div>
+<div class="level-modal" id="speechSettingsModal" role="dialog" aria-modal="true" aria-labelledby="speechSettingsTitle" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; padding: 24px; z-index: 1101;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid hsl(216,38%,88%);">
+    <div><h3 id="speechSettingsTitle" style="margin:0;color:hsl(224,78%,12%);font-size:1.2rem;"><span class="material-symbols-rounded" aria-hidden="true">graphic_eq</span> 英語示範聲音</h3><p class="speech-setting-hint" style="margin-top:5px;">挑選適合自己的口音與音色，設定會保留在這台裝置。</p></div>
+    <button type="button" onclick="closeSpeechSettingsModal()" aria-label="關閉語音設定" style="width:42px;height:42px;border:2px solid hsl(216,38%,84%);border-radius:12px;background:#fff;color:hsl(224,78%,12%);font-size:1.5rem;cursor:pointer;">&times;</button>
+  </div>
+  <div class="speech-settings-form">
+    <div class="speech-setting-field"><label for="speechLocaleSelect">英文口音</label><select id="speechLocaleSelect" onchange="saveSpeechSettings()"><option value="en-US">美式英文</option><option value="en-GB">英式英文</option></select></div>
+    <div class="speech-setting-field"><label for="speechProfileSelect">示範音色</label><select id="speechProfileSelect" onchange="saveSpeechSettings(true)"><option value="clear-us">清晰美式</option><option value="warm-us">溫和美式</option><option value="calm-uk">沉穩英式</option></select></div>
+    <p class="speech-setting-hint">系統會從此裝置現有的英文語音中，自動選出最接近的聲音。不同電腦或平板可用音色可能不同。</p>
+    <div id="speechVoiceStatus" role="status">正在偵測裝置上的英文語音…</div>
+    <div class="speech-preview-actions"><button type="button" onclick="previewSpeechVoice(false)"><span class="material-symbols-rounded" aria-hidden="true">volume_up</span> 試聽標準速度</button><button type="button" onclick="previewSpeechVoice(true)"><span class="material-symbols-rounded" aria-hidden="true">slow_motion_video</span> 試聽教學慢速</button></div>
+  </div>
+</div>
+
 <!-- Gem Upgrade Modal (WOW Factor) -->
 <div class="drawer-overlay" id="gemUpgradeModalOverlay" style="z-index: 2000; display: none;"></div>
 <div class="level-modal" id="gemUpgradeModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: radial-gradient(circle at center, #1e293b, #0f172a); border: 3px solid #f5c842; border-radius: 24px; padding: 32px; z-index: 2001; box-shadow: 0 0 50px rgba(245, 200, 66, 0.4); color: #fff; font-family: var(--font-zh); text-align: center; overflow: hidden; animation: scaleUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
@@ -1427,6 +1456,48 @@ function closeLevelModal() {
   document.getElementById('levelModal').style.display = 'none';
   document.getElementById('levelModalOverlay').style.display = 'none';
 }
+let speechSettingsLastFocus = null;
+function syncSpeechSettingsUI() {
+  if (!window.SpeechEngine) return;
+  const prefs = window.SpeechEngine.getSpeechPreferences();
+  document.getElementById('speechLocaleSelect').value = prefs.locale;
+  document.getElementById('speechProfileSelect').value = prefs.voiceProfile;
+  const voices = window.SpeechEngine.getAvailableVoices(prefs.locale);
+  document.getElementById('speechVoiceStatus').textContent = voices.length
+    ? `已偵測到 ${voices.length} 個${prefs.locale === 'en-GB' ? '英式' : '美式'}英文語音，系統會自動選擇最合適的音色。`
+    : '此裝置目前沒有相同口音的語音，播放時會自動改用其他可用英文聲音。';
+}
+function openSpeechSettingsModal() {
+  speechSettingsLastFocus = document.activeElement;
+  syncSpeechSettingsUI();
+  document.getElementById('speechSettingsModal').style.display = 'block';
+  document.getElementById('speechSettingsModalOverlay').style.display = 'block';
+  document.getElementById('speechLocaleSelect').focus();
+}
+function closeSpeechSettingsModal() {
+  window.SpeechEngine?.stopSpeaking();
+  document.getElementById('speechSettingsModal').style.display = 'none';
+  document.getElementById('speechSettingsModalOverlay').style.display = 'none';
+  speechSettingsLastFocus?.focus();
+}
+function saveSpeechSettings(fromProfile) {
+  if (!window.SpeechEngine) return;
+  const profileSelect = document.getElementById('speechProfileSelect');
+  const localeSelect = document.getElementById('speechLocaleSelect');
+  if (fromProfile) localeSelect.value = profileSelect.value === 'calm-uk' ? 'en-GB' : 'en-US';
+  window.SpeechEngine.setSpeechPreferences({
+    locale: localeSelect.value,
+    voiceProfile: profileSelect.value,
+    voiceName: ''
+  });
+  syncSpeechSettingsUI();
+}
+function previewSpeechVoice(slow) {
+  saveSpeechSettings();
+  const prefs = window.SpeechEngine.getSpeechPreferences();
+  const text = 'Hello! Welcome to the Gem Adventure Academy. Let us learn English together!';
+  window.SpeechEngine.speak(text, '', slow ? prefs.slowRate : prefs.normalRate, { teachingSlow: slow }).catch(() => {});
+}
 function closeGemUpgradeModal() {
   document.getElementById('gemUpgradeModal').style.display = 'none';
   document.getElementById('gemUpgradeModalOverlay').style.display = 'none';
@@ -1454,6 +1525,11 @@ function toggleMasteryDrawer() {
 document.getElementById('drawerOverlay').addEventListener('click', toggleMasteryDrawer);
 document.getElementById('levelModalOverlay').addEventListener('click', closeLevelModal);
 document.getElementById('gemUpgradeModalOverlay').addEventListener('click', closeGemUpgradeModal);
+document.getElementById('speechSettingsModalOverlay').addEventListener('click', closeSpeechSettingsModal);
+window.addEventListener('speechvoiceschanged', syncSpeechSettingsUI);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && document.getElementById('speechSettingsModal').style.display === 'block') closeSpeechSettingsModal();
+});
 
 // Pass-through functions connected to ChallengeApp
 function goToPrev()    { window.ChallengeApp?.prev(); }

@@ -863,80 +863,178 @@
    * 4. TEXT-TO-SPEECH
    * ═══════════════════════════════════════════════════════════ */
 
-  let _preferredVoice = null
+  const TTS_STORAGE_KEY = 'ewk-speech-preferences-v1'
+  const TTS_DEFAULTS = {
+    locale: 'en-US',
+    voiceProfile: 'clear-us',
+    voiceName: '',
+    normalRate: 0.88,
+    slowRate: 0.62,
+    pitch: 1,
+    segmentedSlow: true,
+  }
+  const VOICE_PROFILES = [
+    { id: 'clear-us', label: '清晰美式', locale: 'en-US', hints: ['Aria', 'Jenny', 'Zira', 'Samantha', 'Google US English', 'Ava'] },
+    { id: 'warm-us', label: '溫和美式', locale: 'en-US', hints: ['Jenny', 'Samantha', 'Ava', 'Google US English', 'Aria'] },
+    { id: 'calm-uk', label: '沉穩英式', locale: 'en-GB', hints: ['Sonia', 'Ryan', 'Daniel', 'Google UK English', 'Hazel'] },
+  ]
 
-  /** 取得最佳英語語音（優先自然語音） */
-  function _getEnglishVoice() {
-    if (_preferredVoice) return _preferredVoice
+  let _speechPreferences = loadSpeechPreferences()
+  let _speechSequence = 0
 
-    const voices = window.speechSynthesis?.getVoices() || []
-
-    // 依偏好清單選取
-    const preferred = [
-      'Google US English',
-      'Google UK English Female',
-      'Samantha',
-      'Alex',
-      'Zira',
-    ]
-    for (const name of preferred) {
-      const v = voices.find(v => v.name === name)
-      if (v) { _preferredVoice = v; return v }
+  function loadSpeechPreferences() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(TTS_STORAGE_KEY) || '{}')
+      return { ...TTS_DEFAULTS, ...saved }
+    } catch (_) {
+      return { ...TTS_DEFAULTS }
     }
+  }
 
-    // Fallback: 任意英語語音
-    const fallback = voices.find(v => v.lang.startsWith('en'))
-    if (fallback) _preferredVoice = fallback
-    return _preferredVoice || null
+  function getSpeechPreferences() {
+    return { ..._speechPreferences }
+  }
+
+  function setSpeechPreferences(next = {}) {
+    const allowedLocales = ['en-US', 'en-GB']
+    const profile = VOICE_PROFILES.find(item => item.id === next.voiceProfile)
+    _speechPreferences = {
+      ..._speechPreferences,
+      ...next,
+      locale: allowedLocales.includes(next.locale) ? next.locale : (profile?.locale || _speechPreferences.locale),
+    }
+    try { localStorage.setItem(TTS_STORAGE_KEY, JSON.stringify(_speechPreferences)) } catch (_) {}
+    window.dispatchEvent(new CustomEvent('speechpreferenceschanged', { detail: getSpeechPreferences() }))
+    return getSpeechPreferences()
+  }
+
+  function getAvailableVoices(locale = '') {
+    const voices = window.speechSynthesis?.getVoices() || []
+    return voices
+      .filter(voice => voice.lang?.toLowerCase().startsWith('en'))
+      .filter(voice => !locale || voice.lang.toLowerCase().startsWith(locale.toLowerCase()))
+      .map(voice => ({ name: voice.name, lang: voice.lang, localService: voice.localService, default: voice.default }))
+  }
+
+  function voiceScore(voice, profile, locale) {
+    const name = voice.name.toLowerCase()
+    const lang = voice.lang.toLowerCase()
+    let score = lang === locale.toLowerCase() ? 80 : lang.startsWith(locale.slice(0, 2).toLowerCase()) ? 35 : 0
+    profile?.hints.forEach((hint, index) => {
+      if (name.includes(hint.toLowerCase())) score += 55 - index * 4
+    })
+    if (/natural|neural|premium|enhanced|online/.test(name)) score += 24
+    if (/google|microsoft|apple/.test(name)) score += 10
+    if (voice.localService) score += 3
+    if (voice.default) score += 2
+    return score
+  }
+
+  function resolveVoice(locale = _speechPreferences.locale, profileId = _speechPreferences.voiceProfile) {
+    const voices = window.speechSynthesis?.getVoices() || []
+    const english = voices.filter(voice => voice.lang?.toLowerCase().startsWith('en'))
+    if (!english.length) return null
+    const named = english.find(voice => voice.name === _speechPreferences.voiceName && voice.lang.toLowerCase().startsWith(locale.toLowerCase()))
+    if (named) return named
+    const profile = VOICE_PROFILES.find(item => item.id === profileId) || VOICE_PROFILES[0]
+    return english.sort((a, b) => voiceScore(b, profile, locale) - voiceScore(a, profile, locale))[0] || null
+  }
+
+  function waitForVoices(timeoutMs = 900) {
+    if (!window.speechSynthesis || window.speechSynthesis.getVoices().length) return Promise.resolve()
+    return new Promise(resolve => {
+      let finished = false
+      const done = () => {
+        if (finished) return
+        finished = true
+        window.speechSynthesis.removeEventListener('voiceschanged', done)
+        resolve()
+      }
+      window.speechSynthesis.addEventListener('voiceschanged', done)
+      setTimeout(done, timeoutMs)
+    })
+  }
+
+  function splitTeachingPhrase(text) {
+    const source = String(text || '').trim()
+    if (!source) return []
+    const punctuationParts = source.match(/[^,;:!?。！？；，]+[,;:!?。！？；，]?/g) || [source]
+    const result = []
+    punctuationParts.forEach(part => {
+      const words = part.trim().split(/\s+/)
+      if (words.length <= 5) result.push(part.trim())
+      else {
+        for (let i = 0; i < words.length; i += 4) result.push(words.slice(i, i + 4).join(' '))
+      }
+    })
+    return result.filter(Boolean)
+  }
+
+  function speakUtterance(text, options, sequence) {
+    return new Promise((resolve, reject) => {
+      if (sequence !== _speechSequence) { resolve(); return }
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = options.locale
+      utterance.rate = options.rate
+      utterance.pitch = options.pitch
+      utterance.volume = 1
+      const voice = resolveVoice(options.locale, options.voiceProfile)
+      if (voice) utterance.voice = voice
+      utterance.onend = () => resolve()
+      utterance.onerror = event => {
+        if (['interrupted', 'canceled', 'not-allowed'].includes(event.error)) {
+          if (event.error === 'not-allowed') console.warn('[SpeechEngine] 瀏覽器目前不允許播放語音，請再點一次播放按鈕')
+          resolve()
+          return
+        }
+        console.error('[SpeechEngine] TTS 錯誤:', event.error)
+        reject(new Error('TTS 錯誤：' + event.error))
+      }
+      window.speechSynthesis.speak(utterance)
+    })
   }
 
   /**
    * 朗讀文字
    * @param {string} text
    * @param {string} lang  — 預設 'en-US'
-   * @param {number} rate  — 語速（0.1-2），預設 0.85
+   * @param {number} rate  — 語速（0.1-2），未指定時使用學生偏好
    * @returns {Promise<void>}
    */
-  function speak(text, lang = 'en-US', rate = 0.85) {
-    return new Promise((resolve, reject) => {
-      if (!window.speechSynthesis) {
-        reject(new Error('SpeechSynthesis 不支援'))
-        return
+  async function speak(text, lang = '', rate, options = {}) {
+    if (!window.speechSynthesis) throw new Error('SpeechSynthesis 不支援')
+    stopSpeaking()
+    await waitForVoices()
+    const sequence = _speechSequence
+    const locale = options.locale || lang || _speechPreferences.locale
+    const effectiveRate = Number.isFinite(rate) ? rate : _speechPreferences.normalRate
+    const teachingSlow = options.teachingSlow ?? (effectiveRate <= 0.65)
+    const config = {
+      locale,
+      rate: teachingSlow ? _speechPreferences.slowRate : effectiveRate,
+      pitch: Number(options.pitch ?? _speechPreferences.pitch),
+      voiceProfile: options.voiceProfile || _speechPreferences.voiceProfile,
+    }
+    const parts = teachingSlow && _speechPreferences.segmentedSlow && String(text).trim().split(/\s+/).length > 4
+      ? splitTeachingPhrase(text)
+      : [String(text).trim()]
+    for (let index = 0; index < parts.length; index++) {
+      await speakUtterance(parts[index], config, sequence)
+      if (index < parts.length - 1 && sequence === _speechSequence) {
+        await new Promise(resolve => setTimeout(resolve, 260))
       }
+    }
+  }
 
-      stopSpeaking()
-
-      const utterance  = new SpeechSynthesisUtterance(text)
-      utterance.lang   = lang
-      utterance.rate   = rate
-      utterance.pitch  = 1.05
-      utterance.volume = 1.0
-
-      // 語音列表可能非同步載入
-      const applyVoice = () => {
-        const voice = _getEnglishVoice()
-        if (voice) utterance.voice = voice
-      }
-
-      if (window.speechSynthesis.getVoices().length === 0) {
-        window.speechSynthesis.addEventListener('voiceschanged', applyVoice, { once: true })
-      } else {
-        applyVoice()
-      }
-
-      utterance.onend   = () => resolve()
-      utterance.onerror = (e) => {
-        if (e.error === 'interrupted') { resolve(); return }
-        console.error('[SpeechEngine] TTS 錯誤:', e.error)
-        reject(new Error('TTS 錯誤：' + e.error))
-      }
-
-      window.speechSynthesis.speak(utterance)
-    })
+  function previewVoice(options = {}) {
+    const locale = options.locale || _speechPreferences.locale
+    const sample = locale === 'en-GB' ? 'Hello! Let us learn English together.' : 'Hello! Let’s learn English together.'
+    return speak(sample, locale, _speechPreferences.normalRate, options)
   }
 
   /** 中止目前朗讀 */
   function stopSpeaking() {
+    _speechSequence += 1
     window.speechSynthesis?.cancel()
   }
 
@@ -1059,7 +1157,12 @@
 
     /** TTS */
     speak,
+    previewVoice,
     stopSpeaking,
+    getAvailableVoices,
+    getVoiceProfiles: () => VOICE_PROFILES.map(profile => ({ ...profile })),
+    getSpeechPreferences,
+    setSpeechPreferences,
 
     /** 音標 */
     getPhonetic,
@@ -1074,9 +1177,8 @@
   if (window.speechSynthesis) {
     window.speechSynthesis.getVoices()
     window.speechSynthesis.addEventListener('voiceschanged', () => {
-      _preferredVoice = null
-      _getEnglishVoice()
-    }, { once: true })
+      window.dispatchEvent(new CustomEvent('speechvoiceschanged', { detail: getAvailableVoices() }))
+    })
   }
 
 })()

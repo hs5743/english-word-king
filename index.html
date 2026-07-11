@@ -304,6 +304,12 @@
     </div>
     
     <div style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- CP34: Speech output preview -->
+      <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.05);">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;"><div><div style="font-size:0.9rem;font-weight:bold;">示範聲音播放</div><div id="voice-output-status" style="font-size:0.75rem;color:#52627d;margin-top:3px;">正在偵測英文語音…</div></div><span class="material-symbols-rounded" aria-hidden="true" style="color:#1f5dcc;">record_voice_over</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><button type="button" onclick="previewVoiceHelper(false)" style="min-height:44px;border:1px solid #b8c9e7;border-radius:10px;background:#fff;color:#12315f;font-weight:800;cursor:pointer;">標準速度</button><button type="button" onclick="previewVoiceHelper(true)" style="min-height:44px;border:1px solid #e6b83d;border-radius:10px;background:#ffd45d;color:#122044;font-weight:800;cursor:pointer;">教學慢速</button></div>
+      </div>
+
       <!-- Step 1: Web Speech Support -->
       <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
         <div>
