@@ -56,6 +56,8 @@ serve(async (req) => {
         return await getRoster(supabase)
       case 'upsert-roster':
         return await upsertRoster(supabase, body)
+      case 'update-roster':
+        return await updateRoster(supabase, body)
       case 'set-roster-enabled':
         return await setRosterEnabled(supabase, body)
       case 'delete-roster':
@@ -64,6 +66,8 @@ serve(async (req) => {
         return await getRoles(supabase)
       case 'add-role':
         return await addRole(supabase, body, isSuperAdmin)
+      case 'update-role':
+        return await updateRole(supabase, body, isSuperAdmin)
       case 'delete-role':
         return await deleteRole(supabase, body, isSuperAdmin)
       default:
@@ -205,6 +209,25 @@ async function upsertRoster(supabase: any, body: any) {
   return jsonOk({ count: cleaned.length })
 }
 
+async function updateRoster(supabase: any, body: any) {
+  const cleaned = normalizeRosterRow(body.student || {})
+  const { error } = await supabase.from('student_roster').upsert(cleaned)
+  if (error) throw error
+
+  const { error: studentError } = await supabase
+    .from('students')
+    .update({
+      name: cleaned.name,
+      school: cleaned.school,
+      class: cleaned.class,
+      grade: cleaned.grade,
+      enabled: cleaned.enabled,
+    })
+    .eq('email', cleaned.email)
+  if (studentError) throw studentError
+  return jsonOk({ student: cleaned })
+}
+
 async function setRosterEnabled(supabase: any, body: any) {
   const email = normalizeEmail(body.email)
   const enabled = Boolean(body.enabled)
@@ -246,6 +269,30 @@ async function addRole(supabase: any, body: any, isSuperAdmin: boolean) {
   if (role === 'admin' && !isSuperAdmin) return jsonError(403, 'forbidden', '只有系統管理者可新增管理者。')
 
   const { error } = await supabase.from('user_roles').upsert({ email, role, name })
+  if (error) throw error
+  return jsonOk({ email, role, name })
+}
+
+async function updateRole(supabase: any, body: any, isSuperAdmin: boolean) {
+  const email = normalizeEmail(body.email)
+  const role = String(body.role || '')
+  const name = String(body.name || '').trim()
+  if (email === SUPER_ADMIN_EMAIL) return jsonError(400, 'cannot_edit_super_admin', '超級管理員帳號不可由此介面修改。')
+  if (!name) return jsonError(400, 'invalid_name', '人員姓名不可空白。')
+  if (!['admin', 'teacher'].includes(role)) return jsonError(400, 'invalid_role', '角色必須為 admin 或 teacher。')
+
+  const { data: currentRole, error: roleError } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('email', email)
+    .maybeSingle()
+  if (roleError) throw roleError
+  if (!currentRole) return jsonError(404, 'role_not_found', '找不到此人員授權。')
+  if ((currentRole.role === 'admin' || role === 'admin') && !isSuperAdmin) {
+    return jsonError(403, 'forbidden', '只有超級管理員可以修改管理者授權。')
+  }
+
+  const { error } = await supabase.from('user_roles').update({ name, role }).eq('email', email)
   if (error) throw error
   return jsonOk({ email, role, name })
 }

@@ -925,7 +925,7 @@
         }
         
         activeSession = session;
-        document.getElementById('headerTitle').textContent = `${session.classes || ''} 三校即時對抗賽`;
+        document.getElementById('headerTitle').textContent = session.session_title || '三校 LIVE 對抗賽';
         
         // 4. 檢查控制權限（僅建立對抗賽的管理員可看見結束按鈕）
         checkAdminControl(session.teacher_uid);

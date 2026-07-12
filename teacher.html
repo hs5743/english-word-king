@@ -220,7 +220,7 @@
 
             <div class="form-group">
               <label class="form-label" for="packageQuestionCount">本場題數</label>
-              <select class="form-select" id="packageQuestionCount">
+              <select class="form-select" id="packageQuestionCount" onchange="updateTeacherTypeMixPreview()">
                 <option value="10">10 題</option>
                 <option value="12" selected>12 題</option>
                 <option value="15">15 題</option>
@@ -229,14 +229,14 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="packageTypeMix">題型比例</label>
-              <select class="form-select" id="packageTypeMix">
-                <option value="balanced" selected>平均混合：拼字 / 口說 / 句型</option>
-                <option value="spelling-heavy">拼字較多</option>
-                <option value="speech-heavy">口說較多</option>
-                <option value="sentence-heavy">句型較多</option>
-                <option value="review">複習檢核</option>
+              <label class="form-label" for="packageTypeMix">題型配置</label>
+              <select class="form-select" id="packageTypeMix" onchange="updateTeacherTypeMixPreview()">
+                <option value="balanced" selected>平均練習</option>
+                <option value="spelling-heavy">拼字加強</option>
+                <option value="speech-heavy">口說加強</option>
+                <option value="sentence-heavy">句型應用</option>
               </select>
+              <div id="packageTypeMixPreview" aria-live="polite" style="margin-top:7px;color:var(--clr-text-secondary);font-size:0.78rem;line-height:1.5;">預計配置：拼字 4 題・口說 4 題・句型 4 題</div>
             </div>
 
             <div class="form-group">
@@ -397,8 +397,8 @@
     <section class="glass-card animate-in" style="animation-delay:0.18s; padding:var(--sp-lg); margin-top:var(--sp-lg);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-md); flex-wrap:wrap; margin-bottom:var(--sp-md);">
         <div>
-          <h2 style="font-size:1.2rem; font-weight:900; color:var(--clr-green-1); margin-bottom:4px;">📈 學習數據強弱項分析</h2>
-          <p style="font-size:0.8rem; color:var(--clr-text-muted);">彙整近期挑戰紀錄、錯題主題與口說表現，快速產生教學建議。</p>
+          <h2 style="font-size:1.2rem; font-weight:900; color:var(--clr-green-1); margin-bottom:4px;">📈 學習數據分析</h2>
+          <p style="font-size:0.8rem; color:var(--clr-text-muted);">依近期挑戰紀錄、錯題次數與有效口說評分提供規則式教學建議，不使用 AI 判定程度。</p>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
           <select id="reportSchoolFilter" class="form-select" style="width:auto; min-width:130px; padding:8px 12px;">
@@ -412,11 +412,11 @@
             <option value="30" selected>近 30 天</option>
             <option value="90">近 90 天</option>
           </select>
-          <button class="btn btn--primary" style="padding:9px 18px; border-radius:10px; font-size:0.82rem;" onclick="loadLearningReport()">生成報告</button>
+          <button class="btn btn--primary" style="padding:9px 18px; border-radius:10px; font-size:0.82rem;" onclick="loadLearningReport()">更新分析</button>
         </div>
       </div>
 
-      <div id="learningReportStatus" style="font-size:0.78rem; color:var(--clr-text-muted); margin-bottom:var(--sp-md);">尚未生成報告</div>
+      <div id="learningReportStatus" style="font-size:0.78rem; color:var(--clr-text-muted); margin-bottom:var(--sp-md);">尚未載入分析</div>
       <div id="learningReportContent" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:var(--sp-md);"></div>
     </section>
   </main>
@@ -477,6 +477,7 @@
     let countdownInterval = null;
     let activeJoinLink = '';
     let approvedVocabularySet = new Set();
+    let latestReportWeakWords = [];
 
     async function loadApprovedVocabulary() {
       const response = await fetch(`data/vocabulary.json?t=${Date.now()}`);
@@ -507,6 +508,7 @@
     }
 
     async function init() {
+      updateTeacherTypeMixPreview();
       // 1. 等待 SupabaseConfig
       let attempts = 0;
       while (!window.SupabaseConfig && attempts < 50) {
@@ -608,6 +610,35 @@
         .slice(0, 20);
     }
 
+    function calculateTypeMixCounts(questionCount, typeMix) {
+      const total = Math.max(1, Number(questionCount) || 12);
+      let spelling = Math.floor(total / 3);
+      let speech = Math.floor(total / 3);
+      let sentence = total - spelling - speech;
+      if (typeMix === 'spelling-heavy') {
+        spelling = Math.floor(total * 0.5);
+        speech = Math.floor((total - spelling) / 2);
+        sentence = total - spelling - speech;
+      } else if (typeMix === 'speech-heavy') {
+        speech = Math.floor(total * 0.5);
+        spelling = Math.floor((total - speech) / 2);
+        sentence = total - speech - spelling;
+      } else if (typeMix === 'sentence-heavy') {
+        sentence = Math.floor(total * 0.5);
+        spelling = Math.floor((total - sentence) / 2);
+        speech = total - sentence - spelling;
+      }
+      return { spelling, speech, sentence };
+    }
+
+    function updateTeacherTypeMixPreview() {
+      const count = Number(document.getElementById('packageQuestionCount')?.value || 12);
+      const mix = document.getElementById('packageTypeMix')?.value || 'balanced';
+      const result = calculateTypeMixCounts(count, mix);
+      const preview = document.getElementById('packageTypeMixPreview');
+      if (preview) preview.textContent = `預計配置：拼字 ${result.spelling} 題・口說 ${result.speech} 題・句型 ${result.sentence} 題`;
+    }
+
     function readPackageConfig() {
       return {
         questionCount: Number(document.getElementById('packageQuestionCount').value || 12),
@@ -699,7 +730,8 @@
       const questions = getPackageChallengeData();
       const count = questions.length || cfg.questionCount || 0;
       const bandLabels = { starter: '入門', foundation: '基礎', core: '進階', challenge: '挑戰' };
-      info.textContent = `${count} 題 / ${bandLabels[cfg.difficultyBand] || '基礎'}題庫 / ${cfg.typeMix || 'balanced'}`;
+      const mixLabels = { balanced: '平均練習', 'spelling-heavy': '拼字加強', 'speech-heavy': '口說加強', 'sentence-heavy': '句型應用' };
+      info.textContent = `${count} 題 / ${bandLabels[cfg.difficultyBand] || '基礎'}題庫 / ${mixLabels[cfg.typeMix] || '自訂題型'}`;
       if (reviewBtn) reviewBtn.disabled = false;
       if (toggleBtn) toggleBtn.disabled = false;
 
@@ -1397,39 +1429,71 @@
           ? Math.round(speechAverages.reduce((sum, score) => sum + score, 0) / speechAverages.length)
           : 0;
         const wrongWords = rows.flatMap(row => safeJsonArray(row.wrong).map(word => String(word).toLowerCase().trim()).filter(Boolean));
-        const weakWords = countBy(wrongWords.map(word => ({ word })), row => row.word)
-          .map(([word, count]) => [`${word}${topicMap.get(word)?.zh ? ` (${topicMap.get(word).zh})` : ''}`, count]);
+        const wordErrorCounts = new Map();
+        const wordStudentSets = new Map();
+        rows.forEach(row => {
+          const rowWords = safeJsonArray(row.wrong).map(word => String(word).toLowerCase().trim()).filter(Boolean);
+          rowWords.forEach(word => wordErrorCounts.set(word, (wordErrorCounts.get(word) || 0) + 1));
+          new Set(rowWords).forEach(word => {
+            if (!wordStudentSets.has(word)) wordStudentSets.set(word, new Set());
+            wordStudentSets.get(word).add(row.student_uid);
+          });
+        });
+        const weakWordDetails = [...wordErrorCounts.entries()]
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+          .map(([word, count]) => ({ word, count, students: wordStudentSets.get(word)?.size || 0 }));
+        latestReportWeakWords = weakWordDetails.slice(0, 8).map(item => item.word);
+        const weakWords = weakWordDetails.map(item => [
+          `${item.word}${topicMap.get(item.word)?.zh ? ` (${topicMap.get(item.word).zh})` : ''}`,
+          `${item.count} 次／${item.students} 人`
+        ]);
         const weakTopics = countBy(wrongWords.map(word => ({ topic: topicMap.get(word)?.topic || 'Other' })), row => row.topic);
         const schoolRows = countBy(rows, row => row.school);
         const gradeRows = countBy(rows, row => `${row.grade} 年級`);
 
         const topTopic = weakTopics[0]?.[0] || '尚無明顯弱項';
         const topWord = weakWords[0]?.[0] || '尚無明顯錯字';
+        const sampleSufficient = rows.length >= 5 && students.size >= 2;
         const recommendations = [
-          avgScore < 70 ? '先安排 8 分鐘低壓複習，再進入計分挑戰。' : '分數基礎穩定，可加入限時或小組互助挑戰。',
-          avgSpeech && avgSpeech < 75 ? '口說平均偏低，建議先用慢速播放全班跟讀，再個別挑戰。' : '口說表現可維持每題一次額外加分機制。',
+          !sampleSufficient ? '目前樣本較少，建議累積至少 5 筆紀錄且涵蓋 2 位學生後，再觀察整體趨勢。' : (avgScore < 70 ? '近期平均分數低於 70，可先安排短時間低壓複習。' : '近期平均分數穩定，可維持目前練習節奏。'),
+          avgSpeech && avgSpeech < 75 ? '有效口說平均低於 75，建議先用教學慢速播放跟讀。' : '口說建議僅依有效評分樣本呈現，不代表全部學生程度。',
           topTopic !== '尚無明顯弱項' ? `下次課堂優先複習 ${topTopic} 主題，搭配圖卡或情境問答。` : '目前錯題量不足，先累積更多挑戰紀錄。',
           topWord !== '尚無明顯錯字' ? `把 ${topWord} 放進課前暖身與課後出口票。` : '可從最近新字中挑 5 個做快速配對。'
         ];
 
-        status.textContent = `已分析 ${rows.length} 筆挑戰紀錄、${students.size} 位學生，範圍：近 ${days} 天${school ? ` / ${school}` : ''}。`;
+        status.textContent = `已分析 ${rows.length} 筆挑戰紀錄、${students.size} 位學生，範圍：近 ${days} 天${school ? ` / ${school}` : ''}${sampleSufficient ? '' : '；目前樣本較少，結果僅供參考'}。`;
         content.innerHTML = [
           renderMetricCard('參與學生', students.size, `${rows.length} 筆挑戰紀錄`, 'var(--clr-blue-1)'),
           renderMetricCard('平均分數', avgScore, avgScore >= 80 ? '整體掌握度良好' : '建議增加錯題複習密度', 'var(--clr-gold-1)'),
-          renderMetricCard('口說平均', avgSpeech || '--', avgSpeech ? '依 speech_scores 有效分數計算' : '尚無口說分數', 'var(--clr-green-1)'),
+          renderMetricCard('口說平均', avgSpeech || '--', avgSpeech ? `${speechAverages.length} 筆有效評分樣本` : '尚無有效口說分數', 'var(--clr-green-1)'),
           renderListCard('高頻錯字 Top 8', weakWords, '目前沒有錯字資料'),
           renderListCard('弱項主題排行', weakTopics, '目前沒有弱項主題'),
           renderListCard('學校參與分布', schoolRows, '尚無學校資料'),
           renderListCard('年級參與分布', gradeRows, '尚無年級資料'),
           `<div style="padding:var(--sp-md); border-radius:var(--r-md); background:rgba(105,240,174,0.055); border:1px solid rgba(105,240,174,0.16); grid-column:1/-1;">
-            <div style="font-size:0.95rem; color:var(--clr-green-1); font-weight:900; margin-bottom:8px;">智慧教學建議</div>
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
+              <div style="font-size:0.95rem; color:var(--clr-green-1); font-weight:900;">依數據提供的教學建議</div>
+              <button class="btn btn--ghost" type="button" style="padding:6px 11px;font-size:0.75rem;" onclick="copyLearningReportWeakWords()" ${latestReportWeakWords.length ? '' : 'disabled'}>複製高頻錯字</button>
+            </div>
             ${recommendations.map(text => `<div style="font-size:0.84rem; color:var(--clr-text-secondary); line-height:1.7;">• ${text}</div>`).join('')}
+            <div style="margin-top:8px;font-size:0.75rem;color:var(--clr-text-muted);">本區使用固定統計規則，不使用 AI，也不自動判定學生程度。</div>
           </div>`
         ].join('');
       } catch (err) {
         console.error('[Teacher] Learning report error:', err);
-        status.textContent = '產生報告失敗：' + err.message;
+        status.textContent = '更新分析失敗：' + err.message;
         content.innerHTML = '';
+      }
+    }
+
+    async function copyLearningReportWeakWords() {
+      if (!latestReportWeakWords.length) return;
+      const text = latestReportWeakWords.join(', ');
+      try {
+        await navigator.clipboard.writeText(text);
+        alert(`已複製 ${latestReportWeakWords.length} 個高頻錯字，可由教師確認後貼入指定單字欄位。`);
+      } catch (_) {
+        window.prompt('請複製以下單字：', text);
       }
     }
 

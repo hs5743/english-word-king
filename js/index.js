@@ -987,7 +987,7 @@ async function checkLiveContest(sb) {
     // 查詢進行中且未過期的對抗賽場次（anon 可讀，見 CP26 Migration）
     const { data: sessions, error } = await sb
       .from('challenge_sessions')
-      .select('id, session_code, school, expires_at')
+      .select('id, session_code, school, session_title, expires_at')
       .eq('status', 'active')
       .eq('session_type', 'contest')
       .gt('expires_at', new Date().toISOString())
@@ -1006,6 +1006,7 @@ async function checkLiveContest(sb) {
     }
 
     const session = sessions[0];
+    if (text) text.textContent = `${session.session_title || '三校 LIVE 對抗賽'}進行中！點擊觀看直播看板`;
 
     // 更新連結與文字
     const scoreboardUrl = new URL('scoreboard.html', window.location.href);
@@ -1013,10 +1014,6 @@ async function checkLiveContest(sb) {
     scoreboardUrl.searchParams.set('code', session.session_code);
 
     link.href = scoreboardUrl.toString();
-    if (text) {
-      text.textContent = '三校即時對抗賽進行中！點擊觀看直播看板';
-    }
-
     // 顯示橫幅
     banner.style.display = 'block';
   } catch (err) {

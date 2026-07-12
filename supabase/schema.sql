@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS challenge_sessions (
   session_code VARCHAR UNIQUE NOT NULL,  -- 6位數字碼，學生輸入加入
   school       VARCHAR,
   classes      VARCHAR,  -- 允許班級，逗號分隔，空白表示全校開放
+  session_title VARCHAR DEFAULT '' NOT NULL,
   status       VARCHAR DEFAULT 'active' NOT NULL,  -- active / closed
   created_at   TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
   expires_at   TIMESTAMP WITH TIME ZONE NOT NULL

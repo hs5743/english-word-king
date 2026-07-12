@@ -416,8 +416,8 @@
         <!-- 資訊格欄排版 -->
         <div style="padding:var(--sp-md); background:rgba(255,255,255,0.02); border-radius:var(--r-md); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.05); font-size:0.85rem; display:flex; flex-direction:column; gap:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:var(--clr-text-muted);">參賽組別：</span>
-            <span style="font-weight:700; color:var(--clr-text-primary);" id="activeContestGrade">-- 年級</span>
+            <span style="color:var(--clr-text-muted);">場次名稱：</span>
+            <span style="font-weight:700; color:var(--clr-text-primary);" id="activeContestTitle">三校 LIVE 對抗賽</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;">
             <span style="color:var(--clr-text-muted);">題庫難度：</span>
@@ -460,17 +460,9 @@
 
         <form id="contestForm" onsubmit="handleCreateContest(event)">
           <div class="form-group" style="margin-bottom:var(--sp-md);">
-            <label class="form-label" for="contestGrade" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">參賽年級／組別</label>
-            <select class="form-select" id="contestGrade" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-zh);">
-              <option value="3">國小三年級</option>
-              <option value="4">國小四年級</option>
-              <option value="5" selected>國小五年級</option>
-              <option value="6">國小六年級</option>
-              <option value="7">國中七年級</option>
-              <option value="8">國中八年級</option>
-              <option value="9">國中九年級</option>
-            </select>
-            <div style="margin-top:6px;color:var(--clr-text-muted);font-size:0.75rem;line-height:1.5;">只用於賽事名稱與參賽組別，不直接決定題目難度。</div>
+            <label class="form-label" for="contestTitle" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">場次名稱</label>
+            <input class="form-input" id="contestTitle" type="text" maxlength="40" value="三校 LIVE 對抗賽" placeholder="例如：英語寶石挑戰賽" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
+            <div style="margin-top:6px;color:var(--clr-text-muted);font-size:0.75rem;line-height:1.5;">取得場次碼或連結的學生皆可參加；名稱會顯示於首頁與直播看板。</div>
           </div>
 
           <div class="form-group" style="margin-bottom:var(--sp-md);">
@@ -535,6 +527,7 @@
         <div class="form-group">
           <label class="form-label" for="stdEmail">學生 Google 信箱</label>
           <input class="form-input" id="stdEmail" type="email" placeholder="example@gapp.hcc.edu.tw" required />
+          <div id="stdEmailHelp" style="margin-top:5px;font-size:0.72rem;color:var(--clr-text-muted);">Email 是 Google 登入識別，新增加後不可直接修改。</div>
         </div>
 
         <div class="form-group">
@@ -563,7 +556,37 @@
 
         <div style="display:flex;gap:var(--sp-sm);justify-content:flex-end;margin-top:var(--sp-lg);">
           <button class="btn btn--ghost" type="button" onclick="hideAddRosterModal()">取消</button>
-          <button class="btn btn--primary" type="submit">確認提交</button>
+          <button class="btn btn--primary" id="studentSubmitBtn" type="submit">確認新增</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Staff Role Modal -->
+  <div id="editRoleModal" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+    <div class="glass-card animate-in" style="width:100%;max-width:480px;padding:var(--sp-lg);">
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-gold-1);">編輯教職員授權</h3>
+      <form id="roleEditForm" onsubmit="submitRoleEdit(event)">
+        <div class="form-group">
+          <label class="form-label" for="editRoleEmail">人員信箱</label>
+          <input class="form-input" id="editRoleEmail" type="email" disabled />
+          <div style="margin-top:5px;font-size:0.72rem;color:var(--clr-text-muted);">Email 是 Google 登入識別，不能直接修改。</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editRoleName">人員姓名</label>
+          <input class="form-input" id="editRoleName" type="text" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editRoleSelect">角色等級</label>
+          <select class="form-select" id="editRoleSelect">
+            <option value="teacher">教師</option>
+            <option value="admin">管理者</option>
+          </select>
+          <div id="editRoleHelp" style="margin-top:5px;font-size:0.72rem;color:var(--clr-text-muted);"></div>
+        </div>
+        <div style="display:flex;gap:var(--sp-sm);justify-content:flex-end;margin-top:var(--sp-lg);">
+          <button class="btn btn--ghost" type="button" onclick="hideEditRoleModal()">取消</button>
+          <button class="btn btn--primary" type="submit">儲存變更</button>
         </div>
       </form>
     </div>
@@ -596,6 +619,8 @@
     let currentUser = null;
     let userRole = null;             // null | 'admin' | 'super_admin'
     let fullRoster = [];             // 暫存完整名冊以進行前端過濾
+    let fullRoles = [];
+    let editingRosterEmail = '';
     let activeContestSession = null;
     let contestCountdownInterval = null;
     let approvedVocabularySet = new Set();
@@ -1060,7 +1085,10 @@
             </label>
           </td>
           <td style="text-align:center;">
-            <button class="btn btn--logout" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteRoster('${item.email}')">刪除</button>
+            <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn--ghost" style="padding:4px 10px;font-size:0.75rem;" onclick="showEditRosterModal('${item.email}')">編輯</button>
+              <button class="btn btn--logout" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteRoster('${item.email}')">刪除</button>
+            </div>
           </td>
         </tr>
       `).join('');
@@ -1107,20 +1135,40 @@
 
     // 手動新增學生
     function showAddRosterModal() {
+      editingRosterEmail = '';
       document.getElementById('studentAddForm').reset();
+      document.getElementById('modalTitle').textContent = '新增學生';
+      document.getElementById('studentSubmitBtn').textContent = '確認新增';
+      document.getElementById('stdEmail').disabled = false;
       document.getElementById('stdSchool').value = '新港國小'; // 預設新港國小
       document.getElementById('stdGrade').value = '5';
       document.getElementById('addStudentModal').style.display = 'flex';
     }
 
+    function showEditRosterModal(email) {
+      const item = fullRoster.find(row => row.email === email);
+      if (!item) return;
+      editingRosterEmail = email;
+      document.getElementById('modalTitle').textContent = '編輯學生資料';
+      document.getElementById('studentSubmitBtn').textContent = '儲存變更';
+      document.getElementById('stdName').value = item.name || '';
+      document.getElementById('stdEmail').value = item.email;
+      document.getElementById('stdEmail').disabled = true;
+      document.getElementById('stdSchool').value = item.school;
+      document.getElementById('stdClass').value = item.class || '';
+      document.getElementById('stdGrade').value = String(item.grade);
+      document.getElementById('addStudentModal').style.display = 'flex';
+    }
+
     function hideAddRosterModal() {
       document.getElementById('addStudentModal').style.display = 'none';
+      editingRosterEmail = '';
     }
 
     async function submitStudentForm(e) {
       e.preventDefault();
       const name = document.getElementById('stdName').value.trim();
-      const email = document.getElementById('stdEmail').value.trim();
+      const email = editingRosterEmail || document.getElementById('stdEmail').value.trim();
       const school = document.getElementById('stdSchool').value;
       const className = document.getElementById('stdClass').value.trim();
       const grade = parseInt(document.getElementById('stdGrade').value, 10);
@@ -1130,10 +1178,12 @@
         return;
       }
 
-      showLoading(true, '正在新增學生到名冊...');
+      const isEditing = Boolean(editingRosterEmail);
+      showLoading(true, isEditing ? '正在更新學生資料...' : '正在新增學生到名冊...');
       try {
-        await invokeAdminApi('upsert-roster', {
-          student: { email, name, school, class: className, grade, enabled: true }
+        const existing = fullRoster.find(row => row.email === email);
+        await invokeAdminApi(isEditing ? 'update-roster' : 'upsert-roster', {
+          student: { email, name, school, class: className, grade, enabled: existing?.enabled !== false }
         });
         showLoading(false);
         hideAddRosterModal();
@@ -1141,7 +1191,7 @@
       } catch (err) {
         console.error(err);
         showLoading(false);
-        alert('新增失敗：' + err.message);
+        alert((isEditing ? '更新' : '新增') + '失敗：' + err.message);
       }
     }
 
@@ -1228,7 +1278,8 @@
     async function loadUserRoles() {
       try {
         const data = await invokeAdminApi('get-roles');
-        renderRolesTable(data.roles || []);
+        fullRoles = data.roles || [];
+        renderRolesTable(fullRoles);
       } catch (err) {
         console.error(err);
       }
@@ -1248,9 +1299,14 @@
             </span>
           </td>
           <td style="text-align:center;">
-            ${item.role === 'admin' && userRole !== 'super_admin'
-              ? '<span style="font-size:0.75rem;color:var(--clr-text-muted);">僅系統管理者可刪除</span>'
-              : `<button class="btn btn--logout" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteUserRole('${item.email}')">刪除授權</button>`}
+            ${item.email === 'hs5743@gapp.hcc.edu.tw'
+              ? '<span style="font-size:0.75rem;color:var(--clr-text-muted);">超級管理員不可修改</span>'
+              : item.role === 'admin' && userRole !== 'super_admin'
+                ? '<span style="font-size:0.75rem;color:var(--clr-text-muted);">僅超級管理員可修改</span>'
+                : `<div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;">
+                    <button class="btn btn--ghost" style="padding:4px 10px;font-size:0.75rem;" onclick="showEditRoleModal('${item.email}')">編輯</button>
+                    <button class="btn btn--logout" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteUserRole('${item.email}')">刪除授權</button>
+                  </div>`}
           </td>
         </tr>
       `).join('');
@@ -1305,6 +1361,43 @@
       }
     }
 
+    function showEditRoleModal(email) {
+      const item = fullRoles.find(row => row.email === email);
+      if (!item || email === 'hs5743@gapp.hcc.edu.tw') return;
+      document.getElementById('editRoleEmail').value = item.email;
+      document.getElementById('editRoleName').value = item.name || '';
+      document.getElementById('editRoleSelect').value = item.role;
+      document.getElementById('editRoleSelect').disabled = userRole !== 'super_admin';
+      document.getElementById('editRoleHelp').textContent = userRole === 'super_admin'
+        ? '超級管理員可調整教師／管理者角色。'
+        : '一般管理者只能修改教師姓名，不能變更管理者角色。';
+      document.getElementById('editRoleModal').style.display = 'flex';
+    }
+
+    function hideEditRoleModal() {
+      document.getElementById('editRoleModal').style.display = 'none';
+    }
+
+    async function submitRoleEdit(e) {
+      e.preventDefault();
+      const email = document.getElementById('editRoleEmail').value;
+      const name = document.getElementById('editRoleName').value.trim();
+      const current = fullRoles.find(row => row.email === email);
+      const role = userRole === 'super_admin' ? document.getElementById('editRoleSelect').value : current?.role;
+      if (!name || !role) return;
+      showLoading(true, '正在更新教職員授權...');
+      try {
+        await invokeAdminApi('update-role', { email, name, role });
+        showLoading(false);
+        hideEditRoleModal();
+        loadUserRoles();
+      } catch (err) {
+        console.error(err);
+        showLoading(false);
+        alert('更新授權失敗：' + err.message);
+      }
+    }
+
     /* ═══════════════════════════════════════════════════════════
      * UTILITIES
      * ═══════════════════════════════════════════════════════════ */
@@ -1348,7 +1441,7 @@
 
           // 顯示對抗賽碼
           document.getElementById('contestCodeDisplay').textContent = activeContestSession.session_code.slice(0, 3) + ' ' + activeContestSession.session_code.slice(3);
-          document.getElementById('activeContestGrade').textContent = activeContestSession.classes || '未指定年級';
+          document.getElementById('activeContestTitle').textContent = activeContestSession.session_title || '三校 LIVE 對抗賽';
 
           // 顯示參賽連結與 QR Code
           const joinUrl = new URL('class.html', window.location.href);
@@ -1433,7 +1526,7 @@
     async function handleCreateContest(e) {
       e.preventDefault();
       if (!validateContestWords()) return;
-      const grade = parseInt(document.getElementById('contestGrade').value);
+      const contestTitle = document.getElementById('contestTitle').value.trim() || '三校 LIVE 對抗賽';
       const difficultyBand = document.getElementById('contestDifficultyBand').value || 'foundation';
       const duration = parseInt(document.getElementById('contestDuration').value);
       const wordsInput = document.getElementById('contestWords').value.trim();
@@ -1456,11 +1549,11 @@
 
       showLoading(true, '[1/3] 正在建立跨校對抗場次...');
       try {
-        const session = await insertContestSession(grade, duration);
+        const session = await insertContestSession(contestTitle, duration);
         
         showLoading(true, '[2/3] 正在從核准題庫建立對抗賽題目包...');
         await createContestPackage(session, {
-          participantGrade: grade,
+          participantGrade: 6,
           difficultyBand: difficultyBand,
           questionCount: questionCount,
           typeMix: typeMix,
@@ -1483,7 +1576,7 @@
       }
     }
 
-    async function insertContestSession(grade, duration, depth = 0) {
+    async function insertContestSession(sessionTitle, duration, depth = 0) {
       if (depth > 5) throw new Error('多次嘗試後無法產生唯一的對抗賽場次碼。');
 
       const sessionCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -1495,7 +1588,8 @@
           teacher_uid: currentUser.id,
           session_code: sessionCode,
           school: null, // 對抗賽開放三校，不指定單一學校
-          classes: grade + '年級', // 用 classes 欄位記錄指定難度級別
+          classes: null,
+          session_title: String(sessionTitle || '三校 LIVE 對抗賽').slice(0, 40),
           status: 'active',
           session_type: 'contest',
           expires_at: expiresAt
@@ -1504,7 +1598,7 @@
 
       if (error) {
         if (error.code === '23505') { // unique code violation
-          return insertContestSession(grade, duration, depth + 1);
+          return insertContestSession(sessionTitle, duration, depth + 1);
         }
         throw error;
       }
