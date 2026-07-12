@@ -2185,7 +2185,44 @@ input:checked + .slider {
 .page-staff--cp32 :where(a,button,input,select,textarea,[tabindex]):focus-visible { outline: 3px solid hsl(47,100%,58%) !important; outline-offset: 3px; }
 .page-staff--cp32 footer { color: hsl(214,25%,78%); background: hsl(224,78%,12%); }
 .page-staff--cp32 footer .text-muted { color: hsl(214,25%,78%); }
+
+/* CP35.1：所有正式內頁共用的返回大廳操作 */
+.academy-home-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 8px 15px;
+  color: #fff !important;
+  border: 2px solid hsla(210,96%,70%,0.58);
+  border-radius: 999px;
+  background: hsla(210,96%,56%,0.1);
+  font-family: var(--font-zh);
+  font-size: 0.86rem;
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast);
+}
+.academy-home-link:hover {
+  color: #fff !important;
+  border-color: hsl(47,100%,72%);
+  background: hsla(210,96%,56%,0.22);
+  transform: translateY(-1px);
+}
+.academy-home-link:focus-visible {
+  outline: 3px solid hsl(47,100%,64%);
+  outline-offset: 3px;
+}
+.academy-home-link .material-symbols-rounded { font-size: 1.25rem; }
+.academy-home-link__short { display: none; }
+
 @media (max-width: 760px) {
+  .join-academy-nav .navbar__nav,
+  .class-academy-nav .navbar__nav,
+  .page-staff--cp32 .staff-navbar .navbar__nav { display: flex; }
   .page-staff--cp32 .staff-navbar .navbar__inner { min-height: 64px; }
   .page-staff--cp32 .staff-brand { font-size: 0.94rem; }
   .page-staff--cp32 .staff-brand img { width: 34px; height: 40px; }
@@ -2194,6 +2231,9 @@ input:checked + .slider {
   .page-staff--cp32 .stats-row { grid-template-columns: 1fr; }
   .page-staff--cp32 .teacher-grid { grid-template-columns: 1fr; }
   .page-staff--cp32 .admin-table { min-width: 640px; }
+  .academy-home-link { min-width: 72px; padding-inline: 10px; }
+  .academy-home-link__long { display: none; }
+  .academy-home-link__short { display: inline; }
 }
 
 @keyframes academyLivePulse {

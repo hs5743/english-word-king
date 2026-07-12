@@ -347,7 +347,7 @@
   }
 
   async function loadSessionChallenge() {
-    showLoading(true, '正在呼叫 AI 生成題目中...')
+    showLoading(true, '正在從核准題庫準備英語挑戰…')
 
     try {
       const session = (await supabase.auth.getSession()).data.session

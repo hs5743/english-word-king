@@ -700,6 +700,7 @@ function renderIndexHandbook() {
 
 /* ── 英語寶石開鑿狀態機與複習挑戰 (Scenario 1) ─────────────────────── */
 let currentMiningWord = null;
+let currentMiningExample = null;
 let currentMiningStage = 1; // 1: 聽音寫字, 2: 口說跟讀
 
 window.startMining = function(wordText) {
@@ -708,6 +709,21 @@ window.startMining = function(wordText) {
   if (!wordItem) return;
 
   currentMiningWord = wordItem;
+  const reviewedExamples = Array.isArray(wordItem.examples)
+    ? wordItem.examples.filter(example =>
+      example &&
+      example.reviewStatus === 'approved' &&
+      String(example.en || '').trim() &&
+      String(example.zhTw || '').trim()
+    )
+    : [];
+  currentMiningExample = reviewedExamples.length
+    ? reviewedExamples[Math.floor(Math.random() * reviewedExamples.length)]
+    : {
+        en: wordItem.sentence || 'No sentence available',
+        zhTw: wordItem.sentenceZh || '',
+        target: wordItem.word
+      };
   currentMiningStage = 1;
 
   document.getElementById('miningModalOverlay').style.display = 'block';
@@ -723,6 +739,7 @@ window.closeIndexMiningModal = function() {
     window.SpeechEngine.stopListening();
   }
   currentMiningWord = null;
+  currentMiningExample = null;
 };
 
 function renderMiningStage() {
@@ -753,8 +770,8 @@ function renderMiningStage() {
         <div style="font-size: 0.88rem; color: #8892b0; margin-bottom: 12px;">請點擊麥克風，大聲朗讀以下句子。</div>
         
         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
-          <h4 style="font-size: 1.25rem; font-weight: bold; color: #f8fafc; margin: 0 0 6px 0; line-height: 1.4;">${escHtml(currentMiningWord.sentence || 'No sentence available')}</h4>
-          <p style="font-size: 0.85rem; color: #a8a29e; margin: 0;">(${escHtml(currentMiningWord.sentenceZh || '')})</p>
+          <h4 style="font-size: 1.25rem; font-weight: bold; color: #f8fafc; margin: 0 0 6px 0; line-height: 1.4;">${escHtml(currentMiningExample?.en || 'No sentence available')}</h4>
+          <p style="font-size: 0.85rem; color: #a8a29e; margin: 0;">(${escHtml(currentMiningExample?.zhTw || '')})</p>
         </div>
         
         <button id="btnMiningRecord" onclick="window.startMiningSpeech()" class="btn" style="border-radius: 50%; width: 72px; height: 72px; font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; background: rgba(245,200,66,0.1); border: 2px solid var(--clr-gold-1); color: var(--clr-gold-1); cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 16px rgba(0,0,0,0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -798,7 +815,7 @@ window.checkMiningSpelling = function() {
 window.startMiningSpeech = function() {
   const btn = document.getElementById('btnMiningRecord');
   const status = document.getElementById('miningRecordStatus');
-  if (!btn || !status || !currentMiningWord) return;
+  if (!btn || !status || !currentMiningWord || !currentMiningExample) return;
 
   if (!window.SpeechEngine || !window.SpeechEngine.isSupported) {
     status.innerHTML = `<span style="color: #f59e0b; font-weight: bold;">⚠️ 瀏覽器不支援語音辨識</span><br><p style="font-size:0.75rem; color:#8892b0; margin-top:4px;">由於您的瀏覽器不支援，我們自動判定通過！</p>`;
@@ -820,7 +837,7 @@ window.startMiningSpeech = function() {
   status.textContent = '正在錄音，請開始朗讀...';
 
   window.SpeechEngine.startListening(
-    currentMiningWord.sentence,
+    currentMiningExample.en,
     (interim, isFinal) => {
       status.textContent = isFinal ? `辨識結果: ${interim}` : `正在聆聽: ${interim}`;
     },
@@ -840,7 +857,7 @@ window.startMiningSpeech = function() {
     btn.style.boxShadow = '';
 
     if (transcript) {
-      const res = window.SpeechEngine.scoreTranscript(currentMiningWord.sentence, transcript);
+      const res = window.SpeechEngine.scoreTranscript(currentMiningExample.en, transcript);
       status.textContent = `評分中... (${res.score}分)`;
 
       if (res.score >= 70) {
