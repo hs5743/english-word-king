@@ -81,14 +81,9 @@
     
     body.light-theme .sb-ticker__item { color: #334155; }
     body.light-theme .sb-ticker__item strong { color: #0f172a; }
-    body.light-theme #themeToggleBtn {
-      background: rgba(0, 0, 0, 0.03);
-      border-color: rgba(0, 0, 0, 0.08);
-      color: #475569;
-    }
-    body.light-theme #themeToggleBtn:hover {
-      background: rgba(0, 0, 0, 0.06);
-    }
+    .theme-switch { display:inline-flex; align-items:center; gap:3px; padding:3px; border:2px solid rgba(120,190,255,.24); border-radius:12px; background:rgba(255,255,255,.05); }
+    .theme-switch__button { min-height:36px; padding:6px 10px; color:#b9c9e4; border:0; border-radius:8px; background:transparent; font:800 .78rem var(--font-zh); cursor:pointer; }
+    .theme-switch__button[aria-pressed="true"] { color:#07152f; background:#ffd166; box-shadow:0 3px 10px rgba(0,0,0,.18); }
     
     body {
       margin: 0;
@@ -657,7 +652,7 @@
     .scoreboard-cp33 .sb-header__title{gap:14px}.scoreboard-cp33 .sb-header__crest{width:54px;height:62px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.32))}
     .scoreboard-cp33 .sb-header__logo{color:#fff;background:none;-webkit-text-fill-color:currentColor;font-size:clamp(1.45rem,2.1vw,2.15rem);letter-spacing:.02em;text-shadow:0 3px 12px rgba(0,0,0,.35)}
     .scoreboard-cp33 .live-badge{padding:7px 13px;color:hsl(350,100%,80%);border:2px solid hsla(350,88%,70%,.55);background:hsla(350,82%,52%,.15)}
-    .scoreboard-cp33 .sb-header__info{gap:14px}.scoreboard-cp33 #themeToggleBtn,.scoreboard-cp33 .sb-header__info>div{color:hsl(210,55%,86%)!important;border:2px solid hsla(210,96%,70%,.22)!important;border-radius:13px!important;background:hsla(210,96%,56%,.08)!important}
+    .scoreboard-cp33 .sb-header__info{gap:14px}.scoreboard-cp33 .sb-header__info>div:not(.theme-switch){color:hsl(210,55%,86%)!important;border:2px solid hsla(210,96%,70%,.22)!important;border-radius:13px!important;background:hsla(210,96%,56%,.08)!important}
     .scoreboard-cp33 .sb-header__timer{min-width:118px;padding:8px 18px;color:hsl(47,100%,72%);border:2px solid hsla(42,98%,60%,.4)!important;background:hsla(42,98%,54%,.1)!important;font-size:1.65rem}
     .scoreboard-cp33 .sb-body{grid-template-columns:390px 1fr;gap:20px}.scoreboard-cp33 .school-panel{gap:16px}
     .scoreboard-cp33 .school-card{padding:20px 24px;border-width:2px;border-radius:20px;background:rgba(6,20,54,.95);box-shadow:0 16px 38px rgba(0,0,0,.26);backdrop-filter:none}.scoreboard-cp33 .school-card::before{width:7px}
@@ -672,16 +667,23 @@
     .scoreboard-cp33 .rank-item{border:1px solid hsla(210,60%,70%,.14);background:rgba(255,255,255,.045)}.scoreboard-cp33 .rank-item__num{color:hsl(210,36%,72%)}.scoreboard-cp33 .rank-item__name,.scoreboard-cp33 .rank-item__score{color:#fff}.scoreboard-cp33 .rank-item__school{color:hsl(210,32%,72%)}
     .scoreboard-cp33 .sb-ticker{padding:18px 26px;border:2px solid hsla(210,96%,70%,.2);border-radius:18px;background:rgba(3,12,36,.94);box-shadow:0 12px 34px rgba(0,0,0,.25)}.scoreboard-cp33 .sb-ticker__label{color:hsl(47,100%,72%);font-size:1rem}.scoreboard-cp33 .sb-ticker__item{color:hsl(210,36%,84%);font-size:.98rem}.scoreboard-cp33 .sb-ticker__item strong{color:#fff}
     body.scoreboard-cp33.light-theme{color:hsl(224,78%,12%);background-color:hsl(211,70%,95%);background-image:linear-gradient(rgba(242,250,255,.9),rgba(236,245,255,.94)),url('assets/gem-academy/hero-academy.png')}
-    body.scoreboard-cp33.light-theme .sb-header{background:hsl(224,78%,12%)}body.scoreboard-cp33.light-theme .sb-header__logo{color:#fff;background:none;-webkit-text-fill-color:currentColor}
+    body.scoreboard-cp33.light-theme .sb-header{border-bottom-color:hsl(210,86%,48%);background:linear-gradient(180deg,#fff,hsl(210,70%,96%));box-shadow:0 8px 28px hsla(222,65%,20%,.14)}body.scoreboard-cp33.light-theme .sb-header__logo{color:hsl(224,78%,12%);background:none;-webkit-text-fill-color:currentColor;text-shadow:none}
+    body.scoreboard-cp33.light-theme .academy-home-link{color:hsl(218,72%,30%)!important;border-color:hsla(210,86%,46%,.42);background:hsla(210,86%,52%,.08)}
+    body.scoreboard-cp33.light-theme .theme-switch{border-color:hsla(218,55%,35%,.18);background:#fff}
+    body.scoreboard-cp33.light-theme .theme-switch__button{color:hsl(218,28%,38%)}
+    body.scoreboard-cp33.light-theme .theme-switch__button[aria-pressed="true"]{color:#fff;background:hsl(218,86%,42%)}
+    body.scoreboard-cp33.light-theme .sb-header__info>div:not(.theme-switch){color:hsl(218,36%,26%)!important;border-color:hsla(218,55%,35%,.18)!important;background:#fff!important}
+    body.scoreboard-cp33.light-theme .sb-header__timer{color:hsl(218,76%,30%)!important;border-color:hsla(42,88%,48%,.45)!important;background:hsl(47,100%,92%)!important}
     body.scoreboard-cp33.light-theme .school-card,body.scoreboard-cp33.light-theme .leaderboard-panel{background:rgba(255,255,255,.95);box-shadow:0 16px 38px hsla(222,65%,20%,.14)}
     body.scoreboard-cp33.light-theme .school-card__name,body.scoreboard-cp33.light-theme .school-card__meta strong,body.scoreboard-cp33.light-theme .leaderboard-panel__header,body.scoreboard-cp33.light-theme .top3-podium__name,body.scoreboard-cp33.light-theme .rank-item__name,body.scoreboard-cp33.light-theme .rank-item__score{color:hsl(224,78%,12%)}
     body.scoreboard-cp33.light-theme .school-card__meta,body.scoreboard-cp33.light-theme .top3-podium__school,body.scoreboard-cp33.light-theme .rank-item__school{color:hsl(218,28%,38%)}body.scoreboard-cp33.light-theme .top3-podium,body.scoreboard-cp33.light-theme .rank-item{background:hsl(215,72%,98%)}
     body.scoreboard-cp33.light-theme .sb-ticker{background:rgba(255,255,255,.96)}body.scoreboard-cp33.light-theme .sb-ticker__item{color:hsl(218,32%,30%)}body.scoreboard-cp33.light-theme .sb-ticker__item strong{color:hsl(224,78%,12%)}
-    @media(max-width:1200px){.scoreboard-cp33 .sb-body{grid-template-columns:330px 1fr}.scoreboard-cp33 .sb-header__info{gap:8px}.scoreboard-cp33 #themeToggleBtn{display:none!important}}
+    @media(max-width:1200px){.scoreboard-cp33 .sb-body{grid-template-columns:330px 1fr}.scoreboard-cp33 .sb-header__info{gap:8px}.theme-switch__button{padding-inline:7px;font-size:.72rem}}
     @media(prefers-reduced-motion:reduce){.scoreboard-cp33 *,.scoreboard-cp33 *::before,.scoreboard-cp33 *::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
   </style>
 </head>
-<body class="scoreboard-cp33">
+<body class="scoreboard-cp33 light-theme">
+  <script>if (localStorage.getItem('scoreboard-theme') === 'dark') document.body.classList.remove('light-theme');</script>
 
   <!-- Confetti particle container -->
   <div id="upgradeConfettiContainer"></div>
@@ -702,10 +704,10 @@
       </div>
       <div class="sb-header__info">
         <a href="index.html" class="academy-home-link"><span class="material-symbols-rounded" aria-hidden="true">home</span><span class="academy-home-link__long">返回大廳</span><span class="academy-home-link__short">大廳</span></a>
-        <!-- Theme Switcher Button -->
-        <button class="btn" id="themeToggleBtn" onclick="toggleTheme()" style="padding:6px 12px; font-size:0.8rem; font-weight:bold; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border-dark); color:#94a3b8; cursor:pointer; border-radius:8px; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;">
-          ☀️ 明亮模式
-        </button>
+        <div class="theme-switch" role="group" aria-label="看板顯示模式">
+          <button class="theme-switch__button" id="themeLightBtn" type="button" onclick="setScoreboardTheme('light')" aria-pressed="true">☀ 明亮</button>
+          <button class="theme-switch__button" id="themeDarkBtn" type="button" onclick="setScoreboardTheme('dark')" aria-pressed="false">🌙 暗黑</button>
+        </div>
         <!-- Join QR Trigger in Header -->
         <div style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border-dark); padding:6px 12px; border-radius:8px; cursor:pointer;" onclick="openLargeQrModal()" title="點擊即可放大掃碼">
           <span style="font-size: 0.88rem; color:#64748b; font-weight:700;">場次代碼：<strong id="sessionCodeText" style="color:var(--clr-gold-1); font-size:1.15rem; font-family:var(--font-en);">------</strong></span>
@@ -932,11 +934,8 @@
         await loadInitialData();
 
         // 讀取快取主題
-        const savedTheme = localStorage.getItem('scoreboard-theme');
-        if (savedTheme === 'light') {
-          document.body.classList.add('light-theme');
-          document.getElementById('themeToggleBtn').textContent = '🌙 暗黑模式';
-        }
+        const savedTheme = localStorage.getItem('scoreboard-theme') === 'dark' ? 'dark' : 'light';
+        setScoreboardTheme(savedTheme, false);
 
         // 動態設定學生參賽 URL 與 QR Code
         const joinUrl = new URL('class.html', window.location.href);
@@ -1441,18 +1440,12 @@
      * ☀️ 明亮主題與放大 QR Code 模組
      * ═══════════════════════════════════════════════════════════ */
 
-    function toggleTheme() {
-      const body = document.body;
-      const btn = document.getElementById('themeToggleBtn');
-      if (body.classList.contains('light-theme')) {
-        body.classList.remove('light-theme');
-        btn.textContent = '☀️ 明亮模式';
-        localStorage.setItem('scoreboard-theme', 'dark');
-      } else {
-        body.classList.add('light-theme');
-        btn.textContent = '🌙 暗黑模式';
-        localStorage.setItem('scoreboard-theme', 'light');
-      }
+    function setScoreboardTheme(theme, persist = true) {
+      const isLight = theme !== 'dark';
+      document.body.classList.toggle('light-theme', isLight);
+      document.getElementById('themeLightBtn')?.setAttribute('aria-pressed', String(isLight));
+      document.getElementById('themeDarkBtn')?.setAttribute('aria-pressed', String(!isLight));
+      if (persist) localStorage.setItem('scoreboard-theme', isLight ? 'light' : 'dark');
     }
 
     function openLargeQrModal() {

@@ -20,6 +20,10 @@ const ENV_PATH      = path.join(ROOT, '.env.local');
 const isDryRun = process.argv.includes('--dry-run');
 const isResume = process.argv.includes('--resume');
 
+// CP36 replaced this legacy 16-level migration with a reviewed 8-level rubric.
+console.error('This legacy migration is disabled. Run: npm run rebuild:difficulty');
+process.exit(1);
+
 function readGeminiKey() {
   if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY;
   if (fs.existsSync(ENV_PATH)) {

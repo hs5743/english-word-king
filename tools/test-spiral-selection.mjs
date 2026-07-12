@@ -43,7 +43,7 @@ if (expansion?.enabled !== false) {
 }
 
 const bank = vocabulary
-  .filter(item => item.enabled !== false && item.word && Number(String(item.gradeBand || '').match(/\d+/)?.[0] || 3) <= 3)
+  .filter(item => item.enabled !== false && item.word && Number(item.difficultyLevel || 8) <= 4)
   .map(item => ({
     word: String(item.word).toLowerCase().trim(),
     topic: String(item.topic || '').trim(),

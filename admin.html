@@ -416,8 +416,12 @@
         <!-- 資訊格欄排版 -->
         <div style="padding:var(--sp-md); background:rgba(255,255,255,0.02); border-radius:var(--r-md); margin-bottom:var(--sp-lg); border:1px solid rgba(255,255,255,0.05); font-size:0.85rem; display:flex; flex-direction:column; gap:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:var(--clr-text-muted);">難度級別：</span>
+            <span style="color:var(--clr-text-muted);">參賽組別：</span>
             <span style="font-weight:700; color:var(--clr-text-primary);" id="activeContestGrade">-- 年級</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;">
+            <span style="color:var(--clr-text-muted);">題庫難度：</span>
+            <span style="font-weight:700; color:var(--clr-text-primary);" id="activeContestDifficulty">--</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.03); padding-top:8px;">
             <span style="color:var(--clr-text-muted);">指定單字：</span>
@@ -456,7 +460,7 @@
 
         <form id="contestForm" onsubmit="handleCreateContest(event)">
           <div class="form-group" style="margin-bottom:var(--sp-md);">
-            <label class="form-label" for="contestGrade" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">學生難度年級</label>
+            <label class="form-label" for="contestGrade" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">參賽年級／組別</label>
             <select class="form-select" id="contestGrade" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-zh);">
               <option value="3">國小三年級</option>
               <option value="4">國小四年級</option>
@@ -465,6 +469,17 @@
               <option value="7">國中七年級</option>
               <option value="8">國中八年級</option>
               <option value="9">國中九年級</option>
+            </select>
+            <div style="margin-top:6px;color:var(--clr-text-muted);font-size:0.75rem;line-height:1.5;">只用於賽事名稱與參賽組別，不直接決定題目難度。</div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--sp-md);">
+            <label class="form-label" for="contestDifficultyBand" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">題庫難度</label>
+            <select class="form-select" id="contestDifficultyBand" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-zh);">
+              <option value="starter">入門（Level 1–2）</option>
+              <option value="foundation" selected>基礎（Level 3–4）</option>
+              <option value="core">進階（Level 5–6）</option>
+              <option value="challenge">挑戰（Level 7–8）</option>
             </select>
           </div>
 
@@ -495,17 +510,8 @@
 
           <div class="form-group" style="margin-bottom:var(--sp-md);">
             <label class="form-label" for="contestWords" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">指定單字 (可選，以逗號區隔)</label>
-            <input class="form-input" id="contestWords" type="text" placeholder="例如: apple, water, sunny (留空代表系統隨機出題)" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
-          </div>
-
-          <div class="form-group" style="margin-bottom:var(--sp-md);">
-            <label class="form-label" for="contestPatterns" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">指定句型 (可選，以斜線區隔)</label>
-            <input class="form-input" id="contestPatterns" type="text" placeholder="例如: I like __. / Do you have __? (留空由 AI 自由造句)" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
-          </div>
-
-          <div class="form-group" style="margin-bottom:var(--sp-lg);">
-            <label class="form-label" for="contestInstruction" style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:700;">補充指令 (可選，給 AI 模型的額外指示)</label>
-            <textarea class="form-input" id="contestInstruction" rows="3" placeholder="例如：主題聚焦在校園生活或運動..." style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-zh);"></textarea>
+            <input class="form-input" id="contestWords" type="text" placeholder="例如: apple, water, sunny (留空代表系統隨機出題)" oninput="validateContestWords()" style="width:100%; padding:10px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff;" />
+            <div id="contestWordsStatus" aria-live="polite" style="min-height:1.3em;margin-top:6px;font-size:0.75rem;line-height:1.5;"></div>
           </div>
 
           <button class="btn btn--primary btn--full" type="submit" style="width:100%; padding:14px; font-weight:bold; font-size:0.95rem; border-radius:8px; cursor:pointer;">🏆 建立校際對抗場次</button>
@@ -592,6 +598,39 @@
     let fullRoster = [];             // 暫存完整名冊以進行前端過濾
     let activeContestSession = null;
     let contestCountdownInterval = null;
+    let approvedVocabularySet = new Set();
+
+    function splitContestWords(value) {
+      return String(value || '').split(/[,;\n、，]+/).map(item => item.trim()).filter(Boolean).slice(0, 50);
+    }
+
+    async function loadApprovedVocabulary() {
+      const response = await fetch(`data/vocabulary.json?t=${Date.now()}`);
+      if (!response.ok) throw new Error('無法讀取核准題庫');
+      const words = await response.json();
+      approvedVocabularySet = new Set(words.filter(item => item.enabled !== false).map(item => String(item.word || '').toLowerCase().trim()));
+    }
+
+    function validateContestWords() {
+      const input = document.getElementById('contestWords');
+      const status = document.getElementById('contestWordsStatus');
+      if (!input || !status) return true;
+      const words = splitContestWords(input.value);
+      if (!words.length) {
+        status.textContent = '留空時由系統從所選難度的核准題庫抽題。';
+        status.style.color = 'var(--clr-text-muted)';
+        return true;
+      }
+      const missing = words.filter(word => !approvedVocabularySet.has(word.toLowerCase().trim()));
+      if (missing.length) {
+        status.textContent = `題庫未收錄：${missing.join(', ')}。請移除或先完成題庫審查。`;
+        status.style.color = 'var(--clr-red-1)';
+        return false;
+      }
+      status.textContent = `已確認 ${words.length} 個指定單字，皆存在於核准題庫。`;
+      status.style.color = 'var(--clr-green-1)';
+      return true;
+    }
 
     // AI 金鑰呼叫順序（全域狀態）
     const PROVIDER_NAMES = {
@@ -636,6 +675,12 @@
       }
 
       supabaseClient = window.SupabaseConfig.getSupabase();
+      try {
+        await loadApprovedVocabulary();
+        validateContestWords();
+      } catch (error) {
+        console.error('[Admin] Vocabulary validation unavailable:', error);
+      }
       currentUser = await window.SupabaseConfig.getCurrentUser();
 
       if (!currentUser) {
@@ -1320,8 +1365,11 @@
 
           if (pkgData && pkgData.teacher_config) {
             const words = pkgData.teacher_config.customWords || [];
+            const bandLabels = { starter: '入門（Level 1–2）', foundation: '基礎（Level 3–4）', core: '進階（Level 5–6）', challenge: '挑戰（Level 7–8）' };
+            document.getElementById('activeContestDifficulty').textContent = bandLabels[pkgData.teacher_config.difficultyBand] || '基礎（Level 3–4）';
             document.getElementById('activeContestWords').textContent = words.length > 0 ? words.join(', ') : '系統隨機';
           } else {
+            document.getElementById('activeContestDifficulty').textContent = '--';
             document.getElementById('activeContestWords').textContent = '無';
           }
 
@@ -1384,11 +1432,11 @@
 
     async function handleCreateContest(e) {
       e.preventDefault();
+      if (!validateContestWords()) return;
       const grade = parseInt(document.getElementById('contestGrade').value);
+      const difficultyBand = document.getElementById('contestDifficultyBand').value || 'foundation';
       const duration = parseInt(document.getElementById('contestDuration').value);
       const wordsInput = document.getElementById('contestWords').value.trim();
-      const patternsInput = document.getElementById('contestPatterns').value.trim();
-      const instruction = document.getElementById('contestInstruction').value.trim();
 
       const questionCount = parseInt(document.getElementById('contestQuestionCount').value) || 12;
 
@@ -1404,21 +1452,19 @@
       }
       const typeMix = 'custom-' + types.join('-');
 
-      const customWords = wordsInput ? wordsInput.split(',').map(w => w.trim()).filter(w => w) : [];
-      const customPatterns = patternsInput ? patternsInput.split('/').map(p => p.trim()).filter(p => p) : [];
+      const customWords = splitContestWords(wordsInput);
 
       showLoading(true, '[1/3] 正在建立跨校對抗場次...');
       try {
         const session = await insertContestSession(grade, duration);
         
-        showLoading(true, '[2/3] 正在呼叫 AI 模型生成對抗賽題目包...');
+        showLoading(true, '[2/3] 正在從核准題庫建立對抗賽題目包...');
         await createContestPackage(session, {
-          difficultyGrade: grade,
+          participantGrade: grade,
+          difficultyBand: difficultyBand,
           questionCount: questionCount,
           typeMix: typeMix,
-          customWords: customWords,
-          customPatterns: customPatterns,
-          extraInstruction: instruction
+          customWords: customWords
         });
 
         showLoading(true, '[3/3] 初始化看板設定...');
@@ -1477,7 +1523,7 @@
           'Authorization': `Bearer ${authSession.access_token}`
         },
         body: JSON.stringify({
-          grade: config.difficultyGrade,
+          grade: config.participantGrade,
           isPractice: true,
           teacherConfig: config,
           packageSessionId: session.id,

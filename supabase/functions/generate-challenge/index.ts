@@ -13,7 +13,8 @@ type FallbackWord = {
   zh: string
   topic: string
   grade: number
-  difficultyLevel?: number  // 1-16，對應 16 個寶石階段；舊內建資料可不設定
+  difficultyLevel?: number  // 1-8 單字教育難度；每兩個寶石階段開放一級
+  difficultyBand?: 'starter' | 'foundation' | 'core' | 'challenge'
   chunks: string[]
   phonetic: string
   pattern?: string
@@ -39,7 +40,8 @@ type PublicVocabularyItem = {
   topic?: string
   gradeBand?: string
   grade?: number
-  difficultyLevel?: number  // 新增：1-16 階難度
+  difficultyLevel?: number  // 1-8 單字教育難度
+  difficultyBand?: 'starter' | 'foundation' | 'core' | 'challenge'
   chunks?: string[]
   patterns?: string[]
   phonetic?: string         // 新增：音標
@@ -81,10 +83,10 @@ type ChallengeItem = {
 type TeacherChallengeConfig = {
   questionCount?: number
   difficultyGrade?: number
+  participantGrade?: number
+  difficultyBand?: 'starter' | 'foundation' | 'core' | 'challenge'
   typeMix?: string
   customWords?: string[]
-  customPatterns?: string[]
-  extraInstruction?: string
 }
 
 type SpiralBucket = 'weak' | 'weak-topic' | 'learning' | 'new' | 'mastered' | 'fill'
@@ -157,7 +159,8 @@ const gemTiers: { name: string, min: number, maxGrade: number, hardness: number,
 function selectCandidatePool(
   available: FallbackWord[],
   mastery: Record<string, number>,
-  wrongWords: string[]
+  wrongWords: string[],
+  limit = 10
 ): FallbackWord[] {
   const normalizedWrongWords = normalizeWordList(wrongWords)
   const wrongSet = new Set(normalizedWrongWords)
@@ -176,7 +179,7 @@ function selectCandidatePool(
   const addFrom = (pool: FallbackWord[], quota: number, bucket: SpiralBucket) => {
     const shuffled = shuffle(pool)
     for (const item of shuffled) {
-      if (selected.length >= 10 || bucketCounts[bucket] >= quota) break
+      if (selected.length >= limit || bucketCounts[bucket] >= quota) break
       const key = normalizeWord(item.word)
       if (!key || selectedWords.has(key)) continue
       selectedWords.add(key)
@@ -214,8 +217,8 @@ function selectCandidatePool(
   ]
 
   for (const pool of fillPriority) {
-    if (selected.length >= Math.min(10, available.length)) break
-    addFrom(pool, 10, 'fill')
+    if (selected.length >= Math.min(limit, available.length)) break
+    addFrom(pool, limit, 'fill')
   }
 
   console.log(`[P5 Spiral] selected=${selected.length}; weak=${bucketCounts.weak}; weakTopic=${bucketCounts['weak-topic']}; new=${bucketCounts.new}; learning=${bucketCounts.learning}; mastered=${bucketCounts.mastered}; fill=${bucketCounts.fill}; weakTopics=${weakTopics.join(',') || 'none'}; words=${selected.map(w => w.word).join(',')}`)
@@ -414,9 +417,12 @@ serve(async (req) => {
 
     // 4.5 讀取學生的 mastery 欄位與級數
     let studentMastery: Record<string, number> = {}
-    let studentGrade = normalizedTeacherConfig?.difficultyGrade || grade
+    let studentGrade = normalizedTeacherConfig?.participantGrade || normalizedTeacherConfig?.difficultyGrade || grade
     try {
-      if (devSecret === 'super-secret-test-token-2026' && body.testMastery) {
+      if (normalizedTeacherConfig) {
+        // 固定競賽題目包不採用建立者（教師／管理員）的個人熟練度。
+        studentMastery = {}
+      } else if (devSecret === 'super-secret-test-token-2026' && body.testMastery) {
         studentMastery = body.testMastery
       } else {
         const { data: studentProfile, error: profileError } = await supabase
@@ -457,9 +463,8 @@ serve(async (req) => {
     const currentTier = gemTiers[currentTierIndex]
     const nextTier = gemTiers[currentTierIndex + 1]
     const adaptiveMaxGrade = currentTier.maxGrade
-    // 新增：使用 difficultyLevel (1-16) 對應 16 個寶石關卡，實現更精細的適性化
-    // currentTierIndex 是 0-15，+1 後即為對應的 difficultyLevel 上限
-    const adaptiveMaxDifficultyLevel = currentTierIndex + 1
+    // 16 個寶石階段對應 8 級單字難度：每兩個寶石階段開放一級。
+    const adaptiveMaxDifficultyLevel = Math.ceil((currentTierIndex + 1) / 2)
 
     console.log(`[Adaptive Learning] Student UID: ${user.id}, Mastered: ${masteredCount}, Tier: ${currentTier.name}, Max Grade: ${adaptiveMaxGrade}, MaxDifficultyLevel: ${adaptiveMaxDifficultyLevel}`)
 
@@ -467,7 +472,9 @@ serve(async (req) => {
     let spiralWrongWords = [...requestWrongWords]
 
     try {
-      if (devSecret === 'super-secret-test-token-2026' && body.testRecentWrongWords) {
+      if (normalizedTeacherConfig) {
+        spiralWrongWords = []
+      } else if (devSecret === 'super-secret-test-token-2026' && body.testRecentWrongWords) {
         spiralWrongWords = mergeWordLists(spiralWrongWords, extractWrongWords(body.testRecentWrongWords))
       } else {
         const { data: recentAttempts, error: recentError } = await supabase
@@ -522,9 +529,14 @@ serve(async (req) => {
     const keys = Object.fromEntries((configRows || []).map(r => [r.key, r.value])) as Record<string, string>
 
     // 7. 載入題庫與過濾符合適性上限的單字
-    // 優先用 difficultyLevel 做 16 階精細篩選；舊資料若無 difficultyLevel 欄位則降級用 grade
+    // 優先用 1-8 級 difficultyLevel 篩選；舊資料若無欄位才降級用 grade。
     const loadStart = Date.now()
-    const fallbackBankBase = await loadPublicFallbackWords(adaptiveMaxGrade, adaptiveMaxDifficultyLevel)
+    const fullReviewedBank = normalizedTeacherConfig
+      ? await loadPublicFallbackWords(9)
+      : null
+    const fallbackBankBase = normalizedTeacherConfig
+      ? fullReviewedBank!.filter(item => item.difficultyBand === normalizedTeacherConfig.difficultyBand)
+      : await loadPublicFallbackWords(adaptiveMaxGrade, adaptiveMaxDifficultyLevel)
     const loadDuration = Date.now() - loadStart
     steps.push({
       step: 'load_public_fallback_data',
@@ -533,10 +545,16 @@ serve(async (req) => {
       duration_ms: loadDuration,
       response_size_chars: JSON.stringify(fallbackBankBase).length
     })
-    const customWords = normalizedTeacherConfig ? resolveTeacherCustomWords(normalizedTeacherConfig.customWords || [], fallbackBankBase) : []
+    const customWords = normalizedTeacherConfig
+      ? resolveTeacherCustomWords(normalizedTeacherConfig.customWords || [], fullReviewedBank || fallbackBankBase)
+      : []
+    if (customWords.length > requestedQuestionCount) {
+      throw new Error(`指定單字共 ${customWords.length} 個，超過本場 ${requestedQuestionCount} 題。請減少指定單字或增加題數。`)
+    }
     const fallbackBank = mergeFallbackWords(customWords, fallbackBankBase)
-    const candidatePoolBase = selectCandidatePool(fallbackBank, studentMastery, spiralWrongWords)
-    const candidatePool = mergeFallbackWords(customWords, candidatePoolBase).slice(0, 10)
+    const candidateLimit = normalizedTeacherConfig ? requestedQuestionCount : 10
+    const candidatePoolBase = selectCandidatePool(fallbackBankBase, studentMastery, spiralWrongWords, candidateLimit)
+    const candidatePool = mergeFallbackWords(customWords, candidatePoolBase).slice(0, candidateLimit)
     const candidatesJson = candidatePool.map(c => ({
       word: c.word,
       zh: c.zh,
@@ -553,11 +571,9 @@ serve(async (req) => {
 本場教師指定條件：
 - 題數：${requestedQuestionCount} 題
 - 題型比例：${normalizedTeacherConfig.typeMix || '系統平均分配'}
-- 難度：${normalizedTeacherConfig.difficultyGrade || studentGrade} 年級
+- 題庫難度：${normalizedTeacherConfig.difficultyBand || 'foundation'}
 - 指定單字：${(normalizedTeacherConfig.customWords || []).join(', ') || '無'}
-- 指定句型：${(normalizedTeacherConfig.customPatterns || []).join(' / ') || '無'}
-- 補充指令：${normalizedTeacherConfig.extraInstruction || '無'}
-若指定單字不在候選題庫，仍可使用，但需以 teacher_custom 題目處理，句子要自然、適合國小學生。
+指定單字只能使用核准題庫中已存在的項目。
 ` : ''
 
     const generationQualityRules = `
@@ -1015,7 +1031,7 @@ async function loadPublicFallbackWords(grade: number, maxDifficultyLevel?: numbe
       .filter(isUsablePublicVocabularyItem)
       .map(item => toFallbackWord(item, patternById))
 
-    // 優先使用 difficultyLevel 篩選（更精細的 16 階適性化）
+    // 優先使用 1-8 級 difficultyLevel 篩選。
     // 若單字有 difficultyLevel 欄位，用它；否則降級使用 grade（相容舊資料）
     const filtered = maxDifficultyLevel
       ? mapped.filter(item => (item.difficultyLevel ?? item.grade) <= maxDifficultyLevel)
@@ -1486,6 +1502,7 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
     topic: item.topic || 'Daily',
     grade,
     difficultyLevel,
+    difficultyBand: item.difficultyBand || 'foundation',
     chunks: Array.isArray(item.chunks) && item.chunks.length ? item.chunks : chunkWord(word),
     phonetic: item.phonetic || '',
     pattern: finalPattern,
@@ -1513,11 +1530,11 @@ function normalizeTeacherConfig(value: unknown): TeacherChallengeConfig | null {
   const raw = value as Record<string, unknown>
   return {
     questionCount: normalizeQuestionCount(raw.questionCount),
-    difficultyGrade: Math.min(6, Math.max(3, Number(raw.difficultyGrade || 4))),
+    difficultyGrade: Math.min(9, Math.max(3, Number(raw.difficultyGrade || raw.participantGrade || 4))),
+    participantGrade: Math.min(9, Math.max(3, Number(raw.participantGrade || raw.difficultyGrade || 4))),
+    difficultyBand: normalizeDifficultyBand(raw.difficultyBand),
     typeMix: String(raw.typeMix || 'balanced').slice(0, 40),
     customWords: normalizeTeacherTextList(raw.customWords),
-    customPatterns: normalizeTeacherTextList(raw.customPatterns, 8),
-    extraInstruction: String(raw.extraInstruction || '').trim().slice(0, 300),
   }
 }
 
@@ -1537,15 +1554,27 @@ function normalizeTeacherTextList(value: unknown, max = 20): string[] {
 
 function resolveTeacherCustomWords(words: string[], bank: FallbackWord[]): FallbackWord[] {
   const bankMap = new Map(bank.map(item => [normalizeWord(item.word), item]))
-  return normalizeTeacherTextList(words).flatMap(word => {
+  const missing: string[] = []
+  const resolved = normalizeTeacherTextList(words).flatMap(word => {
     const clean = normalizeWord(word)
     const existing = bankMap.get(clean)
     if (existing) {
       return [existing]
     }
-    console.warn(`忽略未經題庫審查的教師自訂單字：${clean}`)
+    missing.push(word)
     return []
   })
+  if (missing.length) {
+    throw new Error(`指定單字尚未收錄於核准題庫：${missing.join(', ')}`)
+  }
+  return resolved
+}
+
+function normalizeDifficultyBand(value: unknown): 'starter' | 'foundation' | 'core' | 'challenge' {
+  const band = String(value || 'foundation')
+  return ['starter', 'foundation', 'core', 'challenge'].includes(band)
+    ? band as 'starter' | 'foundation' | 'core' | 'challenge'
+    : 'foundation'
 }
 
 function mergeFallbackWords(primary: FallbackWord[], secondary: FallbackWord[]): FallbackWord[] {
@@ -1574,7 +1603,7 @@ function buildFallbackChallenge(
   bank: FallbackWord[] = fallbackWords,
   questionCount = 12
 ): ChallengeItem[] {
-  const available = bank.filter(w => w.grade <= Math.max(3, grade))
+  const available = [...bank]
   const pool = candidatePool.length >= 10 ? candidatePool : [...candidatePool, ...available]
   const shuffledPool = shuffle(pool).filter((item, index, arr) =>
     arr.findIndex(other => other.word === item.word) === index
@@ -1594,7 +1623,7 @@ function normalizeChallenge(
   questionCount = 12,
   typeMix = 'balanced'
 ): ChallengeItem[] {
-  const available = bank.filter(w => w.grade <= Math.max(3, grade))
+  const available = [...bank]
   const poolMap = new Map(candidatePool.map(c => [c.word.toLowerCase().trim(), c]))
   
   // Group AI items by word
@@ -1811,8 +1840,9 @@ function normalizeChallenge(
   
   const wordTypes = new Map<string, ('spelling' | 'speech' | 'sentence')[]>()
 
-  // 第一階段：為前 10 題分配題型 (這 10 題皆為 unique 單字)
-  for (let i = 0; i < 10; i++) {
+  // 第一階段：先為所有不重複候選單字分配題型。
+  const uniqueBoundary = Math.min(candidatePool.length, combined.length)
+  for (let i = 0; i < uniqueBoundary; i++) {
     if (i >= combined.length) break
     const item = combined[i]
     const wClean = item.word.toLowerCase().trim()
@@ -1834,8 +1864,8 @@ function normalizeChallenge(
     }
   }
 
-  // 第二階段：為剩下的重複出題分配題型 (index 10 以後)
-  for (let i = 10; i < combined.length; i++) {
+  // 第二階段：為超過候選池後的重複出題分配題型。
+  for (let i = uniqueBoundary; i < combined.length; i++) {
     const item = combined[i]
     const wClean = item.word.toLowerCase().trim()
     const forbiddenTypes = wordTypes.get(wClean) || []

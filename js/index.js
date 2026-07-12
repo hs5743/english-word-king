@@ -683,14 +683,14 @@ function renderIndexHandbook() {
       const level = w.difficultyLevel || w.grade || 3
       const gem = gemTiers[level - 1]
       const emoji = gem ? gem.emoji : '💎'
-      const gemName = gem ? gem.name.split(' ')[0] : '寶石'
+      const difficultyName = w.difficultyBandZh || ({ starter: '入門', foundation: '基礎', core: '進階', challenge: '挑戰' }[w.difficultyBand]) || '基礎'
       return `
         <div class="handbook-card handbook-card--mined" style="background: rgba(245,200,66,0.04); border: 1px solid rgba(245,200,66,0.22); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s;">
-          <div style="font-size: 2.2rem; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.2));" title="${escHtml(gem?.name || '')}">${emoji}</div>
+          <div style="font-size: 2.2rem; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.2));" title="單字難度：${escHtml(difficultyName)} Level ${level}">${emoji}</div>
           <div class="handbook-word" style="font-size: 0.95rem; font-weight: bold; color: var(--clr-gold-1); word-break: break-all;">${escHtml(w.word)}</div>
           <div class="handbook-phonetic" style="font-size: 0.7rem; color: #8892b0; font-family: monospace; margin-top: 2px;">${escHtml(w.phonetic || '')}</div>
           <div class="handbook-translation" style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px; font-weight: 500;">${escHtml(w.zh)}</div>
-          <div class="handbook-tier" style="font-size: 0.65rem; color: var(--clr-gold-1); opacity: 0.8; margin-top: 4px;">${gemName} (Lv.${level})</div>
+          <div class="handbook-tier" style="font-size: 0.65rem; color: var(--clr-gold-1); opacity: 0.9; margin-top: 4px;">${escHtml(difficultyName)} (Lv.${level})</div>
           <button onclick="window.SpeechEngine.speak('${w.word.replace(/'/g, "\\'")}')" style="background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--clr-gold-1); font-size: 0.85rem; margin-top: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,200,66,0.2)'" onmouseout="this.style.background='rgba(245,200,66,0.1)'">🔊</button>
         </div>
       `
