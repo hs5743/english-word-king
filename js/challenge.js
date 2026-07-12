@@ -1410,7 +1410,9 @@
     const optionsZone = document.getElementById('sentenceOptions')
     optionsZone.innerHTML = ''
 
-    const correct = q.word
+    // 句子可能自然使用複數或動詞變化；答案應採用該核准例句保存的 target 詞形。
+    const correct = q.answerWord || q.word
+    const masteryWord = q.word
     const distractors = q.distractors || []
     const options = [correct, ...distractors].slice(0, 4)
     options.sort(() => Math.random() - 0.5)
@@ -1432,7 +1434,7 @@
           triggerConfetti()
           document.getElementById('sentenceBlank').textContent = correct
           revealSentenceAnswer(q, true)
-          updateMastery(correct, true)
+          updateMastery(masteryWord, true)
         } else {
           btn.classList.add('wrong')
           optionsZone.querySelectorAll('.sentence-option').forEach(b => {
@@ -1442,7 +1444,7 @@
           })
           document.getElementById('sentenceBlank').textContent = correct
           revealSentenceAnswer(q, false)
-          updateMastery(correct, false)
+          updateMastery(masteryWord, false)
         }
       })
 

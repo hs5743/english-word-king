@@ -73,6 +73,7 @@ type ChallengeItem = {
   exampleSentence: string
   sentenceZh: string
   fillBlank: string
+  answerWord?: string
   distractors: string[]
   distractorZhs: Record<string, string>
 }
@@ -708,9 +709,24 @@ ${JSON.stringify(candidatesJson, null, 2)}
       );
     }
 
-    // 9. AI 出題（三段 Failover + 失敗重試 + 延遲分流）
-    let challengeData: any[] | null = null
-    let challengeSource = 'ai'
+    // 9. 正式挑戰只使用已審查題庫。AI 金鑰保留供明確要求的管理端比較測試，
+    // 不再用於學生正式／練習挑戰的即時造句。
+    const reviewedStart = Date.now()
+    let challengeData: any[] | null = buildFallbackChallenge(
+      adaptiveMaxGrade,
+      wrongWords,
+      candidatePool,
+      fallbackBank,
+      requestedQuestionCount
+    )
+    let challengeSource = 'reviewed_bank'
+    steps.push({
+      step: 'reviewed_bank',
+      attempt: 1,
+      status: 'success',
+      duration_ms: Date.now() - reviewedStart,
+      response_size_chars: JSON.stringify(challengeData).length
+    })
 
     // 重試輔助函數：執行出題，出錯時等待後重試
     async function executeWithRetry<T>(
@@ -1521,24 +1537,14 @@ function normalizeTeacherTextList(value: unknown, max = 20): string[] {
 
 function resolveTeacherCustomWords(words: string[], bank: FallbackWord[]): FallbackWord[] {
   const bankMap = new Map(bank.map(item => [normalizeWord(item.word), item]))
-  return normalizeTeacherTextList(words).map(word => {
+  return normalizeTeacherTextList(words).flatMap(word => {
     const clean = normalizeWord(word)
     const existing = bankMap.get(clean)
     if (existing) {
-      return existing
+      return [existing]
     }
-    const sentence = `I can use ${clean} in class.`
-    return {
-      word: clean,
-      zh: word,
-      topic: 'Teacher Custom',
-      grade: 3,
-      chunks: chunkWord(clean),
-      phonetic: '',
-      pattern: 'I can use [word] in class.',
-      sentence,
-      sentenceZh: `我可以在課堂中使用 ${word}。`,
-    }
+    console.warn(`忽略未經題庫審查的教師自訂單字：${clean}`)
+    return []
   })
 }
 
@@ -1619,7 +1625,8 @@ function normalizeChallenge(
       const aiSentence = String(firstAiItem.exampleSentence || firstAiItem.sentence || '').trim()
       const aiSentenceZh = String(firstAiItem.sentenceZh || '').trim()
       
-      const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
+      const answerWord = String(firstAiItem.answerWord || wordClean).trim()
+      const validation = validateAISentence(aiSentence, answerWord, candidate.topic)
       let finalSentence: string
       let finalSentenceZh: string
 
@@ -1649,7 +1656,8 @@ function normalizeChallenge(
         pattern: firstAiItem.pattern || candidate.pattern || 'Practice sentence',
         exampleSentence: finalSentence,
         sentenceZh: finalSentenceZh,
-        fillBlank: makeFillBlank(finalSentence, wordClean),
+        fillBlank: makeFillBlank(finalSentence, answerWord),
+        answerWord,
         distractors,
         distractorZhs,
       })
@@ -1677,7 +1685,8 @@ function normalizeChallenge(
       const aiSentence = String(dupItem.exampleSentence || dupItem.sentence || '').trim()
       const aiSentenceZh = String(dupItem.sentenceZh || '').trim()
       
-      const validation = validateAISentence(aiSentence, wordClean, candidate.topic)
+      const answerWord = String(dupItem.answerWord || wordClean).trim()
+      const validation = validateAISentence(aiSentence, answerWord, candidate.topic)
       if (validation.ok && validateSentenceZh(aiSentenceZh)) {
         const finalSentence = aiSentence
         const finalSentenceZh = aiSentenceZh
@@ -1697,7 +1706,8 @@ function normalizeChallenge(
           pattern: dupItem.pattern || candidate.pattern || 'Practice sentence',
           exampleSentence: finalSentence,
           sentenceZh: finalSentenceZh,
-          fillBlank: makeFillBlank(finalSentence, wordClean),
+          fillBlank: makeFillBlank(finalSentence, answerWord),
+          answerWord,
           distractors,
           distractorZhs,
         })
@@ -1872,7 +1882,7 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     distractorZhs[d] = found ? found.zh : d
   })
 
-  // 隨機選用例句 1 或例句 2
+  // 已核准題庫會從三句中隨機選一句，並保留該句實際使用的詞形。
   const reviewedExample = item.examples?.length === 3
     ? item.examples[Math.floor(Math.random() * item.examples.length)]
     : null
@@ -1889,7 +1899,8 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
     pattern: item.pattern || 'Practice sentence',
     exampleSentence: sentence,
     sentenceZh: sentenceZh,
-    fillBlank: makeFillBlank(sentence, item.word),
+    fillBlank: makeFillBlank(sentence, reviewedExample?.target || item.word),
+    answerWord: reviewedExample?.target || item.word,
     distractors,
     distractorZhs,
   }
