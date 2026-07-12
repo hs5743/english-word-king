@@ -21,6 +21,15 @@ type FallbackWord = {
   sentenceZh: string
   sentence2?: string
   sentence2Zh?: string
+  examples?: ReviewedExample[]
+}
+
+type ReviewedExample = {
+  id?: string
+  en: string
+  zhTw: string
+  target: string
+  reviewStatus?: string
 }
 
 type PublicVocabularyItem = {
@@ -38,6 +47,8 @@ type PublicVocabularyItem = {
   sentenceZh?: string       // 新增：預載中譯
   sentence2?: string        // 新增：預載例句2
   sentence2Zh?: string      // 新增：預載中譯2
+  examples?: ReviewedExample[]
+  contentReview?: { status?: string }
   enabled?: boolean
 }
 
@@ -1421,10 +1432,18 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
   const difficultyLevel = item.difficultyLevel ?? grade  // 使用新欄位，降級用 grade
 
   // 優先使用 vocabulary.json 預載的高品質例句（由 upgrade-vocabulary.mjs 生成）
-  const preloadedSentence   = String(item.sentence   || '').trim()
-  const preloadedSentenceZh = String(item.sentenceZh || '').trim()
-  const preloadedSentence2   = String(item.sentence2   || '').trim()
-  const preloadedSentence2Zh = String(item.sentence2Zh || '').trim()
+  const reviewedExamples = item.contentReview?.status === 'approved' && Array.isArray(item.examples)
+    ? item.examples.filter((example) =>
+      example?.reviewStatus === 'approved' &&
+      String(example.en || '').trim() &&
+      String(example.zhTw || '').trim() &&
+      String(example.target || '').trim()
+    )
+    : []
+  const preloadedSentence   = String(reviewedExamples[0]?.en || item.sentence || '').trim()
+  const preloadedSentenceZh = String(reviewedExamples[0]?.zhTw || item.sentenceZh || '').trim()
+  const preloadedSentence2   = String(reviewedExamples[1]?.en || item.sentence2 || '').trim()
+  const preloadedSentence2Zh = String(reviewedExamples[1]?.zhTw || item.sentence2Zh || '').trim()
 
   let finalSentence   = preloadedSentence
   let finalSentenceZh = preloadedSentenceZh
@@ -1458,6 +1477,7 @@ function toFallbackWord(item: PublicVocabularyItem, patternById: Map<string, Pub
     sentenceZh: finalSentenceZh,
     sentence2: preloadedSentence2 || undefined,
     sentence2Zh: preloadedSentence2Zh || undefined,
+    examples: reviewedExamples.length === 3 ? reviewedExamples : undefined,
   }
 }
 
@@ -1853,9 +1873,12 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
   })
 
   // 隨機選用例句 1 或例句 2
-  const useSentence2 = item.sentence2 && Math.random() < 0.5
-  const sentence = useSentence2 ? item.sentence2 : item.sentence
-  const sentenceZh = useSentence2 ? (item.sentence2Zh || item.sentenceZh) : item.sentenceZh
+  const reviewedExample = item.examples?.length === 3
+    ? item.examples[Math.floor(Math.random() * item.examples.length)]
+    : null
+  const useSentence2 = !reviewedExample && item.sentence2 && Math.random() < 0.5
+  const sentence = reviewedExample?.en || (useSentence2 ? item.sentence2 : item.sentence)
+  const sentenceZh = reviewedExample?.zhTw || (useSentence2 ? (item.sentence2Zh || item.sentenceZh) : item.sentenceZh)
 
   return {
     word: item.word,

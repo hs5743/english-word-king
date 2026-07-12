@@ -1479,19 +1479,27 @@
           '單字(Word)', '中文(Chinese)', '主題(Topic)', '音標(Phonetic)', 
           '難度年級(Grade)', '拼字音節(Chunks)', 
           '例句一(Sentence 1)', '例句一中譯(Translation 1)',
-          '例句二(Sentence 2)', '例句二中譯(Translation 2)'
+          '例句二(Sentence 2)', '例句二中譯(Translation 2)',
+          '例句三(Sentence 3)', '例句三中譯(Translation 3)',
+          '內容版本(Content Version)', '審查狀態(Review Status)'
         ]
-        const rows = words.map(w => [
-          w.word, w.zh, w.topic, w.phonetic || '',
-          w.grade || '', Array.isArray(w.chunks) ? w.chunks.join('/') : (w.chunks || ''),
-          w.sentence || '', w.sentenceZh || '',
-          w.sentence2 || '', w.sentence2Zh || ''
-        ].map(escCSV).join(','))
+        const enabledWords = words.filter(w => w.enabled !== false)
+        const rows = enabledWords.map(w => {
+          const examples = Array.isArray(w.examples) ? w.examples : []
+          return [
+            w.word, w.zh, w.topic, w.phonetic || '',
+            w.grade || '', Array.isArray(w.chunks) ? w.chunks.join('/') : (w.chunks || ''),
+            examples[0]?.en || w.sentence || '', examples[0]?.zhTw || w.sentenceZh || '',
+            examples[1]?.en || w.sentence2 || '', examples[1]?.zhTw || w.sentence2Zh || '',
+            examples[2]?.en || '', examples[2]?.zhTw || '',
+            w.contentSchemaVersion || '', w.contentReview?.status || ''
+          ].map(escCSV).join(',')
+        })
 
         const csv = [headers.join(','), ...rows].join('\r\n')
         const date = new Date().toLocaleDateString('sv-SE')
         triggerCSVDownload(csv, `英語單字王_單字庫_${date}.csv`)
-        setDownloadStatus(`✅ 成功下載 ${words.length} 個單字！`, false)
+        setDownloadStatus(`✅ 成功下載 ${enabledWords.length} 個單字（每字 3 句）！`, false)
       } catch (err) {
         console.error(err)
         setDownloadStatus('❌ 下載失敗：' + err.message, true)

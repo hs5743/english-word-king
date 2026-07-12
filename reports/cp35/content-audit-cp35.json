@@ -1,0 +1,307 @@
+{
+  "summary": {
+    "schema": "cp35-content-v2",
+    "generatedAt": "2026-07-12T01:12:21.025Z",
+    "words": 706,
+    "enabledWords": 705,
+    "examples": 2070,
+    "approvedExamples": 1980,
+    "unapprovedExamples": 90,
+    "issueCounts": {
+      "missing_examples": 45,
+      "target_form_not_exact": 2
+    },
+    "severityCounts": {
+      "coverage": 45,
+      "review": 2
+    }
+  },
+  "issues": [
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "across",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "ago",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "along",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "before",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "between",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "coffee",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "dry",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "everyone",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "gym",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "street",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "train",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "was",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "were",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "wore",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "already",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "also",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "been",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "bring",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "busy",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "cheese",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "expensive",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "finish",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "hear",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "just",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "large",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "lucky",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "often",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "popular",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "since",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "subject",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "think",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "tomato",
+      "count": 2
+    },
+    {
+      "severity": "review",
+      "type": "target_form_not_exact",
+      "target": "tomato",
+      "en": "We need some fresh tomatoes to make the salad.",
+      "word": "tomato",
+      "exampleId": "junior-tomato-ex1"
+    },
+    {
+      "severity": "review",
+      "type": "target_form_not_exact",
+      "target": "tomato",
+      "en": "We picked some fresh red tomatoes from the farm garden.",
+      "word": "tomato",
+      "exampleId": "junior-tomato-ex2"
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "use",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "caught",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "flown",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "felt",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "found",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "grown",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "grew",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "heard",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "known",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "spoken",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "stood",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "thought",
+      "count": 2
+    },
+    {
+      "severity": "coverage",
+      "type": "missing_examples",
+      "word": "written",
+      "count": 2
+    }
+  ]
+}
