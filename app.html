@@ -817,7 +817,11 @@
       background: linear-gradient(135deg, var(--clr-gold-1), var(--clr-blue-1));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .loading-msg { font-size: 0.9rem; color: var(--clr-text-muted); }
+    .loading-msg { font-size: 1rem; color: var(--clr-text-muted); text-align: center; }
+    .loading-detail { max-width: 520px; padding: 0 24px; color: var(--clr-text-secondary); text-align: center; line-height: 1.7; }
+    .loading-actions { display: none; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .loading-actions.is-visible { display: flex; }
+    .loading-actions .btn { min-height: 44px; }
 
     /* ── Confetti canvas ─────────────────────────── */
     #confettiCanvas {
@@ -1011,6 +1015,11 @@
   <div class="loading-spinner"></div>
   <div class="loading-logo">Word King 單字王</div>
   <div class="loading-msg" id="loadingMsg">正在載入題目…</div>
+  <div class="loading-detail" id="loadingDetail" aria-live="polite">正在安全連線，請稍候。</div>
+  <div class="loading-actions" id="loadingActions">
+    <button class="btn btn--primary" id="loadingRetryBtn" type="button">重新連線</button>
+    <a class="btn btn--ghost" href="index.html">返回大廳</a>
+  </div>
 </div>
 <!-- Confetti Canvas -->
 <canvas id="confettiCanvas"></canvas>

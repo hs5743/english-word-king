@@ -66,6 +66,9 @@
   let speechAppliedByQuestion = []
   let speechRecordingSeq = 0
   let startTime = 0
+  let loadingStageTimers = []
+  const pendingResultKey = 'cp38_pending_challenge_result'
+  let completionAttemptId = null
 
   // Tile 模式狀態
   let tilePlacedLetters = []
@@ -129,6 +132,9 @@
       }
 
       studentProfile = profile
+
+      // 若上次已完成挑戰但送出時斷線，先以同一筆 ID 安全補送，避免重複計分。
+      await syncPendingResult()
 
       // 計算初始寶石等級索引
       let initialMasteredCount = 0
@@ -347,7 +353,8 @@
   }
 
   async function loadSessionChallenge() {
-    showLoading(true, '正在從核准題庫準備英語挑戰…')
+    showLoading(true, '正在從核准題庫準備英語挑戰…', '通常只需要幾秒鐘，請不要重複點擊。')
+    beginLoadingStages()
 
     try {
       const session = (await supabase.auth.getSession()).data.session
@@ -366,14 +373,18 @@
       const isPractice = (currentMode === 'free' || currentMode === 'class')
 
       if (currentMode === 'class' && currentSessionId) {
-        const { data: packages, error: packageError } = await supabase
-          .from('challenge_packages')
-          .select('*')
-          .eq('session_id', currentSessionId)
-          .eq('status', 'active')
-          .gt('expires_at', new Date().toISOString())
-          .order('created_at', { ascending: false })
-          .limit(1)
+        const { data: packages, error: packageError } = await retryOperation(async () => {
+          const result = await supabase
+            .from('challenge_packages')
+            .select('*')
+            .eq('session_id', currentSessionId)
+            .eq('status', 'active')
+            .gt('expires_at', new Date().toISOString())
+            .order('created_at', { ascending: false })
+            .limit(1)
+          if (result.error) throw result.error
+          return result
+        })
 
         if (packageError) throw packageError
         const packageRow = packages && packages[0]
@@ -393,17 +404,28 @@
         return
       }
 
-      const response = await fetch(`${window.SupabaseConfig.SUPABASE_URL}/functions/v1/generate-challenge`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({
-          grade: studentProfile.grade,
-          wrongWords,
-          isPractice
-        })
+      const response = await retryOperation(async () => {
+        const controller = new AbortController()
+        const timeout = setTimeout(() => controller.abort(), 15000)
+        try {
+          const result = await fetch(`${window.SupabaseConfig.SUPABASE_URL}/functions/v1/generate-challenge`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`
+            },
+            body: JSON.stringify({
+              grade: studentProfile.grade,
+              wrongWords,
+              isPractice
+            }),
+            signal: controller.signal
+          })
+          if (result.status >= 500 || result.status === 429) throw new Error(`服務忙碌中（${result.status}）`)
+          return result
+        } finally {
+          clearTimeout(timeout)
+        }
       })
 
       if (!response.ok) {
@@ -428,8 +450,10 @@
 
     } catch (err) {
       console.error('[Challenge] Load error:', err)
-      showToast(err.message || '出題失敗，請稍後重試。', 'error')
-      showLoading(false)
+      showLoadingError(
+        err.message || '目前連線較忙碌，題目尚未載入。',
+        () => loadSessionChallenge()
+      )
     }
   }
 
@@ -1842,7 +1866,7 @@
    * ═══════════════════════════════════════════════════════════ */
 
   async function completeChallenge() {
-    showLoading(true, '正在計算成績並儲存歷程...')
+    showLoading(true, '正在計算成績並儲存歷程...', '成績會先保留在這台裝置，斷線時可安全重新同步。')
 
     // 計算最終分數 (滿分 100)
     // 答對題數佔 80% (80分)，平均口說分數佔 20% (20分)
@@ -1860,112 +1884,74 @@
       const isClassMode = currentMode === 'class'
       const isDailyMode = currentMode === 'daily'
       const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Taipei' }) // yyyy-mm-dd
+      const suffix = isClassMode ? currentSessionId : (isDailyMode ? 'daily' : 'free')
+      completionAttemptId ||= `${currentUser.id}_${today}_${suffix}_${Date.now()}`
 
-      // 1. 每日挑戰與課堂挑戰都寫入紀錄；自由練習只更新 mastery。
-      if (isDailyMode || isClassMode) {
-        const suffix = isClassMode ? currentSessionId : 'daily'
-        const attemptId = `${currentUser.id}_${today}_${suffix}_${Date.now()}`
-        const { error: attemptError } = await supabase
-          .from('daily_attempts')
-          .insert({
-            id: attemptId,
-            student_uid: currentUser.id,
-            student_name: studentProfile.name,
-            school: studentProfile.school,
-            class: studentProfile.class,
-            grade: studentProfile.grade,
-            date: today,
-            score: finalScoreVal,
-            wrong: sessionWrongWords,
-            speech_scores: sessionSpeechScores,
-            practice: isClassMode,
-            session_id: isClassMode ? currentSessionId : null
-          })
-
-        if (attemptError) throw attemptError
-
-        if (isClassMode && sessionQuestionResults.length > 0) {
-          const rows = sessionQuestionResults.map(row => ({
-            attempt_id: attemptId,
-            session_id: currentSessionId,
-            session_code: currentSessionCode,
-            student_uid: currentUser.id,
-            question_id: row.question_id,
-            question_order: row.question_order,
-            question_type: row.question_type,
-            word: row.word,
-            topic: row.topic,
-            is_correct: row.is_correct,
-            score: row.score,
-            answered_at: row.answered_at
-          }))
-          const { error: resultError } = await supabase
-            .from('challenge_question_results')
-            .insert(rows)
-          if (resultError) throw resultError
-        }
-
-        // 課堂挑戰提供教師即時榜，不消耗每日計分額度，也不累加全站總分。
-        if (isClassMode) {
-          const { error: classMasteryError } = await supabase
-            .from('students')
-            .update({
-              mastery: studentProfile.mastery,
-              last_active: new Date().toISOString()
-            })
-            .eq('uid', currentUser.id)
-
-          if (classMasteryError) throw classMasteryError
-
-          showLoading(false)
-          showCompletionScreen(finalScoreVal, accuracyVal)
-          return
-        }
-
-        // 2. 每日計分：更新學生的累積成績、連續天數、熟練度 JSON
-        let newStreak = studentProfile.streak || 0
+      let newStreak = studentProfile.streak || 0
+      if (isDailyMode) {
         const lastChallengeDate = studentProfile.last_challenge_date
-
-        // 連續天數邏輯
         if (lastChallengeDate) {
-          const lastDate = new Date(lastChallengeDate)
-          const currDate = new Date(today)
-          const diffTime = Math.abs(currDate - lastDate)
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-          if (diffDays === 1) {
-            newStreak += 1
-          } else if (diffDays > 1) {
-            newStreak = 1
-          }
+          const diffDays = Math.ceil(Math.abs(new Date(today) - new Date(lastChallengeDate)) / (1000 * 60 * 60 * 24))
+          if (diffDays === 1) newStreak += 1
+          else if (diffDays > 1) newStreak = 1
         } else {
           newStreak = 1
         }
-
-        const { error: updateError } = await supabase
-          .from('students')
-          .update({
-            total_score: (studentProfile.total_score || 0) + finalScoreVal,
-            streak: newStreak,
-            speech_stars: (studentProfile.speech_stars || 0) + sessionStars,
-            last_challenge_date: today,
-            mastery: studentProfile.mastery
-          })
-          .eq('uid', currentUser.id)
-
-        if (updateError) throw updateError
-
-      } else {
-        // 自由練習模式：僅更新 Mastery 熟練度
-        const { error: updateMasteryError } = await supabase
-          .from('students')
-          .update({
-            mastery: studentProfile.mastery
-          })
-          .eq('uid', currentUser.id)
-
-        if (updateMasteryError) throw updateMasteryError
       }
+
+      const attempt = (isDailyMode || isClassMode) ? {
+        id: completionAttemptId,
+        student_uid: currentUser.id,
+        student_name: studentProfile.name,
+        school: studentProfile.school,
+        class: studentProfile.class,
+        grade: studentProfile.grade,
+        date: today,
+        score: finalScoreVal,
+        wrong: sessionWrongWords,
+        speech_scores: sessionSpeechScores,
+        practice: isClassMode,
+        session_id: isClassMode ? currentSessionId : null
+      } : null
+
+      const questionResults = isClassMode ? sessionQuestionResults.map(row => ({
+        attempt_id: completionAttemptId,
+        session_id: currentSessionId,
+        session_code: currentSessionCode,
+        student_uid: currentUser.id,
+        question_id: row.question_id,
+        question_order: row.question_order,
+        question_type: row.question_type,
+        word: row.word,
+        topic: row.topic,
+        is_correct: row.is_correct,
+        score: row.score,
+        answered_at: row.answered_at
+      })) : []
+
+      const studentUpdate = isClassMode
+        ? { mastery: studentProfile.mastery, last_active: new Date().toISOString() }
+        : isDailyMode
+          ? {
+              total_score: (studentProfile.total_score || 0) + finalScoreVal,
+              streak: newStreak,
+              speech_stars: (studentProfile.speech_stars || 0) + sessionStars,
+              last_challenge_date: today,
+              mastery: studentProfile.mastery
+            }
+          : { mastery: studentProfile.mastery }
+
+      const pendingPayload = {
+        version: 1,
+        userId: currentUser.id,
+        savedAt: new Date().toISOString(),
+        attempt,
+        questionResults,
+        studentUpdate
+      }
+      localStorage.setItem(pendingResultKey, JSON.stringify(pendingPayload))
+      await retryOperation(() => syncResultPayload(pendingPayload))
+      localStorage.removeItem(pendingResultKey)
 
       // 4. 展示完成畫面
       showLoading(false)
@@ -1973,8 +1959,43 @@
 
     } catch (err) {
       console.error('[Challenge] Complete error:', err)
-      showToast('儲存成績失敗，請確認網路連線。', 'error')
-      showLoading(false)
+      showLoadingError('成績已暫存在這台裝置，尚未完成雲端同步。', () => completeChallenge())
+    }
+  }
+
+  async function syncResultPayload(payload) {
+    if (payload.attempt) {
+      const { error } = await supabase
+        .from('daily_attempts')
+        .insert(payload.attempt)
+      if (error && error.code !== '23505') throw error
+    }
+
+    if (payload.questionResults?.length) {
+      const { error } = await supabase
+        .from('challenge_question_results')
+        .insert(payload.questionResults)
+      if (error && error.code !== '23505') throw error
+    }
+
+    const { error } = await supabase
+      .from('students')
+      .update(payload.studentUpdate)
+      .eq('uid', payload.userId)
+    if (error) throw error
+  }
+
+  async function syncPendingResult() {
+    const raw = localStorage.getItem(pendingResultKey)
+    if (!raw) return
+    try {
+      const payload = JSON.parse(raw)
+      if (payload.userId !== currentUser.id) return
+      await retryOperation(() => syncResultPayload(payload), 2)
+      localStorage.removeItem(pendingResultKey)
+      showToast('上次未送出的成績已完成同步。', 'success')
+    } catch (err) {
+      console.warn('[Challenge] Pending result remains queued:', err)
     }
   }
 
@@ -2189,14 +2210,67 @@
    * 10. HELPER FUNCTIONS
    * ═══════════════════════════════════════════════════════════ */
 
-  function showLoading(show, message = '載入中...') {
+  function clearLoadingStages() {
+    loadingStageTimers.forEach(timer => clearTimeout(timer))
+    loadingStageTimers = []
+  }
+
+  function beginLoadingStages() {
+    clearLoadingStages()
+    loadingStageTimers.push(setTimeout(() => {
+      const detail = document.getElementById('loadingDetail')
+      if (detail) detail.textContent = '目前使用人數可能較多，系統正在自動重試，請稍候。'
+    }, 4500))
+    loadingStageTimers.push(setTimeout(() => {
+      const detail = document.getElementById('loadingDetail')
+      if (detail) detail.textContent = '您的登入狀態仍保留中；若連線持續不穩，稍後可按重新連線。'
+    }, 10000))
+  }
+
+  async function retryOperation(operation, maxAttempts = 3) {
+    let lastError
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        return await operation(attempt)
+      } catch (err) {
+        lastError = err
+        if (attempt === maxAttempts) break
+        const detail = document.getElementById('loadingDetail')
+        if (detail) detail.textContent = `連線暫時不穩，正在進行第 ${attempt + 1} 次嘗試…`
+        await new Promise(resolve => setTimeout(resolve, 600 * attempt + Math.random() * 350))
+      }
+    }
+    throw lastError
+  }
+
+  function showLoadingError(message, retryAction) {
+    clearLoadingStages()
     const scr = document.getElementById('loadingScreen')
     const msg = document.getElementById('loadingMsg')
+    const detail = document.getElementById('loadingDetail')
+    const actions = document.getElementById('loadingActions')
+    const retryBtn = document.getElementById('loadingRetryBtn')
+    if (msg) msg.textContent = '題目暫時無法載入'
+    if (detail) detail.textContent = `${message} 您的登入狀態仍保留，請稍後重新連線。`
+    if (actions) actions.classList.add('is-visible')
+    if (retryBtn) retryBtn.onclick = retryAction
+    scr.classList.remove('fade-out')
+    scr.style.display = 'flex'
+  }
+
+  function showLoading(show, message = '載入中...', detailMessage = '正在安全連線，請稍候。') {
+    const scr = document.getElementById('loadingScreen')
+    const msg = document.getElementById('loadingMsg')
+    const detail = document.getElementById('loadingDetail')
+    const actions = document.getElementById('loadingActions')
     if (show) {
       msg.textContent = message
+      if (detail) detail.textContent = detailMessage
+      if (actions) actions.classList.remove('is-visible')
       scr.classList.remove('fade-out')
       scr.style.display = 'flex'
     } else {
+      clearLoadingStages()
       scr.classList.add('fade-out')
       setTimeout(() => scr.style.display = 'none', 500)
     }

@@ -1,12 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+import { REVIEWED_BANK_DATA, REVIEWED_BANK_VERSION } from "./reviewed-bank.generated.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
-
-const PUBLIC_DATA_BASE = 'https://hs5743.github.io/english-word-king/data'
 
 // 正式學生／教師挑戰固定使用已審核題庫。保留舊 AI 即時出題管線供未來評估，
 // 但必須由程式維護者明確修改此旗標後才可能進入，避免設定金鑰或調整順序時誤啟用。
@@ -540,14 +539,14 @@ serve(async (req) => {
     // 優先用 1-8 級 difficultyLevel 篩選；舊資料若無欄位才降級用 grade。
     const loadStart = Date.now()
     const fullReviewedBank = normalizedTeacherConfig
-      ? await loadPublicFallbackWords(9)
+      ? loadReviewedRuntimeBank(9)
       : null
     const fallbackBankBase = normalizedTeacherConfig
       ? fullReviewedBank!.filter(item => item.difficultyBand === normalizedTeacherConfig.difficultyBand)
-      : await loadPublicFallbackWords(adaptiveMaxGrade, adaptiveMaxDifficultyLevel)
+      : loadReviewedRuntimeBank(adaptiveMaxGrade, adaptiveMaxDifficultyLevel)
     const loadDuration = Date.now() - loadStart
     steps.push({
-      step: 'load_public_fallback_data',
+      step: 'load_reviewed_runtime_bank',
       attempt: 1,
       status: 'success',
       duration_ms: loadDuration,
@@ -964,7 +963,8 @@ ${JSON.stringify(candidatesJson, null, 2)}
           teacher_uid: user.id,
           teacher_config: {
             ...normalizedTeacherConfig,
-            questionCount: requestedQuestionCount
+            questionCount: requestedQuestionCount,
+            reviewedBankVersion: REVIEWED_BANK_VERSION
           },
           challenge_data: finalChallenge,
           status: 'active',
@@ -983,6 +983,7 @@ ${JSON.stringify(candidatesJson, null, 2)}
       JSON.stringify({
         success: true,
         source: challengeSource,
+        reviewedBankVersion: REVIEWED_BANK_VERSION,
         questionCount: finalChallenge.length,
         fallbackSize: fallbackBank.length,
         levelTitle: currentTier.name,
@@ -1019,47 +1020,38 @@ function getErrorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err || '')
 }
 
-async function loadPublicFallbackWords(grade: number, maxDifficultyLevel?: number): Promise<FallbackWord[]> {
-  try {
-    const [vocabularyRes, patternsRes] = await Promise.all([
-      fetch(`${PUBLIC_DATA_BASE}/vocabulary.json`),
-      fetch(`${PUBLIC_DATA_BASE}/sentence-patterns.json`),
-    ])
-
-    if (!vocabularyRes.ok || !patternsRes.ok) {
-      throw new Error(`public data fetch failed: ${vocabularyRes.status}/${patternsRes.status}`)
+function loadReviewedRuntimeBank(grade: number, maxDifficultyLevel?: number): FallbackWord[] {
+  const maxGrade = Math.max(3, grade)
+  const mapped: FallbackWord[] = REVIEWED_BANK_DATA.map(item => {
+    const examples: ReviewedExample[] = item.examples.map(example => ({ ...example }))
+    return {
+      word: item.word,
+      zh: item.zh,
+      topic: item.topic,
+      grade: item.grade,
+      difficultyLevel: item.difficultyLevel,
+      difficultyBand: item.difficultyBand,
+      chunks: [...item.chunks],
+      phonetic: item.phonetic,
+      pattern: 'Reviewed example',
+      sentence: examples[0].en,
+      sentenceZh: examples[0].zhTw,
+      sentence2: examples[1].en,
+      sentence2Zh: examples[1].zhTw,
+      examples
     }
+  })
 
-    const vocabulary = await vocabularyRes.json() as PublicVocabularyItem[]
-    const patterns = await patternsRes.json() as PublicPatternItem[]
-    const patternById = new Map(
-      patterns
-        .filter(item => item.enabled !== false && item.id)
-        .map(item => [item.id as string, item])
-    )
-    const maxGrade = Math.max(3, grade)
-    const mapped = vocabulary
-      .filter(isUsablePublicVocabularyItem)
-      .map(item => toFallbackWord(item, patternById))
+  const filtered = maxDifficultyLevel
+    ? mapped.filter(item => (item.difficultyLevel ?? item.grade) <= maxDifficultyLevel)
+    : mapped.filter(item => item.grade <= maxGrade)
 
-    // 優先使用 1-8 級 difficultyLevel 篩選。
-    // 若單字有 difficultyLevel 欄位，用它；否則降級使用 grade（相容舊資料）
-    const filtered = maxDifficultyLevel
-      ? mapped.filter(item => (item.difficultyLevel ?? item.grade) <= maxDifficultyLevel)
-      : mapped.filter(item => item.grade <= maxGrade)
+  if (filtered.length >= 12) return filtered
 
-    if (filtered.length >= 12) return filtered
+  const gradeFallback = mapped.filter(item => item.grade <= maxGrade)
+  if (gradeFallback.length >= 12) return gradeFallback
 
-    // filtered 太少時回退到全年級篩選（相容舊資料）
-    const fallback = mapped.filter(item => item.grade <= maxGrade)
-    if (fallback.length >= 12) return fallback
-
-    throw new Error(`public fallback has only ${filtered.length} usable words`)
-  } catch (err) {
-    console.warn('Public fallback data unavailable; using embedded fallback:', getErrorMessage(err))
-    const maxGrade = Math.max(3, grade)
-    return fallbackWords.filter(w => w.grade <= maxGrade)
-  }
+  throw new Error(`reviewed runtime bank has only ${filtered.length} usable words`)
 }
 
 function isUsablePublicVocabularyItem(item: PublicVocabularyItem): boolean {

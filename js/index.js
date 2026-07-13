@@ -150,12 +150,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 檢查是否有進行中的三校對抗賽
   checkLiveContest(sb)
 
-  // Realtime 訂閱：排行榜即時更新
+  // Realtime 訂閱：只接收正式計分紀錄，並將短時間大量提交合併為一次畫面更新。
+  let leaderboardRefreshTimer = null
   sb.channel('leaderboard-changes')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'daily_attempts' }, () => {
-      loadSchoolScores(sb)
-      loadLeaderboard(sb)
-      checkLiveContest(sb) // 學生提交時也重新整理對抗賽狀態
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'daily_attempts',
+      filter: 'practice=eq.false'
+    }, () => {
+      clearTimeout(leaderboardRefreshTimer)
+      leaderboardRefreshTimer = setTimeout(() => {
+        loadSchoolScores(sb)
+        loadLeaderboard(sb)
+        checkLiveContest(sb)
+      }, 1200)
     })
     .subscribe()
 })

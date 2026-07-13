@@ -1027,6 +1027,7 @@
     }
 
     // 實時訂閱日誌
+    let questionReviewRefreshTimer = null;
     function subscribeToAttempts(sessionId) {
       if (realtimeChannel) {
         supabaseClient.removeChannel(realtimeChannel);
@@ -1036,7 +1037,7 @@
         .channel(`attempts-session-${sessionId}`)
         .on(
           'postgres_changes',
-          { event: '*', schema: 'public', table: 'daily_attempts' },
+          { event: '*', schema: 'public', table: 'daily_attempts', filter: `session_id=eq.${sessionId}` },
           payload => {
             const record = payload.new;
             // 僅處理符合當前 session_id 的變更
@@ -1063,7 +1064,8 @@
               // 先渲染一次 (即使還沒查到 mastery 也可以用舊資料或 default)
               renderLeaderboard(shouldHighlight ? record.id : null);
               updateStats();
-              loadQuestionReview();
+              clearTimeout(questionReviewRefreshTimer);
+              questionReviewRefreshTimer = setTimeout(() => loadQuestionReview(), 1200);
 
               // 非同步查詢最新 mastery 並再次渲染
               supabaseClient
