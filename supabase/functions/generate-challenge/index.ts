@@ -526,14 +526,16 @@ serve(async (req) => {
     // 正式挑戰不使用這些金鑰；目前僅供下方管理端比較測試與未來擴充保留。
 
 
-    const { data: configRows, error: configError } = await supabase
-      .from('system_config')
-      .select('key, value')
-      .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key', 'groq_api_key_backup', 'api_calling_order'])
+    let keys: Record<string, string> = {}
+    if (ENABLE_RUNTIME_AI_GENERATION) {
+      const { data: configRows, error: configError } = await supabase
+        .from('system_config')
+        .select('key, value')
+        .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key', 'groq_api_key_backup', 'api_calling_order'])
 
-    if (configError) console.warn('讀取 AI 設定失敗；正式挑戰仍會使用已審核題庫:', configError.message)
-
-    const keys = Object.fromEntries((configRows || []).map(r => [r.key, r.value])) as Record<string, string>
+      if (configError) console.warn('讀取 AI 設定失敗；正式挑戰仍會使用已審核題庫:', configError.message)
+      keys = Object.fromEntries((configRows || []).map(r => [r.key, r.value])) as Record<string, string>
+    }
 
     // 7. 載入題庫與過濾符合適性上限的單字
     // 優先用 1-8 級 difficultyLevel 篩選；舊資料若無欄位才降級用 grade。
