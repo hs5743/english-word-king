@@ -189,9 +189,9 @@
     <!-- ══ PANEL 1: SYSTEM CONFIG ══ -->
     <div class="admin-panel active" id="panelConfig">
       <div class="glass-card" style="padding:var(--sp-lg);">
-        <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-gold-1);">AI 金鑰與系統參數</h2>
+        <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:var(--sp-md);color:var(--clr-gold-1);">AI 服務與系統參數</h2>
         <p style="font-size:0.85rem;color:var(--clr-text-muted);margin-bottom:var(--sp-lg);">
-          金鑰由 Supabase 後端與 Edge Function 安全隔離，前端網頁無法取得真實明文值。
+          金鑰由 Supabase 後端與 Edge Function 安全隔離，前端網頁無法取得真實明文值。AI 服務目前僅保留供管理端測試與未來擴充；學生正式挑戰只使用已審核題庫。
         </p>
 
         <div id="configStatusBox" style="margin-bottom:var(--sp-lg);padding:var(--sp-md);border:1px solid rgba(148,163,184,0.35);border-radius:12px;background:rgba(255,255,255,0.55);">
@@ -199,7 +199,7 @@
             <strong style="color:var(--clr-text-primary);">AI 金鑰狀態</strong>
             <div style="display:flex;gap:var(--sp-xs);flex-wrap:wrap;">
               <button class="btn" type="button" onclick="loadConfigStatus()">重新檢查</button>
-              <button class="btn btn--secondary" type="button" onclick="testAiConfig()">測試 AI 出題</button>
+              <button class="btn btn--secondary" type="button" onclick="testAiConfig()">測試 AI 連線</button>
             </div>
           </div>
           <div id="configStatusContent" style="margin-top:var(--sp-sm);font-size:0.9rem;color:var(--clr-text-secondary);">尚未檢查。</div>
@@ -208,32 +208,32 @@
 
         <form id="configForm" onsubmit="saveSystemConfig(event)">
           <div class="form-group">
-            <label class="form-label" for="geminiKey">Gemini 3.5 Flash 主要 API 金鑰</label>
+            <label class="form-label" for="geminiKey">Gemini 主要 API 金鑰</label>
             <input class="form-input" id="geminiKey" type="password" placeholder="輸入 API 金鑰 (若不修改請留空)" />
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="geminiKeyBackup">Gemini 3.5 Flash 備用 API 金鑰</label>
+            <label class="form-label" for="geminiKeyBackup">Gemini 備用 API 金鑰</label>
             <input class="form-input" id="geminiKeyBackup" type="password" placeholder="輸入備用 API 金鑰 (若不修改請留空)" />
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="groqKey">Groq Llama 3 主要 API 金鑰</label>
+            <label class="form-label" for="groqKey">Groq 主要 API 金鑰</label>
             <input class="form-input" id="groqKey" type="password" placeholder="輸入 Groq API 金鑰 (若不修改請留空)" />
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="groqKeyBackup">Groq Llama 3 備用 API 金鑰</label>
+            <label class="form-label" for="groqKeyBackup">Groq 備用 API 金鑰</label>
             <input class="form-input" id="groqKeyBackup" type="password" placeholder="輸入 Groq 備用 API 金鑰 (若不修改請留空)" />
           </div>
 
           <!-- 優先呼叫順序調整 -->
           <div class="form-group" style="margin-top:var(--sp-lg);border-top:1px solid rgba(148,163,184,0.15);padding-top:var(--sp-md);">
             <label class="form-label" style="font-weight:700;display:flex;align-items:center;gap:var(--sp-xs);">
-              📶 AI 出題呼叫順序調整 (配合現況即時調整)
+              📶 AI 服務呼叫順序（保留供管理端測試與未來擴充）
             </label>
             <p style="font-size:0.8rem;color:var(--clr-text-muted);margin-bottom:var(--sp-sm);">
-              使用右側的 ⬆️ 上移 與 ⬇️ 下移 按鈕調整出題時金鑰的嘗試順序。第一個成功的金鑰將負責產出題目。
+              使用右側的 ⬆️ 上移與 ⬇️ 下移按鈕調整服務測試順序；此設定目前不影響學生正式挑戰的組題來源。
             </p>
             <div id="apiOrderList" style="display:flex;flex-direction:column;gap:var(--sp-xs);max-width:480px;background:rgba(255,255,255,0.55);padding:var(--sp-sm);border-radius:12px;border:1px solid rgba(148,163,184,0.15);">
               <!-- 動態載入順序 -->
@@ -351,9 +351,9 @@
       <div class="glass-card" style="padding:var(--sp-lg);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-md);flex-wrap:wrap;gap:var(--sp-sm);">
           <div>
-            <h2 style="font-size:1.25rem;font-weight:700;color:var(--clr-blue-1);">AI 出題效能與統計日誌</h2>
+            <h2 style="font-size:1.25rem;font-weight:700;color:var(--clr-blue-1);">系統組題與 AI 服務日誌</h2>
             <p style="font-size:0.85rem;color:var(--clr-text-muted);">
-              監控每一次學生或老師出題時的 AI 生成時間、呼叫次數、成功率以及詳細歷程步驟。
+              監控每次挑戰的組題來源、處理時間、API 呼叫次數與詳細歷程；正式挑戰正常情況下由已審核題庫完成。
             </p>
           </div>
           <button class="btn" onclick="loadPerformanceLogs()">🔄 重新整理</button>
@@ -362,11 +362,11 @@
         <!-- Summary Stats Card Row -->
         <div style="display:flex;gap:var(--sp-md);margin-bottom:var(--sp-lg);flex-wrap:wrap;">
           <div class="glass-card" style="flex:1;min-width:180px;padding:var(--sp-md);text-align:center;border-color:rgba(79,195,247,0.25);">
-            <div style="font-size:0.8rem;color:var(--clr-text-muted);">平均生成時間</div>
+            <div style="font-size:0.8rem;color:var(--clr-text-muted);">平均組題時間</div>
             <div id="statAvgTime" style="font-size:1.6rem;font-weight:800;color:var(--clr-blue-1);margin-top:4px;">0 ms</div>
           </div>
           <div class="glass-card" style="flex:1;min-width:180px;padding:var(--sp-md);text-align:center;border-color:rgba(6,214,160,0.25);">
-            <div style="font-size:0.8rem;color:var(--clr-text-muted);">AI 生成成功率</div>
+            <div style="font-size:0.8rem;color:var(--clr-text-muted);">組題成功率</div>
             <div id="statSuccessRate" style="font-size:1.6rem;font-weight:800;color:var(--clr-green-1);margin-top:4px;">0%</div>
           </div>
           <div class="glass-card" style="flex:1;min-width:180px;padding:var(--sp-md);text-align:center;border-color:rgba(255,209,102,0.25);">
@@ -375,14 +375,18 @@
           </div>
         </div>
 
+        <div id="generationLogSummary" style="margin:-8px 0 var(--sp-lg);padding:12px 14px;border-radius:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.18);font-size:0.86rem;color:var(--clr-text-secondary);">
+          重新整理後顯示題庫組題與 AI 呼叫摘要。
+        </div>
+
         <!-- Logs Table -->
         <div class="table-container">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>生成時間</th>
+                <th>組題時間</th>
                 <th>模式 / 學生ID</th>
-                <th>成功出處</th>
+                <th>組題來源</th>
                 <th>總計耗時</th>
                 <th>API 呼叫</th>
                 <th>題數</th>
@@ -659,10 +663,10 @@
 
     // AI 金鑰呼叫順序（全域狀態）
     const PROVIDER_NAMES = {
-      gemini_api_key:        '🤖 Gemini 3.5 Flash 主要',
-      gemini_api_key_backup: '🤖 Gemini 3.5 Flash 備用',
-      groq_api_key:          '⚡ Groq Llama 3 主要',
-      groq_api_key_backup:   '⚡ Groq Llama 3 備用',
+      gemini_api_key:        '🤖 Gemini 主要',
+      gemini_api_key_backup: '🤖 Gemini 備用',
+      groq_api_key:          '⚡ Groq 主要',
+      groq_api_key_backup:   '⚡ Groq 備用',
     };
     let currentApiOrder = Object.keys(PROVIDER_NAMES);
 
@@ -818,19 +822,28 @@
 
         if (!logs || logs.length === 0) {
           tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--clr-text-muted);">尚無效能監控日誌。</td></tr>';
+          document.getElementById('statAvgTime').textContent = '0 ms';
+          document.getElementById('statSuccessRate').textContent = '—';
+          document.getElementById('statAvgCalls').textContent = '0.0 次';
+          const summaryEl = document.getElementById('generationLogSummary');
+          if (summaryEl) summaryEl.textContent = '尚無組題或 AI 服務日誌。';
           return;
         }
 
-        // Calculate summary stats
+        // 組題日誌同時包含已審核題庫與管理端 AI 測試，兩者需分開解讀。
         let totalMs = 0;
         let successCount = 0;
         let totalCalls = 0;
+        let reviewedCount = 0;
+        let errorCount = 0;
         logs.forEach(log => {
-          totalMs += log.total_duration_ms;
-          if (log.success_source !== 'fallback' && log.success_source !== 'error') {
+          totalMs += Number(log.total_duration_ms) || 0;
+          if (log.success_source !== 'error' && Number(log.questions_count) > 0) {
             successCount++;
           }
-          totalCalls += log.api_calls_count;
+          if (log.success_source === 'reviewed_bank') reviewedCount++;
+          if (log.success_source === 'error') errorCount++;
+          totalCalls += Number(log.api_calls_count) || 0;
         });
         const avgTime = (totalMs / logs.length).toFixed(0);
         const successRate = ((successCount / logs.length) * 100).toFixed(0);
@@ -839,6 +852,13 @@
         document.getElementById('statAvgTime').textContent = `${avgTime} ms`;
         document.getElementById('statSuccessRate').textContent = `${successRate}%`;
         document.getElementById('statAvgCalls').textContent = `${avgCalls} 次`;
+        const summaryEl = document.getElementById('generationLogSummary');
+        if (summaryEl) {
+          const apiNote = totalCalls === 0
+            ? '本期間未呼叫 AI，正式題目由已審核題庫組成。'
+            : `本期間共呼叫 AI API ${totalCalls} 次；AI 呼叫不代表已用於學生正式題目。`;
+          summaryEl.innerHTML = `<strong>最近 ${logs.length} 筆：</strong>已審核題庫 ${reviewedCount} 筆，真正錯誤 ${errorCount} 筆。${apiNote}`;
+        }
 
         tbody.innerHTML = '';
         logs.forEach(log => {
@@ -850,17 +870,21 @@
           
           let sourceBadge = '';
           if (log.success_source === 'gemini_primary') {
-            sourceBadge = '<span class="role-badge role-badge--teacher">Gemini主</span>';
+            sourceBadge = '<span class="role-badge role-badge--teacher">Gemini 主要</span>';
           } else if (log.success_source === 'gemini_backup') {
-            sourceBadge = '<span class="role-badge role-badge--teacher" style="background:rgba(255,209,102,0.15);color:var(--clr-gold-1);border:1px solid rgba(255,209,102,0.3);">Gemini備</span>';
+            sourceBadge = '<span class="role-badge role-badge--teacher" style="background:rgba(255,209,102,0.15);color:var(--clr-gold-1);border:1px solid rgba(255,209,102,0.3);">Gemini 備用</span>';
           } else if (log.success_source === 'groq_primary' || log.success_source === 'groq') {
-            sourceBadge = '<span class="role-badge role-badge--admin">Groq主 (Llama)</span>';
+            sourceBadge = '<span class="role-badge role-badge--admin">Groq 主要</span>';
           } else if (log.success_source === 'groq_backup') {
-            sourceBadge = '<span class="role-badge role-badge--admin" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.3);">Groq備 (Llama)</span>';
+            sourceBadge = '<span class="role-badge role-badge--admin" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.3);">Groq 備用</span>';
+          } else if (log.success_source === 'reviewed_bank') {
+            sourceBadge = '<span class="role-badge" style="background:rgba(16,185,129,0.12);color:#047857;border:1px solid rgba(16,185,129,0.3);">已審核題庫</span>';
           } else if (log.success_source === 'fallback') {
-            sourceBadge = '<span class="role-badge" style="background:rgba(255,255,255,0.1);color:var(--clr-text-muted);border:1px solid rgba(255,255,255,0.2);">本地 Fallback</span>';
-          } else {
+            sourceBadge = '<span class="role-badge" style="background:rgba(255,255,255,0.1);color:var(--clr-text-muted);border:1px solid rgba(255,255,255,0.2);">舊版備援題庫</span>';
+          } else if (log.success_source === 'error') {
             sourceBadge = '<span class="role-badge" style="background:rgba(239,71,111,0.15);color:var(--clr-red-1);border:1px solid rgba(239,71,111,0.3);">錯誤 Error</span>';
+          } else {
+            sourceBadge = '<span class="role-badge" style="background:rgba(148,163,184,0.12);color:var(--clr-text-muted);border:1px solid rgba(148,163,184,0.3);">未知來源</span>';
           }
 
           const durationSec = (log.total_duration_ms / 1000).toFixed(1);
@@ -872,12 +896,22 @@
           // Format steps details nicely
           let stepsHtml = '<div style="font-size:0.78rem;max-height:100px;overflow-y:auto;text-align:left;line-height:1.4;">';
           if (Array.isArray(log.steps)) {
+            const stepLabels = {
+              load_public_fallback_data: '載入公開核准題庫',
+              reviewed_bank: '已審核題庫組題',
+              fallback: '舊版備援題庫',
+              gemini_primary: 'Gemini 主要服務',
+              gemini_backup: 'Gemini 備用服務',
+              groq_primary: 'Groq 主要服務',
+              groq_backup: 'Groq 備用服務'
+            };
             log.steps.forEach((st, idx) => {
               const stepSec = (st.duration_ms / 1000).toFixed(1);
               const statusColor = st.status === 'success' ? '#10b981' : '#f43f5e';
               const statusText = st.status === 'success' ? '成功' : '失敗';
               const errorText = st.error ? `<br/><span style="color:#f43f5e;font-size:0.72rem;">└ 錯誤: ${st.error.slice(0, 100)}</span>` : '';
-              stepsHtml += `<div>[${idx + 1}] <strong style="color:var(--clr-text-secondary);">${st.step}</strong> (嘗試 ${st.attempt}) - <span style="color:${statusColor};">${statusText}</span> (${stepSec}s)${errorText}</div>`;
+              const stepName = stepLabels[st.step] || st.step || '未知步驟';
+              stepsHtml += `<div>[${idx + 1}] <strong style="color:var(--clr-text-secondary);">${stepName}</strong> (嘗試 ${st.attempt}) - <span style="color:${statusColor};">${statusText}</span> (${stepSec}s)${errorText}</div>`;
             });
           } else {
             stepsHtml += '<span style="color:var(--clr-text-muted);">無步驟資料</span>';
@@ -988,8 +1022,8 @@
         const labels = {
           gemini_api_key: 'Gemini 主要金鑰',
           gemini_api_key_backup: 'Gemini 備用金鑰',
-          groq_api_key: 'Groq Llama 3 主要金鑰',
-          groq_api_key_backup: 'Groq Llama 3 備用金鑰',
+          groq_api_key: 'Groq 主要金鑰',
+          groq_api_key_backup: 'Groq 備用金鑰',
         };
         
         box.innerHTML = Object.keys(labels).map(function (key) {
@@ -1028,7 +1062,7 @@
     async function testAiConfig() {
       const resultEl = document.getElementById('configTestResult');
       if (!resultEl) return;
-      resultEl.textContent = '正在測試 AI 金鑰...';
+      resultEl.textContent = '正在測試 AI 服務連線...';
       try {
         const data = await invokeAdminApi('test-ai-config');
         if (data.ok) {
@@ -1038,7 +1072,7 @@
         const attempts = (data.attempts || []).map(function (item) {
           return item.provider + '：' + item.message;
         }).join('<br>');
-        resultEl.innerHTML = '<span style="color:#b45309;font-weight:700;">測試未通過</span><br>' + (attempts || data.message || '沒有可測試的 AI 金鑰。') + '<br>學生仍會使用內建題庫 fallback。';
+        resultEl.innerHTML = '<span style="color:#b45309;font-weight:700;">測試未通過</span><br>' + (attempts || data.message || '沒有可測試的 AI 金鑰。') + '<br>正式挑戰仍會使用已審核題庫，不受 AI 連線狀態影響。';
       } catch (err) {
         console.error(err);
         resultEl.textContent = '測試失敗：' + err.message;

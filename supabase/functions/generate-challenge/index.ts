@@ -8,6 +8,10 @@ const corsHeaders = {
 
 const PUBLIC_DATA_BASE = 'https://hs5743.github.io/english-word-king/data'
 
+// 正式學生／教師挑戰固定使用已審核題庫。保留舊 AI 即時出題管線供未來評估，
+// 但必須由程式維護者明確修改此旗標後才可能進入，避免設定金鑰或調整順序時誤啟用。
+const ENABLE_RUNTIME_AI_GENERATION = false
+
 type FallbackWord = {
   word: string
   zh: string
@@ -78,6 +82,7 @@ type ChallengeItem = {
   answerWord?: string
   distractors: string[]
   distractorZhs: Record<string, string>
+  question_type?: 'spelling' | 'speech' | 'sentence'
 }
 
 type TeacherChallengeConfig = {
@@ -330,6 +335,8 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
+  let saveLog: ((successSource: string, questionsCount: number) => Promise<void>) | null = null
+
   try {
     const startTime = Date.now()
     const steps: any[] = []
@@ -354,7 +361,7 @@ serve(async (req) => {
       packageExpiresAt = ''
     } = body
 
-    async function saveLog(successSource: string, questionsCount: number) {
+    saveLog = async (successSource: string, questionsCount: number) => {
       const totalDuration = Date.now() - startTime
       try {
         const { error: logError } = await supabase
@@ -516,7 +523,8 @@ serve(async (req) => {
       }
     }
 
-    // 6. 讀取 AI 金鑰（從 system_config，前端永遠看不到）
+    // 6. 讀取 AI 金鑰（從 system_config，前端永遠看不到）。
+    // 正式挑戰不使用這些金鑰；目前僅供下方管理端比較測試與未來擴充保留。
 
 
     const { data: configRows, error: configError } = await supabase
@@ -524,7 +532,7 @@ serve(async (req) => {
       .select('key, value')
       .in('key', ['gemini_api_key', 'gemini_api_key_backup', 'groq_api_key', 'groq_api_key_backup', 'api_calling_order'])
 
-    if (configError) console.warn('讀取 AI 設定失敗，改用內建題庫 fallback:', configError.message)
+    if (configError) console.warn('讀取 AI 設定失敗；正式挑戰仍會使用已審核題庫:', configError.message)
 
     const keys = Object.fromEntries((configRows || []).map(r => [r.key, r.value])) as Record<string, string>
 
@@ -744,6 +752,8 @@ ${JSON.stringify(candidatesJson, null, 2)}
       response_size_chars: JSON.stringify(challengeData).length
     })
 
+    // 舊 AI 即時出題管線保留供未來評估，但不參與目前正式組題。
+    if (ENABLE_RUNTIME_AI_GENERATION) {
     // 重試輔助函數：執行出題，出錯時等待後重試
     async function executeWithRetry<T>(
       providerName: string,
@@ -928,6 +938,7 @@ ${JSON.stringify(candidatesJson, null, 2)}
         response_size_chars: JSON.stringify(challengeData).length
       })
     }
+    }
 
     // 10. 驗證與過濾回傳資料格式
     const finalChallenge = normalizeChallenge(
@@ -987,7 +998,7 @@ ${JSON.stringify(candidatesJson, null, 2)}
   } catch (err) {
     console.error('Edge Function 錯誤：', err)
     try {
-      await saveLog('error', 0)
+      if (saveLog) await saveLog('error', 0)
     } catch (logErr) {
       console.error('Failed to log error inside catch:', logErr)
     }
@@ -1916,8 +1927,8 @@ function toChallengeItem(item: FallbackWord, available: FallbackWord[]): Challen
   const reviewedExample = item.examples?.length === 3
     ? item.examples[Math.floor(Math.random() * item.examples.length)]
     : null
-  const useSentence2 = !reviewedExample && item.sentence2 && Math.random() < 0.5
-  const sentence = reviewedExample?.en || (useSentence2 ? item.sentence2 : item.sentence)
+  const useSentence2 = Boolean(!reviewedExample && item.sentence2 && Math.random() < 0.5)
+  const sentence = reviewedExample?.en || (useSentence2 ? (item.sentence2 || item.sentence) : item.sentence)
   const sentenceZh = reviewedExample?.zhTw || (useSentence2 ? (item.sentence2Zh || item.sentenceZh) : item.sentenceZh)
 
   return {
