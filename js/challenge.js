@@ -502,6 +502,11 @@
   }
 
   function resetQuestionState() {
+    if (spellingPromptTimer) {
+      window.clearTimeout(spellingPromptTimer)
+      spellingPromptTimer = null
+    }
+
     // 隱裝所有答案 Reveal
     document.getElementById('spellingReveal').style.display = 'none'
     document.getElementById('speechResult').style.display = 'none'
@@ -587,6 +592,17 @@
    * ═══════════════════════════════════════════════════════════ */
 
   let typeAttempts = 0
+  let spellingPromptTimer = null
+
+  function scheduleSpellingPrompt(q, index) {
+    if (!window.SpeechEngine || !q?.word) return
+
+    spellingPromptTimer = window.setTimeout(() => {
+      spellingPromptTimer = null
+      if (currentType !== 'spelling' || currentIndex !== index) return
+      window.SpeechEngine.speak(q.word, '', currentSpeechRate).catch(() => {})
+    }, 420)
+  }
 
   function renderSpellingQuestion(q, index) {
     document.getElementById('spellingMeaning').textContent = q.zh
@@ -631,6 +647,8 @@
       badge.classList.add('sub-mode-badge--mcq')
       setupMatchingMode(q)
     }
+
+    scheduleSpellingPrompt(q, index)
   }
 
   // 🧩 TILE MODE 設置
@@ -1416,7 +1434,7 @@
 
     // blank 區塊
     const textZone = document.getElementById('sentenceText')
-    textZone.innerHTML = q.fillBlank.replace('____', '<span class="sentence-blank" id="sentenceBlank">______</span>')
+    textZone.innerHTML = q.fillBlank.replace(/_{3,}/, '<span class="sentence-blank" id="sentenceBlank" aria-label="此處需要選擇一個單字"></span>')
 
     document.getElementById('sentenceTranslate').textContent = q.sentenceZh
 

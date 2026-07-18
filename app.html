@@ -381,6 +381,15 @@
     }
     .speak-btn:hover { background: rgba(79,195,247,0.2); border-color: var(--clr-blue-1); }
 
+    .spelling-listen-row {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 8px 12px; margin: calc(var(--sp-md) * -0.35) 0 var(--sp-lg);
+    }
+    .spelling-listen-row .speak-btn { min-height: 44px; font-weight: 800; }
+    .spelling-listen-hint {
+      color: var(--clr-text-muted); font-size: 0.78rem; font-weight: 600;
+    }
+
     /* ── Navigation buttons ─────────────────────────── */
     .challenge-nav {
       display: flex; justify-content: space-between; align-items: center;
@@ -601,10 +610,18 @@
       line-height: 1.8; margin-bottom: var(--sp-sm);
     }
     .sentence-blank {
-      display: inline-block; min-width: 80px;
-      border-bottom: 3px solid var(--clr-gold-1);
-      padding: 0 var(--sp-sm); color: var(--clr-gold-1);
-      font-weight: 900; vertical-align: middle;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 118px; min-height: 42px; margin: 0 5px;
+      padding: 2px 14px; border: 2px solid hsl(210,96%,56%);
+      border-radius: 12px; background: hsl(205,88%,96%);
+      box-shadow: inset 0 -3px 0 hsla(218,86%,42%,0.12);
+      color: hsl(218,86%,38%); font-weight: 900; vertical-align: middle;
+      line-height: 1.2;
+    }
+    .sentence-blank:empty::after {
+      content: '選一個單字'; color: hsl(218,22%,50%);
+      font-family: var(--font-zh); font-size: 0.76rem; font-weight: 800;
+      letter-spacing: 0.04em;
     }
     .sentence-translate {
       font-size: 0.85rem; color: var(--clr-text-muted);
@@ -1000,6 +1017,8 @@
       .page-app--cp30 .type-tab { font-size: 0.78rem; }
       .page-app--cp30 .challenge-panel { padding: 22px 14px; }
       .page-app--cp30 .challenge-progress { padding-inline: 16px; }
+      .page-app--cp30 .spelling-listen-row { margin-bottom: 18px; }
+      .page-app--cp30 .sentence-blank { min-width: 96px; min-height: 38px; padding-inline: 10px; }
       .page-app--cp30 :is(#levelModal, #gemUpgradeModal, #speechSettingsModal) { width: calc(100% - 20px) !important; max-height: calc(100vh - 24px) !important; padding: 22px 16px !important; overflow-y: auto; }
       .speech-preview-actions { grid-template-columns: 1fr; }
     }
@@ -1142,6 +1161,14 @@
           <span class="sub-mode-badge sub-mode-badge--tile" id="subModeBadge">🧩 拼字模式</span>
         </div>
 
+        <div class="spelling-listen-row">
+          <button class="speak-btn" type="button" onclick="speakCurrentWord()" aria-label="再聽一次這個英文單字">
+            <span class="material-symbols-rounded" aria-hidden="true">volume_up</span>
+            再聽一次
+          </button>
+          <span class="spelling-listen-hint">題目出現時會自動播放</span>
+        </div>
+
         <!-- TILE MODE -->
         <div id="tileMode">
           <div class="tile-answer-zone" id="tileAnswerZone"
@@ -1152,9 +1179,6 @@
             <span style="color:var(--clr-text-muted);font-size:0.85rem" id="tileZonePlaceholder">將字母磁磚拖曳到這裡</span>
           </div>
           <div class="tile-bank" id="tileBank"></div>
-          <div style="text-align:center;margin-bottom:var(--sp-sm)">
-            <button class="speak-btn" onclick="speakCurrentWord()">🔊 聽發音</button>
-          </div>
         </div>
 
         <!-- TYPE MODE -->
@@ -1264,7 +1288,7 @@
         <div class="scene-icon" id="sceneIcon">🏫</div>
         <div class="sentence-display">
           <div class="sentence-text" id="sentenceText">
-            I <span class="sentence-blank" id="sentenceBlank">______</span> every day.
+            I <span class="sentence-blank" id="sentenceBlank" aria-label="此處需要選擇一個單字"></span> every day.
           </div>
           <div class="sentence-translate" id="sentenceTranslate"></div>
         </div>

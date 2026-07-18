@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CP39.1 UI QA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,0&display=swap">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<script>
+(async () => {
+  const source = await fetch('../../app.html').then(response => response.text())
+  const styles = Array.from(source.matchAll(/<style>([\s\S]*?)<\/style>/g), match => match[1]).join('\n')
+  document.head.insertAdjacentHTML('beforeend', `<style>${styles}</style>`)
+  document.body.className = 'page-app--cp30'
+  document.body.insertAdjacentHTML('beforeend', `
+    <main class="app-layout" style="grid-template-columns:1fr;max-width:1180px;padding-top:30px">
+      <section class="challenge-main">
+        <div class="challenge-progress">
+          <div class="challenge-progress__header"><span class="challenge-progress__label">題目進度</span><span class="challenge-progress__count">2 / 12</span></div>
+          <div class="progress-bar"><div class="progress-bar__fill" style="width:17%"></div></div>
+        </div>
+        <div class="challenge-panel active" id="previewSpelling">
+          <div class="word-display"><div class="word-topic-tag">📚 Food</div><div class="word-meaning-zh">午餐</div><div class="word-phonetic"></div></div>
+          <div style="text-align:center;margin-bottom:var(--sp-md)"><span class="sub-mode-badge sub-mode-badge--type">⌨ 打字模式</span></div>
+          <div class="spelling-listen-row"><button class="speak-btn" type="button"><span class="material-symbols-rounded">volume_up</span>再聽一次</button><span class="spelling-listen-hint">題目出現時會自動播放</span></div>
+          <div class="type-input-row"><div class="type-input-wrapper"><input class="type-input" placeholder="輸入英文單字…"></div><button class="type-submit-btn">確認 →</button></div>
+        </div>
+        <div class="challenge-panel active" id="previewSentence" style="border-top:2px solid hsl(214,42%,90%)">
+          <div class="scene-icon">🏫</div>
+          <div class="sentence-display"><div class="sentence-text">The teacher wrote the sentences with a black <span class="sentence-blank" aria-label="此處需要選擇一個單字"></span>.</div><div class="sentence-translate">老師用黑色麥克筆寫下了句子。</div></div>
+          <div class="sentence-options"><button class="sentence-option"><span class="sentence-option__label">A</span><span class="font-en">pen</span></button><button class="sentence-option"><span class="sentence-option__label">B</span><span class="font-en">marker</span></button></div>
+        </div>
+      </section>
+    </main>`)
+})()
+</script>
+</body>
+</html>

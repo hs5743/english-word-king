@@ -1,3 +1,23 @@
+# CP39.1 拼字聽力與句型答案槽・Design QA
+
+- Reference screenshots: `C:\Users\wsyeu\AppData\Local\Temp\codex-clipboard-aa45de96-8070-498c-8c04-064e6853f2dd.png`, `C:\Users\wsyeu\AppData\Local\Temp\codex-clipboard-53c9edef-a284-476d-8441-e85b2137be75.png`
+- Implementation preview: `http://127.0.0.1:3000/reports/cp39-1-ui-qa/preview.html`
+- Desktop evidence: `reports/cp39-1-ui-qa/desktop-full.png` at 1280×1500
+- Mobile evidence: `reports/cp39-1-ui-qa/mobile.png` at 390×1200
+
+## Comparison and findings
+
+- The spelling prompt now keeps a single reusable 44px listening control directly below the sub-mode badge, so tile, typing, multiple-choice and matching variants share the same location. The short hint explains the automatic first playback without competing with the Chinese meaning or input.
+- The sentence blank no longer renders literal underscore characters. A single rounded sapphire answer slot replaces the two orange lines, remains visually distinct from the four white choices, and changes naturally from the hint to the selected English answer.
+- Desktop spacing retains the existing CP27/CP30 hierarchy. At 390px, the listen control and hint wrap without horizontal overflow; the sentence and answer slot wrap together into a readable two-line prompt.
+- The implementation uses the existing Material Symbols icon library and CP27 sapphire/light-blue tokens. No new decorative asset, question data, answer logic or scoring rule was introduced.
+
+No P0, P1 or P2 visual issue remains in the reviewed states.
+
+final result: passed
+
+---
+
 # CP27 寶石冒險學院・Design QA
 
 - Source visual truth: `C:\Users\wsyeu\.codex\generated_images\019f4ce6-4569-7da2-b606-e4a41b8fcd65\exec-d2fa2c0a-55ba-4c96-8e3e-0b317e52547f.png`
