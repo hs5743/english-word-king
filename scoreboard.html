@@ -879,6 +879,7 @@
     let sessionCode = '';
     let sessionId = '';
     let activeSession = null;
+    let maskScoreboardNames = true;
     let countdownInterval = null;
     
     // Audio Context
@@ -925,6 +926,7 @@
         }
         
         activeSession = session;
+        maskScoreboardNames = session.mask_scoreboard_names !== false;
         document.getElementById('headerTitle').textContent = session.session_title || '三校 LIVE 對抗賽';
         
         // 4. 檢查控制權限（僅建立對抗賽的管理員可看見結束按鈕）
@@ -1031,7 +1033,17 @@
           { event: 'UPDATE', schema: 'public', table: 'challenge_sessions', filter: `id=eq.${sessionId}` },
           payload => {
             const record = payload.new;
-            if (record && record.status === 'closed') {
+            if (!record) return;
+            activeSession = record;
+            const privacyChanged = maskScoreboardNames !== (record.mask_scoreboard_names !== false);
+            maskScoreboardNames = record.mask_scoreboard_names !== false;
+            if (privacyChanged) {
+              renderAll();
+              populateTicker();
+              refreshWinnerNames();
+              showToast(maskScoreboardNames ? '🔒 大螢幕已切換為姓名遮蔽模式' : '⚠️ 管理員已切換為完整姓名模式', maskScoreboardNames ? 'success' : 'warning');
+            }
+            if (record.status === 'closed') {
               showGameOverScreen();
             }
           }
@@ -1053,7 +1065,19 @@
       document.body.appendChild(flash);
       setTimeout(() => flash.remove(), 600);
       
-      showToast(`🎉 學生 ${name} 成功完成挑戰提交成績！`, 'success');
+      showToast(`🎉 學生 ${displayStudentName(name)} 成功完成挑戰提交成績！`, 'success');
+    }
+
+    function maskStudentName(name) {
+      const chars = Array.from(String(name || '').trim());
+      if (chars.length <= 1) return 'O';
+      if (chars.length === 2) return `${chars[0]}O`;
+      return `${chars[0]}${'O'.repeat(chars.length - 2)}${chars[chars.length - 1]}`;
+    }
+
+    function displayStudentName(name) {
+      const clean = String(name || '').trim();
+      return maskScoreboardNames ? maskStudentName(clean) : clean;
     }
 
     // 計算並渲染所有數據
@@ -1110,7 +1134,7 @@
       const p3Score = document.getElementById('podium3-score');
       
       if (attemptsList[0]) {
-        p1Name.textContent = attemptsList[0].student_name;
+        p1Name.textContent = displayStudentName(attemptsList[0].student_name);
         p1School.textContent = `${attemptsList[0].school} ${attemptsList[0].class}`;
         p1Score.textContent = attemptsList[0].score;
       } else {
@@ -1118,7 +1142,7 @@
       }
       
       if (attemptsList[1]) {
-        p2Name.textContent = attemptsList[1].student_name;
+        p2Name.textContent = displayStudentName(attemptsList[1].student_name);
         p2School.textContent = `${attemptsList[1].school} ${attemptsList[1].class}`;
         p2Score.textContent = attemptsList[1].score;
       } else {
@@ -1126,7 +1150,7 @@
       }
       
       if (attemptsList[2]) {
-        p3Name.textContent = attemptsList[2].student_name;
+        p3Name.textContent = displayStudentName(attemptsList[2].student_name);
         p3School.textContent = `${attemptsList[2].school} ${attemptsList[2].class}`;
         p3Score.textContent = attemptsList[2].score;
       } else {
@@ -1166,7 +1190,7 @@
             <div class="rank-item__num">#${rank}</div>
             <div class="rank-item__info">
               <div>
-                <span class="rank-item__name">${escHtml(a.student_name)}</span>
+                <span class="rank-item__name">${escHtml(displayStudentName(a.student_name))}</span>
                 <div class="rank-item__school">${escHtml(a.school)} · ${escHtml(a.class)}</div>
               </div>
               <span class="rank-item__score">${a.score} 分</span>
@@ -1228,7 +1252,7 @@
       item.className = 'sb-ticker__item';
       item.innerHTML = `
         <span class="sb-ticker__dot"></span>
-        <span>🎉 賀！<strong>${record.school} ${record.student_name}</strong> 完成挑戰，斬獲 <strong>${record.score}</strong> 分！</span>
+        <span>🎉 賀！<strong>${escHtml(record.school)} ${escHtml(displayStudentName(record.student_name))}</strong> 完成挑戰，斬獲 <strong>${record.score}</strong> 分！</span>
       `;
       
       // 插入最前
@@ -1343,7 +1367,7 @@
       const win3Score = document.getElementById('win3-score');
       
       if (attemptsList[0]) {
-        win1.textContent = attemptsList[0].student_name;
+        win1.textContent = displayStudentName(attemptsList[0].student_name);
         win1School.textContent = `${attemptsList[0].school} ${attemptsList[0].class}`;
         win1Score.textContent = attemptsList[0].score + ' 分';
       } else {
@@ -1351,7 +1375,7 @@
       }
       
       if (attemptsList[1]) {
-        win2.textContent = attemptsList[1].student_name;
+        win2.textContent = displayStudentName(attemptsList[1].student_name);
         win2School.textContent = `${attemptsList[1].school} ${attemptsList[1].class}`;
         win2Score.textContent = attemptsList[1].score + ' 分';
       } else {
@@ -1359,7 +1383,7 @@
       }
       
       if (attemptsList[2]) {
-        win3.textContent = attemptsList[2].student_name;
+        win3.textContent = displayStudentName(attemptsList[2].student_name);
         win3School.textContent = `${attemptsList[2].school} ${attemptsList[2].class}`;
         win3Score.textContent = attemptsList[2].score + ' 分';
       } else {
@@ -1369,6 +1393,14 @@
       // 撥放結尾音效與 Confetti
       playWinSound();
       triggerConfettiRain();
+    }
+
+    function refreshWinnerNames() {
+      if (document.getElementById('gameOverOverlay')?.style.display !== 'flex') return;
+      ['win1-name', 'win2-name', 'win3-name'].forEach((id, index) => {
+        const element = document.getElementById(id);
+        if (element && attemptsList[index]) element.textContent = displayStudentName(attemptsList[index].student_name);
+      });
     }
 
     // 漫天 Confetti 彩帶雨
@@ -1485,7 +1517,7 @@
         item.className = 'sb-ticker__item';
         item.innerHTML = `
           <span class="sb-ticker__dot"></span>
-          <span>🎉 賀！<strong>${escHtml(record.school)} ${escHtml(record.student_name)}</strong> 完成挑戰，斬獲 <strong>${record.score}</strong> 分！</span>
+          <span>🎉 賀！<strong>${escHtml(record.school)} ${escHtml(displayStudentName(record.student_name))}</strong> 完成挑戰，斬獲 <strong>${record.score}</strong> 分！</span>
         `;
         tickerList.appendChild(item);
       });

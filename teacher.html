@@ -231,12 +231,11 @@
             <div class="form-group">
               <label class="form-label" for="packageTypeMix">題型配置</label>
               <select class="form-select" id="packageTypeMix" onchange="updateTeacherTypeMixPreview()">
-                <option value="balanced" selected>平均練習</option>
+                <option value="balanced" selected>均衡練習（拼字 2／3、句型 1／3）</option>
                 <option value="spelling-heavy">拼字加強</option>
-                <option value="speech-heavy">口說加強</option>
                 <option value="sentence-heavy">句型應用</option>
               </select>
-              <div id="packageTypeMixPreview" aria-live="polite" style="margin-top:7px;color:var(--clr-text-secondary);font-size:0.78rem;line-height:1.5;">預計配置：拼字 4 題・口說 4 題・句型 4 題</div>
+              <div id="packageTypeMixPreview" aria-live="polite" style="margin-top:7px;color:var(--clr-text-secondary);font-size:0.78rem;line-height:1.5;">預計配置：拼字 8 題・句型 4 題；每題答後可選擇朗讀例句加分。</div>
             </div>
 
             <div class="form-group">
@@ -361,13 +360,14 @@
                 <th>學校班級</th>
                 <th style="text-align:right;">挑戰分數</th>
                 <th style="text-align:center;">答錯題數</th>
-                <th style="text-align:right;">口說平均</th>
+                <th style="text-align:right;">例句朗讀成功</th>
+                <th style="text-align:right;">朗讀加分</th>
                 <th style="text-align:right; width:100px;">完成時間</th>
               </tr>
             </thead>
             <tbody id="leaderboardBody">
               <tr>
-                <td colspan="7" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
+                <td colspan="8" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
                   等待場次啟動中...
                 </td>
               </tr>
@@ -398,7 +398,7 @@
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-md); flex-wrap:wrap; margin-bottom:var(--sp-md);">
         <div>
           <h2 style="font-size:1.2rem; font-weight:900; color:var(--clr-green-1); margin-bottom:4px;">📈 學習數據分析</h2>
-          <p style="font-size:0.8rem; color:var(--clr-text-muted);">依近期挑戰紀錄、錯題次數與有效口說評分提供規則式教學建議，不使用 AI 判定程度。</p>
+          <p style="font-size:0.8rem; color:var(--clr-text-muted);">依近期挑戰紀錄、錯題次數與新版例句朗讀參與情形提供規則式教學建議，不使用 AI 判定程度。</p>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
           <select id="reportSchoolFilter" class="form-select" style="width:auto; min-width:130px; padding:8px 12px;">
@@ -612,23 +612,16 @@
 
     function calculateTypeMixCounts(questionCount, typeMix) {
       const total = Math.max(1, Number(questionCount) || 12);
-      let spelling = Math.floor(total / 3);
-      let speech = Math.floor(total / 3);
-      let sentence = total - spelling - speech;
+      let spelling = Math.ceil(total * 2 / 3);
+      let sentence = total - spelling;
       if (typeMix === 'spelling-heavy') {
-        spelling = Math.floor(total * 0.5);
-        speech = Math.floor((total - spelling) / 2);
-        sentence = total - spelling - speech;
-      } else if (typeMix === 'speech-heavy') {
-        speech = Math.floor(total * 0.5);
-        spelling = Math.floor((total - speech) / 2);
-        sentence = total - speech - spelling;
+        spelling = Math.ceil(total * 0.75);
+        sentence = total - spelling;
       } else if (typeMix === 'sentence-heavy') {
         sentence = Math.floor(total * 0.5);
-        spelling = Math.floor((total - sentence) / 2);
-        speech = total - sentence - spelling;
+        spelling = total - sentence;
       }
-      return { spelling, speech, sentence };
+      return { spelling, sentence };
     }
 
     function updateTeacherTypeMixPreview() {
@@ -636,7 +629,7 @@
       const mix = document.getElementById('packageTypeMix')?.value || 'balanced';
       const result = calculateTypeMixCounts(count, mix);
       const preview = document.getElementById('packageTypeMixPreview');
-      if (preview) preview.textContent = `預計配置：拼字 ${result.spelling} 題・口說 ${result.speech} 題・句型 ${result.sentence} 題`;
+      if (preview) preview.textContent = `預計配置：拼字 ${result.spelling} 題・句型 ${result.sentence} 題；每題答後可選擇朗讀例句加分。`;
     }
 
     function readPackageConfig() {
@@ -730,7 +723,7 @@
       const questions = getPackageChallengeData();
       const count = questions.length || cfg.questionCount || 0;
       const bandLabels = { starter: '入門', foundation: '基礎', core: '進階', challenge: '挑戰' };
-      const mixLabels = { balanced: '平均練習', 'spelling-heavy': '拼字加強', 'speech-heavy': '口說加強', 'sentence-heavy': '句型應用' };
+      const mixLabels = { balanced: '均衡練習', 'spelling-heavy': '拼字加強', 'speech-heavy': '均衡練習（舊設定）', 'sentence-heavy': '句型應用' };
       info.textContent = `${count} 題 / ${bandLabels[cfg.difficultyBand] || '基礎'}題庫 / ${mixLabels[cfg.typeMix] || '自訂題型'}`;
       if (reviewBtn) reviewBtn.disabled = false;
       if (toggleBtn) toggleBtn.disabled = false;
@@ -955,7 +948,7 @@
         document.getElementById('activeSessionCard').style.display = 'none';
         document.getElementById('leaderboardBody').innerHTML = `
           <tr>
-            <td colspan="7" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
+            <td colspan="8" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
               等待場次啟動中...
             </td>
           </tr>
@@ -1142,7 +1135,7 @@
         // 對照中文題型標籤
         const typeLabels = {
           spelling: '🧩 拼字',
-          speech: '🎤 口說',
+          speech: '🧩 拼字（舊題包已轉換）',
           sentence: '📝 句型'
         };
         const typeLabel = typeLabels[q.question_type] || '🧩 拼字';
@@ -1184,16 +1177,6 @@
       }
     }
 
-    // 計算口說平均
-    function getSpeechAverage(speechScores) {
-      if (!speechScores) return 0;
-      const scores = Array.isArray(speechScores) ? speechScores : JSON.parse(speechScores);
-      const valid = scores.filter(s => s > 0);
-      return valid.length > 0 
-        ? Math.round(valid.reduce((sum, s) => sum + s, 0) / valid.length)
-        : 0;
-    }
-
     // 渲染排行榜
     function renderLeaderboard(highlightId = null) {
       const tbody = document.getElementById('leaderboardBody');
@@ -1202,7 +1185,7 @@
       if (attemptsList.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="7" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
+            <td colspan="8" style="text-align:center; color:var(--clr-text-muted); padding:var(--sp-2xl) 0;">
               ✨ 尚無學生提交答對紀錄，等待學生加入中...
             </td>
           </tr>
@@ -1213,7 +1196,8 @@
 
       exportBtn.disabled = false;
       tbody.innerHTML = attemptsList.map((item, idx) => {
-        const speechAvg = getSpeechAverage(item.speech_scores);
+        const readSuccess = item.sentence_speech_success_count == null ? '—' : Number(item.sentence_speech_success_count || 0);
+        const readBonus = item.sentence_speech_bonus == null ? '—' : `+${Number(item.sentence_speech_bonus || 0)}`;
         const wrongCount = Array.isArray(item.wrong) ? item.wrong.length : JSON.parse(item.wrong).length;
         const timeStr = new Date(item.timestamp).toLocaleTimeString('zh-TW', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
         const highlightClass = item.id === highlightId ? 'row-highlight' : '';
@@ -1251,7 +1235,8 @@
             <td>${item.school} ${item.class || ''}</td>
             <td style="text-align:right; font-weight:800; color:var(--clr-gold-1); font-family:var(--font-en); font-size:1.05rem;">${item.score}</td>
             <td style="text-align:center; font-family:var(--font-en);">${wrongCount}</td>
-            <td style="text-align:right; font-family:var(--font-en); color:var(--clr-blue-1); font-weight:700;">${speechAvg}</td>
+            <td style="text-align:right; font-family:var(--font-en); color:var(--clr-blue-1); font-weight:700;">${readSuccess}</td>
+            <td style="text-align:right; font-family:var(--font-en); color:var(--clr-green-1); font-weight:700;">${readBonus}</td>
             <td style="text-align:right; font-size:0.78rem; color:var(--clr-text-muted); font-family:var(--font-en);">${timeStr}</td>
           </tr>
         `;
@@ -1293,9 +1278,10 @@
     function exportToCsv() {
       if (attemptsList.length === 0) return;
 
-      const headers = ['排名', '學生姓名', '學校', '班級', '年級', '分數', '錯題個數', '錯題清單', '口說平均', '時間'];
+      const headers = ['排名', '學生姓名', '學校', '班級', '年級', '分數', '錯題個數', '錯題清單', '例句朗讀成功次數', '朗讀加分', '時間'];
       const rows = attemptsList.map((item, idx) => {
-        const speechAvg = getSpeechAverage(item.speech_scores);
+        const readSuccess = item.sentence_speech_success_count == null ? '' : Number(item.sentence_speech_success_count || 0);
+        const readBonus = item.sentence_speech_bonus == null ? '' : Number(item.sentence_speech_bonus || 0);
         const wrongList = Array.isArray(item.wrong) ? item.wrong : JSON.parse(item.wrong);
         const wrongCount = wrongList.length;
         const wrongStr = wrongList.join('; ');
@@ -1310,7 +1296,8 @@
           item.score,
           wrongCount,
           wrongStr,
-          speechAvg,
+          readSuccess,
+          readBonus,
           timeStr
         ];
       });
@@ -1408,7 +1395,7 @@
         const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
         let query = supabaseClient
           .from('daily_attempts')
-          .select('student_uid, student_name, school, class, grade, score, wrong, speech_scores, practice, timestamp')
+          .select('student_uid, student_name, school, class, grade, score, wrong, sentence_speech_success_count, sentence_speech_bonus, practice, timestamp')
           .gte('timestamp', since)
           .order('timestamp', { ascending: false })
           .limit(1000);
@@ -1426,10 +1413,10 @@
 
         const students = new Set(rows.map(row => row.student_uid));
         const avgScore = Math.round(rows.reduce((sum, row) => sum + Number(row.score || 0), 0) / rows.length);
-        const speechAverages = rows.map(row => getSpeechAverage(row.speech_scores)).filter(score => score > 0);
-        const avgSpeech = speechAverages.length
-          ? Math.round(speechAverages.reduce((sum, score) => sum + score, 0) / speechAverages.length)
-          : 0;
+        const cp39Rows = rows.filter(row => row.sentence_speech_success_count != null);
+        const readParticipants = cp39Rows.filter(row => Number(row.sentence_speech_success_count || 0) > 0).length;
+        const readParticipationRate = cp39Rows.length ? Math.round(readParticipants / cp39Rows.length * 100) : null;
+        const totalReadBonus = cp39Rows.reduce((sum, row) => sum + Number(row.sentence_speech_bonus || 0), 0);
         const wrongWords = rows.flatMap(row => safeJsonArray(row.wrong).map(word => String(word).toLowerCase().trim()).filter(Boolean));
         const wordErrorCounts = new Map();
         const wordStudentSets = new Map();
@@ -1458,7 +1445,7 @@
         const sampleSufficient = rows.length >= 5 && students.size >= 2;
         const recommendations = [
           !sampleSufficient ? '目前樣本較少，建議累積至少 5 筆紀錄且涵蓋 2 位學生後，再觀察整體趨勢。' : (avgScore < 70 ? '近期平均分數低於 70，可先安排短時間低壓複習。' : '近期平均分數穩定，可維持目前練習節奏。'),
-          avgSpeech && avgSpeech < 75 ? '有效口說平均低於 75，建議先用教學慢速播放跟讀。' : '口說建議僅依有效評分樣本呈現，不代表全部學生程度。',
+          readParticipationRate == null ? '新版例句朗讀資料尚未累積；舊口說欄位不納入本報告。' : (readParticipationRate < 30 ? '例句朗讀參與率較低，可在課堂示範如何使用選填加分。' : '已有學生主動使用例句朗讀加分，可持續鼓勵但不強迫。'),
           topTopic !== '尚無明顯弱項' ? `下次課堂優先複習 ${topTopic} 主題，搭配圖卡或情境問答。` : '目前錯題量不足，先累積更多挑戰紀錄。',
           topWord !== '尚無明顯錯字' ? `把 ${topWord} 放進課前暖身與課後出口票。` : '可從最近新字中挑 5 個做快速配對。'
         ];
@@ -1467,7 +1454,7 @@
         content.innerHTML = [
           renderMetricCard('參與學生', students.size, `${rows.length} 筆挑戰紀錄`, 'var(--clr-blue-1)'),
           renderMetricCard('平均分數', avgScore, avgScore >= 80 ? '整體掌握度良好' : '建議增加錯題複習密度', 'var(--clr-gold-1)'),
-          renderMetricCard('口說平均', avgSpeech || '--', avgSpeech ? `${speechAverages.length} 筆有效評分樣本` : '尚無有效口說分數', 'var(--clr-green-1)'),
+          renderMetricCard('例句朗讀參與率', readParticipationRate == null ? '—' : `${readParticipationRate}%`, cp39Rows.length ? `${readParticipants}/${cp39Rows.length} 筆新版挑戰有朗讀成功；共加 ${totalReadBonus} 分` : '舊紀錄不納入此指標', 'var(--clr-green-1)'),
           renderListCard('高頻錯字 Top 8', weakWords, '目前沒有錯字資料'),
           renderListCard('弱項主題排行', weakTopics, '目前沒有弱項主題'),
           renderListCard('學校參與分布', schoolRows, '尚無學校資料'),

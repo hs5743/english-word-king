@@ -268,7 +268,7 @@ function renderLeaderboard(school) {
           ${rankIcons[rank] || `#${rank}`}
         </span>
         <div style="flex:1;">
-          <div class="leaderboard__name">${escHtml(s.name)}${gemTag}</div>
+          <div class="leaderboard__name">${escHtml(maskStudentName(s.name))}${gemTag}</div>
           <div class="leaderboard__school">${escHtml(s.school)} · ${escHtml(s.class)} ${s.streak > 0 ? `· <span class="academy-streak"><span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span>${s.streak} 天連續</span>` : ''}</div>
         </div>
         <span class="leaderboard__score">${Number(s.total_score).toLocaleString()}</span>
@@ -311,7 +311,7 @@ async function loadActivityFeed(sb) {
   const items = [...data, ...data].map(row => `
     <div class="marquee-item">
       <span class="marquee-item__dot"></span>
-      <span>${escHtml(row.school)} ${escHtml(row.student_name)} ${escHtml(row.message)}</span>
+      <span>${escHtml(row.school)} ${escHtml(maskStudentName(row.student_name))} ${escHtml(row.message)}</span>
     </div>
   `).join('')
 
@@ -326,6 +326,14 @@ function escHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
+}
+
+// 公開首頁永遠遮蔽姓名；即使後端 View 已遮蔽，這一層仍作防禦性保護。
+function maskStudentName(name) {
+  const chars = Array.from(String(name || '').trim())
+  if (chars.length <= 1) return 'O'
+  if (chars.length === 2) return `${chars[0]}O`
+  return `${chars[0]}${'O'.repeat(chars.length - 2)}${chars[chars.length - 1]}`
 }
 
 function showToast(message, type = 'info') {
@@ -498,21 +506,21 @@ window.toggleRecognizeHelperTest = function() {
 
   rec.onstart = () => {
     window.voiceHelperRecognition = rec
-    btn.textContent = '⏹️ 正在聆聽，請唸 apple...'
+    btn.textContent = '⏹️ 正在聆聽，請唸完整例句...'
     btn.style.background = '#ff6b6b'
     btn.style.color = '#fff'
-    resultEl.textContent = '🎙️ 請清晰讀出：apple'
+    resultEl.textContent = '🎙️ 請清晰讀出：I like apples.'
     resultEl.style.color = '#e2e8f0'
   }
 
   rec.onresult = (event) => {
     const text = event.results[0][0].transcript.toLowerCase().trim()
     console.log('試音辨識結果:', text)
-    if (text.includes('apple') || text.includes('ap') || text.includes('ple')) {
-      resultEl.textContent = `🎉 辨識成功！聽到你唸了 "${text}"，設備一切正常！`
+    if (text.includes('like') && text.includes('apple')) {
+      resultEl.textContent = `🎉 辨識成功！聽到完整例句「${text}」，設備一切正常！`
       resultEl.style.color = '#52e5a4'
     } else {
-      resultEl.textContent = `❓ 辨識為 "${text}"，好像不太像 apple，靠近麥克風再試一次！`
+      resultEl.textContent = `❓ 辨識為「${text}」，請靠近麥克風並完整朗讀 I like apples. 再試一次！`
       resultEl.style.color = '#f5c842'
     }
   }

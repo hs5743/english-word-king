@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS challenge_sessions (
   school       VARCHAR,
   classes      VARCHAR,  -- 允許班級，逗號分隔，空白表示全校開放
   session_title VARCHAR DEFAULT '' NOT NULL,
+  mask_scoreboard_names BOOLEAN DEFAULT TRUE NOT NULL,
   status       VARCHAR DEFAULT 'active' NOT NULL,  -- active / closed
   created_at   TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
   expires_at   TIMESTAMP WITH TIME ZONE NOT NULL
@@ -63,6 +64,8 @@ CREATE TABLE IF NOT EXISTS daily_attempts (
   score        INT     NOT NULL,
   wrong        JSONB   NOT NULL,     -- 答錯的單字清單
   speech_scores JSONB  NOT NULL,     -- 各題口說評分
+  sentence_speech_success_count INT, -- CP39 完整例句朗讀成功次數；舊紀錄為 NULL
+  sentence_speech_bonus INT,         -- CP39 完整例句朗讀加分；舊紀錄為 NULL
   practice     BOOLEAN DEFAULT FALSE NOT NULL,  -- true = 練習模式不計分
   session_id   UUID,                -- NULL 表示自由練習
   timestamp    TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
@@ -100,13 +103,31 @@ CREATE INDEX IF NOT EXISTS idx_activity_feed_created   ON activity_feed(created_
 -- ============================================================
 -- 活動跑馬燈：每日計分挑戰完成後自動產生首頁動態
 -- ============================================================
+CREATE OR REPLACE FUNCTION mask_student_name(input_name TEXT)
+RETURNS TEXT
+LANGUAGE plpgsql
+IMMUTABLE
+STRICT
+AS $$
+DECLARE
+  clean_name TEXT := btrim(input_name);
+  name_length INT := char_length(btrim(input_name));
+BEGIN
+  IF name_length <= 0 THEN RETURN '';
+  ELSIF name_length = 1 THEN RETURN 'O';
+  ELSIF name_length = 2 THEN RETURN left(clean_name, 1) || 'O';
+  END IF;
+  RETURN left(clean_name, 1) || repeat('O', name_length - 2) || right(clean_name, 1);
+END;
+$$;
+
 CREATE OR REPLACE FUNCTION create_activity_feed_from_attempt()
 RETURNS TRIGGER AS $$
 BEGIN
   IF NEW.practice = false THEN
     INSERT INTO activity_feed (student_name, school, grade, score, message)
     VALUES (
-      NEW.student_name,
+      mask_student_name(NEW.student_name),
       NEW.school,
       NEW.grade,
       NEW.score,

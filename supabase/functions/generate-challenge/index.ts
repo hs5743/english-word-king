@@ -1784,19 +1784,13 @@ function normalizeChallenge(
 
   const combined = [...validUniqueItems, ...finalRepeatedItems]
 
-  // 3. 計算題型分配數量 (spelling / speech / sentence)
+  // 3. CP39 題型只分為拼字與句型；口說改為每題答後的完整例句加分。
   let spellingCount = 0
-  let speechCount = 0
   let sentenceCount = 0
 
   if (typeMix.startsWith('custom-')) {
     const parts = typeMix.replace('custom-', '').split('-')
-    const allowed = {
-      spelling: parts.includes('spelling'),
-      speech: parts.includes('speech'),
-      sentence: parts.includes('sentence')
-    }
-    const activeTypes = (['spelling', 'speech', 'sentence'] as const).filter(t => allowed[t])
+    const activeTypes = (['spelling', 'sentence'] as const).filter(t => parts.includes(t))
     
     if (activeTypes.length > 0) {
       const baseShare = Math.floor(questionCount / activeTypes.length)
@@ -1805,45 +1799,33 @@ function normalizeChallenge(
         const share = (i === activeTypes.length - 1) ? (questionCount - sum) : baseShare
         sum += share
         if (t === 'spelling') spellingCount = share
-        if (t === 'speech') speechCount = share
         if (t === 'sentence') sentenceCount = share
       })
     } else {
-      spellingCount = Math.floor(questionCount / 3)
-      speechCount = Math.floor(questionCount / 3)
-      sentenceCount = questionCount - spellingCount - speechCount
+      // 舊 speech-only 設定或無有效題型時，安全回到預設 2:1。
+      spellingCount = Math.ceil(questionCount * 2 / 3)
+      sentenceCount = questionCount - spellingCount
     }
   } else if (typeMix === 'spelling-heavy') {
-    spellingCount = Math.floor(questionCount * 0.5)
-    const remaining = questionCount - spellingCount
-    speechCount = Math.floor(remaining / 2)
-    sentenceCount = remaining - speechCount
-  } else if (typeMix === 'speech-heavy') {
-    speechCount = Math.floor(questionCount * 0.5)
-    const remaining = questionCount - speechCount
-    spellingCount = Math.floor(remaining / 2)
-    sentenceCount = remaining - spellingCount
+    spellingCount = Math.ceil(questionCount * 0.75)
+    sentenceCount = questionCount - spellingCount
   } else if (typeMix === 'sentence-heavy') {
     sentenceCount = Math.floor(questionCount * 0.5)
-    const remaining = questionCount - sentenceCount
-    spellingCount = Math.floor(remaining / 2)
-    speechCount = remaining - spellingCount
+    spellingCount = questionCount - sentenceCount
   } else {
-    // balanced or review
-    spellingCount = Math.floor(questionCount / 3)
-    speechCount = Math.floor(questionCount / 3)
-    sentenceCount = questionCount - spellingCount - speechCount
+    // balanced / review / legacy speech-heavy：預設約 2:1。
+    spellingCount = Math.ceil(questionCount * 2 / 3)
+    sentenceCount = questionCount - spellingCount
   }
 
-  // 4. 進行分流分群排列並寫入題型標記 (Spelling -> Speech -> Sentence)
+  // 4. 進行分流分群排列並寫入題型標記 (Spelling -> Sentence)
   // 同時確保同一個單字在兩次出題中絕對不會被分配到相同的題型！
   const quotas = {
     spelling: spellingCount,
-    speech: speechCount,
     sentence: sentenceCount
   }
   
-  const wordTypes = new Map<string, ('spelling' | 'speech' | 'sentence')[]>()
+  const wordTypes = new Map<string, ('spelling' | 'sentence')[]>()
 
   // 第一階段：先為所有不重複候選單字分配題型。
   const uniqueBoundary = Math.min(candidatePool.length, combined.length)
@@ -1853,7 +1835,7 @@ function normalizeChallenge(
     const wClean = item.word.toLowerCase().trim()
 
     // 依配額剩餘比例排序選擇最佳題型
-    const availableTypes = (['spelling', 'speech', 'sentence'] as const)
+    const availableTypes = (['spelling', 'sentence'] as const)
       .filter(t => quotas[t] > 0)
     
     availableTypes.sort((a, b) => quotas[b] - quotas[a])
@@ -1876,12 +1858,12 @@ function normalizeChallenge(
     const forbiddenTypes = wordTypes.get(wClean) || []
 
     // 優先挑選非重複的題型且配額大於 0
-    let availableTypes = (['spelling', 'speech', 'sentence'] as const)
+    let availableTypes = (['spelling', 'sentence'] as const)
       .filter(t => quotas[t] > 0 && !forbiddenTypes.includes(t))
 
     if (availableTypes.length === 0) {
       // 兜底：若配額極限下無法避開，則使用任意剩餘配額
-      availableTypes = (['spelling', 'speech', 'sentence'] as const)
+      availableTypes = (['spelling', 'sentence'] as const)
         .filter(t => quotas[t] > 0)
     }
 
@@ -1898,8 +1880,8 @@ function normalizeChallenge(
     }
   }
 
-  // 為了讓學生挑戰時維持分群，我們最後依 Spelling -> Speech -> Sentence 的順序重新排序題目列表
-  const typePriority = { spelling: 1, speech: 2, sentence: 3 }
+  // 為了讓學生挑戰時維持分群，最後依 Spelling -> Sentence 排序。
+  const typePriority = { spelling: 1, speech: 1, sentence: 2 }
   const finalChallenge = [...combined].sort((a, b) => {
     const priorityA = typePriority[a.question_type || 'spelling']
     const priorityB = typePriority[b.question_type || 'spelling']

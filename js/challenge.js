@@ -42,7 +42,7 @@
   let initialGemTierIndex = -1
   let currentSpeechRate = 0.88
   let currentMode = 'daily'        // daily (每日計分) | free (自由練習) | class (課堂挑戰)
-  let currentType = 'spelling'     // spelling | speech | sentence
+  let currentType = 'spelling'     // spelling | sentence
   let currentChallenge = []        // 12題題目資料
   let currentSpeechPracticeTarget = null
   let currentIndex = 0
@@ -52,7 +52,7 @@
   let currentPackageId = null
   let speechBonusPoints = 0        // 口說額外加分
   let hasBonusAwarded = new Array(12).fill(false) // 避免重複加分
-  let isSpellingRecording = false  // spelling 錄音狀態
+  let isSpellingRecording = false  // 答題後例句朗讀錄音狀態
 
   // 挑戰統計數據
   let correctCount = 0
@@ -323,13 +323,12 @@
   function inferQuestionType(index) {
     if (!currentChallenge || !currentChallenge[index]) return 'spelling'
     const q = currentChallenge[index]
-    if (q.question_type) return q.question_type
+    if (q.question_type) return q.question_type === 'speech' ? 'spelling' : q.question_type
 
     if (currentMode === 'daily') {
-      if (index >= 4 && index <= 7) return 'speech'
       if (index >= 8) return 'sentence'
     }
-    return currentType || 'spelling'
+    return currentType === 'speech' ? 'spelling' : (currentType || 'spelling')
   }
 
   function recordQuestionResult(isCorrect, score = null, type = null) {
@@ -476,16 +475,15 @@
 
     // 3. 計分挑戰模式與課堂模式：題目鎖定流，自由練習則依據當前所選 Tab 分流
     if (currentMode === 'daily') {
-      // 0-3: spelling, 4-7: speech, 8-11: sentence
-      let targetType = 'spelling'
-      if (index >= 4 && index <= 7) targetType = 'speech'
-      else if (index >= 8) targetType = 'sentence'
+      // CP39：0-7 拼字、8-11 句型；口說改為每題答後的完整例句加分。
+      const targetType = index >= 8 ? 'sentence' : 'spelling'
 
       currentType = targetType
       updateTypeTabsUI(targetType)
     } else if (currentMode === 'class') {
       // 依據題目包中由後端分配好的 question_type 分流
-      const targetType = q.question_type || 'spelling'
+      // 舊題包中的 speech 題不刪除資料，前端安全轉為拼字題。
+      const targetType = q.question_type === 'speech' ? 'spelling' : (q.question_type || 'spelling')
       currentType = targetType
       updateTypeTabsUI(targetType)
     }
@@ -494,9 +492,6 @@
     if (currentType === 'spelling') {
       showPanel('panelSpelling')
       renderSpellingQuestion(q, index)
-    } else if (currentType === 'speech') {
-      showPanel('panelSpeech')
-      renderSpeechQuestion(q)
     } else if (currentType === 'sentence') {
       showPanel('panelSentence')
       renderSentenceQuestion(q)
@@ -545,7 +540,7 @@
     document.getElementById('micStatus').textContent = '按麥克風開始朗讀'
     document.getElementById('followMicStatus').textContent = '按麥克風開始'
     const spellingMicStatus = document.getElementById('spellingMicStatus')
-    if (spellingMicStatus) spellingMicStatus.textContent = '點擊按鈕，開始朗讀單字'
+    if (spellingMicStatus) spellingMicStatus.textContent = '點擊麥克風，朗讀上方完整例句（選填、不扣分）'
     isSpellingRecording = false
   }
 
@@ -865,15 +860,15 @@
     document.getElementById('revealMeaning').textContent = `${q.sentenceZh} (${q.zh})`
     document.getElementById('spellingReveal').style.display = 'block'
 
-    // 初始化/更新 spelling 朗讀麥克風狀態
+    // 初始化／更新答題後完整例句朗讀狀態
     const spellingMicBtn = document.getElementById('spellingMicBtn')
     const spellingMicStatus = document.getElementById('spellingMicStatus')
     if (spellingMicBtn) spellingMicBtn.classList.remove('listening')
     if (spellingMicStatus) {
       if (hasBonusAwarded[currentIndex]) {
-        spellingMicStatus.textContent = '🌟 已成功取得口說加分！'
+        spellingMicStatus.textContent = '🌟 已完成例句朗讀並取得加分！'
       } else {
-        spellingMicStatus.textContent = '點擊按鈕，開始朗讀單字'
+        spellingMicStatus.textContent = '點擊麥克風，朗讀上方完整例句（選填、不扣分）'
       }
     }
 
@@ -1033,14 +1028,11 @@
     })
   }
 
-  // 🎤 Spelling 答對揭曉後的口說朗讀單字挑戰
+  // 🎤 每題答後的完整例句朗讀加分（不影響原題分數）
   window.toggleSpellingRecording = function () {
     const btn = document.getElementById('spellingMicBtn')
     const statusLabel = document.getElementById('spellingMicStatus')
-    const expectedWord = currentChallenge[currentIndex].word
-    const speechTarget = window.SpeechEngine?.getSpeechPracticeTarget
-      ? window.SpeechEngine.getSpeechPracticeTarget(expectedWord)
-      : null
+    const expectedSentence = currentChallenge[currentIndex].exampleSentence
 
     if (!window.SpeechEngine) return
 
@@ -1050,12 +1042,10 @@
     } else {
       isSpellingRecording = true
       btn.classList.add('listening')
-      statusLabel.textContent = speechTarget?.isShortWord
-        ? `正在聽，請唸：${speechTarget.practiceText}`
-        : '正在聽，請開始朗讀單字...'
+      statusLabel.textContent = '正在聽，請開始朗讀完整例句...'
 
       window.SpeechEngine.startListening(
-        speechTarget?.recognitionText || expectedWord,
+        expectedSentence,
         (interim, isFinal, meta) => {
           if (meta?.type === 'sound' && !interim) {
             statusLabel.textContent = '有收到聲音，正在辨識中...'
@@ -1072,18 +1062,20 @@
         btn.classList.remove('listening')
         isSpellingRecording = false
         if (transcript) {
-          const res = window.SpeechEngine.scoreTranscript(expectedWord, transcript)
+          const res = window.SpeechEngine.scoreTranscript(expectedSentence, transcript)
+          sessionSpeechScores[currentIndex] = Math.max(sessionSpeechScores[currentIndex] || 0, res.score)
           statusLabel.textContent = `朗讀分數: ${res.score}分!`
           if (res.score >= 80) {
             triggerConfetti()
             if (!hasBonusAwarded[currentIndex]) {
               hasBonusAwarded[currentIndex] = true
-              speechBonusPoints += 2
-              showToast('🎉 口說挑戰成功，獲得額外加 2 分！', 'success')
-              statusLabel.textContent = `🌟 口說分數: ${res.score}分! 挑戰成功！`
+              speechBonusPoints = Math.min(10, speechBonusPoints + 2)
+              sessionStars += 1
+              showToast('🎉 例句朗讀成功，獲得額外 2 分！', 'success')
+              statusLabel.textContent = `🌟 朗讀分數: ${res.score}分！加分成功！`
             }
           } else {
-            statusLabel.textContent = `口說分數: ${res.score}分! (未達80分，請再試一次)`
+            statusLabel.textContent = `朗讀分數: ${res.score}分（未達 80 分，可再試一次；原題不扣分）`
           }
         } else {
           statusLabel.textContent = '未偵測到聲音，請再試一次。'
@@ -1537,9 +1529,14 @@
             triggerConfetti()
             if (!hasBonusAwarded[currentIndex]) {
               hasBonusAwarded[currentIndex] = true
-              speechBonusPoints += 2
-              showToast('🎉 口說挑戰成功，獲得額外加 2 分！', 'success')
+              speechBonusPoints = Math.min(10, speechBonusPoints + 2)
+              sessionStars += 1
+              sessionSpeechScores[currentIndex] = Math.max(sessionSpeechScores[currentIndex] || 0, res.score)
+              showToast('🎉 例句朗讀成功，獲得額外 2 分！', 'success')
             }
+          } else {
+            sessionSpeechScores[currentIndex] = Math.max(sessionSpeechScores[currentIndex] || 0, res.score)
+            statusLabel.textContent = `朗讀分數: ${res.score}分（可再試一次；原題不扣分）`
           }
         } else {
           statusLabel.textContent = '未偵測到聲音，請再試一次。'
@@ -1608,6 +1605,7 @@
 
     // 切換題型 (限 practice 模式)
     setType: function (type) {
+      if (type === 'speech') type = 'spelling'
       if (currentMode === 'daily') {
         showToast('每日計分挑戰不可手動切換題型。', 'warning')
         updateTypeTabsUI(currentType)
@@ -1868,15 +1866,9 @@
   async function completeChallenge() {
     showLoading(true, '正在計算成績並儲存歷程...', '成績會先保留在這台裝置，斷線時可安全重新同步。')
 
-    // 計算最終分數 (滿分 100)
-    // 答對題數佔 80% (80分)，平均口說分數佔 20% (20分)
-    const validSpeechScores = sessionSpeechScores.filter(s => s > 0)
-    const avgSpeech = validSpeechScores.length > 0
-      ? validSpeechScores.reduce((a, b) => a + b, 0) / validSpeechScores.length
-      : 0
-
+    // CP39：答題正確率為完整基礎分；例句朗讀只有加分，未使用麥克風不扣分。
     const totalQuestions = challengeLength()
-    const standardScore = Math.round((correctCount / totalQuestions) * 80 + (avgSpeech / 100) * 20)
+    const standardScore = Math.round((correctCount / totalQuestions) * 100)
     const finalScoreVal = Math.min(100, standardScore + speechBonusPoints)
     const accuracyVal = Math.round((correctCount / totalQuestions) * 100)
 
@@ -1910,6 +1902,8 @@
         score: finalScoreVal,
         wrong: sessionWrongWords,
         speech_scores: sessionSpeechScores,
+        sentence_speech_success_count: hasBonusAwarded.filter(Boolean).length,
+        sentence_speech_bonus: speechBonusPoints,
         practice: isClassMode,
         session_id: isClassMode ? currentSessionId : null
       } : null
@@ -2010,7 +2004,7 @@
     // 填寫數據
     document.getElementById('finalAccuracy').textContent = accuracy + '%'
     if (speechBonusPoints > 0) {
-      document.getElementById('finalScore').innerHTML = `${score} <span style="font-size:0.75rem;color:#52e5a4;display:block;margin-top:4px;">(口說加分 +${speechBonusPoints})</span>`
+      document.getElementById('finalScore').innerHTML = `${score} <span style="font-size:0.75rem;color:#52e5a4;display:block;margin-top:4px;">(例句朗讀加分 +${speechBonusPoints})</span>`
     } else {
       document.getElementById('finalScore').textContent = score
     }
