@@ -29,6 +29,7 @@ const gemTiers = [
 ]
 
 document.addEventListener('DOMContentLoaded', async () => {
+  if (window.PublicSiteMode) window.PublicSiteMode.applyIndex()
   const sb = window.SupabaseConfig?.initSupabase()
   if (!sb) return
 
@@ -171,6 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 /* ── 學校積分 ──────────────────────────────────────────── */
 async function loadSchoolScores(sb) {
+  if (window.PublicSiteMode?.isSingleSchool?.()) return
   const { data, error } = await sb.from('school_leaderboard').select('*')
   if (error || !data) return
 
@@ -218,7 +220,9 @@ async function loadLeaderboard(sb) {
     return
   }
 
-  _leaderboardCache = data
+  _leaderboardCache = window.PublicSiteMode?.isSingleSchool?.()
+    ? data.filter(row => row.school === window.PublicSiteMode.homeSchool)
+    : data
   renderLeaderboard(_currentTab)
 }
 
@@ -233,9 +237,11 @@ function renderLeaderboard(school) {
   }
 
   // 根據頁籤過濾，再重新排名
-  let filtered = school === 'all'
+  let filtered = window.PublicSiteMode?.isSingleSchool?.()
     ? [..._leaderboardCache]
-    : _leaderboardCache.filter(s => s.school === school)
+    : school === 'all'
+      ? [..._leaderboardCache]
+      : _leaderboardCache.filter(s => s.school === school)
 
   // 校內榜：依 total_score 重新排序並給予校內名次
   filtered = filtered
@@ -262,6 +268,9 @@ function renderLeaderboard(school) {
     }
 
     const rank = s.displayRank
+    const schoolLine = window.PublicSiteMode?.isSingleSchool?.() ? '' : `
+          <div class="leaderboard__school">${escHtml(s.school)} · ${escHtml(s.class)} ${s.streak > 0 ? `· <span class="academy-streak"><span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span>${s.streak} 天連續</span>` : ''}</div>`
+
     return `
       <li class="leaderboard__item">
         <span class="leaderboard__rank leaderboard__rank--${rank}">
@@ -269,7 +278,7 @@ function renderLeaderboard(school) {
         </span>
         <div style="flex:1;">
           <div class="leaderboard__name">${escHtml(maskStudentName(s.name))}${gemTag}</div>
-          <div class="leaderboard__school">${escHtml(s.school)} · ${escHtml(s.class)} ${s.streak > 0 ? `· <span class="academy-streak"><span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span>${s.streak} 天連續</span>` : ''}</div>
+          ${schoolLine}
         </div>
         <span class="leaderboard__score">${Number(s.total_score).toLocaleString()}</span>
       </li>
@@ -308,10 +317,15 @@ async function loadActivityFeed(sb) {
 
   if (error || !data || data.length === 0) return
 
-  const items = [...data, ...data].map(row => `
+  const visibleData = window.PublicSiteMode?.isSingleSchool?.()
+    ? data.filter(row => row.school === window.PublicSiteMode.homeSchool)
+    : data
+  if (visibleData.length === 0) return
+
+  const items = [...visibleData, ...visibleData].map(row => `
     <div class="marquee-item">
       <span class="marquee-item__dot"></span>
-      <span>${escHtml(row.school)} ${escHtml(maskStudentName(row.student_name))} ${escHtml(row.message)}</span>
+      <span>${window.PublicSiteMode?.isSingleSchool?.() ? '' : escHtml(row.school) + ' '}${escHtml(maskStudentName(row.student_name))} ${escHtml(row.message)}</span>
     </div>
   `).join('')
 
@@ -1023,7 +1037,11 @@ async function checkLiveContest(sb) {
     }
 
     const session = sessions[0];
-    if (text) text.textContent = `${session.session_title || '三校 LIVE 對抗賽'}進行中！點擊觀看直播看板`;
+    if (text) {
+      text.textContent = window.PublicSiteMode?.isSingleSchool?.()
+        ? '即時對抗賽進行中！點擊觀看直播看板'
+        : `${session.session_title || '三校 LIVE 對抗賽'}進行中！點擊觀看直播看板`;
+    }
 
     // 更新連結與文字
     const scoreboardUrl = new URL('scoreboard.html', window.location.href);

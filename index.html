@@ -18,6 +18,7 @@
   <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/config.js" defer></script>
+  <script src="js/site-mode.js"></script>
   <script src="js/speech.js" defer></script>
   <script src="js/index.js" defer></script>
 </head>
@@ -50,9 +51,9 @@
           <span class="academy-live-banner__status">LIVE</span>
         </a>
       </div>
-      <div class="academy-hero__badge"><span class="material-symbols-rounded" aria-hidden="true">emoji_events</span>三校聯網英語大對抗</div>
+      <div class="academy-hero__badge"><span class="material-symbols-rounded" aria-hidden="true">emoji_events</span><span id="homeAudienceBadge">三校聯網英語大對抗</span></div>
       <h1 class="academy-hero__title" id="academy-title"><span>英語</span><strong>單字王</strong></h1>
-      <p class="academy-hero__subtitle">鳳岡・豐田・新港三校學生同台競技<br>每日挑戰 · 題庫選題 · 例句朗讀加分 · 跨校排名</p>
+      <p class="academy-hero__subtitle" id="homeHeroSubtitle">鳳岡・豐田・新港三校學生同台競技<br>每日挑戰・題庫選題・例句朗讀加分・跨校排名</p>
       <div class="academy-hero__actions">
         <a href="join.html" class="academy-action academy-action--primary" id="btn-start"><span class="material-symbols-rounded" aria-hidden="true">diamond</span><span>開始今日挑戰</span><span class="material-symbols-rounded academy-action__arrow" aria-hidden="true">arrow_forward</span></a>
         <a href="#leaderboard" class="academy-action academy-action--secondary"><span class="material-symbols-rounded" aria-hidden="true">leaderboard</span><span>查看排行榜</span></a>
@@ -80,7 +81,7 @@
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
-              <span>每天挑戰一次，累積積分爭奪三校冠軍！</span>
+              <span class="home-competition-copy">每天挑戰一次，累積積分爭奪三校冠軍！</span>
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
@@ -93,7 +94,7 @@
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
-              <span>每天挑戰一次，累積積分爭奪三校冠軍！</span>
+              <span class="home-competition-copy">每天挑戰一次，累積積分爭奪三校冠軍！</span>
             </div>
             <div class="marquee-item">
               <span class="marquee-item__dot"></span>
@@ -104,7 +105,7 @@
       </section>
 
       <!-- ── 三校積分 ── -->
-      <section class="academy-section animate-in animate-in--delay-2" aria-labelledby="school-score-title">
+      <section class="academy-section animate-in animate-in--delay-2" id="school-score-section" aria-labelledby="school-score-title">
         <div class="academy-section__header academy-section__header--framed">
           <span class="material-symbols-rounded" aria-hidden="true">diamond</span>
           <h2 id="school-score-title">三校積分</h2>
@@ -198,10 +199,10 @@
             <h3>每日限定挑戰</h3>
             <p class="text-muted text-sm">每天一次計分挑戰，培養規律學習習慣，其餘時間可無限練習。</p>
           </article>
-          <article class="academy-feature">
+          <article class="academy-feature" id="homeCompetitionFeature">
             <img class="academy-feature__icon" src="assets/gem-academy/feature-competition.png" alt="" width="72" height="72">
-            <h3>三校跨校競技</h3>
-            <p class="text-muted text-sm">鳳岡、豐田、新港三校同台較量，以校際總積分決定冠軍學校！</p>
+            <h3 id="homeCompetitionFeatureTitle">三校跨校競技</h3>
+            <p class="text-muted text-sm" id="homeCompetitionFeatureText">鳳岡、豐田、新港三校同台較量，以校際總積分決定冠軍學校！</p>
           </article>
         </div>
       </section>
@@ -211,7 +212,7 @@
         <div class="academy-cta__crest"><img src="assets/gem-academy/crest.png" alt="" /></div>
         <div>
           <h2>準備好了嗎？</h2>
-          <p class="text-muted">
+          <p class="text-muted" id="homeCtaDescription">
             以學校 Google 帳號登入，立即開始今天的英語挑戰！
           </p>
         </div>
